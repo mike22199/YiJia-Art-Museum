@@ -1,0 +1,2568 @@
+{
+  "site": {
+    "title": "義家藝館",
+    "subtitle": "When Home Becomes A Museum",
+    "description": "",
+    "footerNote": "",
+    "logo": {
+      "src": "./app/logo.svg",
+      "alt": "義家藝館 logo"
+    },
+    "headerLogo": {
+      "src": "./app/house.svg",
+      "alt": "義家藝館"
+    },
+    "headerNav": [
+      {
+        "id": "archive",
+        "label": "檔案庫",
+        "href": "#archive/index"
+      },
+      {
+        "id": "co-create",
+        "label": "共創",
+        "href": "#co-create/text"
+      }
+    ],
+    "footer": {
+      "address": "112 台北市北投區石牌路二段201號",
+      "phone": "02-28227101",
+      "fax": "02-28227102",
+      "email": "fifi@ntua.edu.tw",
+      "social": {
+        "youtube": "https://www.youtube.com/",
+        "facebook": "https://www.facebook.com/"
+      }
+    }
+  },
+  "homeImage": "./assets/images/mainsite.png",
+  "homeZones": [
+    {
+      "id": "left",
+      "label": "開幕展",
+      "title": "開幕展（左）",
+      "href": "#exhibition-left/about",
+      "hotspot": {
+        "left": "22.4%",
+        "top": "40.5%",
+        "width": "5.0%",
+        "height": "35%"
+      },
+      "nav": {
+        "left": "23.3%"
+      }
+    },
+    {
+      "id": "center",
+      "label": "檔案庫",
+      "title": "義家藝館",
+      "href": "#archive/index",
+      "accent": true,
+      "hotspot": {
+        "left": "48.6%",
+        "top": "69.9%",
+        "width": "4.5%",
+        "height": "10.5%"
+      },
+      "nav": {
+        "left": "50%"
+      }
+    },
+    {
+      "id": "right",
+      "label": "開幕展",
+      "title": "開幕展（右）",
+      "href": "#exhibition-right/about",
+      "hotspot": {
+        "left": "73.2%",
+        "top": "40.5%",
+        "width": "5.0%",
+        "height": "35%"
+      },
+      "nav": {
+        "left": "76.7%"
+      }
+    }
+  ],
+  "archiveSubnav": [
+    {
+      "id": "index",
+      "label": "檔案庫首頁",
+      "href": "#archive/index"
+    },
+    {
+      "id": "exhibitions",
+      "label": "歷屆展覽回顧",
+      "href": "#archive/exhibitions"
+    },
+    {
+      "id": "practice",
+      "label": "藝術實踐",
+      "href": "#archive/practice"
+    },
+    {
+      "id": "media",
+      "label": "影音",
+      "href": "#archive/media"
+    },
+    {
+      "id": "collection",
+      "label": "典藏",
+      "href": "#archive/collection"
+    },
+    {
+      "id": "research",
+      "label": "研究",
+      "href": "#archive/research"
+    },
+    {
+      "id": "teachers",
+      "label": "藝術家教師日誌",
+      "href": "#archive/teachers"
+    },
+    {
+      "id": "bibliography",
+      "label": "參考書目",
+      "href": "#archive/bibliography"
+    }
+  ],
+  "classicsSubnav": [
+    {
+      "id": "years",
+      "label": "歷年網站",
+      "href": "#archive/exhibitions"
+    },
+    {
+      "id": "practice",
+      "label": "藝術實踐",
+      "href": "#archive/practice"
+    },
+    {
+      "id": "media",
+      "label": "影音",
+      "href": "#archive/media"
+    }
+  ],
+  "exhibitions": {
+    "exhibition-left": {
+      "id": "exhibition-left",
+      "doorLabel": "開幕展",
+      "about": {
+        "heading": "關於展覽",
+        "blocks": [
+          {
+            "body": "「家」對我們每個人來說，既熟悉又陌生。它既是庇護所，也是記憶的容器；既是日常的起點，也是情感投射的對象。在這個展覽中，我們試著把「家」當作一個可以被重新書寫、包覆與想像的空間。"
+          },
+          {
+            "body": "義家藝館計畫自 2014 年啟動，以榮民之家為田野調查起點，逐步發展為結合藝術、教育與檔案工作的長期計畫。2021 年配合國際博物館日「未來的博物館：恢復與重新想像」，我們以「家X書」為主軸，邀請參與者共同思考家的多重面貌。"
+          },
+          {
+            "body": "2020 年 COVID-19 疫情改變了我們與空間、與他人互動的方式。義家藝館因此發展「藝術家教師駐校計畫」，並將展覽轉化為線上形式，讓「家」的想像能跨越物理距離，持續被書寫與分享。"
+          }
+        ]
+      },
+      "yearDetailId": "2021"
+    },
+    "exhibition-right": {
+      "id": "exhibition-right",
+      "doorLabel": "開幕展",
+      "about": {
+        "heading": "關於展覽",
+        "blocks": [
+          {
+            "body": "此展覽以榮民之家田野經驗為主軸，透過創作、檔案與個人記憶的對話，呈現「家」的多重面貌。"
+          },
+          {
+            "body": "展覽邀請觀者走入不同場域，思考自由、身體與歸屬在當代社會中的樣貌。"
+          }
+        ]
+      },
+      "yearDetailId": "2022"
+    }
+  },
+  "nav": [
+    {
+      "title": "Menu",
+      "items": [
+        {
+          "type": "page",
+          "id": "home",
+          "label": "Home"
+        },
+        {
+          "type": "page",
+          "id": "co-create",
+          "label": "共創"
+        },
+        {
+          "type": "page",
+          "id": "classics",
+          "label": "典藏"
+        },
+        {
+          "type": "page",
+          "id": "research",
+          "label": "研究"
+        }
+      ]
+    }
+  ],
+  "pages": {
+    "home": {
+      "title": "Home",
+      "hero": {
+        "image": "",
+        "caption": ""
+      },
+      "sections": {
+        "index": {
+          "blocks": []
+        }
+      },
+      "defaultSection": "index"
+    },
+    "co-create": {
+      "title": "共創",
+      "hero": {
+        "image": "",
+        "caption": "在此留下文字與投稿。"
+      },
+      "sections": {
+        "text": {
+          "blocks": []
+        }
+      },
+      "defaultSection": "text"
+    },
+    "classics": {
+      "title": "典藏",
+      "hero": {
+        "image": "",
+        "caption": ""
+      },
+      "sections": {
+        "years": {
+          "blocks": []
+        },
+        "practice": {
+          "blocks": []
+        },
+        "media": {
+          "blocks": []
+        }
+      },
+      "defaultSection": "years"
+    },
+    "research": {
+      "title": "研究",
+      "hero": {
+        "image": "",
+        "caption": "翻書式閱讀藝術家日誌，並提供參考書目與導讀文本查閱。"
+      },
+      "sections": {
+        "book": {
+          "blocks": []
+        },
+        "reading": {
+          "blocks": []
+        }
+      },
+      "defaultSection": "book"
+    }
+  },
+  "classics": {
+    "timelineRows": [
+      {
+        "entries": [
+          {
+            "year": "2026",
+            "image": {
+              "src": "./app/house.svg",
+              "alt": "義家藝館建築"
+            },
+            "imagePosition": "below",
+            "links": [
+              {
+                "label": "網站",
+                "href": "#classics/year?year=2026&section=website"
+              },
+              {
+                "label": "藝術實踐",
+                "href": "#classics/year?year=2026&section=practice"
+              },
+              {
+                "label": "影音",
+                "href": "#classics/year?year=2026&section=media"
+              },
+              {
+                "label": "藝術家教師日誌",
+                "href": "#classics/year?year=2026&section=journal"
+              }
+            ]
+          },
+          {
+            "year": "2022",
+            "links": [
+              {
+                "label": "網站",
+                "href": "#classics/year?year=2022&section=website"
+              },
+              {
+                "label": "藝術實踐",
+                "href": "#classics/year?year=2022&section=practice"
+              },
+              {
+                "label": "影音",
+                "href": "#classics/year?year=2022&section=media"
+              },
+              {
+                "label": "藝術家教師日誌",
+                "href": "#classics/year?year=2022&section=journal"
+              }
+            ]
+          },
+          {
+            "year": "2021",
+            "image": {
+              "src": "./assets/images/year-2021-detail.png",
+              "alt": "2021 家X書海報"
+            },
+            "imagePosition": "above",
+            "links": [
+              {
+                "label": "網站",
+                "href": "#classics/year?year=2021&section=website"
+              },
+              {
+                "label": "藝術實踐",
+                "href": "#classics/year?year=2021&section=practice"
+              },
+              {
+                "label": "影音",
+                "href": "#classics/year?year=2021&section=media"
+              },
+              {
+                "label": "藝術家教師日誌",
+                "href": "#classics/year?year=2021&section=journal"
+              }
+            ]
+          },
+          {
+            "year": "2022",
+            "links": [
+              {
+                "label": "網站",
+                "href": "#classics/year?year=2022b&section=website"
+              },
+              {
+                "label": "藝術實踐",
+                "href": "#classics/year?year=2022b&section=practice"
+              },
+              {
+                "label": "影音",
+                "href": "#classics/year?year=2022b&section=media"
+              },
+              {
+                "label": "藝術家教師日誌",
+                "href": "#classics/year?year=2022b&section=journal"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "entries": [
+          {
+            "year": "2019",
+            "links": [
+              {
+                "label": "網站",
+                "href": "#classics/year?year=2019&section=website"
+              },
+              {
+                "label": "藝術實踐",
+                "href": "#classics/year?year=2019&section=practice"
+              },
+              {
+                "label": "影音",
+                "href": "#classics/year?year=2019&section=media"
+              },
+              {
+                "label": "藝術家教師日誌",
+                "href": "#classics/year?year=2019&section=journal"
+              }
+            ]
+          },
+          {
+            "year": "2018",
+            "links": [
+              {
+                "label": "網站",
+                "href": "#classics/year?year=2018&section=website"
+              },
+              {
+                "label": "藝術實踐",
+                "href": "#classics/year?year=2018&section=practice"
+              },
+              {
+                "label": "影音",
+                "href": "#classics/year?year=2018&section=media"
+              },
+              {
+                "label": "藝術家教師日誌",
+                "href": "#classics/year?year=2018&section=journal"
+              }
+            ]
+          },
+          {
+            "year": "2016",
+            "image": {
+              "src": "./app/logo.svg",
+              "alt": "2016 版畫"
+            },
+            "imagePosition": "below",
+            "links": [
+              {
+                "label": "網站",
+                "href": "#classics/year?year=2016&section=website"
+              },
+              {
+                "label": "藝術實踐",
+                "href": "#classics/year?year=2016&section=practice"
+              },
+              {
+                "label": "影音",
+                "href": "#classics/year?year=2016&section=media"
+              },
+              {
+                "label": "藝術家教師日誌",
+                "href": "#classics/year?year=2016&section=journal"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "yearDetails": {
+      "2021": {
+        "year": "2021",
+        "title": "2021 家X書",
+        "subtitle": "家的重新書寫、包覆與想像",
+        "poster": {
+          "src": "./assets/images/year-2021-detail.png",
+          "alt": "2021 家X書海報"
+        },
+        "introSections": [
+          {
+            "id": "website",
+            "title": "網站",
+            "heading": "2021 義家藝館線上展",
+            "body": "「家X書」線上展網站收錄展覽緣起、參與者作品與延伸閱讀。訪客可從不同入口進入各子題，瀏覽圖像、文字與互動單元，理解「家」如何被重新書寫與想像。",
+            "image": {
+              "src": "./assets/images/year-2021-detail.png",
+              "alt": "2021 網站海報"
+            },
+            "layout": "split"
+          },
+          {
+            "id": "practice",
+            "title": "藝術實踐",
+            "heading": "2021 義家藝館",
+            "body": "家X書：關於家的重新書寫、包覆與想像",
+            "subtitleEn": "Rewriting, Covering, and Reimagining Home",
+            "image": {
+              "src": "./assets/images/year-2021-detail.png",
+              "alt": "藝術實踐示意"
+            },
+            "layout": "banner"
+          },
+          {
+            "id": "media",
+            "title": "影音",
+            "heading": "表演藝術課程線上特別企劃",
+            "body": "110學年度臺南瀛海中學國中部\n表演藝術課程線上特別企劃\n2022/5/23-29 防疫不停學\n授課教師：李孟潔",
+            "caption": "2022防疫不停學_表演藝術線上課程Feat.義家藝館",
+            "image": {
+              "src": "./assets/images/year-2021-detail.png",
+              "alt": "影音封面"
+            },
+            "layout": "video"
+          },
+          {
+            "id": "journal",
+            "title": "藝術家教師日誌",
+            "body": "駐校藝術家教師在課程中的觀察、反思與創作筆記。每本日誌以不同視角記錄與學生共創的歷程。",
+            "layout": "books",
+            "books": [
+              {
+                "title": "李孟潔｜日誌一",
+                "href": "#research/book",
+                "image": {
+                  "src": "./assets/images/placeholder-book.svg",
+                  "alt": "教師日誌一"
+                }
+              },
+              {
+                "title": "李孟潔｜日誌二",
+                "href": "#research/book",
+                "image": {
+                  "src": "./assets/images/placeholder-book.svg",
+                  "alt": "教師日誌二"
+                }
+              },
+              {
+                "title": "李孟潔｜日誌三",
+                "href": "#research/book",
+                "image": {
+                  "src": "./assets/images/placeholder-book.svg",
+                  "alt": "教師日誌三"
+                }
+              },
+              {
+                "title": "李孟潔｜日誌四",
+                "href": "#research/book",
+                "image": {
+                  "src": "./assets/images/placeholder-book.svg",
+                  "alt": "教師日誌四"
+                }
+              },
+              {
+                "title": "李孟潔｜日誌五",
+                "href": "#research/book",
+                "image": {
+                  "src": "./assets/images/placeholder-book.svg",
+                  "alt": "教師日誌五"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "2022": {
+        "year": "2022",
+        "title": "2022 線上展",
+        "subtitle": "防疫不停學特別企劃",
+        "poster": {
+          "src": "./assets/images/year-2021-detail.png",
+          "alt": "2022 海報"
+        },
+        "introSections": [
+          {
+            "id": "website",
+            "title": "網站",
+            "heading": "2022 義家藝館",
+            "body": "2022 年線上展網站，記錄防疫期間的遠距共創與課程成果。",
+            "image": {
+              "src": "./assets/images/year-2021-detail.png",
+              "alt": "2022 網站"
+            },
+            "layout": "split"
+          },
+          {
+            "id": "practice",
+            "title": "藝術實踐",
+            "heading": "2022 義家藝館",
+            "body": "表演藝術課程線上特別企劃",
+            "subtitleEn": "Online Performing Arts Program",
+            "image": {
+              "src": "./assets/images/year-2021-detail.png",
+              "alt": ""
+            },
+            "layout": "banner"
+          },
+          {
+            "id": "media",
+            "title": "影音",
+            "heading": "線上課程紀錄",
+            "body": "110學年度臺南瀛海中學國中部\n表演藝術課程線上特別企劃",
+            "caption": "2022防疫不停學_表演藝術線上課程Feat.義家藝館",
+            "image": {
+              "src": "./assets/images/year-2021-detail.png",
+              "alt": "影音封面"
+            },
+            "layout": "video"
+          },
+          {
+            "id": "journal",
+            "title": "藝術家教師日誌",
+            "body": "課程期間的教學日誌與反思。",
+            "layout": "books",
+            "books": [
+              {
+                "title": "教師日誌一",
+                "href": "#research/book",
+                "image": {
+                  "src": "./assets/images/placeholder-book.svg",
+                  "alt": "日誌"
+                }
+              },
+              {
+                "title": "教師日誌二",
+                "href": "#research/book",
+                "image": {
+                  "src": "./assets/images/placeholder-book.svg",
+                  "alt": "日誌"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "yearsWebsites": [
+      {
+        "title": "2021 家X書",
+        "url": "#classics/year?year=2021"
+      },
+      {
+        "title": "2022 線上展",
+        "url": "#classics/year?year=2022"
+      }
+    ],
+    "artPracticeWorks": [
+      {
+        "id": "work-01",
+        "title": "家X書",
+        "year": "2021",
+        "concept": "以紙張的纖維感作為記憶的觸覺隱喻。",
+        "materials": "紙、鉛筆、錄音片段",
+        "notes": ""
+      }
+    ],
+    "media": {
+      "youtubeEmbeds": [
+        {
+          "title": "2022 防疫不停學",
+          "youtubeId": ""
+        }
+      ],
+      "performances": [
+        {
+          "id": "perf-01",
+          "title": "2022 線上展演",
+          "year": "2022",
+          "description": "",
+          "details": ""
+        }
+      ]
+    }
+  },
+  "archive": {
+    "home": {
+      "banner": {
+        "title": "義家藝館檔案庫",
+        "subtitle": "When Home Becomes A Museum",
+        "image": {
+          "src": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20800%20450'%3E%3Crect%20width%3D'800'%20height%3D'450'%20fill%3D'%233d3d3d'%2F%3E%3C%2Fsvg%3E",
+          "alt": ""
+        }
+      },
+      "featuredMediaTitle": "精選影音",
+      "featuredMedia": [
+        {
+          "title": "精選影音一",
+          "caption": "影音說明一",
+          "image": {
+            "src": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20800%20450'%3E%3Crect%20width%3D'800'%20height%3D'450'%20fill%3D'%234a8c5c'%2F%3E%3Ctext%20x%3D'400'%20y%3D'230'%20text-anchor%3D'middle'%20fill%3D'%23fff'%20font-family%3D'sans-serif'%20font-size%3D'36'%20font-weight%3D'700'%3E%E5%BD%B1%E9%9F%B3%E4%B8%80%3C%2Ftext%3E%3C%2Fsvg%3E",
+            "alt": "精選影音一"
+          }
+        },
+        {
+          "title": "精選影音二",
+          "caption": "影音說明二",
+          "image": {
+            "src": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20800%20450'%3E%3Crect%20width%3D'800'%20height%3D'450'%20fill%3D'%23c47a20'%2F%3E%3Ctext%20x%3D'400'%20y%3D'230'%20text-anchor%3D'middle'%20fill%3D'%23fff'%20font-family%3D'sans-serif'%20font-size%3D'36'%20font-weight%3D'700'%3E%E5%BD%B1%E9%9F%B3%E4%BA%8C%3C%2Ftext%3E%3C%2Fsvg%3E",
+            "alt": "精選影音二"
+          }
+        },
+        {
+          "title": "精選影音三",
+          "caption": "影音說明三",
+          "image": {
+            "src": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20800%20450'%3E%3Crect%20width%3D'800'%20height%3D'450'%20fill%3D'%236b4f8c'%2F%3E%3Ctext%20x%3D'400'%20y%3D'230'%20text-anchor%3D'middle'%20fill%3D'%23fff'%20font-family%3D'sans-serif'%20font-size%3D'36'%20font-weight%3D'700'%3E%E5%BD%B1%E9%9F%B3%E4%B8%89%3C%2Ftext%3E%3C%2Fsvg%3E",
+            "alt": "精選影音三"
+          }
+        }
+      ],
+      "specialExhibitionsTitle": "特展",
+      "specialExhibitions": [
+        {
+          "title": "推開自由門",
+          "href": "#exhibition-left/about",
+          "image": {
+            "src": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20800%20450'%3E%3Crect%20width%3D'800'%20height%3D'450'%20fill%3D'%23b82020'%2F%3E%3Ctext%20x%3D'400'%20y%3D'230'%20text-anchor%3D'middle'%20fill%3D'%23fff'%20font-family%3D'sans-serif'%20font-size%3D'36'%20font-weight%3D'700'%3E%E6%8E%A8%E9%96%8B%E8%87%AA%E7%94%B1%E9%96%80%3C%2Ftext%3E%3C%2Fsvg%3E",
+            "alt": "?��??�由?�"
+          }
+        },
+        {
+          "title": "成為自由人",
+          "href": "#exhibition-right/about",
+          "image": {
+            "src": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20800%20450'%3E%3Crect%20width%3D'800'%20height%3D'450'%20fill%3D'%232a6b8c'%2F%3E%3Ctext%20x%3D'400'%20y%3D'230'%20text-anchor%3D'middle'%20fill%3D'%23fff'%20font-family%3D'sans-serif'%20font-size%3D'36'%20font-weight%3D'700'%3E%E6%88%90%E7%82%BA%E8%87%AA%E7%94%B1%E4%BA%BA%3C%2Ftext%3E%3C%2Fsvg%3E",
+            "alt": "?�為?�由�?"
+          }
+        }
+      ],
+      "intro": {
+        "heading": "義家藝館介紹",
+        "body": "義家藝館計畫自 2014 年啟動，以榮民之家為田野調查起點，逐步發展為結合藝術、教育與檔案工作的長期計畫。2021 年配合國際博物館日「未來的博物館：恢復與重新想像」，我們以「家X書」為主軸，邀請參與者共同思考家的多重面貌。",
+        "links": [
+          {
+            "label": "作品",
+            "href": "#archive/practice"
+          },
+          {
+            "label": "藝術家教師",
+            "href": "#archive/teachers"
+          }
+        ]
+      },
+      "featuredMediaMoreHref": "#archive/media",
+      "featuredMediaMoreLabel": "了解更多＞",
+      "pastExhibitionsPreview": {
+        "heading": "歷屆展覽回顧",
+        "moreHref": "#archive/exhibitions",
+        "moreLabel": "了解更多＞",
+        "items": [
+          {
+            "title": "作品名稱 A",
+            "author": "作者 A",
+            "image": {
+              "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23b82020'/%3E%3Ctext x='200' y='155' text-anchor='middle' fill='%23fff' font-family='sans-serif' font-size='32' font-weight='700'%3EA%3C/text%3E%3Ctext x='200' y='195' text-anchor='middle' fill='rgba(255,255,255,.85)' font-family='sans-serif' font-size='14'%3E%E6%B8%AC%E8%A9%A6%E5%9C%96%20A%3C/text%3E%3C/svg%3E",
+              "alt": "測試圖 A"
+            }
+          },
+          {
+            "title": "作品名稱 B",
+            "author": "作者 B",
+            "image": {
+              "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%232a6b8c'/%3E%3Ctext x='200' y='155' text-anchor='middle' fill='%23fff' font-family='sans-serif' font-size='32' font-weight='700'%3EB%3C/text%3E%3Ctext x='200' y='195' text-anchor='middle' fill='rgba(255,255,255,.85)' font-family='sans-serif' font-size='14'%3E%E6%B8%AC%E8%A9%A6%E5%9C%96%20B%3C/text%3E%3C/svg%3E",
+              "alt": "測試圖 B"
+            }
+          },
+          {
+            "title": "作品名稱 C",
+            "author": "作者 C",
+            "image": {
+              "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%234a8c5c'/%3E%3Ctext x='200' y='155' text-anchor='middle' fill='%23fff' font-family='sans-serif' font-size='32' font-weight='700'%3EC%3C/text%3E%3Ctext x='200' y='195' text-anchor='middle' fill='rgba(255,255,255,.85)' font-family='sans-serif' font-size='14'%3E%E6%B8%AC%E8%A9%A6%E5%9C%96%20C%3C/text%3E%3C/svg%3E",
+              "alt": "測試圖 C"
+            }
+          },
+          {
+            "title": "作品名稱 D",
+            "author": "作者 D",
+            "image": {
+              "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23c47a20'/%3E%3Ctext x='200' y='155' text-anchor='middle' fill='%23fff' font-family='sans-serif' font-size='32' font-weight='700'%3ED%3C/text%3E%3Ctext x='200' y='195' text-anchor='middle' fill='rgba(255,255,255,.85)' font-family='sans-serif' font-size='14'%3E%E6%B8%AC%E8%A9%A6%E5%9C%96%20D%3C/text%3E%3C/svg%3E",
+              "alt": "測試圖 D"
+            }
+          },
+          {
+            "title": "作品名稱 E",
+            "author": "作者 E",
+            "image": {
+              "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%236b4f8c'/%3E%3Ctext x='200' y='155' text-anchor='middle' fill='%23fff' font-family='sans-serif' font-size='32' font-weight='700'%3EE%3C/text%3E%3Ctext x='200' y='195' text-anchor='middle' fill='rgba(255,255,255,.85)' font-family='sans-serif' font-size='14'%3E%E6%B8%AC%E8%A9%A6%E5%9C%96%20E%3C/text%3E%3C/svg%3E",
+              "alt": "測試圖 E"
+            }
+          },
+          {
+            "title": "作品名稱 F",
+            "author": "作者 F",
+            "image": {
+              "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23c45c7a'/%3E%3Ctext x='200' y='155' text-anchor='middle' fill='%23fff' font-family='sans-serif' font-size='32' font-weight='700'%3EF%3C/text%3E%3Ctext x='200' y='195' text-anchor='middle' fill='rgba(255,255,255,.85)' font-family='sans-serif' font-size='14'%3E%E6%B8%AC%E8%A9%A6%E5%9C%96%20F%3C/text%3E%3C/svg%3E",
+              "alt": "測試圖 F"
+            }
+          }
+        ]
+      },
+      "teachersPreview": {
+        "heading": "藝術家教師",
+        "moreHref": "#archive/teachers",
+        "moreLabel": "了解更多＞",
+        "teachers": [
+          {
+            "id": "t01",
+            "name": "教師一",
+            "avatar": {
+              "src": "./app/house.svg",
+              "alt": ""
+            }
+          },
+          {
+            "id": "t02",
+            "name": "教師二",
+            "avatar": {
+              "src": "./app/house.svg",
+              "alt": ""
+            }
+          },
+          {
+            "id": "t03",
+            "name": "教師三",
+            "avatar": {
+              "src": "./app/house.svg",
+              "alt": ""
+            }
+          },
+          {
+            "id": "t04",
+            "name": "教師四",
+            "avatar": {
+              "src": "./app/house.svg",
+              "alt": ""
+            }
+          },
+          {
+            "id": "t05",
+            "name": "教師五",
+            "avatar": {
+              "src": "./app/house.svg",
+              "alt": ""
+            }
+          },
+          {
+            "id": "t06",
+            "name": "教師六",
+            "avatar": {
+              "src": "./app/house.svg",
+              "alt": ""
+            }
+          },
+          {
+            "id": "t07",
+            "name": "教師七",
+            "avatar": {
+              "src": "./app/house.svg",
+              "alt": ""
+            }
+          },
+          {
+            "id": "t08",
+            "name": "教師八",
+            "avatar": {
+              "src": "./app/house.svg",
+              "alt": ""
+            }
+          },
+          {
+            "id": "t09",
+            "name": "教師九",
+            "avatar": {
+              "src": "./app/house.svg",
+              "alt": ""
+            }
+          }
+        ]
+      },
+      "worksPreview": {
+        "heading": "藝術家教師作品",
+        "items": [
+          {
+            "title": "作品一",
+            "author": "教師一",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            }
+          },
+          {
+            "title": "作品二",
+            "author": "教師二",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            }
+          },
+          {
+            "title": "作品三",
+            "author": "教師三",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            }
+          },
+          {
+            "title": "作品四",
+            "author": "教師四",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            }
+          }
+        ]
+      }
+    },
+    "exhibitionYears": [
+      "2016",
+      "2018",
+      "2019",
+      "2020",
+      "2021",
+      "2022",
+      "2026"
+    ],
+    "exhibitionsByYear": {
+      "2016": {
+        "poster": {
+          "src": "./assets/images/placeholder-photo.svg",
+          "alt": "2016 展覽海報"
+        },
+        "overview": {
+          "heading": "展覽概述",
+          "body": "2016 年度展覽概述。"
+        },
+        "works": [
+          {
+            "title": "2016 作品一",
+            "author": "作者",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "ex-2016-01"
+          },
+          {
+            "title": "2016 作品二",
+            "author": "作者",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "ex-2016-02"
+          },
+          {
+            "title": "2016 作品三",
+            "author": "作者",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "ex-2016-03"
+          },
+          {
+            "title": "2016 作品四",
+            "author": "作者",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "ex-2016-04"
+          }
+        ]
+      },
+      "2018": {
+        "poster": {
+          "src": "./assets/images/placeholder-photo.svg",
+          "alt": "2018 展覽海報"
+        },
+        "overview": {
+          "heading": "展覽概述",
+          "body": "2018 年度展覽概述。"
+        },
+        "works": [
+          {
+            "title": "2018 作品一",
+            "author": "作者",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "ex-2018-01"
+          },
+          {
+            "title": "2018 作品二",
+            "author": "作者",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "ex-2018-02"
+          },
+          {
+            "title": "2018 作品三",
+            "author": "作者",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "ex-2018-03"
+          },
+          {
+            "title": "2018 作品四",
+            "author": "作者",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "ex-2018-04"
+          }
+        ]
+      },
+      "2019": {
+        "poster": {
+          "src": "./assets/images/placeholder-photo.svg",
+          "alt": "2019 展覽海報"
+        },
+        "overview": {
+          "heading": "展覽概述",
+          "body": "2019 年度展覽概述。"
+        },
+        "works": [
+          {
+            "title": "2019 作品一",
+            "author": "作者",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "ex-2019-01"
+          },
+          {
+            "title": "2019 作品二",
+            "author": "作者",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "ex-2019-02"
+          },
+          {
+            "title": "2019 作品三",
+            "author": "作者",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "ex-2019-03"
+          },
+          {
+            "title": "2019 作品四",
+            "author": "作者",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "ex-2019-04"
+          }
+        ]
+      },
+      "2020": {
+        "poster": {
+          "src": "./assets/images/placeholder-photo.svg",
+          "alt": "2020 展覽海報"
+        },
+        "overview": {
+          "heading": "展覽概述",
+          "body": "2020 年度展覽概述。"
+        },
+        "works": [
+          {
+            "title": "2020 作品一",
+            "author": "作者",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "ex-2020-01"
+          },
+          {
+            "title": "2020 作品二",
+            "author": "作者",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "ex-2020-02"
+          },
+          {
+            "title": "2020 作品三",
+            "author": "作者",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "ex-2020-03"
+          },
+          {
+            "title": "2020 作品四",
+            "author": "作者",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "ex-2020-04"
+          }
+        ]
+      },
+      "2021": {
+        "poster": {
+          "src": "./assets/images/placeholder-photo.svg",
+          "alt": "2021 展覽海報"
+        },
+        "overview": {
+          "heading": "展覽概述",
+          "body": "2021 年度展覽概述。"
+        },
+        "works": [
+          {
+            "title": "家X書",
+            "author": "義家藝館",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "ex-2021-01"
+          },
+          {
+            "title": "2021 作品二",
+            "author": "作者",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "ex-2021-02"
+          },
+          {
+            "title": "2021 作品三",
+            "author": "作者",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "ex-2021-03"
+          },
+          {
+            "title": "2021 作品四",
+            "author": "作者",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "ex-2021-04"
+          }
+        ]
+      },
+      "2022": {
+        "poster": {
+          "src": "./assets/images/placeholder-photo.svg",
+          "alt": "2022 展覽海報"
+        },
+        "overview": {
+          "heading": "展覽概述",
+          "body": "2022 年度展覽概述。"
+        },
+        "works": [
+          {
+            "title": "2022 作品一",
+            "author": "義家藝館",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "ex-2022-01"
+          },
+          {
+            "title": "2022 作品二",
+            "author": "作者",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "ex-2022-02"
+          },
+          {
+            "title": "2022 作品三",
+            "author": "作者",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "ex-2022-03"
+          },
+          {
+            "title": "2022 作品四",
+            "author": "作者",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "ex-2022-04"
+          }
+        ]
+      },
+      "2026": {
+        "poster": {
+          "src": "./assets/images/placeholder-photo.svg",
+          "alt": "2026 展覽海報"
+        },
+        "overview": {
+          "heading": "展覽概述",
+          "body": "2026 年度展覽概述。"
+        },
+        "quickLinks": [
+          {
+            "label": "網站",
+            "href": "#archive/practice"
+          },
+          {
+            "label": "影音",
+            "href": "#archive/media?year=2026"
+          },
+          {
+            "label": "藝術家教師",
+            "href": "#archive/teachers?year=2026"
+          }
+        ],
+        "works": [
+          {
+            "title": "2026 作品一",
+            "author": "作者",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "ex-2026-01"
+          },
+          {
+            "title": "2026 作品二",
+            "author": "作者",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "ex-2026-02"
+          },
+          {
+            "title": "2026 作品三",
+            "author": "作者",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "ex-2026-03"
+          },
+          {
+            "title": "2026 作品四",
+            "author": "作者",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "ex-2026-04"
+          }
+        ]
+      }
+    },
+    "practice": {
+      "filterYears": [
+        "2025"
+      ],
+      "authors": [
+        "教師一",
+        "教師二",
+        "教師三"
+      ],
+      "worksByYear": {
+        "2025": [
+          {
+            "title": "作品一",
+            "author": "教師一",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "pr-2025-01"
+          },
+          {
+            "title": "作品二",
+            "author": "教師二",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "pr-2025-02"
+          },
+          {
+            "title": "作品三",
+            "author": "教師三",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "pr-2025-03"
+          },
+          {
+            "title": "作品四",
+            "author": "教師一",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "pr-2025-04"
+          },
+          {
+            "title": "作品五",
+            "author": "教師二",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "pr-2025-05"
+          },
+          {
+            "title": "作品六",
+            "author": "教師三",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": ""
+            },
+            "collectionId": "pr-2025-06"
+          }
+        ]
+      }
+    },
+    "media": {
+      "years": [
+        "2025"
+      ],
+      "featuredCarousel": [
+        {
+          "title": "精選照片一",
+          "caption": "精選輪播說明",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          }
+        },
+        {
+          "title": "精選照片二",
+          "caption": "精選輪播說明",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          }
+        },
+        {
+          "title": "精選照片三",
+          "caption": "精選輪播說明",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          }
+        }
+      ],
+      "byYear": {
+        "2025": {
+          "title": "2025田野踏查紀錄",
+          "overview": "文字概述當年之田野踏查狀況。",
+          "items": [
+            {
+              "type": "video",
+              "title": "踏查影片一",
+              "caption": "田野踏查紀錄影片一",
+              "image": {
+                "src": "./assets/images/placeholder-photo.svg",
+                "alt": ""
+              },
+              "youtubeUrl": "https://www.youtube.com/"
+            },
+            {
+              "type": "video",
+              "title": "踏查影片二",
+              "caption": "田野踏查紀錄影片二",
+              "image": {
+                "src": "./assets/images/placeholder-photo.svg",
+                "alt": ""
+              },
+              "youtubeUrl": "https://www.youtube.com/"
+            },
+            {
+              "type": "video",
+              "title": "踏查影片三",
+              "caption": "田野踏查紀錄影片三",
+              "image": {
+                "src": "./assets/images/placeholder-photo.svg",
+                "alt": ""
+              },
+              "youtubeUrl": "https://www.youtube.com/"
+            },
+            {
+              "type": "video",
+              "title": "踏查影片四",
+              "caption": "田野踏查紀錄影片四",
+              "image": {
+                "src": "./assets/images/placeholder-photo.svg",
+                "alt": ""
+              },
+              "youtubeUrl": "https://www.youtube.com/"
+            },
+            {
+              "type": "video",
+              "title": "踏查影片五",
+              "caption": "田野踏查紀錄影片五",
+              "image": {
+                "src": "./assets/images/placeholder-photo.svg",
+                "alt": ""
+              },
+              "youtubeUrl": "https://www.youtube.com/"
+            },
+            {
+              "type": "video",
+              "title": "踏查影片六",
+              "caption": "田野踏查紀錄影片六",
+              "image": {
+                "src": "./assets/images/placeholder-photo.svg",
+                "alt": ""
+              },
+              "youtubeUrl": "https://www.youtube.com/"
+            },
+            {
+              "type": "video",
+              "title": "踏查影片七",
+              "caption": "田野踏查紀錄影片七",
+              "image": {
+                "src": "./assets/images/placeholder-photo.svg",
+                "alt": ""
+              },
+              "youtubeUrl": "https://www.youtube.com/"
+            },
+            {
+              "type": "video",
+              "title": "踏查影片八",
+              "caption": "田野踏查紀錄影片八",
+              "image": {
+                "src": "./assets/images/placeholder-photo.svg",
+                "alt": ""
+              },
+              "youtubeUrl": "https://www.youtube.com/"
+            },
+            {
+              "type": "video",
+              "title": "踏查影片九",
+              "caption": "田野踏查紀錄影片九",
+              "image": {
+                "src": "./assets/images/placeholder-photo.svg",
+                "alt": ""
+              },
+              "youtubeUrl": "https://www.youtube.com/"
+            },
+            {
+              "type": "video",
+              "title": "踏查影片十",
+              "caption": "田野踏查紀錄影片十",
+              "image": {
+                "src": "./assets/images/placeholder-photo.svg",
+                "alt": ""
+              },
+              "youtubeUrl": "https://www.youtube.com/"
+            },
+            {
+              "type": "video",
+              "title": "踏查影片十一",
+              "caption": "田野踏查紀錄影片十一",
+              "image": {
+                "src": "./assets/images/placeholder-photo.svg",
+                "alt": ""
+              },
+              "youtubeUrl": "https://www.youtube.com/"
+            }
+          ]
+        }
+      },
+      "photos": [
+        {
+          "title": "照片一",
+          "caption": "照片說明",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          }
+        },
+        {
+          "title": "照片二",
+          "caption": "照片說明",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          }
+        },
+        {
+          "title": "照片三",
+          "caption": "照片說明",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          }
+        },
+        {
+          "title": "照片四",
+          "caption": "照片說明",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          }
+        }
+      ],
+      "recommendedText": {
+        "title": "推薦文本標題",
+        "body": ""
+      }
+    },
+    "teachers": {
+      "defaultYear": "2026",
+      "years": [
+        "2019",
+        "2020",
+        "2021",
+        "2022",
+        "2026"
+      ],
+      "byYear": {
+        "2019": {
+          "title": "2019年藝術家教師",
+          "teachers": []
+        },
+        "2020": {
+          "title": "2020年藝術家教師",
+          "teachers": []
+        },
+        "2021": {
+          "title": "2021年藝術家教師",
+          "teachers": []
+        },
+        "2022": {
+          "title": "2022年藝術家教師",
+          "teachers": []
+        },
+        "2026": {
+          "title": "2026年藝術家教師",
+          "teachers": [
+            {
+              "id": "t01",
+              "name": "教師一",
+              "bio": "藝術家教師簡介文字。",
+              "avatar": {
+                "src": "./app/house.svg",
+                "alt": ""
+              }
+            },
+            {
+              "id": "t02",
+              "name": "教師二",
+              "bio": "藝術家教師簡介文字。",
+              "avatar": {
+                "src": "./app/house.svg",
+                "alt": ""
+              }
+            },
+            {
+              "id": "t03",
+              "name": "教師三",
+              "bio": "藝術家教師簡介文字。",
+              "avatar": {
+                "src": "./app/house.svg",
+                "alt": ""
+              }
+            },
+            {
+              "id": "t04",
+              "name": "教師四",
+              "bio": "藝術家教師簡介文字。",
+              "avatar": {
+                "src": "./app/house.svg",
+                "alt": ""
+              }
+            },
+            {
+              "id": "t05",
+              "name": "教師五",
+              "bio": "藝術家教師簡介文字。",
+              "avatar": {
+                "src": "./app/house.svg",
+                "alt": ""
+              }
+            },
+            {
+              "id": "t06",
+              "name": "教師六",
+              "bio": "藝術家教師簡介文字。",
+              "avatar": {
+                "src": "./app/house.svg",
+                "alt": ""
+              }
+            },
+            {
+              "id": "t07",
+              "name": "教師七",
+              "bio": "藝術家教師簡介文字。",
+              "avatar": {
+                "src": "./app/house.svg",
+                "alt": ""
+              }
+            },
+            {
+              "id": "t08",
+              "name": "教師八",
+              "bio": "藝術家教師簡介文字。",
+              "avatar": {
+                "src": "./app/house.svg",
+                "alt": ""
+              }
+            },
+            {
+              "id": "t09",
+              "name": "教師九",
+              "bio": "藝術家教師簡介文字。",
+              "avatar": {
+                "src": "./app/house.svg",
+                "alt": ""
+              }
+            },
+            {
+              "id": "t10",
+              "name": "教師十",
+              "bio": "藝術家教師簡介文字。",
+              "avatar": {
+                "src": "./app/house.svg",
+                "alt": ""
+              }
+            },
+            {
+              "id": "t11",
+              "name": "教師十一",
+              "bio": "藝術家教師簡介文字。",
+              "avatar": {
+                "src": "./app/house.svg",
+                "alt": ""
+              }
+            },
+            {
+              "id": "t12",
+              "name": "教師十二",
+              "bio": "藝術家教師簡介文字。",
+              "avatar": {
+                "src": "./app/house.svg",
+                "alt": ""
+              }
+            },
+            {
+              "id": "t13",
+              "name": "教師十三",
+              "bio": "藝術家教師簡介文字。",
+              "avatar": {
+                "src": "./app/house.svg",
+                "alt": ""
+              }
+            },
+            {
+              "id": "t14",
+              "name": "教師十四",
+              "bio": "藝術家教師簡介文字。",
+              "avatar": {
+                "src": "./app/house.svg",
+                "alt": ""
+              }
+            }
+          ]
+        }
+      },
+      "journals": {
+        "t01": {
+          "pages": [
+            {
+              "title": "封面",
+              "color": "#FFE4E1",
+              "body": "教師一的藝術家教師日誌\n\n2026 義家藝館"
+            },
+            {
+              "title": "第一週",
+              "color": "#FFF8DC",
+              "body": "本週帶領學員認識材料與工具，從觀察日常物件開始發想創作。"
+            },
+            {
+              "title": "第二週",
+              "color": "#E0FFE0",
+              "body": "學員開始嘗試混合媒材，記錄下第一次完成的小型作品。"
+            },
+            {
+              "title": "第三週",
+              "color": "#E0F7FF",
+              "body": "以小組討論分享創作過程，整理出每位學員的關鍵提問。"
+            },
+            {
+              "title": "第四週",
+              "color": "#F3E5FF",
+              "body": "進行成果整理與展示彩排，調整作品陳述與空間配置。"
+            },
+            {
+              "title": "結語",
+              "color": "#FFF0E6",
+              "body": "感謝這段共學時光。日誌將持續更新，歡迎回來翻閱。"
+            }
+          ]
+        },
+        "t02": {
+          "pages": [
+            {
+              "title": "第一頁",
+              "color": "#FFF8DC",
+              "body": "教師二的日誌內容。"
+            },
+            {
+              "title": "第二頁",
+              "color": "#E0FFE0",
+              "body": "教師二第二週教學紀錄。"
+            },
+            {
+              "title": "第三頁",
+              "color": "#E0F7FF",
+              "body": "教師二第三週教學紀錄。"
+            },
+            {
+              "title": "第四頁",
+              "color": "#F3E5FF",
+              "body": "教師二第四週教學紀錄。"
+            },
+            {
+              "title": "第五頁",
+              "color": "#FFF0E6",
+              "body": "教師二第五週教學紀錄。"
+            },
+            {
+              "title": "第六頁",
+              "color": "#E8F5E9",
+              "body": "教師二日誌結語。"
+            }
+          ]
+        },
+        "t03": {
+          "pages": [
+            {
+              "title": "第一頁",
+              "color": "#E0FFE0",
+              "body": "教師三的日誌內容。"
+            }
+          ]
+        },
+        "t04": {
+          "pages": [
+            {
+              "title": "第一頁",
+              "color": "#E0F7FF",
+              "body": "教師四的日誌內容。"
+            }
+          ]
+        },
+        "t05": {
+          "pages": [
+            {
+              "title": "第一頁",
+              "color": "#F3E5FF",
+              "body": "教師五的日誌內容。"
+            }
+          ]
+        },
+        "t06": {
+          "pages": [
+            {
+              "title": "第一頁",
+              "color": "#FFF0E6",
+              "body": "教師六的日誌內容。"
+            }
+          ]
+        },
+        "t07": {
+          "pages": [
+            {
+              "title": "第一頁",
+              "color": "#E8F5E9",
+              "body": "教師七的日誌內容。"
+            }
+          ]
+        },
+        "t08": {
+          "pages": [
+            {
+              "title": "第一頁",
+              "color": "#FCE4EC",
+              "body": "教師八的日誌內容。"
+            }
+          ]
+        },
+        "t09": {
+          "pages": [
+            {
+              "title": "第一頁",
+              "color": "#E3F2FD",
+              "body": "教師九的日誌內容。"
+            }
+          ]
+        }
+      }
+    },
+    "bibliography": [
+      {
+        "title": "參考書目一",
+        "author": "作者",
+        "description": "此書的介紹章節",
+        "cover": {
+          "src": "./assets/images/placeholder-book.svg",
+          "alt": ""
+        }
+      },
+      {
+        "title": "參考書目二",
+        "author": "作者",
+        "description": "此書的介紹章節",
+        "cover": {
+          "src": "./assets/images/placeholder-book.svg",
+          "alt": ""
+        }
+      },
+      {
+        "title": "參考書目三",
+        "author": "作者",
+        "description": "此書的介紹章節",
+        "cover": {
+          "src": "./assets/images/placeholder-book.svg",
+          "alt": ""
+        }
+      },
+      {
+        "title": "參考書目四",
+        "author": "作者",
+        "description": "此書的介紹章節",
+        "cover": {
+          "src": "./assets/images/placeholder-book.svg",
+          "alt": ""
+        }
+      },
+      {
+        "title": "參考書目五",
+        "author": "作者",
+        "description": "此書的介紹章節",
+        "cover": {
+          "src": "./assets/images/placeholder-book.svg",
+          "alt": ""
+        }
+      },
+      {
+        "title": "參考書目六",
+        "author": "作者",
+        "description": "此書的介紹章節",
+        "cover": {
+          "src": "./assets/images/placeholder-book.svg",
+          "alt": ""
+        }
+      },
+      {
+        "title": "參考書目七",
+        "author": "作者",
+        "description": "此書的介紹章節",
+        "cover": {
+          "src": "./assets/images/placeholder-book.svg",
+          "alt": ""
+        }
+      },
+      {
+        "title": "參考書目八",
+        "author": "作者",
+        "description": "此書的介紹章節",
+        "cover": {
+          "src": "./assets/images/placeholder-book.svg",
+          "alt": ""
+        }
+      },
+      {
+        "title": "參考書目九",
+        "author": "作者",
+        "description": "此書的介紹章節",
+        "cover": {
+          "src": "./assets/images/placeholder-book.svg",
+          "alt": ""
+        }
+      },
+      {
+        "title": "參考書目十",
+        "author": "作者",
+        "description": "此書的介紹章節",
+        "cover": {
+          "src": "./assets/images/placeholder-book.svg",
+          "alt": ""
+        }
+      }
+    ],
+    "collection": {
+      "heading": "典藏作品",
+      "body": "本區收錄義家藝館長期保存之作品。歷屆展覽與藝術實踐頁面的作品方塊，點選後亦會進入此處的典藏說明頁。",
+      "items": [
+        {
+          "id": "ex-2016-01",
+          "title": "2016 作品一",
+          "author": "作者",
+          "year": "2016",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「歷屆展覽回顧 2016」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "exhibition",
+            "year": "2016",
+            "label": "歷屆展覽回顧 2016",
+            "href": "#archive/exhibitions?year=2016"
+          }
+        },
+        {
+          "id": "ex-2016-02",
+          "title": "2016 作品二",
+          "author": "作者",
+          "year": "2016",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「歷屆展覽回顧 2016」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "exhibition",
+            "year": "2016",
+            "label": "歷屆展覽回顧 2016",
+            "href": "#archive/exhibitions?year=2016"
+          }
+        },
+        {
+          "id": "ex-2016-03",
+          "title": "2016 作品三",
+          "author": "作者",
+          "year": "2016",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「歷屆展覽回顧 2016」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "exhibition",
+            "year": "2016",
+            "label": "歷屆展覽回顧 2016",
+            "href": "#archive/exhibitions?year=2016"
+          }
+        },
+        {
+          "id": "ex-2016-04",
+          "title": "2016 作品四",
+          "author": "作者",
+          "year": "2016",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「歷屆展覽回顧 2016」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "exhibition",
+            "year": "2016",
+            "label": "歷屆展覽回顧 2016",
+            "href": "#archive/exhibitions?year=2016"
+          }
+        },
+        {
+          "id": "ex-2018-01",
+          "title": "2018 作品一",
+          "author": "作者",
+          "year": "2018",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「歷屆展覽回顧 2018」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "exhibition",
+            "year": "2018",
+            "label": "歷屆展覽回顧 2018",
+            "href": "#archive/exhibitions?year=2018"
+          }
+        },
+        {
+          "id": "ex-2018-02",
+          "title": "2018 作品二",
+          "author": "作者",
+          "year": "2018",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「歷屆展覽回顧 2018」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "exhibition",
+            "year": "2018",
+            "label": "歷屆展覽回顧 2018",
+            "href": "#archive/exhibitions?year=2018"
+          }
+        },
+        {
+          "id": "ex-2018-03",
+          "title": "2018 作品三",
+          "author": "作者",
+          "year": "2018",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「歷屆展覽回顧 2018」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "exhibition",
+            "year": "2018",
+            "label": "歷屆展覽回顧 2018",
+            "href": "#archive/exhibitions?year=2018"
+          }
+        },
+        {
+          "id": "ex-2018-04",
+          "title": "2018 作品四",
+          "author": "作者",
+          "year": "2018",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「歷屆展覽回顧 2018」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "exhibition",
+            "year": "2018",
+            "label": "歷屆展覽回顧 2018",
+            "href": "#archive/exhibitions?year=2018"
+          }
+        },
+        {
+          "id": "ex-2019-01",
+          "title": "2019 作品一",
+          "author": "作者",
+          "year": "2019",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「歷屆展覽回顧 2019」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "exhibition",
+            "year": "2019",
+            "label": "歷屆展覽回顧 2019",
+            "href": "#archive/exhibitions?year=2019"
+          }
+        },
+        {
+          "id": "ex-2019-02",
+          "title": "2019 作品二",
+          "author": "作者",
+          "year": "2019",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「歷屆展覽回顧 2019」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "exhibition",
+            "year": "2019",
+            "label": "歷屆展覽回顧 2019",
+            "href": "#archive/exhibitions?year=2019"
+          }
+        },
+        {
+          "id": "ex-2019-03",
+          "title": "2019 作品三",
+          "author": "作者",
+          "year": "2019",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「歷屆展覽回顧 2019」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "exhibition",
+            "year": "2019",
+            "label": "歷屆展覽回顧 2019",
+            "href": "#archive/exhibitions?year=2019"
+          }
+        },
+        {
+          "id": "ex-2019-04",
+          "title": "2019 作品四",
+          "author": "作者",
+          "year": "2019",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「歷屆展覽回顧 2019」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "exhibition",
+            "year": "2019",
+            "label": "歷屆展覽回顧 2019",
+            "href": "#archive/exhibitions?year=2019"
+          }
+        },
+        {
+          "id": "ex-2020-01",
+          "title": "2020 作品一",
+          "author": "作者",
+          "year": "2020",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「歷屆展覽回顧 2020」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "exhibition",
+            "year": "2020",
+            "label": "歷屆展覽回顧 2020",
+            "href": "#archive/exhibitions?year=2020"
+          }
+        },
+        {
+          "id": "ex-2020-02",
+          "title": "2020 作品二",
+          "author": "作者",
+          "year": "2020",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「歷屆展覽回顧 2020」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "exhibition",
+            "year": "2020",
+            "label": "歷屆展覽回顧 2020",
+            "href": "#archive/exhibitions?year=2020"
+          }
+        },
+        {
+          "id": "ex-2020-03",
+          "title": "2020 作品三",
+          "author": "作者",
+          "year": "2020",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「歷屆展覽回顧 2020」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "exhibition",
+            "year": "2020",
+            "label": "歷屆展覽回顧 2020",
+            "href": "#archive/exhibitions?year=2020"
+          }
+        },
+        {
+          "id": "ex-2020-04",
+          "title": "2020 作品四",
+          "author": "作者",
+          "year": "2020",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「歷屆展覽回顧 2020」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "exhibition",
+            "year": "2020",
+            "label": "歷屆展覽回顧 2020",
+            "href": "#archive/exhibitions?year=2020"
+          }
+        },
+        {
+          "id": "ex-2021-01",
+          "title": "家X書",
+          "author": "義家藝館",
+          "year": "2021",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「歷屆展覽回顧 2021」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "exhibition",
+            "year": "2021",
+            "label": "歷屆展覽回顧 2021",
+            "href": "#archive/exhibitions?year=2021"
+          }
+        },
+        {
+          "id": "ex-2021-02",
+          "title": "2021 作品二",
+          "author": "作者",
+          "year": "2021",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「歷屆展覽回顧 2021」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "exhibition",
+            "year": "2021",
+            "label": "歷屆展覽回顧 2021",
+            "href": "#archive/exhibitions?year=2021"
+          }
+        },
+        {
+          "id": "ex-2021-03",
+          "title": "2021 作品三",
+          "author": "作者",
+          "year": "2021",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「歷屆展覽回顧 2021」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "exhibition",
+            "year": "2021",
+            "label": "歷屆展覽回顧 2021",
+            "href": "#archive/exhibitions?year=2021"
+          }
+        },
+        {
+          "id": "ex-2021-04",
+          "title": "2021 作品四",
+          "author": "作者",
+          "year": "2021",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「歷屆展覽回顧 2021」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "exhibition",
+            "year": "2021",
+            "label": "歷屆展覽回顧 2021",
+            "href": "#archive/exhibitions?year=2021"
+          }
+        },
+        {
+          "id": "ex-2022-01",
+          "title": "2022 作品一",
+          "author": "義家藝館",
+          "year": "2022",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「歷屆展覽回顧 2022」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "exhibition",
+            "year": "2022",
+            "label": "歷屆展覽回顧 2022",
+            "href": "#archive/exhibitions?year=2022"
+          }
+        },
+        {
+          "id": "ex-2022-02",
+          "title": "2022 作品二",
+          "author": "作者",
+          "year": "2022",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「歷屆展覽回顧 2022」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "exhibition",
+            "year": "2022",
+            "label": "歷屆展覽回顧 2022",
+            "href": "#archive/exhibitions?year=2022"
+          }
+        },
+        {
+          "id": "ex-2022-03",
+          "title": "2022 作品三",
+          "author": "作者",
+          "year": "2022",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「歷屆展覽回顧 2022」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "exhibition",
+            "year": "2022",
+            "label": "歷屆展覽回顧 2022",
+            "href": "#archive/exhibitions?year=2022"
+          }
+        },
+        {
+          "id": "ex-2022-04",
+          "title": "2022 作品四",
+          "author": "作者",
+          "year": "2022",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「歷屆展覽回顧 2022」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "exhibition",
+            "year": "2022",
+            "label": "歷屆展覽回顧 2022",
+            "href": "#archive/exhibitions?year=2022"
+          }
+        },
+        {
+          "id": "ex-2026-01",
+          "title": "2026 作品一",
+          "author": "作者",
+          "year": "2026",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「歷屆展覽回顧 2026」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "exhibition",
+            "year": "2026",
+            "label": "歷屆展覽回顧 2026",
+            "href": "#archive/exhibitions?year=2026"
+          }
+        },
+        {
+          "id": "ex-2026-02",
+          "title": "2026 作品二",
+          "author": "作者",
+          "year": "2026",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「歷屆展覽回顧 2026」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "exhibition",
+            "year": "2026",
+            "label": "歷屆展覽回顧 2026",
+            "href": "#archive/exhibitions?year=2026"
+          }
+        },
+        {
+          "id": "ex-2026-03",
+          "title": "2026 作品三",
+          "author": "作者",
+          "year": "2026",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「歷屆展覽回顧 2026」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "exhibition",
+            "year": "2026",
+            "label": "歷屆展覽回顧 2026",
+            "href": "#archive/exhibitions?year=2026"
+          }
+        },
+        {
+          "id": "ex-2026-04",
+          "title": "2026 作品四",
+          "author": "作者",
+          "year": "2026",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「歷屆展覽回顧 2026」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "exhibition",
+            "year": "2026",
+            "label": "歷屆展覽回顧 2026",
+            "href": "#archive/exhibitions?year=2026"
+          }
+        },
+        {
+          "id": "pr-2025-01",
+          "title": "作品一",
+          "author": "教師一",
+          "year": "2025",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「藝術實踐 2025」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "practice",
+            "year": "2025",
+            "label": "藝術實踐 2025",
+            "href": "#archive/practice?year=2025"
+          }
+        },
+        {
+          "id": "pr-2025-02",
+          "title": "作品二",
+          "author": "教師二",
+          "year": "2025",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「藝術實踐 2025」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "practice",
+            "year": "2025",
+            "label": "藝術實踐 2025",
+            "href": "#archive/practice?year=2025"
+          }
+        },
+        {
+          "id": "pr-2025-03",
+          "title": "作品三",
+          "author": "教師三",
+          "year": "2025",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「藝術實踐 2025」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "practice",
+            "year": "2025",
+            "label": "藝術實踐 2025",
+            "href": "#archive/practice?year=2025"
+          }
+        },
+        {
+          "id": "pr-2025-04",
+          "title": "作品四",
+          "author": "教師一",
+          "year": "2025",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「藝術實踐 2025」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "practice",
+            "year": "2025",
+            "label": "藝術實踐 2025",
+            "href": "#archive/practice?year=2025"
+          }
+        },
+        {
+          "id": "pr-2025-05",
+          "title": "作品五",
+          "author": "教師二",
+          "year": "2025",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「藝術實踐 2025」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "practice",
+            "year": "2025",
+            "label": "藝術實踐 2025",
+            "href": "#archive/practice?year=2025"
+          }
+        },
+        {
+          "id": "pr-2025-06",
+          "title": "作品六",
+          "author": "教師三",
+          "year": "2025",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": ""
+          },
+          "body": "此作品收錄於「藝術實踐 2025」。請在此補充典藏說明正文。",
+          "source": {
+            "type": "practice",
+            "year": "2025",
+            "label": "藝術實踐 2025",
+            "href": "#archive/practice?year=2025"
+          }
+        }
+      ]
+    },
+    "research": {
+      "heading": "研究",
+      "body": "研究區塊說明文字。",
+      "items": []
+    }
+  },
+  "research": {
+    "artistJournals": [
+      {
+        "artist": "藝術家 A",
+        "pages": [
+          {
+            "date": "2024-03-01",
+            "title": "第一頁",
+            "color": "#FFE4E1",
+            "body": "今天把一疊舊紙重新分類。每張紙都有自己的聲音，但需要很慢才聽得見。"
+          },
+          {
+            "date": "2024-03-05",
+            "title": "第二頁",
+            "color": "#FFF8DC",
+            "body": "我試著把『不確定』當作一種材料：先放在頁角，讓它有位置。"
+          },
+          {
+            "date": "2024-03-12",
+            "title": "第�???",
+            "color": "#E0FFE0",
+            "body": "淡�??��??�。�?線�?窗�??�進�?，照?��?沒乾?��?墨水上�?"
+          },
+          {
+            "date": "2024-03-18",
+            "title": "第�???",
+            "color": "#E0F7FF",
+            "body": "淡�??��??�。�??��?天聽?��??�音?��?線�?，�??��?上�?等�?線�?"
+          },
+          {
+            "date": "2024-03-25",
+            "title": "第�???",
+            "color": "#F3E5FF",
+            "body": "淡紫?��??�。�?覆�??��?一張�?，�??��?始�?了自己�??��???"
+          },
+          {
+            "date": "2024-04-02",
+            "title": "第六??",
+            "color": "#FFF0E6",
+            "body": "?��??��??�。�??��??��?不是空白，是給�??�呼?��?空�???"
+          },
+          {
+            "date": "2024-04-10",
+            "title": "第�???",
+            "color": "#E8F5E9",
+            "body": "?�荷綠�??�。�??�照?�剪下�?，貼?�新?��??��?，�??�就?��?了�?"
+          },
+          {
+            "date": "2024-04-18",
+            "title": "第八??",
+            "color": "#FCE4EC",
+            "body": "粉�??��??�。書?��?�?��微捲?��??��??�被翻閱太�?次�?"
+          },
+          {
+            "date": "2024-04-25",
+            "title": "第�???",
+            "color": "#E3F2FD",
+            "body": "天�??��??�。�??�找?��??��?，可以�?述那種說不出來�??�覺??"
+          },
+          {
+            "date": "2024-05-02",
+            "title": "第�???",
+            "color": "#F9FBE7",
+            "body": "淡�?綠�??�。�?後�??��??��??��?沒寫完�?字�?給�?天�?"
+          }
+        ]
+      }
+    ],
+    "bibliography": [
+      {
+        "title": "參考書目 A",
+        "author": "某某",
+        "year": "2018",
+        "note": ""
+      }
+    ],
+    "readingGuides": [
+      {
+        "id": "guide-01",
+        "title": "導讀一",
+        "body": "這份導讀討論『檔案』如何在藝術實踐中成為一種倫理。"
+      }
+    ]
+  }
+}

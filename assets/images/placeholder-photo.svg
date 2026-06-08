@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="GY">
+  <rect width="400" height="300" fill="#d8d4cc"/>
+  <rect x="40" y="40" width="320" height="220" fill="#c8c4bc" stroke="#a8a49c" stroke-width="2"/>
+  <circle cx="130" cy="110" r="36" fill="#b0aca4"/>
+  <path d="M60 220 L150 150 L220 190 L340 100 L340 220 Z" fill="#b8b4ac"/>
+  <text x="200" y="268" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#666">G���</text>
+</svg>

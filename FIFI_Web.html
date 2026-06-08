@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>義家藝館</title>
+    <link rel="stylesheet" href="./app/styles.css">
+</head>
+<body>
+
+<header class="topbar" aria-label="site header">
+    <div class="topbarInner">
+        <div class="topbarBrand">
+            <div id="siteTitle" class="topbarTitle">義家藝館</div>
+            <div class="topbarLogoInline" aria-label="logo">
+                <img id="siteLogo" class="topbarLogo" alt="logo" />
+            </div>
+            <div id="siteSubtitle" class="topbarSubtitle"></div>
+        </div>
+    </div>
+</header>
+
+<main id="main" class="main mainSingle" aria-label="content"></main>
+
+<script>
+  window.SITE_CONTENT_URL = "./content/site-content.json";
+  window.SANITY_PROJECT_ID = "";
+  window.SANITY_DATASET = "production";
+</script>
+<script src="./app/sanity-normalize.js"></script>
+<script src="./app/app.js"></script>
+<script src="./app/inner-pages.js"></script>
+<script src="./app/archive-pages.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+backend:
+  name: git-gateway
+  branch: main
+
+local_backend: true
+
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+publish_mode: simple
+
+collections:
+  - name: "site"
+    label: "Site content"
+    files:
+      - name: "site_content"
+        label: "site-content.json"
+        file: "content/site-content.json"
+        format: "json"
+        fields:
+          - label: "Site"
+            name: "site"
+            widget: "object"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Subtitle", name: "subtitle", widget: "string", required: false }
+              - { label: "Description", name: "description", widget: "text", required: false }
+              - { label: "Footer note", name: "footerNote", widget: "text", required: false }
+              - label: "Logo"
+                name: "logo"
+                widget: "object"
+                required: false
+                fields:
+                  - { label: "Logo image", name: "src", widget: "image", required: false }
+                  - { label: "Alt text", name: "alt", widget: "string", required: false }
+          - label: "Home showcase"
+            name: "homeShowcase"
+            widget: "object"
+            required: false
+            fields:
+              - { label: "Title", name: "title", widget: "string", required: false }
+              - { label: "Intro", name: "intro", widget: "text", required: false }
+              - label: "Images"
+                name: "images"
+                widget: "list"
+                required: false
+                fields:
+                  - { label: "Image", name: "src", widget: "image" }
+                  - { label: "Alt", name: "alt", widget: "string", required: false }
+                  - { label: "Note", name: "note", widget: "string", required: false }
+              - label: "Blocks"
+                name: "blocks"
+                widget: "list"
+                required: false
+                fields:
+                  - { label: "Heading", name: "heading", widget: "string", required: false }
+                  - { label: "Body", name: "body", widget: "text", required: false }
+

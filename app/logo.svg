@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="240" viewBox="0 0 960 240">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0f1113"/>
+      <stop offset="1" stop-color="#171a1e"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="960" height="240" rx="28" fill="url(#g)"/>
+  <text x="480" y="148"
+        text-anchor="middle"
+        font-size="96"
+        letter-spacing="10"
+        fill="#d5d9df"
+        font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'Noto Sans TC', 'Microsoft JhengHei', Arial, sans-serif">
+    典藏庫
+  </text>
+</svg>
