@@ -2205,6 +2205,40 @@ body.isInnerPage .mainInner{
 .archiveExhibitionsPage .archiveBlock{
   padding-top: 8px;
 }
+.archiveExhibitionBannerList{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 8px;
+}
+.archiveExhibitionBanner{
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 6px;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 4px 18px rgba(0,0,0,.1);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.archiveExhibitionBanner:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,.14);
+}
+.archiveExhibitionBanner:hover .archiveExhibitionBannerImg{
+  transform: scale(1.02);
+}
+.archiveExhibitionBannerImg{
+  display: block;
+  width: 100%;
+  height: clamp(180px, 28vw, 320px);
+  object-fit: cover;
+  transition: transform .35s ease;
+}
+.archiveExhibitionBanner .archiveHomeCarouselOverlay{
+  position: absolute;
+  inset: auto 0 0 0;
+}
 .archiveWorkGrid--exhibitions{
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px 16px;
@@ -3165,6 +3199,31 @@ body.isInnerPage .mainInner{
   align-items: start;
   padding-bottom: 28px;
   border-bottom: 1px solid rgba(0,0,0,.08);
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+  text-align: left;
+}
+.archiveBibliographyItem--interactive{
+  cursor: pointer;
+  transition: background .18s ease, transform .18s ease;
+  border-radius: 8px;
+  padding: 16px 12px 28px;
+  margin: 0 -12px;
+}
+button.archiveBibliographyItem,
+a.archiveBibliographyItem{
+  border: none;
+  background: transparent;
+  font: inherit;
+}
+.archiveBibliographyItem--interactive:hover{
+  background: rgba(184,32,32,.04);
+  transform: translateX(4px);
+}
+.archiveBibliographyItem--interactive:focus-visible{
+  outline: 2px solid #b82020;
+  outline-offset: 2px;
 }
 .archiveBibliographyCover img{
   width: 100%;
@@ -3172,6 +3231,7 @@ body.isInnerPage .mainInner{
   object-fit: contain;
   box-shadow: 0 8px 24px rgba(0,0,0,.12);
 }
+.archiveBibliographyTitle,
 .archiveBibliographyItem h2{
   margin: 0 0 8px;
   font-size: 20px;
@@ -3180,11 +3240,58 @@ body.isInnerPage .mainInner{
   margin: 0 0 12px;
   font-size: 13px;
   color: #666;
+  letter-spacing: .04em;
 }
 .archiveBibliographyDesc{
-  margin: 0;
+  margin: 0 0 10px;
   line-height: 1.85;
   color: #333;
+}
+.archiveBibliographyAction{
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 13px;
+  letter-spacing: .08em;
+  color: #b82020;
+  font-weight: 600;
+}
+.archiveBibliographyPreviewDialog{
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.archiveBibliographyPreviewFrame{
+  width: 100%;
+  min-height: min(70vh, 720px);
+  border: 1px solid rgba(0,0,0,.1);
+  border-radius: 6px;
+  background: #fff;
+}
+.archiveBibliographyPreviewImage{
+  display: block;
+  width: 100%;
+  max-height: min(72vh, 760px);
+  object-fit: contain;
+  border-radius: 6px;
+  background: #f4f1ea;
+}
+.archiveBibliographyPreviewDownload{
+  font-size: 14px;
+  color: #b82020;
+  text-decoration: none;
+}
+.archiveBibliographyPreviewDownload:hover{
+  text-decoration: underline;
+}
+.archiveBibliographyPreviewNote{
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.75;
+  color: #444;
+}
+.archiveModalPanel--preview{
+  width: min(960px, 100%);
+  max-height: min(92vh, 980px);
 }
 
 .archiveJournalWrap{
@@ -3649,6 +3756,387 @@ body.isInnerPage .mainInner{
   }
   .archiveBibliographyItem{
     grid-template-columns: 1fr;
+  }
+}
+
+/* ── 研究頁：藝術家日誌書架 ── */
+.archiveResearchPage .archiveResearchIntro{
+  max-width: 720px;
+}
+.archiveResearchLibrary{
+  margin-top: 8px;
+}
+.archiveResearchBookGrid{
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 28px 20px;
+}
+.archiveResearchBookCard{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: center;
+  transition: transform .2s ease;
+}
+.archiveResearchBookCard:hover{
+  transform: translateY(-4px);
+}
+.archiveResearchBookCard:focus-visible{
+  outline: 2px solid #b82020;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+.archiveResearchBookCover{
+  width: 100%;
+  max-width: 160px;
+  aspect-ratio: 3/4;
+  border-radius: 4px 8px 8px 4px;
+  overflow: hidden;
+  box-shadow:
+    4px 4px 0 rgba(0,0,0,.08),
+    0 10px 28px rgba(0,0,0,.16);
+  transition: box-shadow .2s ease;
+}
+.archiveResearchBookCard:hover .archiveResearchBookCover{
+  box-shadow:
+    6px 6px 0 rgba(0,0,0,.1),
+    0 14px 32px rgba(0,0,0,.2);
+}
+.archiveResearchBookCover img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.archiveResearchBookTitle{
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: .06em;
+  color: #333;
+}
+.archiveResearchBookshelf{
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(0,0,0,.08);
+}
+.archiveResearchBookshelfTitle{
+  margin: 0 0 8px;
+  font-size: 20px;
+  letter-spacing: .12em;
+  color: #b82020;
+}
+.archiveResearchBookshelfCaption{
+  margin: 0 0 20px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #555;
+}
+.archiveResearchBookshelfStage{
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.archiveResearchBookshelfImg{
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 8px 28px rgba(0,0,0,.1);
+}
+.archiveResearchBookshelfHotspots{
+  position: absolute;
+  inset: 0;
+}
+.archiveResearchBookshelfHotspot{
+  position: absolute;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background .15s ease, box-shadow .15s ease;
+}
+.archiveResearchBookshelfHotspot:hover,
+.archiveResearchBookshelfHotspot:focus-visible{
+  background: rgba(184,32,32,.12);
+  box-shadow: inset 0 0 0 2px rgba(184,32,32,.45);
+  outline: none;
+}
+
+.archiveModalOverlay{
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  opacity: 0;
+  transition: opacity .18s ease;
+}
+.archiveModalOverlay--open{
+  opacity: 1;
+}
+.archiveModalOverlay--closing{
+  opacity: 0;
+}
+.archiveModalBackdrop{
+  position: absolute;
+  inset: 0;
+  border: none;
+  background: rgba(20,20,20,.55);
+  cursor: pointer;
+}
+.archiveModalPanel{
+  position: relative;
+  z-index: 1;
+  width: min(520px, 100%);
+  max-height: min(88vh, 900px);
+  overflow: auto;
+  background: #faf8f4;
+  border-radius: 10px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.28);
+  padding: 28px 24px 24px;
+}
+.archiveModalPanel--wide{
+  width: min(720px, 100%);
+}
+.archiveModalPanel--flipbook{
+  width: min(920px, 100%);
+  max-height: min(92vh, 960px);
+  padding: 20px 20px 16px;
+}
+.archiveModalClose{
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0,0,0,.06);
+  color: #333;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background .15s ease;
+}
+.archiveModalClose:hover{
+  background: rgba(184,32,32,.12);
+  color: #b82020;
+}
+.archiveModalTitle{
+  margin: 0 36px 16px 0;
+  font-size: 20px;
+  letter-spacing: .1em;
+  color: #b82020;
+}
+.archiveModalBody{
+  min-height: 0;
+}
+.archiveModalPanel--flipbook .archiveModalTitle{
+  margin-bottom: 12px;
+}
+.archiveModalPanel--flipbook .archiveTeachersViewer{
+  margin: 0;
+}
+.archiveModalPanel--flipbook .archiveJournalWrap--issuu{
+  padding: 20px 16px 14px;
+}
+.archiveResearchAccessDialog{
+  padding: 8px 0 4px;
+}
+.archiveResearchAccessText{
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.85;
+  color: #333;
+}
+
+@media (max-width: 900px){
+  .archiveResearchBookGrid{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 16px;
+  }
+}
+@media (max-width: 560px){
+  .archiveResearchBookGrid{
+    gap: 20px 12px;
+  }
+  .archiveResearchBookCover{
+    max-width: 130px;
+  }
+  .archiveModalPanel--flipbook{
+    padding: 16px 12px 12px;
+  }
+}
+
+/* ── 最新展演：全幅橫幅 ── */
+.innerContent--archivePerformances{
+  max-width: none;
+  width: 100%;
+  padding: 0 0 40px;
+}
+.innerContent--archivePerformances .archivePerformancesTitle,
+.innerContent--archivePerformances .archivePerformancesIntro{
+  max-width: 1180px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.archivePerformancesList{
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+.archivePerformanceBanner{
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1920 / 540;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+}
+.archivePerformanceBanner:hover .archivePerformanceBannerImg{
+  transform: scale(1.02);
+}
+.archivePerformanceBannerImg{
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .35s ease;
+}
+.archivePerformanceBannerOverlay{
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 28px 32px;
+  background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,.62) 100%);
+}
+.archivePerformanceBannerTitle{
+  display: block;
+  font-size: clamp(20px, 3vw, 36px);
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(0,0,0,.35);
+}
+
+/* ── 藝術家教師：四欄網格 ── */
+.archiveTeachersPage--grid .archiveTeachersYearSection{
+  margin-top: 8px;
+}
+.archiveTeachersYearHeading{
+  margin: 0 0 24px;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  color: #222;
+  text-align: center;
+}
+.archiveTeachersGrid{
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 32px 24px;
+}
+.archiveTeachersGridCard{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 6px 12px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: center;
+  transition: transform .2s ease;
+}
+.archiveTeachersGridCard:hover{
+  transform: translateY(-3px);
+}
+.archiveTeachersGridCard:focus-visible{
+  outline: 2px solid #b82020;
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+.archiveTeachersGridAvatar{
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(255,255,255,.9);
+  box-shadow: 0 6px 20px rgba(0,0,0,.12);
+  background: #c8c4bc;
+}
+.archiveTeachersGridName{
+  margin: 0;
+  font-size: 16px;
+  letter-spacing: .08em;
+  color: #222;
+}
+.archiveTeachersGridSummary{
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.65;
+  color: #555;
+  max-width: 220px;
+}
+.archiveTeacherDetailDialog{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+  padding: 4px 8px 0;
+}
+.archiveTeacherDetailAvatar{
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(255,255,255,.9);
+  box-shadow: 0 8px 22px rgba(0,0,0,.12);
+}
+.archiveTeacherDetailName{
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: .1em;
+  color: #b82020;
+}
+.archiveTeacherDetailBio{
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.85;
+  color: #333;
+  text-align: left;
+  max-width: 420px;
+}
+
+@media (max-width: 900px){
+  .archiveTeachersGrid{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 20px;
+  }
+}
+@media (max-width: 560px){
+  .archiveTeachersGridAvatar{
+    width: 72px;
+    height: 72px;
+  }
+  .archivePerformanceBannerOverlay{
+    padding: 18px 20px;
   }
 }
 

@@ -16,7 +16,7 @@
       {
         "id": "archive",
         "label": "檔案庫",
-        "href": "#archive/index"
+        "href": "#archive/collection"
       },
       {
         "id": "co-create",
@@ -56,7 +56,7 @@
       "id": "center",
       "label": "檔案庫",
       "title": "義家藝館",
-      "href": "#archive/index",
+      "href": "#archive/collection",
       "accent": true,
       "hotspot": {
         "left": "48.6%",
@@ -86,26 +86,6 @@
   ],
   "archiveSubnav": [
     {
-      "id": "index",
-      "label": "檔案庫首頁",
-      "href": "#archive/index"
-    },
-    {
-      "id": "exhibitions",
-      "label": "歷屆展覽回顧",
-      "href": "#archive/exhibitions"
-    },
-    {
-      "id": "practice",
-      "label": "藝術實踐",
-      "href": "#archive/practice"
-    },
-    {
-      "id": "media",
-      "label": "影音",
-      "href": "#archive/media"
-    },
-    {
       "id": "collection",
       "label": "典藏",
       "href": "#archive/collection"
@@ -116,13 +96,18 @@
       "href": "#archive/research"
     },
     {
+      "id": "performances",
+      "label": "最新展演",
+      "href": "#archive/performances"
+    },
+    {
       "id": "teachers",
-      "label": "藝術家教師日誌",
+      "label": "藝術家教師",
       "href": "#archive/teachers"
     },
     {
       "id": "bibliography",
-      "label": "參考書目",
+      "label": "延伸閱讀",
       "href": "#archive/bibliography"
     }
   ],
@@ -891,6 +876,173 @@
         ]
       }
     },
+    "collectionHome": {
+      "banner": {
+        "title": "典藏",
+        "subtitle": "When Home Becomes A Museum",
+        "image": {
+          "src": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20800%20450'%3E%3Crect%20width%3D'800'%20height%3D'450'%20fill%3D'%233d3d3d'%2F%3E%3C%2Fsvg%3E",
+          "alt": ""
+        }
+      },
+      "intro": {
+        "heading": "義家藝館介紹",
+        "body": "義家藝館計畫自 2014 年啟動，以榮民之家為田野調查起點，逐步發展為結合藝術、教育與檔案工作的長期計畫。2021 年配合國際博物館日「未來的博物館：恢復與重新想像」，我們以「家X書」為主軸，邀請參與者共同思考家的多重面貌。"
+      },
+      "exhibitionsPreview": {
+        "title": "歷屆展覽",
+        "moreHref": "#archive/exhibitions",
+        "moreLabel": "了解更多＞",
+        "items": [
+          {
+            "title": "2016 歷屆展覽",
+            "caption": "2016 年度展覽",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": "2016 歷屆展覽"
+            }
+          },
+          {
+            "title": "2018 歷屆展覽",
+            "caption": "2018 年度展覽",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": "2018 歷屆展覽"
+            }
+          },
+          {
+            "title": "2021 歷屆展覽",
+            "caption": "2021 年度展覽",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": "2021 歷屆展覽"
+            }
+          }
+        ]
+      },
+      "staticImagesPreview": {
+        "title": "靜態影像",
+        "moreHref": "#archive/photos",
+        "moreLabel": "了解更多＞",
+        "items": [
+          {
+            "title": "精選照片一",
+            "caption": "田野踏查紀錄照片",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": "精選照片一"
+            }
+          },
+          {
+            "title": "精選照片二",
+            "caption": "田野踏查紀錄照片",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": "精選照片二"
+            }
+          },
+          {
+            "title": "精選照片三",
+            "caption": "田野踏查紀錄照片",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": "精選照片三"
+            }
+          }
+        ]
+      },
+      "dynamicImagesPreview": {
+        "title": "動態影像",
+        "moreHref": "#archive/videos",
+        "moreLabel": "了解更多＞",
+        "items": [
+          {
+            "title": "踏查影片一",
+            "caption": "田野踏查紀錄影片",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": "踏查影片一"
+            }
+          },
+          {
+            "title": "踏查影片二",
+            "caption": "田野踏查紀錄影片",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": "踏查影片二"
+            }
+          },
+          {
+            "title": "踏查影片三",
+            "caption": "田野踏查紀錄影片",
+            "image": {
+              "src": "./assets/images/placeholder-photo.svg",
+              "alt": "踏查影片三"
+            }
+          }
+        ]
+      }
+    },
+    "pastExhibitions": {
+      "items": [
+        {
+          "title": "2016 歷屆展覽",
+          "href": "https://example.com/exhibition/2016",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": "2016 歷屆展覽"
+          }
+        },
+        {
+          "title": "2018 歷屆展覽",
+          "href": "https://example.com/exhibition/2018",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": "2018 歷屆展覽"
+          }
+        },
+        {
+          "title": "2019 歷屆展覽",
+          "href": "https://example.com/exhibition/2019",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": "2019 歷屆展覽"
+          }
+        },
+        {
+          "title": "2020 歷屆展覽",
+          "href": "https://example.com/exhibition/2020",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": "2020 歷屆展覽"
+          }
+        },
+        {
+          "title": "2021 歷屆展覽",
+          "href": "https://example.com/exhibition/2021",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": "2021 歷屆展覽"
+          }
+        },
+        {
+          "title": "2022 歷屆展覽",
+          "href": "https://example.com/exhibition/2022",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": "2022 歷屆展覽"
+          }
+        },
+        {
+          "title": "2026 歷屆展覽",
+          "href": "https://example.com/exhibition/2026",
+          "image": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": "2026 歷屆展覽"
+          }
+        }
+      ]
+    },
     "exhibitionYears": [
       "2016",
       "2018",
@@ -1539,7 +1691,8 @@
             {
               "id": "t01",
               "name": "教師一",
-              "bio": "藝術家教師簡介文字。",
+              "summary": "藝術家教師簡短介紹文字。",
+              "bio": "藝術家教師完整介紹。教師一長期參與義家藝館駐校計畫，以創作與教學串連社區與學童的想像。",
               "avatar": {
                 "src": "./app/house.svg",
                 "alt": ""
@@ -1548,7 +1701,8 @@
             {
               "id": "t02",
               "name": "教師二",
-              "bio": "藝術家教師簡介文字。",
+              "summary": "藝術家教師簡短介紹文字。",
+              "bio": "藝術家教師完整介紹。教師二透過身體、聲音與空間的練習，帶領學生探索家的多重面貌。",
               "avatar": {
                 "src": "./app/house.svg",
                 "alt": ""
@@ -1557,7 +1711,8 @@
             {
               "id": "t03",
               "name": "教師三",
-              "bio": "藝術家教師簡介文字。",
+              "summary": "藝術家教師簡短介紹文字。",
+              "bio": "藝術家教師完整介紹。教師三以檔案與物件為材料，引導學童書寫屬於自己的家庭記憶。",
               "avatar": {
                 "src": "./app/house.svg",
                 "alt": ""
@@ -1566,7 +1721,8 @@
             {
               "id": "t04",
               "name": "教師四",
-              "bio": "藝術家教師簡介文字。",
+              "summary": "藝術家教師簡短介紹文字。",
+              "bio": "藝術家教師完整介紹。教師四結合繪畫與裝置，讓教室成為可被重新想像的臨時展間。",
               "avatar": {
                 "src": "./app/house.svg",
                 "alt": ""
@@ -1575,7 +1731,8 @@
             {
               "id": "t05",
               "name": "教師五",
-              "bio": "藝術家教師簡介文字。",
+              "summary": "藝術家教師簡短介紹文字。",
+              "bio": "藝術家教師完整介紹。教師五關注日常手作與共作，讓藝術實踐成為師生之間的對話起點。",
               "avatar": {
                 "src": "./app/house.svg",
                 "alt": ""
@@ -1584,7 +1741,8 @@
             {
               "id": "t06",
               "name": "教師六",
-              "bio": "藝術家教師簡介文字。",
+              "summary": "藝術家教師簡短介紹文字。",
+              "bio": "藝術家教師完整介紹。教師六以影像與聲音紀錄駐校歷程，累積義家藝館的教學檔案。",
               "avatar": {
                 "src": "./app/house.svg",
                 "alt": ""
@@ -1593,7 +1751,8 @@
             {
               "id": "t07",
               "name": "教師七",
-              "bio": "藝術家教師簡介文字。",
+              "summary": "藝術家教師簡短介紹文字。",
+              "bio": "藝術家教師完整介紹。教師七透過戲劇與肢體，協助學生把抽象情感轉化為可分享的作品。",
               "avatar": {
                 "src": "./app/house.svg",
                 "alt": ""
@@ -1602,7 +1761,8 @@
             {
               "id": "t08",
               "name": "教師八",
-              "bio": "藝術家教師簡介文字。",
+              "summary": "藝術家教師簡短介紹文字。",
+              "bio": "藝術家教師完整介紹。教師八以書寫與裝幀為主軸，帶領學童製作屬於自己的家庭刊物。",
               "avatar": {
                 "src": "./app/house.svg",
                 "alt": ""
@@ -1799,11 +1959,18 @@
         }
       }
     },
+    "bibliographySection": {
+      "heading": "延伸閱讀",
+      "body": "左側為書封，右側為書名、年份與作者。部分書目可前往外部閱讀頁，部分則可預覽檔案。"
+    },
     "bibliography": [
       {
         "title": "參考書目一",
-        "author": "作者",
-        "description": "此書的介紹章節",
+        "author": "作者甲",
+        "year": "2018",
+        "description": "此書的介紹章節。點擊可前往外部閱讀網頁。",
+        "href": "https://example.com/reading/book-01",
+        "linkLabel": "前往閱讀",
         "cover": {
           "src": "./assets/images/placeholder-book.svg",
           "alt": ""
@@ -1811,8 +1978,11 @@
       },
       {
         "title": "參考書目二",
-        "author": "作者",
-        "description": "此書的介紹章節",
+        "author": "作者乙",
+        "year": "2020",
+        "description": "此書提供 PDF 預覽，點擊後於彈出視窗中閱讀。",
+        "preview": "./assets/files/sample-reading.pdf",
+        "previewLabel": "預覽檔案",
         "cover": {
           "src": "./assets/images/placeholder-book.svg",
           "alt": ""
@@ -1820,8 +1990,9 @@
       },
       {
         "title": "參考書目三",
-        "author": "作者",
-        "description": "此書的介紹章節",
+        "author": "作者丙",
+        "year": "2021",
+        "description": "此書僅列出書目資訊，暫不提供線上閱讀或預覽。",
         "cover": {
           "src": "./assets/images/placeholder-book.svg",
           "alt": ""
@@ -1829,8 +2000,11 @@
       },
       {
         "title": "參考書目四",
-        "author": "作者",
-        "description": "此書的介紹章節",
+        "author": "作者丁",
+        "year": "2022",
+        "description": "此書連結至站內導讀頁面。",
+        "href": "#archive/research",
+        "linkLabel": "前往閱讀",
         "cover": {
           "src": "./assets/images/placeholder-book.svg",
           "alt": ""
@@ -1839,6 +2013,7 @@
       {
         "title": "參考書目五",
         "author": "作者",
+        "year": "2019",
         "description": "此書的介紹章節",
         "cover": {
           "src": "./assets/images/placeholder-book.svg",
@@ -1848,6 +2023,7 @@
       {
         "title": "參考書目六",
         "author": "作者",
+        "year": "2023",
         "description": "此書的介紹章節",
         "cover": {
           "src": "./assets/images/placeholder-book.svg",
@@ -1857,6 +2033,7 @@
       {
         "title": "參考書目七",
         "author": "作者",
+        "year": "2017",
         "description": "此書的介紹章節",
         "cover": {
           "src": "./assets/images/placeholder-book.svg",
@@ -1866,6 +2043,7 @@
       {
         "title": "參考書目八",
         "author": "作者",
+        "year": "2024",
         "description": "此書的介紹章節",
         "cover": {
           "src": "./assets/images/placeholder-book.svg",
@@ -1875,6 +2053,7 @@
       {
         "title": "參考書目九",
         "author": "作者",
+        "year": "2016",
         "description": "此書的介紹章節",
         "cover": {
           "src": "./assets/images/placeholder-book.svg",
@@ -1884,6 +2063,7 @@
       {
         "title": "參考書目十",
         "author": "作者",
+        "year": "2025",
         "description": "此書的介紹章節",
         "cover": {
           "src": "./assets/images/placeholder-book.svg",
@@ -2475,10 +2655,189 @@
         }
       ]
     },
+    "performances": {
+      "banners": [
+        {
+          "title": "推開自由門",
+          "href": "#exhibition-left/about",
+          "image": {
+            "src": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%201920%20540'%3E%3Crect%20width%3D'1920'%20height%3D'540'%20fill%3D'%23b82020'%2F%3E%3Ctext%20x%3D'960'%20y%3D'270'%20text-anchor%3D'middle'%20fill%3D'%23fff'%20font-family%3D'sans-serif'%20font-size%3D'48'%20font-weight%3D'700'%3E%E6%8E%A8%E9%96%8B%E8%87%AA%E7%94%B1%E9%96%80%3C%2Ftext%3E%3C%2Fsvg%3E",
+            "alt": "推開自由門"
+          }
+        },
+        {
+          "title": "成為自由人",
+          "href": "#exhibition-right/about",
+          "image": {
+            "src": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%201920%20540'%3E%3Crect%20width%3D'1920'%20height%3D'540'%20fill%3D'%232a6b8c'%2F%3E%3Ctext%20x%3D'960'%20y%3D'270'%20text-anchor%3D'middle'%20fill%3D'%23fff'%20font-family%3D'sans-serif'%20font-size%3D'48'%20font-weight%3D'700'%3E%E6%88%90%E7%82%BA%E8%87%AA%E7%94%B1%E4%BA%BA%3C%2Ftext%3E%3C%2Fsvg%3E",
+            "alt": "成為自由人"
+          }
+        }
+      ]
+    },
     "research": {
       "heading": "研究",
-      "body": "研究區塊說明文字。",
-      "items": []
+      "body": "藝術家日誌與研究資料。點選上方書本可翻頁閱讀；書櫃中的典藏需向網站負責人申請存取權。",
+      "journals": [
+        {
+          "id": "journal-01",
+          "title": "藝術家 A 日誌",
+          "artist": "藝術家 A",
+          "coverColor": "#b82020",
+          "pages": [
+            {
+              "date": "2024-03-01",
+              "title": "第一頁",
+              "color": "#FFE4E1",
+              "body": "今天把一疊舊紙重新分類。每張紙都有自己的聲音，但需要很慢才聽得見。"
+            },
+            {
+              "date": "2024-03-05",
+              "title": "第二頁",
+              "color": "#FFF8DC",
+              "body": "我試著把『不確定』當作一種材料：先放在頁角，讓它有位置。"
+            },
+            {
+              "date": "2024-03-12",
+              "title": "第三頁",
+              "color": "#E0FFE0",
+              "body": "淡綠色的紙。光從窗邊斜斜照進來，照在還沒乾透的墨水上。"
+            },
+            {
+              "date": "2024-03-18",
+              "title": "第四頁",
+              "color": "#E0F7FF",
+              "body": "淡藍色的紙。今天聽見樓下的聲音，像一條線，把樓上與樓下連起來。"
+            },
+            {
+              "date": "2024-03-25",
+              "title": "第五頁",
+              "color": "#F3E5FF",
+              "body": "淡紫色的紙。反覆書寫同一張紙，紙開始有了自己的重量。"
+            },
+            {
+              "date": "2024-04-02",
+              "title": "第六頁",
+              "color": "#FFF0E6",
+              "body": "淡橘色的紙。空白不是空白，是給呼吸的空間。"
+            }
+          ]
+        },
+        {
+          "id": "journal-02",
+          "title": "藝術家 B 日誌",
+          "artist": "藝術家 B",
+          "coverColor": "#2a6b8c"
+        },
+        {
+          "id": "journal-03",
+          "title": "藝術家 C 日誌",
+          "artist": "藝術家 C",
+          "coverColor": "#4a8c5c"
+        },
+        {
+          "id": "journal-04",
+          "title": "藝術家 D 日誌",
+          "artist": "藝術家 D",
+          "coverColor": "#c47a20"
+        },
+        {
+          "id": "journal-05",
+          "title": "藝術家 E 日誌",
+          "artist": "藝術家 E",
+          "coverColor": "#6b4f8c"
+        },
+        {
+          "id": "journal-06",
+          "title": "藝術家 F 日誌",
+          "artist": "藝術家 F",
+          "coverColor": "#3d6b8c"
+        },
+        {
+          "id": "journal-07",
+          "title": "藝術家 G 日誌",
+          "artist": "藝術家 G",
+          "coverColor": "#8c4a5c"
+        },
+        {
+          "id": "journal-08",
+          "title": "藝術家 H 日誌",
+          "artist": "藝術家 H",
+          "coverColor": "#5c8c6b"
+        }
+      ],
+      "bookshelf": {
+        "heading": "書櫃典藏",
+        "caption": "點選書櫃上的書本，了解如何申請閱讀權限。",
+        "image": {
+          "src": "./assets/images/bookshelf.svg",
+          "alt": "書櫃"
+        },
+        "accessTitle": "索取閱讀權限",
+        "accessMessage": "若是要閱讀，請與網頁負責人要求存取權。",
+        "lockedBooks": [
+          {
+            "id": "shelf-01",
+            "label": "書櫃書本一",
+            "hotspot": { "left": "6.7%", "top": "21%", "width": "4.3%", "height": "24%" }
+          },
+          {
+            "id": "shelf-02",
+            "label": "書櫃書本二",
+            "hotspot": { "left": "11.8%", "top": "21%", "width": "4%", "height": "24%" }
+          },
+          {
+            "id": "shelf-03",
+            "label": "書櫃書本三",
+            "hotspot": { "left": "16.7%", "top": "21%", "width": "4.5%", "height": "24%" }
+          },
+          {
+            "id": "shelf-04",
+            "label": "書櫃書本四",
+            "hotspot": { "left": "22%", "top": "21%", "width": "3.8%", "height": "24%" }
+          },
+          {
+            "id": "shelf-05",
+            "label": "書櫃書本五",
+            "hotspot": { "left": "26.7%", "top": "21%", "width": "4.2%", "height": "24%" }
+          },
+          {
+            "id": "shelf-06",
+            "label": "書櫃書本六",
+            "hotspot": { "left": "31.7%", "top": "21%", "width": "3.7%", "height": "24%" }
+          },
+          {
+            "id": "shelf-07",
+            "label": "書櫃書本七",
+            "hotspot": { "left": "7.5%", "top": "52%", "width": "4.2%", "height": "24%" }
+          },
+          {
+            "id": "shelf-08",
+            "label": "書櫃書本八",
+            "hotspot": { "left": "12.5%", "top": "52%", "width": "3.8%", "height": "24%" }
+          },
+          {
+            "id": "shelf-09",
+            "label": "書櫃書本九",
+            "hotspot": { "left": "17.2%", "top": "52%", "width": "4.3%", "height": "24%" }
+          },
+          {
+            "id": "shelf-10",
+            "label": "書櫃書本十",
+            "hotspot": { "left": "22.3%", "top": "52%", "width": "4%", "height": "24%" }
+          },
+          {
+            "id": "shelf-11",
+            "label": "書櫃書本十一",
+            "hotspot": { "left": "27.2%", "top": "52%", "width": "4.5%", "height": "24%" }
+          },
+          {
+            "id": "shelf-12",
+            "label": "書櫃書本十二",
+            "hotspot": { "left": "32.5%", "top": "52%", "width": "3.7%", "height": "24%" }
+          }
+        ]
+      }
     }
   },
   "research": {

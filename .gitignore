@@ -1,0 +1,12 @@
+# 內部教學與部署指南（不上傳 GitHub / 不會出現在 GitHub Pages）
+docs/
+DEPLOY_AND_CMS_GUIDE.txt
+
+# Sanity Studio 本機設定與依賴
+studio/.env
+studio/node_modules/
+node_modules/
+
+# 系統檔
+.DS_Store
+Thumbs.db

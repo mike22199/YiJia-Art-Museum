@@ -74,10 +74,11 @@ function renderSiteSubnav(activeSectionId) {
         : Array.isArray(window.SITE_CONTENT?.classicsSubnav)
           ? window.SITE_CONTENT.classicsSubnav
           : [
-              { id: "index", label: "檔案庫首頁", href: "#archive/index" },
-              { id: "exhibitions", label: "歷屆展覽回顧", href: "#archive/exhibitions" },
-              { id: "practice", label: "藝術實踐", href: "#archive/practice" },
-              { id: "media", label: "影音", href: "#archive/media" },
+              { id: "collection", label: "典藏", href: "#archive/collection" },
+              { id: "research", label: "研究", href: "#archive/research" },
+              { id: "performances", label: "最新展演", href: "#archive/performances" },
+              { id: "teachers", label: "藝術家教師", href: "#archive/teachers" },
+              { id: "bibliography", label: "延伸閱讀", href: "#archive/bibliography" },
             ];
 
   const subChildren = [];
