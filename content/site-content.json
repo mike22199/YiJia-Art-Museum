@@ -476,7 +476,7 @@
           {
             "id": "journal",
             "title": "藝術家教師日誌",
-            "body": "駐校藝術家教師在課程中的觀察、反思與創作筆記。每本日誌以不同視角記錄與學生共創的歷程。",
+            "body": "藝術家教師日誌內容",
             "layout": "books",
             "books": [
               {
@@ -570,7 +570,7 @@
           {
             "id": "journal",
             "title": "藝術家教師日誌",
-            "body": "課程期間的教學日誌與反思。",
+            "body": "藝術家教師日誌內容",
             "layout": "books",
             "books": [
               {
@@ -984,6 +984,71 @@
       }
     },
     "pastExhibitions": {
+      "heading": "歷屆展覽回顧",
+      "rows": [
+        [
+          "2026",
+          "2022",
+          "2021",
+          "2020"
+        ],
+        [
+          "2019",
+          "2018",
+          "2016"
+        ]
+      ],
+      "byYear": {
+        "2016": {
+          "banner": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": "2016 歷屆展覽"
+          },
+          "href": "https://example.com/exhibition/2016"
+        },
+        "2018": {
+          "banner": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": "2018 歷屆展覽"
+          },
+          "href": "https://example.com/exhibition/2018"
+        },
+        "2019": {
+          "banner": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": "2019 歷屆展覽"
+          },
+          "href": "https://example.com/exhibition/2019"
+        },
+        "2020": {
+          "banner": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": "2020 歷屆展覽"
+          },
+          "href": "https://example.com/exhibition/2020"
+        },
+        "2021": {
+          "banner": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": "2021 歷屆展覽"
+          },
+          "href": "https://example.com/exhibition/2021"
+        },
+        "2022": {
+          "banner": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": "2022 歷屆展覽"
+          },
+          "href": "https://example.com/exhibition/2022"
+        },
+        "2026": {
+          "banner": {
+            "src": "./assets/images/placeholder-photo.svg",
+            "alt": "2026 歷屆展覽"
+          },
+          "href": "https://example.com/exhibition/2026"
+        }
+      },
       "items": [
         {
           "title": "2016 歷屆展覽",
@@ -1691,8 +1756,8 @@
             {
               "id": "t01",
               "name": "教師一",
-              "summary": "藝術家教師簡短介紹文字。",
-              "bio": "藝術家教師完整介紹。教師一長期參與義家藝館駐校計畫，以創作與教學串連社區與學童的想像。",
+              "summary": "藝術家介紹",
+              "bio": "藝術家介紹",
               "avatar": {
                 "src": "./app/house.svg",
                 "alt": ""
@@ -1701,8 +1766,8 @@
             {
               "id": "t02",
               "name": "教師二",
-              "summary": "藝術家教師簡短介紹文字。",
-              "bio": "藝術家教師完整介紹。教師二透過身體、聲音與空間的練習，帶領學生探索家的多重面貌。",
+              "summary": "藝術家介紹",
+              "bio": "藝術家介紹",
               "avatar": {
                 "src": "./app/house.svg",
                 "alt": ""
@@ -1711,8 +1776,8 @@
             {
               "id": "t03",
               "name": "教師三",
-              "summary": "藝術家教師簡短介紹文字。",
-              "bio": "藝術家教師完整介紹。教師三以檔案與物件為材料，引導學童書寫屬於自己的家庭記憶。",
+              "summary": "藝術家介紹",
+              "bio": "藝術家介紹",
               "avatar": {
                 "src": "./app/house.svg",
                 "alt": ""
@@ -1721,8 +1786,8 @@
             {
               "id": "t04",
               "name": "教師四",
-              "summary": "藝術家教師簡短介紹文字。",
-              "bio": "藝術家教師完整介紹。教師四結合繪畫與裝置，讓教室成為可被重新想像的臨時展間。",
+              "summary": "藝術家介紹",
+              "bio": "藝術家介紹",
               "avatar": {
                 "src": "./app/house.svg",
                 "alt": ""
@@ -1731,8 +1796,8 @@
             {
               "id": "t05",
               "name": "教師五",
-              "summary": "藝術家教師簡短介紹文字。",
-              "bio": "藝術家教師完整介紹。教師五關注日常手作與共作，讓藝術實踐成為師生之間的對話起點。",
+              "summary": "藝術家介紹",
+              "bio": "藝術家介紹",
               "avatar": {
                 "src": "./app/house.svg",
                 "alt": ""
@@ -1741,8 +1806,8 @@
             {
               "id": "t06",
               "name": "教師六",
-              "summary": "藝術家教師簡短介紹文字。",
-              "bio": "藝術家教師完整介紹。教師六以影像與聲音紀錄駐校歷程，累積義家藝館的教學檔案。",
+              "summary": "藝術家介紹",
+              "bio": "藝術家介紹",
               "avatar": {
                 "src": "./app/house.svg",
                 "alt": ""
@@ -1751,8 +1816,8 @@
             {
               "id": "t07",
               "name": "教師七",
-              "summary": "藝術家教師簡短介紹文字。",
-              "bio": "藝術家教師完整介紹。教師七透過戲劇與肢體，協助學生把抽象情感轉化為可分享的作品。",
+              "summary": "藝術家介紹",
+              "bio": "藝術家介紹",
               "avatar": {
                 "src": "./app/house.svg",
                 "alt": ""
@@ -1761,8 +1826,8 @@
             {
               "id": "t08",
               "name": "教師八",
-              "summary": "藝術家教師簡短介紹文字。",
-              "bio": "藝術家教師完整介紹。教師八以書寫與裝幀為主軸，帶領學童製作屬於自己的家庭刊物。",
+              "summary": "藝術家介紹",
+              "bio": "藝術家介紹",
               "avatar": {
                 "src": "./app/house.svg",
                 "alt": ""
@@ -1771,7 +1836,7 @@
             {
               "id": "t09",
               "name": "教師九",
-              "bio": "藝術家教師簡介文字。",
+              "bio": "藝術家介紹",
               "avatar": {
                 "src": "./app/house.svg",
                 "alt": ""
@@ -1780,7 +1845,7 @@
             {
               "id": "t10",
               "name": "教師十",
-              "bio": "藝術家教師簡介文字。",
+              "bio": "藝術家介紹",
               "avatar": {
                 "src": "./app/house.svg",
                 "alt": ""
@@ -1789,7 +1854,7 @@
             {
               "id": "t11",
               "name": "教師十一",
-              "bio": "藝術家教師簡介文字。",
+              "bio": "藝術家介紹",
               "avatar": {
                 "src": "./app/house.svg",
                 "alt": ""
@@ -1798,7 +1863,7 @@
             {
               "id": "t12",
               "name": "教師十二",
-              "bio": "藝術家教師簡介文字。",
+              "bio": "藝術家介紹",
               "avatar": {
                 "src": "./app/house.svg",
                 "alt": ""
@@ -1807,7 +1872,7 @@
             {
               "id": "t13",
               "name": "教師十三",
-              "bio": "藝術家教師簡介文字。",
+              "bio": "藝術家介紹",
               "avatar": {
                 "src": "./app/house.svg",
                 "alt": ""
@@ -1816,7 +1881,7 @@
             {
               "id": "t14",
               "name": "教師十四",
-              "bio": "藝術家教師簡介文字。",
+              "bio": "藝術家介紹",
               "avatar": {
                 "src": "./app/house.svg",
                 "alt": ""
@@ -1831,32 +1896,32 @@
             {
               "title": "封面",
               "color": "#FFE4E1",
-              "body": "教師一的藝術家教師日誌\n\n2026 義家藝館"
+              "body": "藝術家教師日誌內容"
             },
             {
               "title": "第一週",
               "color": "#FFF8DC",
-              "body": "本週帶領學員認識材料與工具，從觀察日常物件開始發想創作。"
+              "body": "藝術家教師日誌內容"
             },
             {
               "title": "第二週",
               "color": "#E0FFE0",
-              "body": "學員開始嘗試混合媒材，記錄下第一次完成的小型作品。"
+              "body": "藝術家教師日誌內容"
             },
             {
               "title": "第三週",
               "color": "#E0F7FF",
-              "body": "以小組討論分享創作過程，整理出每位學員的關鍵提問。"
+              "body": "藝術家教師日誌內容"
             },
             {
               "title": "第四週",
               "color": "#F3E5FF",
-              "body": "進行成果整理與展示彩排，調整作品陳述與空間配置。"
+              "body": "藝術家教師日誌內容"
             },
             {
               "title": "結語",
               "color": "#FFF0E6",
-              "body": "感謝這段共學時光。日誌將持續更新，歡迎回來翻閱。"
+              "body": "藝術家教師日誌內容"
             }
           ]
         },
@@ -1865,32 +1930,32 @@
             {
               "title": "第一頁",
               "color": "#FFF8DC",
-              "body": "教師二的日誌內容。"
+              "body": "藝術家教師日誌內容"
             },
             {
               "title": "第二頁",
               "color": "#E0FFE0",
-              "body": "教師二第二週教學紀錄。"
+              "body": "藝術家教師日誌內容"
             },
             {
               "title": "第三頁",
               "color": "#E0F7FF",
-              "body": "教師二第三週教學紀錄。"
+              "body": "藝術家教師日誌內容"
             },
             {
               "title": "第四頁",
               "color": "#F3E5FF",
-              "body": "教師二第四週教學紀錄。"
+              "body": "藝術家教師日誌內容"
             },
             {
               "title": "第五頁",
               "color": "#FFF0E6",
-              "body": "教師二第五週教學紀錄。"
+              "body": "藝術家教師日誌內容"
             },
             {
               "title": "第六頁",
               "color": "#E8F5E9",
-              "body": "教師二日誌結語。"
+              "body": "藝術家教師日誌內容"
             }
           ]
         },
@@ -1899,7 +1964,7 @@
             {
               "title": "第一頁",
               "color": "#E0FFE0",
-              "body": "教師三的日誌內容。"
+              "body": "藝術家教師日誌內容"
             }
           ]
         },
@@ -1908,7 +1973,7 @@
             {
               "title": "第一頁",
               "color": "#E0F7FF",
-              "body": "教師四的日誌內容。"
+              "body": "藝術家教師日誌內容"
             }
           ]
         },
@@ -1917,7 +1982,7 @@
             {
               "title": "第一頁",
               "color": "#F3E5FF",
-              "body": "教師五的日誌內容。"
+              "body": "藝術家教師日誌內容"
             }
           ]
         },
@@ -1926,7 +1991,7 @@
             {
               "title": "第一頁",
               "color": "#FFF0E6",
-              "body": "教師六的日誌內容。"
+              "body": "藝術家教師日誌內容"
             }
           ]
         },
@@ -1935,7 +2000,7 @@
             {
               "title": "第一頁",
               "color": "#E8F5E9",
-              "body": "教師七的日誌內容。"
+              "body": "藝術家教師日誌內容"
             }
           ]
         },
@@ -1944,7 +2009,7 @@
             {
               "title": "第一頁",
               "color": "#FCE4EC",
-              "body": "教師八的日誌內容。"
+              "body": "藝術家教師日誌內容"
             }
           ]
         },
@@ -1953,122 +2018,133 @@
             {
               "title": "第一頁",
               "color": "#E3F2FD",
-              "body": "教師九的日誌內容。"
+              "body": "藝術家教師日誌內容"
             }
           ]
         }
       }
     },
     "bibliographySection": {
-      "heading": "延伸閱讀",
-      "body": "左側為書封，右側為書名、年份與作者。部分書目可前往外部閱讀頁，部分則可預覽檔案。"
+      "heading": "延伸閱讀"
     },
-    "bibliography": [
+    "bibliographyCategories": [
       {
-        "title": "參考書目一",
-        "author": "作者甲",
-        "year": "2018",
-        "description": "此書的介紹章節。點擊可前往外部閱讀網頁。",
-        "href": "https://example.com/reading/book-01",
-        "linkLabel": "前往閱讀",
-        "cover": {
-          "src": "./assets/images/placeholder-book.svg",
-          "alt": ""
-        }
+        "id": "academic",
+        "title": "學術論文",
+        "items": [
+          {
+            "title": "學術論文一",
+            "author": "作者甲",
+            "year": "2018",
+            "description": "文本介紹：此處填入學術論文摘要或導讀說明。",
+            "href": "https://example.com/reading/paper-01",
+            "linkLabel": "前往閱讀",
+            "cover": {
+              "src": "./assets/images/placeholder-book.svg",
+              "alt": "學術論文一封面"
+            }
+          },
+          {
+            "title": "學術論文二",
+            "author": "作者乙",
+            "year": "2020",
+            "description": "文本介紹：此處填入學術論文摘要或導讀說明。",
+            "preview": "./assets/files/sample-reading.pdf",
+            "previewLabel": "預覽檔案",
+            "cover": {
+              "src": "./assets/images/placeholder-book.svg",
+              "alt": "學術論文二封面"
+            }
+          },
+          {
+            "title": "學術論文三",
+            "author": "作者丙",
+            "year": "2021",
+            "description": "文本介紹：此處填入學術論文摘要或導讀說明。",
+            "cover": {
+              "src": "./assets/images/placeholder-book.svg",
+              "alt": "學術論文三封面"
+            }
+          }
+        ]
       },
       {
-        "title": "參考書目二",
-        "author": "作者乙",
-        "year": "2020",
-        "description": "此書提供 PDF 預覽，點擊後於彈出視窗中閱讀。",
-        "preview": "./assets/files/sample-reading.pdf",
-        "previewLabel": "預覽檔案",
-        "cover": {
-          "src": "./assets/images/placeholder-book.svg",
-          "alt": ""
-        }
+        "id": "reviews",
+        "title": "展演評論",
+        "items": [
+          {
+            "title": "展演評論一",
+            "author": "評論者甲",
+            "year": "2022",
+            "description": "文本介紹：此處填入展演評論內容摘要。",
+            "href": "https://example.com/reading/review-01",
+            "linkLabel": "前往閱讀",
+            "cover": {
+              "src": "./assets/images/placeholder-book.svg",
+              "alt": "展演評論一封面"
+            }
+          },
+          {
+            "title": "展演評論二",
+            "author": "評論者乙",
+            "year": "2023",
+            "description": "文本介紹：此處填入展演評論內容摘要。",
+            "cover": {
+              "src": "./assets/images/placeholder-book.svg",
+              "alt": "展演評論二封面"
+            }
+          },
+          {
+            "title": "展演評論三",
+            "author": "評論者丙",
+            "year": "2024",
+            "description": "文本介紹：此處填入展演評論內容摘要。",
+            "href": "#archive/research",
+            "linkLabel": "前往閱讀",
+            "cover": {
+              "src": "./assets/images/placeholder-book.svg",
+              "alt": "展演評論三封面"
+            }
+          }
+        ]
       },
       {
-        "title": "參考書目三",
-        "author": "作者丙",
-        "year": "2021",
-        "description": "此書僅列出書目資訊，暫不提供線上閱讀或預覽。",
-        "cover": {
-          "src": "./assets/images/placeholder-book.svg",
-          "alt": ""
-        }
-      },
-      {
-        "title": "參考書目四",
-        "author": "作者丁",
-        "year": "2022",
-        "description": "此書連結至站內導讀頁面。",
-        "href": "#archive/research",
-        "linkLabel": "前往閱讀",
-        "cover": {
-          "src": "./assets/images/placeholder-book.svg",
-          "alt": ""
-        }
-      },
-      {
-        "title": "參考書目五",
-        "author": "作者",
-        "year": "2019",
-        "description": "此書的介紹章節",
-        "cover": {
-          "src": "./assets/images/placeholder-book.svg",
-          "alt": ""
-        }
-      },
-      {
-        "title": "參考書目六",
-        "author": "作者",
-        "year": "2023",
-        "description": "此書的介紹章節",
-        "cover": {
-          "src": "./assets/images/placeholder-book.svg",
-          "alt": ""
-        }
-      },
-      {
-        "title": "參考書目七",
-        "author": "作者",
-        "year": "2017",
-        "description": "此書的介紹章節",
-        "cover": {
-          "src": "./assets/images/placeholder-book.svg",
-          "alt": ""
-        }
-      },
-      {
-        "title": "參考書目八",
-        "author": "作者",
-        "year": "2024",
-        "description": "此書的介紹章節",
-        "cover": {
-          "src": "./assets/images/placeholder-book.svg",
-          "alt": ""
-        }
-      },
-      {
-        "title": "參考書目九",
-        "author": "作者",
-        "year": "2016",
-        "description": "此書的介紹章節",
-        "cover": {
-          "src": "./assets/images/placeholder-book.svg",
-          "alt": ""
-        }
-      },
-      {
-        "title": "參考書目十",
-        "author": "作者",
-        "year": "2025",
-        "description": "此書的介紹章節",
-        "cover": {
-          "src": "./assets/images/placeholder-book.svg",
-          "alt": ""
-        }
+        "id": "books",
+        "title": "參考書",
+        "items": [
+          {
+            "title": "參考書一",
+            "author": "作者",
+            "year": "2019",
+            "description": "文本介紹：此處填入參考書內容摘要。",
+            "cover": {
+              "src": "./assets/images/placeholder-book.svg",
+              "alt": "參考書一封面"
+            }
+          },
+          {
+            "title": "參考書二",
+            "author": "作者",
+            "year": "2017",
+            "description": "文本介紹：此處填入參考書內容摘要。",
+            "href": "https://example.com/reading/book-02",
+            "linkLabel": "前往閱讀",
+            "cover": {
+              "src": "./assets/images/placeholder-book.svg",
+              "alt": "參考書二封面"
+            }
+          },
+          {
+            "title": "參考書三",
+            "author": "作者",
+            "year": "2016",
+            "description": "文本介紹：此處填入參考書內容摘要。",
+            "cover": {
+              "src": "./assets/images/placeholder-book.svg",
+              "alt": "參考書三封面"
+            }
+          }
+        ]
       }
     ],
     "collection": {
@@ -2677,95 +2753,7 @@
     },
     "research": {
       "heading": "研究",
-      "body": "藝術家日誌與研究資料。點選上方書本可翻頁閱讀；書櫃中的典藏需向網站負責人申請存取權。",
-      "journals": [
-        {
-          "id": "journal-01",
-          "title": "藝術家 A 日誌",
-          "artist": "藝術家 A",
-          "coverColor": "#b82020",
-          "pages": [
-            {
-              "date": "2024-03-01",
-              "title": "第一頁",
-              "color": "#FFE4E1",
-              "body": "今天把一疊舊紙重新分類。每張紙都有自己的聲音，但需要很慢才聽得見。"
-            },
-            {
-              "date": "2024-03-05",
-              "title": "第二頁",
-              "color": "#FFF8DC",
-              "body": "我試著把『不確定』當作一種材料：先放在頁角，讓它有位置。"
-            },
-            {
-              "date": "2024-03-12",
-              "title": "第三頁",
-              "color": "#E0FFE0",
-              "body": "淡綠色的紙。光從窗邊斜斜照進來，照在還沒乾透的墨水上。"
-            },
-            {
-              "date": "2024-03-18",
-              "title": "第四頁",
-              "color": "#E0F7FF",
-              "body": "淡藍色的紙。今天聽見樓下的聲音，像一條線，把樓上與樓下連起來。"
-            },
-            {
-              "date": "2024-03-25",
-              "title": "第五頁",
-              "color": "#F3E5FF",
-              "body": "淡紫色的紙。反覆書寫同一張紙，紙開始有了自己的重量。"
-            },
-            {
-              "date": "2024-04-02",
-              "title": "第六頁",
-              "color": "#FFF0E6",
-              "body": "淡橘色的紙。空白不是空白，是給呼吸的空間。"
-            }
-          ]
-        },
-        {
-          "id": "journal-02",
-          "title": "藝術家 B 日誌",
-          "artist": "藝術家 B",
-          "coverColor": "#2a6b8c"
-        },
-        {
-          "id": "journal-03",
-          "title": "藝術家 C 日誌",
-          "artist": "藝術家 C",
-          "coverColor": "#4a8c5c"
-        },
-        {
-          "id": "journal-04",
-          "title": "藝術家 D 日誌",
-          "artist": "藝術家 D",
-          "coverColor": "#c47a20"
-        },
-        {
-          "id": "journal-05",
-          "title": "藝術家 E 日誌",
-          "artist": "藝術家 E",
-          "coverColor": "#6b4f8c"
-        },
-        {
-          "id": "journal-06",
-          "title": "藝術家 F 日誌",
-          "artist": "藝術家 F",
-          "coverColor": "#3d6b8c"
-        },
-        {
-          "id": "journal-07",
-          "title": "藝術家 G 日誌",
-          "artist": "藝術家 G",
-          "coverColor": "#8c4a5c"
-        },
-        {
-          "id": "journal-08",
-          "title": "藝術家 H 日誌",
-          "artist": "藝術家 H",
-          "coverColor": "#5c8c6b"
-        }
-      ],
+      "journalTitle": "藝術家教師日誌",
       "bookshelf": {
         "heading": "書櫃典藏",
         "caption": "點選書櫃上的書本，了解如何申請閱讀權限。",
@@ -2779,62 +2767,122 @@
           {
             "id": "shelf-01",
             "label": "書櫃書本一",
-            "hotspot": { "left": "6.7%", "top": "21%", "width": "4.3%", "height": "24%" }
+            "hotspot": {
+              "left": "6.7%",
+              "top": "21%",
+              "width": "4.3%",
+              "height": "24%"
+            }
           },
           {
             "id": "shelf-02",
             "label": "書櫃書本二",
-            "hotspot": { "left": "11.8%", "top": "21%", "width": "4%", "height": "24%" }
+            "hotspot": {
+              "left": "11.8%",
+              "top": "21%",
+              "width": "4%",
+              "height": "24%"
+            }
           },
           {
             "id": "shelf-03",
             "label": "書櫃書本三",
-            "hotspot": { "left": "16.7%", "top": "21%", "width": "4.5%", "height": "24%" }
+            "hotspot": {
+              "left": "16.7%",
+              "top": "21%",
+              "width": "4.5%",
+              "height": "24%"
+            }
           },
           {
             "id": "shelf-04",
             "label": "書櫃書本四",
-            "hotspot": { "left": "22%", "top": "21%", "width": "3.8%", "height": "24%" }
+            "hotspot": {
+              "left": "22%",
+              "top": "21%",
+              "width": "3.8%",
+              "height": "24%"
+            }
           },
           {
             "id": "shelf-05",
             "label": "書櫃書本五",
-            "hotspot": { "left": "26.7%", "top": "21%", "width": "4.2%", "height": "24%" }
+            "hotspot": {
+              "left": "26.7%",
+              "top": "21%",
+              "width": "4.2%",
+              "height": "24%"
+            }
           },
           {
             "id": "shelf-06",
             "label": "書櫃書本六",
-            "hotspot": { "left": "31.7%", "top": "21%", "width": "3.7%", "height": "24%" }
+            "hotspot": {
+              "left": "31.7%",
+              "top": "21%",
+              "width": "3.7%",
+              "height": "24%"
+            }
           },
           {
             "id": "shelf-07",
             "label": "書櫃書本七",
-            "hotspot": { "left": "7.5%", "top": "52%", "width": "4.2%", "height": "24%" }
+            "hotspot": {
+              "left": "7.5%",
+              "top": "52%",
+              "width": "4.2%",
+              "height": "24%"
+            }
           },
           {
             "id": "shelf-08",
             "label": "書櫃書本八",
-            "hotspot": { "left": "12.5%", "top": "52%", "width": "3.8%", "height": "24%" }
+            "hotspot": {
+              "left": "12.5%",
+              "top": "52%",
+              "width": "3.8%",
+              "height": "24%"
+            }
           },
           {
             "id": "shelf-09",
             "label": "書櫃書本九",
-            "hotspot": { "left": "17.2%", "top": "52%", "width": "4.3%", "height": "24%" }
+            "hotspot": {
+              "left": "17.2%",
+              "top": "52%",
+              "width": "4.3%",
+              "height": "24%"
+            }
           },
           {
             "id": "shelf-10",
             "label": "書櫃書本十",
-            "hotspot": { "left": "22.3%", "top": "52%", "width": "4%", "height": "24%" }
+            "hotspot": {
+              "left": "22.3%",
+              "top": "52%",
+              "width": "4%",
+              "height": "24%"
+            }
           },
           {
             "id": "shelf-11",
             "label": "書櫃書本十一",
-            "hotspot": { "left": "27.2%", "top": "52%", "width": "4.5%", "height": "24%" }
+            "hotspot": {
+              "left": "27.2%",
+              "top": "52%",
+              "width": "4.5%",
+              "height": "24%"
+            }
           },
           {
             "id": "shelf-12",
             "label": "書櫃書本十二",
-            "hotspot": { "left": "32.5%", "top": "52%", "width": "3.7%", "height": "24%" }
+            "hotspot": {
+              "left": "32.5%",
+              "top": "52%",
+              "width": "3.7%",
+              "height": "24%"
+            }
           }
         ]
       }
@@ -2849,61 +2897,61 @@
             "date": "2024-03-01",
             "title": "第一頁",
             "color": "#FFE4E1",
-            "body": "今天把一疊舊紙重新分類。每張紙都有自己的聲音，但需要很慢才聽得見。"
+            "body": "藝術家教師日誌內容"
           },
           {
             "date": "2024-03-05",
             "title": "第二頁",
             "color": "#FFF8DC",
-            "body": "我試著把『不確定』當作一種材料：先放在頁角，讓它有位置。"
+            "body": "藝術家教師日誌內容"
           },
           {
             "date": "2024-03-12",
             "title": "第�???",
             "color": "#E0FFE0",
-            "body": "淡�??��??�。�?線�?窗�??�進�?，照?��?沒乾?��?墨水上�?"
+            "body": "藝術家教師日誌內容"
           },
           {
             "date": "2024-03-18",
             "title": "第�???",
             "color": "#E0F7FF",
-            "body": "淡�??��??�。�??��?天聽?��??�音?��?線�?，�??��?上�?等�?線�?"
+            "body": "藝術家教師日誌內容"
           },
           {
             "date": "2024-03-25",
             "title": "第�???",
             "color": "#F3E5FF",
-            "body": "淡紫?��??�。�?覆�??��?一張�?，�??��?始�?了自己�??��???"
+            "body": "藝術家教師日誌內容"
           },
           {
             "date": "2024-04-02",
             "title": "第六??",
             "color": "#FFF0E6",
-            "body": "?��??��??�。�??��??��?不是空白，是給�??�呼?��?空�???"
+            "body": "藝術家教師日誌內容"
           },
           {
             "date": "2024-04-10",
             "title": "第�???",
             "color": "#E8F5E9",
-            "body": "?�荷綠�??�。�??�照?�剪下�?，貼?�新?��??��?，�??�就?��?了�?"
+            "body": "藝術家教師日誌內容"
           },
           {
             "date": "2024-04-18",
             "title": "第八??",
             "color": "#FCE4EC",
-            "body": "粉�??��??�。書?��?�?��微捲?��??��??�被翻閱太�?次�?"
+            "body": "藝術家教師日誌內容"
           },
           {
             "date": "2024-04-25",
             "title": "第�???",
             "color": "#E3F2FD",
-            "body": "天�??��??�。�??�找?��??��?，可以�?述那種說不出來�??�覺??"
+            "body": "藝術家教師日誌內容"
           },
           {
             "date": "2024-05-02",
             "title": "第�???",
             "color": "#F9FBE7",
-            "body": "淡�?綠�??�。�?後�??��??��??��?沒寫完�?字�?給�?天�?"
+            "body": "藝術家教師日誌內容"
           }
         ]
       }

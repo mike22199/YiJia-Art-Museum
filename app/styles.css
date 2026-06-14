@@ -2209,6 +2209,150 @@ body.isInnerPage .mainInner{
 .archiveExhibitionsPage .archiveBlock{
   padding-top: 8px;
 }
+.archiveExhibitionsPage--timeline{
+  max-width: 1080px;
+  margin: 0 auto;
+}
+.archiveExhibitionsTimelineTitle{
+  text-align: center;
+  margin-bottom: 28px;
+}
+.archiveExhibitionTimeline{
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+  padding: 8px 0 16px;
+}
+.archiveExhibitionTimelineRow{
+  width: 100%;
+}
+.archiveExhibitionTimelineTrack{
+  --timeline-banner-height: 120px;
+  --timeline-marker-top: calc(var(--timeline-banner-height) + 28px);
+  --timeline-cols: 4;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: 24px;
+  position: relative;
+  padding: 0 8px 8px;
+}
+.archiveExhibitionTimelineTrack::before{
+  content: "";
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  top: var(--timeline-marker-top);
+  height: 2px;
+  background: #b82020;
+  z-index: 0;
+}
+.archiveExhibitionTimelineColumn{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-width: 0;
+}
+.archiveExhibitionTimelineColumn--empty{
+  visibility: hidden;
+  pointer-events: none;
+}
+.archiveExhibitionTimelineBanner{
+  width: 100%;
+  min-height: var(--timeline-banner-height);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-bottom: 28px;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 4px;
+  transition: transform .2s ease, opacity .2s ease;
+}
+.archiveExhibitionTimelineBanner--link:hover{
+  transform: translateY(-2px);
+  opacity: .92;
+}
+.archiveExhibitionTimelineBanner--link:focus-visible{
+  outline: 2px solid #b82020;
+  outline-offset: 3px;
+}
+.archiveExhibitionTimelineBanner--link:hover .archiveExhibitionTimelineBannerImg{
+  filter: drop-shadow(0 6px 16px rgba(0,0,0,.18));
+}
+.archiveExhibitionTimelineBannerImg{
+  display: block;
+  max-width: 100%;
+  max-height: var(--timeline-banner-height);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,.12));
+}
+.archiveExhibitionTimelineMarker{
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.archiveExhibitionTimelineDot{
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #b82020;
+  box-shadow: 0 0 0 3px rgba(255,255,255,.9);
+}
+.archiveExhibitionTimelineYear{
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: #222;
+  line-height: 1;
+}
+.archiveExhibitionTimelineLinks{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+.archiveExhibitionTimelineLink{
+  font-size: 14px;
+  letter-spacing: .12em;
+  color: #333;
+  text-decoration: none;
+  line-height: 1.6;
+  transition: color .15s ease;
+}
+.archiveExhibitionTimelineLink:hover{
+  color: #b82020;
+}
+@media (max-width: 768px){
+  .archiveExhibitionTimelineTrack{
+    column-gap: 16px;
+  }
+  .archiveExhibitionTimelineBanner{
+    min-height: 90px;
+    --timeline-banner-height: 90px;
+  }
+  .archiveExhibitionTimelineYear{
+    font-size: 16px;
+  }
+  .archiveExhibitionTimelineLink{
+    font-size: 13px;
+  }
+}
+@media (max-width: 560px){
+  .archiveExhibitionTimelineTrack{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 32px;
+  }
+  .archiveExhibitionTimelineTrack::before{
+    display: none;
+  }
+}
 .archiveExhibitionBannerList{
   display: flex;
   flex-direction: column;
@@ -3119,6 +3263,74 @@ body.isInnerPage .mainInner{
 .archiveBibliographyPage .archivePageTitle{
   margin-bottom: 28px;
 }
+.archiveBibliographyBody{
+  position: relative;
+  padding-bottom: 72px;
+}
+.archiveBibliographyCategory{
+  margin-bottom: 40px;
+}
+.archiveBibliographyCategory:last-child{
+  margin-bottom: 0;
+}
+.archiveBibliographyCategoryTitle{
+  margin: 0 0 20px;
+  font-size: 20px;
+  letter-spacing: .12em;
+  color: #b82020;
+}
+.archiveBibliographyList{
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.archiveBibliographyItem{
+  display: grid;
+  grid-template-columns: minmax(88px, 120px) 1fr;
+  gap: 20px;
+  align-items: stretch;
+  padding-bottom: 0;
+  border-bottom: none;
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+  text-align: left;
+}
+.archiveBibliographyCover{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.archiveBibliographyText{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 120px;
+  padding: 18px 20px;
+  background: rgba(0,0,0,.04);
+  border-radius: 4px;
+}
+.archiveBackToTop{
+  position: fixed;
+  right: 24px;
+  bottom: 88px;
+  z-index: 90;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: #2f3134;
+  color: #fff;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,.18);
+  transition: transform .15s ease, background .15s ease;
+}
+.archiveBackToTop:hover{
+  background: #b82020;
+  transform: translateY(-2px);
+}
 
 @media (max-width: 900px){
   .archiveMediaRecordLayout{
@@ -3191,23 +3403,7 @@ body.isInnerPage .mainInner{
   font-size: 18px;
 }
 
-.archiveBibliographyList{
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-}
-.archiveBibliographyItem{
-  display: grid;
-  grid-template-columns: minmax(120px, 180px) 1fr;
-  gap: 24px;
-  align-items: start;
-  padding-bottom: 28px;
-  border-bottom: 1px solid rgba(0,0,0,.08);
-  text-decoration: none;
-  color: inherit;
-  width: 100%;
-  text-align: left;
-}
+
 .archiveBibliographyItem--interactive{
   cursor: pointer;
   transition: background .18s ease, transform .18s ease;
@@ -3231,11 +3427,17 @@ a.archiveBibliographyItem{
 }
 .archiveBibliographyCover img{
   width: 100%;
-  max-height: 240px;
-  object-fit: contain;
+  max-height: 160px;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
   box-shadow: 0 8px 24px rgba(0,0,0,.12);
+  border-radius: 2px;
 }
 .archiveBibliographyTitle,
+.archiveBibliographyItem h3{
+  margin: 0 0 8px;
+  font-size: 18px;
+}
 .archiveBibliographyItem h2{
   margin: 0 0 8px;
   font-size: 20px;
@@ -3764,6 +3966,47 @@ a.archiveBibliographyItem{
 }
 
 /* ── 研究頁：藝術家日誌書架 ── */
+/* 研究頁：藝術家教師日誌 */
+.innerContent--archiveResearchJournal{
+  max-width: 1180px;
+}
+.archiveResearchPage--journal{
+  padding-bottom: 24px;
+}
+.archiveResearchJournal{
+  margin-bottom: 36px;
+}
+.archiveResearchJournalTitle{
+  margin: 0 0 20px;
+  font-size: 22px;
+  letter-spacing: .1em;
+  color: #b82020;
+}
+.archiveResearchJournal .archiveTeachersViewer{
+  margin-bottom: 16px;
+}
+.archiveResearchJournalTeacherName{
+  margin: 0;
+  text-align: center;
+  font-size: 18px;
+  letter-spacing: .1em;
+  color: #222;
+}
+.archiveResearchPage--journal .archiveTeachersPicker{
+  margin-top: 8px;
+  margin-bottom: 40px;
+}
+.archiveTeachersCarouselNotebook{
+  width: 56px;
+  height: 70px;
+  object-fit: contain;
+  background: transparent;
+  transition: width 220ms ease, height 220ms ease;
+}
+.archiveTeachersCarouselItem--active .archiveTeachersCarouselNotebook{
+  width: 72px;
+  height: 88px;
+}
 .archiveResearchPage .archiveResearchIntro{
   max-width: 720px;
 }

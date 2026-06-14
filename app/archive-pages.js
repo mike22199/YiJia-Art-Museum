@@ -862,15 +862,198 @@ function renderArchiveTeacherGrid(teachers) {
   return grid;
 }
 
-function renderArchiveExhibitions() {
-  const items = resolvePastExhibitionsList();
-  const root = el("div", { class: "archivePage archiveExhibitionsPage" });
-  root.appendChild(renderArchiveBackToCollection());
-  root.appendChild(el("h1", { class: "archivePageTitle", text: "歷屆展覽" }));
+const PAST_EXHIBITION_ROW_SIZE = 4;
 
-  const list = el("div", { class: "archiveExhibitionBannerList" });
-  items.forEach((item, index) => list.appendChild(renderArchiveExhibitionBanner(item, index)));
-  root.appendChild(list);
+function defaultPastExhibitionLinks(year, pack = {}) {
+  const website = pack.href || pack.website || pack.link || `https://example.com/exhibition/${year}`;
+  if (Array.isArray(pack.links) && pack.links.length) {
+    const websiteLink = pack.links.find((link) => link.label === "網站");
+    if (websiteLink) return [websiteLink];
+  }
+
+  return [{ label: "網站", href: website }];
+}
+
+function resolvePastExhibitionYearPack(year) {
+  const data = archiveData();
+  const past = data.pastExhibitions || {};
+  const byYear = past.byYear || {};
+  const configured = byYear[year];
+  const legacyItem = Array.isArray(past.items)
+    ? past.items.find((item) => String(item.year || "").trim() === String(year))
+    : null;
+  const exhibitionPack = data.exhibitionsByYear?.[year];
+
+  const banner =
+    configured?.banner ||
+    configured?.image ||
+    legacyItem?.banner ||
+    legacyItem?.image ||
+    exhibitionPack?.poster ||
+    null;
+
+  return {
+    year,
+    title: configured?.title || legacyItem?.title || `${year} 歷屆展覽`,
+    href: configured?.href || configured?.website || legacyItem?.href || "",
+    banner,
+    links: defaultPastExhibitionLinks(year, { ...configured, ...legacyItem }),
+  };
+}
+
+function resolvePastExhibitionTimelineRows() {
+  const past = archiveData().pastExhibitions || {};
+  const configuredRows = Array.isArray(past.rows) ? past.rows : null;
+
+  if (configuredRows && configuredRows.length) {
+    return configuredRows.slice(0, 2).map((row) =>
+      (Array.isArray(row) ? row : [])
+        .map((year) => String(year).trim())
+        .filter(Boolean)
+        .slice(0, PAST_EXHIBITION_ROW_SIZE)
+    );
+  }
+
+  const years = Array.isArray(past.items) && past.items.length
+    ? past.items.map((item) => String(item.year || "").trim()).filter(Boolean)
+    : Array.isArray(archiveData().exhibitionYears)
+      ? archiveData().exhibitionYears.map(String)
+      : [];
+
+  const uniqueYears = [...new Set(years)].sort((a, b) => Number(b) - Number(a));
+  if (!uniqueYears.length) return [["2026"], []];
+
+  return [
+    uniqueYears.slice(0, PAST_EXHIBITION_ROW_SIZE),
+    uniqueYears.slice(PAST_EXHIBITION_ROW_SIZE, PAST_EXHIBITION_ROW_SIZE * 2),
+  ].filter((row) => row.length);
+}
+
+function pastExhibitionBannerSrc(pack, index = 0) {
+  const src = pack.banner?.src || "";
+  if (src && !archiveIsPlaceholderImage(src)) return src;
+  return archivePosterImageSrc(pack.banner, pack.year || index);
+}
+
+function renderPastExhibitionTimelineLink(link) {
+  const href = link.href || "#";
+  const isHash = String(href).startsWith("#");
+  const isExternal = !isHash;
+
+  return el(
+    "a",
+    {
+      class: "archiveExhibitionTimelineLink",
+      href,
+      target: isExternal ? "_blank" : undefined,
+      rel: isExternal ? "noopener noreferrer" : undefined,
+      text: link.label || "",
+      onclick: (e) => {
+        if (isHash) {
+          e.preventDefault();
+          navigateFromHref(href);
+        }
+      },
+    }
+  );
+}
+
+function renderPastExhibitionTimelineColumn(year, index = 0) {
+  const pack = resolvePastExhibitionYearPack(year);
+  const bannerSrc = pastExhibitionBannerSrc(pack, index);
+  const bannerAlt = pack.banner?.alt || pack.title || `${year} 展覽`;
+  const websiteLink = pack.links.find((link) => link.label === "網站") || pack.links[0];
+  const websiteHref = websiteLink?.href || pack.href || "#";
+  const isHash = String(websiteHref).startsWith("#");
+  const isExternal = !isHash;
+
+  const bannerInner = el("img", {
+    class: "archiveExhibitionTimelineBannerImg",
+    src: bannerSrc,
+    alt: bannerAlt,
+    loading: "lazy",
+  });
+
+  const banner = el(
+    "a",
+    {
+      class: "archiveExhibitionTimelineBanner archiveExhibitionTimelineBanner--link",
+      href: websiteHref,
+      target: isExternal ? "_blank" : undefined,
+      rel: isExternal ? "noopener noreferrer" : undefined,
+      "aria-label": `${year} 展覽網站`,
+      onclick: (e) => {
+        if (isHash) {
+          e.preventDefault();
+          navigateFromHref(websiteHref);
+        }
+      },
+    },
+    [bannerInner]
+  );
+
+  return el("div", { class: "archiveExhibitionTimelineColumn" }, [
+    banner,
+    el("div", { class: "archiveExhibitionTimelineMarker", "aria-hidden": "true" }, [
+      el("span", { class: "archiveExhibitionTimelineDot" }),
+      el("span", { class: "archiveExhibitionTimelineYear", text: year }),
+    ]),
+    el(
+      "nav",
+      { class: "archiveExhibitionTimelineLinks", "aria-label": `${year} 展覽連結` },
+      pack.links.map((link) => renderPastExhibitionTimelineLink(link))
+    ),
+  ]);
+}
+
+function renderPastExhibitionTimelineRow(years, rowIndex = 0) {
+  const list = Array.isArray(years) ? years : [];
+  const slots = [...list];
+  while (slots.length < PAST_EXHIBITION_ROW_SIZE) slots.push("");
+  const normalized = slots.slice(0, PAST_EXHIBITION_ROW_SIZE);
+
+  const row = el("section", { class: "archiveExhibitionTimelineRow" });
+  const track = el("div", {
+    class: "archiveExhibitionTimelineTrack",
+    style: `--timeline-cols:${PAST_EXHIBITION_ROW_SIZE}`,
+  });
+
+  normalized.forEach((year, index) => {
+    if (!year) {
+      track.appendChild(
+        el("div", {
+          class: "archiveExhibitionTimelineColumn archiveExhibitionTimelineColumn--empty",
+          "aria-hidden": "true",
+        })
+      );
+      return;
+    }
+    track.appendChild(renderPastExhibitionTimelineColumn(year, rowIndex * 10 + index));
+  });
+
+  row.appendChild(track);
+  return row;
+}
+
+function renderArchiveExhibitions() {
+  const past = archiveData().pastExhibitions || {};
+  const rows = resolvePastExhibitionTimelineRows();
+
+  const root = el("div", { class: "archivePage archiveExhibitionsPage archiveExhibitionsPage--timeline" });
+  root.appendChild(renderArchiveBackToCollection());
+  root.appendChild(
+    el("h1", {
+      class: "archivePageTitle archiveExhibitionsTimelineTitle",
+      text: past.heading || "歷屆展覽回顧",
+    })
+  );
+
+  const timeline = el("div", { class: "archiveExhibitionTimeline" });
+  rows.slice(0, 2).forEach((years, index) => {
+    const rowEl = renderPastExhibitionTimelineRow(years, index);
+    if (rowEl) timeline.appendChild(rowEl);
+  });
+  root.appendChild(timeline);
 
   return root;
 }
@@ -1335,9 +1518,12 @@ function renderArchiveBibliographyItem(book, index) {
   const meta = bibliographyMetaLine(book);
 
   const textChildren = [
-    el("h2", { class: "archiveBibliographyTitle", text: book.title || "" }),
+    book.title ? el("h3", { class: "archiveBibliographyTitle", text: book.title }) : null,
     meta ? el("p", { class: "archiveBibliographyMeta", text: meta }) : null,
-    book.description ? el("p", { class: "archiveBibliographyDesc", text: book.description }) : null,
+    el("p", {
+      class: "archiveBibliographyDesc",
+      text: book.description || book.intro || "文本介紹",
+    }),
     isInteractive
       ? el("span", { class: "archiveBibliographyAction", text: `${action.label} ›` })
       : null,
@@ -1395,14 +1581,22 @@ function renderArchiveBibliographyItem(book, index) {
   );
 }
 
-function renderArchiveBibliography() {
-  const data = archiveData();
-  const configured = Array.isArray(data.bibliography) ? data.bibliography : [];
+function resolveBibliographyCategories(data) {
+  const configured = Array.isArray(data.bibliographyCategories) ? data.bibliographyCategories : [];
+  if (configured.length) {
+    return configured.map((category) => ({
+      id: category.id || category.title || "category",
+      title: category.title || "",
+      items: Array.isArray(category.items) ? category.items : [],
+    }));
+  }
+
+  const flat = Array.isArray(data.bibliography) ? data.bibliography : [];
   const legacy = Array.isArray(window.SITE_CONTENT?.research?.bibliography)
     ? window.SITE_CONTENT.research.bibliography
     : [];
-  const items = configured.length
-    ? configured
+  const items = flat.length
+    ? flat
     : legacy.map((book) => ({
         title: book.title,
         author: book.author,
@@ -1413,16 +1607,68 @@ function renderArchiveBibliography() {
         cover: book.cover,
       }));
 
-  const root = el("div", { class: "archivePage archiveBibliographyPage" });
-  const section = data.bibliographySection || {};
-  root.appendChild(el("h1", { class: "archivePageTitle", text: section.heading || "延伸閱讀" }));
-  if (section.body) {
-    root.appendChild(el("p", { class: "archiveIntroBody", text: section.body }));
-  }
+  if (!items.length) return [];
+
+  return [
+    { id: "academic", title: "學術論文", items: items.slice(0, 3) },
+    { id: "reviews", title: "展演評論", items: items.slice(3, 6) },
+    { id: "books", title: "參考書", items: items.slice(6, 9) },
+  ].filter((category) => category.items.length);
+}
+
+function renderArchiveBackToTopButton() {
+  return el("button", {
+    class: "archiveBackToTop",
+    type: "button",
+    text: "▲",
+    "aria-label": "回到頂端",
+    onclick: () => {
+      const shell = document.querySelector(".innerShell");
+      if (shell) {
+        shell.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
+  });
+}
+
+function renderArchiveBibliographyCategory(category, categoryIndex = 0) {
+  const items = Array.isArray(category.items) ? category.items : [];
+  if (!category.title && !items.length) return null;
+
+  const section = el("section", { class: "archiveBibliographyCategory" });
+  section.appendChild(
+    el("h2", { class: "archiveBibliographyCategoryTitle", text: category.title || "" })
+  );
 
   const list = el("div", { class: "archiveBibliographyList" });
-  items.forEach((book, i) => list.appendChild(renderArchiveBibliographyItem(book, i)));
-  root.appendChild(list);
+  items.forEach((book, index) => {
+    list.appendChild(renderArchiveBibliographyItem(book, categoryIndex * 10 + index));
+  });
+  section.appendChild(list);
+  return section;
+}
+
+function renderArchiveBibliography() {
+  const data = archiveData();
+  const categories = resolveBibliographyCategories(data);
+  const sectionMeta = data.bibliographySection || {};
+
+  const root = el("div", { class: "archivePage archiveBibliographyPage" });
+  root.appendChild(el("h1", { class: "archivePageTitle", text: sectionMeta.heading || "延伸閱讀" }));
+  if (sectionMeta.body) {
+    root.appendChild(el("p", { class: "archiveIntroBody archiveBibliographyIntro", text: sectionMeta.body }));
+  }
+
+  const body = el("div", { class: "archiveBibliographyBody" });
+  categories.forEach((category, index) => {
+    const block = renderArchiveBibliographyCategory(category, index);
+    if (block) body.appendChild(block);
+  });
+  root.appendChild(body);
+  root.appendChild(renderArchiveBackToTopButton());
+
   return root;
 }
 
@@ -1523,12 +1769,12 @@ function teacherSummaryText(teacher) {
   const summary = String(teacher?.summary || "").trim();
   if (summary) return summary;
   const bio = String(teacher?.bio || "").trim();
-  if (!bio) return "藝術家教師簡介文字。";
+  if (!bio) return "藝術家介紹";
   return bio.length > 48 ? `${bio.slice(0, 47)}…` : bio;
 }
 
 function teacherDetailText(teacher) {
-  return String(teacher?.detail || teacher?.bio || teacher?.summary || "").trim() || "尚無詳細介紹。";
+  return String(teacher?.detail || teacher?.bio || teacher?.summary || "").trim() || "藝術家介紹";
 }
 
 function openTeacherDetailModal(teacher, index = 0) {
@@ -1622,13 +1868,17 @@ function renderArchiveTeacherProfile(teacher) {
   aside.appendChild(
     el("p", {
       class: "archiveTeachersProfileBio",
-      text: teacher.bio || "簡介……（請在 archive.teachers.byYear 填入教師簡介）",
+      text: teacher.bio || "藝術家介紹",
     })
   );
   return aside;
 }
 
 function teacherPickerHref(year, teacherId, teachersData) {
+  return archiveTeacherNavHref(year, teacherId, teachersData, "teachers");
+}
+
+function archiveTeacherNavHref(year, teacherId, teachersData, section = "teachers") {
   const q = new URLSearchParams({ year });
   if (teacherId && teachersData) {
     const list = teachersData.byYear?.[year]?.teachers || [];
@@ -1640,10 +1890,20 @@ function teacherPickerHref(year, teacherId, teachersData) {
   } else if (teacherId) {
     q.set("teacher", teacherId);
   }
-  return `#archive/teachers?${q.toString()}`;
+  return `#archive/${section}?${q.toString()}`;
 }
 
-function renderArchiveTeacherPicker(teachers, selected, year, years, teachersData) {
+function teacherNotebookIconSrc(name = "") {
+  const label = String(name || "").trim().slice(0, 1) || "日";
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 100'><rect x='14' y='10' width='52' height='80' rx='3' fill='#f2d34a' stroke='#c9a820' stroke-width='1.5'/><rect x='10' y='14' width='8' height='10' rx='4' fill='none' stroke='#8a6d10' stroke-width='2'/><rect x='10' y='30' width='8' height='10' rx='4' fill='none' stroke='#8a6d10' stroke-width='2'/><rect x='10' y='46' width='8' height='10' rx='4' fill='none' stroke='#8a6d10' stroke-width='2'/><rect x='10' y='62' width='8' height='10' rx='4' fill='none' stroke='#8a6d10' stroke-width='2'/><rect x='10' y='78' width='8' height='10' rx='4' fill='none' stroke='#8a6d10' stroke-width='2'/><line x1='22' y1='22' x2='60' y2='22' stroke='#d4b830' stroke-width='1.2'/><text x='40' y='58' text-anchor='middle' fill='#8a6d10' font-family='sans-serif' font-size='16' font-weight='700'>${label}</text></svg>`;
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+}
+
+function renderArchiveTeacherPicker(teachers, selected, year, years, teachersData, options = {}) {
+  const navSection = options.section || "teachers";
+  const useNotebookIcon = options.notebookIcon ?? navSection === "research";
+  const navHref = (y, id) => archiveTeacherNavHref(y, id, teachersData, navSection);
+
   const section = el("section", { class: "archiveTeachersPicker" });
   section.appendChild(
     el("h2", { class: "archiveTeachersPickerTitle", text: `${year}年藝術家教師` })
@@ -1672,6 +1932,13 @@ function renderArchiveTeacherPicker(teachers, selected, year, years, teachersDat
 
   list.forEach((t) => {
     const isActive = t.id === selected?.id;
+    const iconClass = useNotebookIcon
+      ? "archiveTeachersCarouselNotebook"
+      : "archiveTeachersCarouselAvatar";
+    const iconSrc = useNotebookIcon
+      ? teacherNotebookIconSrc(t.name)
+      : t.avatar?.src || ARCHIVE_PLACEHOLDER_AVATAR;
+
     track.appendChild(
       el(
         "button",
@@ -1679,12 +1946,12 @@ function renderArchiveTeacherPicker(teachers, selected, year, years, teachersDat
           class: `archiveTeachersCarouselItem${isActive ? " archiveTeachersCarouselItem--active" : ""}`,
           type: "button",
           "aria-pressed": isActive ? "true" : "false",
-          onclick: () => navigateFromHref(teacherPickerHref(year, t.id, teachersData)),
+          onclick: () => navigateFromHref(navHref(year, t.id)),
         },
         [
           el("img", {
-            class: "archiveTeachersCarouselAvatar",
-            src: t.avatar?.src || ARCHIVE_PLACEHOLDER_AVATAR,
+            class: iconClass,
+            src: iconSrc,
             alt: t.avatar?.alt || t.name || "",
             loading: "lazy",
           }),
@@ -1697,11 +1964,11 @@ function renderArchiveTeacherPicker(teachers, selected, year, years, teachersDat
   if (list.length) {
     prevBtn.addEventListener("click", () => {
       const prev = list[Math.max(0, selectedIndex - 1)];
-      if (prev) navigateFromHref(teacherPickerHref(year, prev.id, teachersData));
+      if (prev) navigateFromHref(navHref(year, prev.id));
     });
     nextBtn.addEventListener("click", () => {
       const next = list[Math.min(list.length - 1, selectedIndex + 1)];
-      if (next) navigateFromHref(teacherPickerHref(year, next.id, teachersData));
+      if (next) navigateFromHref(navHref(year, next.id));
     });
     prevBtn.disabled = selectedIndex <= 0;
     nextBtn.disabled = selectedIndex >= list.length - 1;
@@ -1715,7 +1982,7 @@ function renderArchiveTeacherPicker(teachers, selected, year, years, teachersDat
   carousel.appendChild(nextBtn);
   section.appendChild(carousel);
 
-  section.appendChild(renderArchiveTeacherTimeline(years, year, selected?.id, teachersData));
+  section.appendChild(renderArchiveTeacherTimeline(years, year, selected?.id, teachersData, navSection));
 
   window.requestAnimationFrame(() => {
     const active = track.querySelector(".archiveTeachersCarouselItem--active");
@@ -1727,21 +1994,22 @@ function renderArchiveTeacherPicker(teachers, selected, year, years, teachersDat
   return section;
 }
 
-function renderArchiveTeacherTimeline(years, year, teacherId, teachersData) {
+function renderArchiveTeacherTimeline(years, year, teacherId, teachersData, section = "teachers") {
   const bar = el("div", { class: "archiveTeachersTimeline", role: "tablist", "aria-label": "年份選擇" });
   years.forEach((y) => {
+    const href = archiveTeacherNavHref(y, teacherId, teachersData, section);
     bar.appendChild(
       el(
         "a",
         {
           class: `archiveTeachersTimelineYear${y === year ? " archiveTeachersTimelineYear--active" : ""}`,
-          href: teacherPickerHref(y, teacherId, teachersData),
+          href,
           role: "tab",
           "aria-selected": y === year ? "true" : "false",
           text: y,
           onclick: (e) => {
             e.preventDefault();
-            navigateFromHref(teacherPickerHref(y, teacherId, teachersData));
+            navigateFromHref(href);
           },
         }
       )
@@ -1794,7 +2062,7 @@ function buildPlaceholderJournalPages(teacherName) {
     title: `日誌第 ${i + 1} 頁`,
     date: "",
     color,
-    body: `${name}的教學日誌第 ${i + 1} 頁。\n\n此為翻頁展示用占位文字。請在 content/site-content.json → archive.teachers.journals 填入正式日誌，或改用逐頁 JPG 圖片。`,
+    body: "藝術家教師日誌內容",
   }));
 }
 
@@ -1820,7 +2088,7 @@ function resolveJournalPages(journal, teacherName) {
     pages.push({
       title: `日誌第 ${i + 1} 頁`,
       color: colors[i % colors.length],
-      body: `${name}的教學日誌第 ${i + 1} 頁。\n\n此為翻頁展示用占位文字。請在 content/site-content.json → archive.teachers.journals 填入正式日誌，或改用逐頁 JPG 圖片。`,
+      body: "藝術家教師日誌內容",
     });
   }
   return pages;
@@ -2333,33 +2601,44 @@ function renderResearchBookshelf(bookshelf = {}) {
 
 function renderArchiveResearch() {
   const research = archiveData().research || {};
-  const journals = resolveResearchJournals();
-  const displayJournals = journals.slice(0, 8);
-  while (displayJournals.length < 8) {
-    const index = displayJournals.length;
-    displayJournals.push({
-      id: `journal-placeholder-${index + 1}`,
-      title: `藝術家日誌 ${index + 1}`,
-      artist: `藝術家 ${index + 1}`,
-      pages: [],
-    });
-  }
+  const teachersData = archiveData().teachers || {};
+  const years = Array.isArray(teachersData.years) ? teachersData.years : ["2026"];
+  const params = getHashQuery();
+  const year = params.get("year") || teachersData.defaultYear || years[years.length - 1] || "2026";
+  const yearPack = (teachersData.byYear || {})[year] || {};
+  const teachers = Array.isArray(yearPack.teachers) ? yearPack.teachers : [];
+  const selectedId = params.get("teacher") || (teachers[0] && teachers[0].id) || "";
+  const selected = teachers.find((t) => t.id === selectedId) || teachers[0] || null;
+  const journal = selected ? (teachersData.journals || {})[selected.id] : null;
+  const journalPages = resolveJournalPages(journal, selected?.name);
 
-  const root = el("div", { class: "archivePage archiveResearchPage" });
-  if (research.heading) {
-    root.appendChild(el("h1", { class: "archivePageTitle", text: research.heading }));
-  } else {
-    root.appendChild(el("h1", { class: "archivePageTitle", text: "研究" }));
-  }
-  if (research.body) {
-    root.appendChild(el("p", { class: "archiveIntroBody archiveResearchIntro", text: research.body }));
-  }
+  const root = el("div", { class: "archivePage archiveResearchPage archiveResearchPage--journal" });
+  root.appendChild(el("h1", { class: "archivePageTitle", text: research.heading || "研究" }));
 
-  const grid = el("div", { class: "archiveResearchBookGrid" });
-  displayJournals.forEach((journal, index) => {
-    grid.appendChild(renderResearchBookCard(journal, index));
-  });
-  root.appendChild(el("section", { class: "archiveResearchLibrary" }, [grid]));
+  const journalSec = el("section", { class: "archiveResearchJournal" });
+  journalSec.appendChild(
+    el("h2", { class: "archiveResearchJournalTitle", text: research.journalTitle || "藝術家教師日誌" })
+  );
+  journalSec.appendChild(
+    renderArchiveIssuuFlipbook(
+      journalPages,
+      `research-journal-${year}-${selected?.id || "default"}`
+    )
+  );
+  journalSec.appendChild(
+    el("p", {
+      class: "archiveResearchJournalTeacherName",
+      text: selected?.name || "藝術家教師名字",
+    })
+  );
+  root.appendChild(journalSec);
+
+  root.appendChild(
+    renderArchiveTeacherPicker(teachers, selected, year, years, teachersData, {
+      section: "research",
+      notebookIcon: true,
+    })
+  );
 
   root.appendChild(renderResearchBookshelf(research.bookshelf || {}));
 
@@ -2449,6 +2728,7 @@ function renderArchivePage(main, route) {
       break;
     case "research":
       content = renderArchiveResearch();
+      contentClass = "innerContent--archiveResearchJournal";
       break;
     case "performances":
       content = renderArchivePerformances();

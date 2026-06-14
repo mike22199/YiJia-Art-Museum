@@ -274,7 +274,7 @@ function buildIntroSectionsFromLegacy(detail) {
   sections.push({
     id: "journal",
     title: "藝術家教師日誌",
-    body: "駐校藝術家教師的教學觀察與創作筆記。",
+    body: "藝術家教師日誌內容",
     layout: "books",
     books: carousel.length
       ? carousel.map((item, i) => ({
