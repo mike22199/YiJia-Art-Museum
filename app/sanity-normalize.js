@@ -106,6 +106,138 @@
     };
   }
 
+  function mapArchiveCarouselSlide(slide) {
+    if (!slide) return null;
+    const image = toImageObj(slide.image, slide.title);
+    return {
+      title: slide.title || "",
+      caption: slide.caption || "",
+      image: image || undefined,
+    };
+  }
+
+  function mapArchiveMediaItem(item) {
+    if (!item) return null;
+    const image = toImageObj(item.image, item.title);
+    const out = {
+      title: item.title || "",
+      caption: item.caption || "",
+      keywords: item.keywords || "",
+      image: image || undefined,
+    };
+    if (item.youtubeUrl) {
+      out.youtubeUrl = item.youtubeUrl;
+      out.type = "video";
+    }
+    return out;
+  }
+
+  function mapArchiveMediaSection(section) {
+    if (!section || typeof section !== "object") return null;
+    const byYear = {};
+    const years = [];
+
+    if (Array.isArray(section.yearPacks)) {
+      for (const pack of section.yearPacks) {
+        const year = String(pack?.year || "").trim();
+        if (!year) continue;
+        years.push(year);
+        byYear[year] = {
+          overview: pack.overview || "",
+          items: (Array.isArray(pack.items) ? pack.items : [])
+            .map(mapArchiveMediaItem)
+            .filter(Boolean),
+        };
+      }
+    }
+
+    return {
+      years,
+      perPage: section.perPage || 9,
+      featuredCarousel: (Array.isArray(section.featuredCarousel) ? section.featuredCarousel : [])
+        .map(mapArchiveCarouselSlide)
+        .filter(Boolean),
+      byYear,
+    };
+  }
+
+  function mapResearchJournalPage(page) {
+    if (!page) return null;
+    const image = toImageObj(page.image, page.title);
+    const out = {
+      title: page.title || "",
+      body: page.body || "",
+    };
+    if (page.date) out.date = page.date;
+    if (page.color) out.color = page.color;
+    if (image) out.image = image;
+    return out;
+  }
+
+  function mapArchiveResearch(section) {
+    if (!section || typeof section !== "object") return null;
+
+    const bookshelfImage = toImageObj(section.bookshelfImage, "書櫃");
+    const research = {
+      heading: section.heading || "研究",
+      journalTitle: section.journalTitle || "藝術家教師日誌",
+      bookshelf: {
+        heading: section.bookshelfHeading || "書櫃典藏",
+        caption: section.bookshelfCaption || "",
+        image: bookshelfImage || {
+          src: "./assets/images/Journal/Book-shelf.png",
+          alt: "書櫃",
+        },
+        accessTitle: section.bookshelfAccessTitle || "索取閱讀權限",
+        accessMessage:
+          section.bookshelfAccessMessage || "若是要閱讀，請與網頁負責人要求存取權。",
+        lockedBooks: Array.isArray(section.bookshelfLockedBooks)
+          ? section.bookshelfLockedBooks
+          : [],
+      },
+    };
+
+    const teachers = {
+      years: [],
+      byYear: {},
+      journals: {},
+    };
+
+    if (Array.isArray(section.yearPacks)) {
+      for (const pack of section.yearPacks) {
+        const year = String(pack?.year || "").trim();
+        if (!year) continue;
+        teachers.years.push(year);
+
+        const yearTeachers = Array.isArray(pack.teachers) ? pack.teachers : [];
+        teachers.byYear[year] = {
+          title: `${year}年藝術家教師`,
+          teachers: yearTeachers.map((t) => ({
+            id: t.id || "",
+            name: t.name || "",
+          })),
+        };
+
+        const journalList = Array.isArray(pack.journals) ? pack.journals : [];
+        for (const journal of journalList) {
+          const teacherId = String(journal?.teacherId || "").trim();
+          if (!teacherId) continue;
+          teachers.journals[teacherId] = {
+            pages: (Array.isArray(journal.pages) ? journal.pages : [])
+              .map(mapResearchJournalPage)
+              .filter(Boolean),
+          };
+        }
+      }
+    }
+
+    if (teachers.years.length) {
+      teachers.defaultYear = teachers.years[teachers.years.length - 1];
+    }
+
+    return { research, teachers };
+  }
+
   window.normalizeSanitySiteContent = function normalizeSanitySiteContent(doc, fallback) {
     const base = fallback && typeof fallback === "object" ? structuredClone(fallback) : {};
 
@@ -153,6 +285,32 @@
     const right = mapExhibition(doc.exhibitionRight, "exhibition-right");
     if (left) base.exhibitions["exhibition-left"] = left;
     if (right) base.exhibitions["exhibition-right"] = right;
+
+    base.archive = base.archive || {};
+    const photos = mapArchiveMediaSection(doc.archivePhotos);
+    if (photos) base.archive.photos = photos;
+    const videos = mapArchiveMediaSection(doc.archiveVideos);
+    if (videos) base.archive.videos = videos;
+
+    const researchMapped = mapArchiveResearch(doc.archiveResearch);
+    if (researchMapped) {
+      base.archive.research = researchMapped.research;
+      if (researchMapped.teachers?.years?.length) {
+        base.archive.teachers = base.archive.teachers || {};
+        const existing = base.archive.teachers;
+        existing.years = researchMapped.teachers.years;
+        existing.defaultYear =
+          researchMapped.teachers.defaultYear || existing.defaultYear;
+        existing.byYear = {
+          ...(existing.byYear || {}),
+          ...researchMapped.teachers.byYear,
+        };
+        existing.journals = {
+          ...(existing.journals || {}),
+          ...researchMapped.teachers.journals,
+        };
+      }
+    }
 
     return base;
   };

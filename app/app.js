@@ -163,45 +163,250 @@ function zoneHotspotStyle(hs) {
 
 function zoneNavStyle(zone) {
   const nav = zone.nav || {};
-  const left = nav.left || hotspotCenterX(zone.hotspot);
-  return `left:${left};width:${nav.width || "14%"};`;
+  const parts = [];
+  if (nav.left) parts.push(`left:${nav.left}`);
+  if (nav.right) parts.push(`right:${nav.right}`);
+  if (nav.bottom != null) parts.push(`bottom:${nav.bottom}`);
+  else parts.push("bottom:0");
+  if (nav.width) parts.push(`width:${nav.width}`);
+  if (nav.height) parts.push(`height:${nav.height}`);
+  return parts.join(";");
+}
+
+function homeBoxStyle(box) {
+  if (!box) return "";
+  return [
+    box.left != null ? `left:${box.left}` : "",
+    box.top != null ? `top:${box.top}` : "",
+    box.right != null ? `right:${box.right}` : "",
+    box.bottom != null ? `bottom:${box.bottom}` : "",
+    box.width ? `width:${box.width}` : "",
+    box.height ? `height:${box.height}` : "",
+  ]
+    .filter(Boolean)
+    .join(";");
+}
+
+function renderSwapImages(defaultSrc, hoverSrc) {
+  return [
+    el("img", {
+      class: "museumSwapArt museumSwapArt--default",
+      src: defaultSrc,
+      alt: "",
+      loading: "eager",
+    }),
+    el("img", {
+      class: "museumSwapArt museumSwapArt--hover",
+      src: hoverSrc,
+      alt: "",
+      loading: "eager",
+    }),
+  ];
+}
+
+function renderSwapLink(className, href, label, box, defaultSrc, hoverSrc) {
+  return el(
+    "a",
+    {
+      class: className,
+      href: href || "#home/index",
+      style: homeBoxStyle(box),
+      "aria-label": label || "入口",
+      onclick: (e) => {
+        e.preventDefault();
+        navigateFromHref(href);
+      },
+    },
+    renderSwapImages(defaultSrc, hoverSrc)
+  );
+}
+
+
+let museumStageFitCleanup = null;
+
+function bindMuseumStageFit(stage) {
+  const inner = stage?.querySelector(".museumStageInner");
+  if (!inner) return;
+
+  if (museumStageFitCleanup) {
+    museumStageFitCleanup();
+    museumStageFitCleanup = null;
+  }
+
+  const update = () => {
+    const vv = window.visualViewport;
+    const vw = Math.round(vv?.width ?? window.innerWidth);
+    const vh = Math.round(vv?.height ?? window.innerHeight);
+    // 一律 contain：完整顯示 1920×1080，所有視窗尺寸行為一致
+    const scale = Math.min(vw / 1920, vh / 1080);
+    inner.style.setProperty("--home-scale", String(scale));
+    stage.dataset.fit = "contain";
+  };
+
+  update();
+
+  const onResize = () => update();
+  window.addEventListener("resize", onResize, { passive: true });
+  window.addEventListener("orientationchange", onResize, { passive: true });
+  const vv = window.visualViewport;
+  if (vv) vv.addEventListener("resize", onResize, { passive: true });
+
+  const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(onResize) : null;
+  if (ro) ro.observe(stage);
+
+  museumStageFitCleanup = () => {
+    window.removeEventListener("resize", onResize);
+    window.removeEventListener("orientationchange", onResize);
+    if (vv) vv.removeEventListener("resize", onResize);
+    if (ro) ro.disconnect();
+  };
+}
+
+/** 1920×1080 畫布座標（對照 home-reference.jpg）→ 百分比 */
+const HOME_LAYOUT_REF = {
+  bannerLeft: { x: 316, y: 404, w: 179, h: 461 },
+  bannerRight: { x: 1425, y: 404, w: 179, h: 461 },
+  door: { x: 853, y: 578, w: 215, h: 243 },
+  navLeft: { x: 358, y: 969, w: 178, h: 111 },
+  navCenter: { x: 856, y: 969, w: 209, h: 111 },
+  navRight: { x: 1384, y: 969, w: 178, h: 111 },
+};
+
+function layoutBoxToPercent(box) {
+  const W = 1920;
+  const H = 1080;
+  return {
+    left: `${(box.x / W) * 100}%`,
+    top: `${(box.y / H) * 100}%`,
+    width: `${(box.w / W) * 100}%`,
+    height: `${(box.h / H) * 100}%`,
+    bottom: box.bottom != null ? `${(box.bottom / H) * 100}%` : undefined,
+  };
+}
+
+function layoutNavBox(box) {
+  const W = 1920;
+  const H = 1080;
+  return {
+    left: `${(box.x / W) * 100}%`,
+    bottom: "0",
+    width: `${(box.w / W) * 100}%`,
+    height: `${(box.h / H) * 100}%`,
+  };
+}
+
+const HOME_ASSET_DEFAULTS = {
+  door: {
+    default: "./assets/images/home/door.png",
+    hover: "./assets/images/home/Door-Open.png",
+    ...layoutBoxToPercent(HOME_LAYOUT_REF.door),
+  },
+  bannerLeft: {
+    default: "./assets/images/home/Banner-Left.png",
+    hover: "./assets/images/home/Banner-Left-Open.png",
+    ...layoutBoxToPercent(HOME_LAYOUT_REF.bannerLeft),
+  },
+  bannerRight: {
+    default: "./assets/images/home/Banner-Left.png",
+    hover: "./assets/images/home/Banner-Left-Open.png",
+    left: `${(HOME_LAYOUT_REF.bannerRight.x / 1920) * 100}%`,
+    top: `${(HOME_LAYOUT_REF.bannerRight.y / 1080) * 100}%`,
+    width: `${(HOME_LAYOUT_REF.bannerRight.w / 1920) * 100}%`,
+    height: `${(HOME_LAYOUT_REF.bannerRight.h / 1080) * 100}%`,
+  },
+  nav: {
+    left: {
+      image: "./assets/images/home/exhibition-right.png",
+      imageHover: "./assets/images/home/exhibition-right-Open.png",
+      ...layoutNavBox(HOME_LAYOUT_REF.navLeft),
+    },
+    center: {
+      image: "./assets/images/home/archive.png",
+      imageHover: "./assets/images/home/archive-Open.png",
+      ...layoutNavBox(HOME_LAYOUT_REF.navCenter),
+    },
+    right: {
+      image: "./assets/images/home/exhibition-right.png",
+      imageHover: "./assets/images/home/exhibition-right-Open.png",
+      ...layoutNavBox(HOME_LAYOUT_REF.navRight),
+    },
+  },
+};
+
+function homeAssetBox(layers, key) {
+  const raw = layers?.[key];
+  if (typeof raw === "string" && raw.trim()) {
+    return { ...HOME_ASSET_DEFAULTS[key], default: raw.trim() };
+  }
+  if (!raw || typeof raw !== "object") return { ...HOME_ASSET_DEFAULTS[key] };
+  return { ...HOME_ASSET_DEFAULTS[key], ...raw };
+}
+
+function homeNavAsset(zone, layers) {
+  const navKey = zone.id === "center" ? "center" : zone.id === "right" ? "right" : "left";
+  const defaults = HOME_ASSET_DEFAULTS.nav[navKey];
+  const layerNav = layers?.nav?.[navKey] || {};
+  const zoneNav = zone.nav || {};
+  return {
+    left: zoneNav.left ?? layerNav.left ?? defaults.left,
+    right: zoneNav.right ?? layerNav.right ?? defaults.right,
+    bottom: zoneNav.bottom ?? layerNav.bottom ?? defaults.bottom,
+    top: zoneNav.top ?? layerNav.top ?? defaults.top,
+    width: zoneNav.width ?? layerNav.width ?? defaults.width,
+    height: zoneNav.height ?? layerNav.height ?? defaults.height,
+    image: homeLayerSrc(zoneNav, "image", null) || homeLayerSrc(layerNav, "image", null) || defaults.image,
+    imageHover:
+      homeLayerSrc(zoneNav, "imageHover", null) ||
+      homeLayerSrc(layerNav, "imageHover", null) ||
+      defaults.imageHover,
+  };
 }
 
 function defaultHomeZones() {
   return [
     {
       id: "left",
-      label: "開幕展",
-      title: "開幕展（左）",
+      label: "特展",
+      title: "特展（左）",
       href: "#exhibition-left/about",
-      hotspot: { left: "20.5%", top: "35.5%", width: "5.7%", height: "23.5%" },
-      nav: { left: "23.3%" },
+      nav: { ...HOME_ASSET_DEFAULTS.nav.left },
     },
     {
       id: "center",
       label: "檔案庫",
-      title: "典藏庫",
-      href: "#classics/years",
+      title: "典藏",
+      href:
+        (typeof archiveCollectionNavHref === "function" && archiveCollectionNavHref()) ||
+        "#archive/collection",
       accent: true,
-      hotspot: { left: "46.7%", top: "62%", width: "6.6%", height: "10.5%" },
-      nav: { left: "50%" },
+      nav: { ...HOME_ASSET_DEFAULTS.nav.center },
     },
     {
       id: "right",
-      label: "開幕展",
-      title: "開幕展（右）",
+      label: "特展",
+      title: "特展（右）",
       href: "#exhibition-right/about",
-      hotspot: { left: "73.8%", top: "35.5%", width: "5.7%", height: "23.5%" },
-      nav: { left: "76.7%" },
+      nav: { ...HOME_ASSET_DEFAULTS.nav.right },
     },
   ];
 }
 
+function homeLayerSrc(layers, key, fallback) {
+  const value = layers?.[key];
+  return typeof value === "string" && value.trim() ? value.trim() : fallback;
+}
+
 function renderHome(main) {
-  const homeImage = window.SITE_CONTENT?.homeImage || "./assets/images/mainsite.png";
-  const zones = Array.isArray(window.SITE_CONTENT?.homeZones)
-    ? window.SITE_CONTENT.homeZones
-    : defaultHomeZones();
+  const content = window.SITE_CONTENT || {};
+  const layers = content.homeLayers || {};
+  const baseSrc =
+    homeLayerSrc(layers, "base", null) ||
+    content.homeImage ||
+    "./assets/images/home/home-base.jpg";
+  const door = homeAssetBox(layers, "door");
+  const bannerLeft = homeAssetBox(layers, "bannerLeft");
+  const bannerRight = homeAssetBox(layers, "bannerRight");
+  const zones = Array.isArray(content.homeZones) ? content.homeZones : defaultHomeZones();
 
   document.body.classList.add("isHomePage");
   main.classList.remove("mainSingle");
@@ -209,63 +414,63 @@ function renderHome(main) {
 
   const root = el("div", { class: "home homeMuseum" });
 
-  const stage = el("div", { class: "museumStage" }, [
+  const stageInnerChildren = [
     el("img", {
-      class: "museumPhoto",
-      src: homeImage,
+      class: "museumPhoto museumPhoto--base",
+      src: baseSrc,
       alt: "義家藝館首頁",
       loading: "eager",
     }),
-    el(
-      "div",
-      { class: "museumHotspots", "aria-label": "首頁入口" },
-      zones.map((zone) => {
-        const hs = zone.hotspot || {};
-
-        return el(
-          "a",
-          {
-            class: `museumHotspot museumHotspot--${zone.id || "zone"}${zone.accent ? " museumHotspot--accent" : ""}`,
-            href: zone.href || "#home/index",
-            style: zoneHotspotStyle(hs),
-            "aria-label": zone.title || zone.label || "入口",
-            onclick: (e) => {
-              e.preventDefault();
-              navigateFromHref(zone.href);
-            },
-          },
-          [el("span", { class: "museumHotspotLabel", text: zone.title || zone.label || "" })]
-        );
-      })
+    renderSwapLink(
+      "museumProp museumProp--banner-left",
+      zones.find((z) => z.id === "left")?.href || "#exhibition-left/about",
+      zones.find((z) => z.id === "left")?.title || "特展（左）",
+      bannerLeft,
+      bannerLeft.default,
+      bannerLeft.hover
+    ),
+    renderSwapLink(
+      "museumProp museumProp--banner-right",
+      zones.find((z) => z.id === "right")?.href || "#exhibition-right/about",
+      zones.find((z) => z.id === "right")?.title || "特展（右）",
+      bannerRight,
+      bannerRight.default,
+      bannerRight.hover
+    ),
+    renderSwapLink(
+      "museumProp museumProp--door",
+      zones.find((z) => z.id === "center")?.href ||
+        (typeof archiveCollectionNavHref === "function" && archiveCollectionNavHref()) ||
+        "#archive/collection",
+      zones.find((z) => z.id === "center")?.title || "典藏",
+      door,
+      door.default,
+      door.hover
     ),
     el(
       "nav",
       { class: "museumNav", "aria-label": "首頁導覽" },
-      zones.map((zone) =>
-        el(
-          "a",
-          {
-            class: `museumNavItem museumNavItem--${zone.id || "zone"}${zone.accent ? " museumNavItem--accent" : ""}`,
-            href: zone.href || "#home/index",
-            style: zoneNavStyle(zone),
-            "aria-label": zone.label || zone.title || "入口",
-            onclick: (e) => {
-              e.preventDefault();
-              navigateFromHref(zone.href);
-            },
-          },
-          [
-            el("span", { class: "museumNavIcon", "aria-hidden": "true" }),
-            el("span", { class: "museumNavText", text: zone.label || zone.title || "" }),
-          ]
-        )
-      )
+      zones.map((zone) => {
+        const navAsset = homeNavAsset(zone, layers);
+        return renderSwapLink(
+          `museumNavItem museumNavItem--${zone.id || "zone"}`,
+          zone.href,
+          zone.label || zone.title,
+          navAsset,
+          navAsset.image,
+          navAsset.imageHover
+        );
+      })
     ),
-  ]);
+  ];
+
+  const stageInner = el("div", { class: "museumStageInner" }, stageInnerChildren);
+  const stage = el("div", { class: "museumStage" }, [stageInner]);
 
   root.appendChild(el("section", { class: "homeMuseumArea" }, [stage]));
   main.innerHTML = "";
   main.appendChild(root);
+  bindMuseumStageFit(stage);
 }
 
 function renderCoCreate(main) {
@@ -1035,6 +1240,8 @@ async function loadSiteContent() {
   if (!fallbackRes.ok) throw new Error(`HTTP ${fallbackRes.status}`);
   const fallback = await fallbackRes.json();
 
+  let content = fallback;
+
   if (projectId) {
     try {
       const query = encodeURIComponent('*[_type == "siteContent"][0]');
@@ -1045,16 +1252,24 @@ async function loadSiteContent() {
       if (res.ok) {
         const payload = await res.json();
         if (payload?.result && typeof window.normalizeSanitySiteContent === "function") {
-          return window.normalizeSanitySiteContent(payload.result, fallback);
+          content = window.normalizeSanitySiteContent(payload.result, fallback);
+        } else if (payload?.result) {
+          content = payload.result;
         }
-        if (payload?.result) return payload.result;
       }
     } catch (err) {
       console.warn("Sanity 讀取失敗，改使用本地 JSON：", err);
     }
   }
 
-  return fallback;
+  if (typeof window.mergeArchiveFolderContent === "function") {
+    content = await window.mergeArchiveFolderContent(content);
+  }
+  if (typeof window.mergeResearchFolderContent === "function") {
+    content = await window.mergeResearchFolderContent(content);
+  }
+
+  return content;
 }
 
 window.addEventListener("DOMContentLoaded", async () => {

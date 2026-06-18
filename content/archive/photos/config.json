@@ -1,0 +1,31 @@
+{
+  "override": true,
+  "years": ["2025"],
+  "perPage": 9,
+  "featuredCarousel": [
+    {
+      "title": "精選照片一",
+      "caption": "輪播說明（可選）",
+      "image": {
+        "src": "./assets/images/placeholder-photo.svg",
+        "alt": "精選照片一"
+      }
+    },
+    {
+      "title": "精選照片二",
+      "caption": "輪播說明（可選）",
+      "image": {
+        "src": "./assets/images/placeholder-photo.svg",
+        "alt": "精選照片二"
+      }
+    },
+    {
+      "title": "精選照片三",
+      "caption": "輪播說明（可選）",
+      "image": {
+        "src": "./assets/images/placeholder-photo.svg",
+        "alt": "精選照片三"
+      }
+    }
+  ]
+}

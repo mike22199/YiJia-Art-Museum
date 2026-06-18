@@ -1,0 +1,41 @@
+{
+  "override": true,
+  "years": ["2027"],
+  "tabYears": ["2019", "2020", "2021", "2022", "2027"],
+  "defaultYear": "2027",
+  "heading": "研究",
+  "journalTitle": "藝術家教師日誌",
+  "bookshelf": {
+    "image": {
+      "src": "./assets/images/Journal/Book-shelf.png",
+      "alt": "書櫃"
+    },
+    "accessTitle": "索取閱讀權限",
+    "accessMessage": "若是要閱讀，請與網頁負責人要求存取權。",
+    "shelfBooks": [
+      { "id": "b01", "hotspot": { "left": "5.3%", "top": "19%", "width": "2.3%", "height": "62%" } },
+      { "id": "b02", "hotspot": { "left": "7.8%", "top": "19%", "width": "2.7%", "height": "62%" } },
+      { "id": "b03", "hotspot": { "left": "10.8%", "top": "19%", "width": "2.2%", "height": "62%" } },
+      { "id": "b04", "hotspot": { "left": "13.2%", "top": "19%", "width": "2.5%", "height": "62%" } },
+      { "id": "b05", "hotspot": { "left": "15.9%", "top": "19%", "width": "1.9%", "height": "62%" } },
+      { "id": "b06", "hotspot": { "left": "18.0%", "top": "19%", "width": "1.9%", "height": "62%" } },
+      { "id": "b07", "hotspot": { "left": "20.1%", "top": "19%", "width": "2.2%", "height": "62%" } },
+      { "id": "b08", "hotspot": { "left": "22.5%", "top": "19%", "width": "2.2%", "height": "62%" } },
+      { "id": "b09", "hotspot": { "left": "24.9%", "top": "19%", "width": "2.4%", "height": "62%" } },
+      { "id": "b10", "hotspot": { "left": "27.5%", "top": "19%", "width": "2.4%", "height": "62%" } },
+      { "id": "b11", "hotspot": { "left": "30.1%", "top": "19%", "width": "2.2%", "height": "62%" } },
+      { "id": "b12", "hotspot": { "left": "32.5%", "top": "19%", "width": "2.2%", "height": "62%" } },
+      { "id": "b13", "hotspot": { "left": "34.9%", "top": "19%", "width": "2.2%", "height": "62%" } },
+      { "id": "b14", "hotspot": { "left": "37.3%", "top": "19%", "width": "2.2%", "height": "62%" } },
+      { "id": "b15", "hotspot": { "left": "39.7%", "top": "19%", "width": "2.2%", "height": "62%" } },
+      { "id": "b16", "hotspot": { "left": "42.1%", "top": "19%", "width": "1.5%", "height": "62%" } },
+      { "id": "b17", "hotspot": { "left": "43.8%", "top": "19%", "width": "4.0%", "height": "62%" } },
+      { "id": "b18", "hotspot": { "left": "48.2%", "top": "19%", "width": "2.7%", "height": "62%" } },
+      { "id": "b19", "hotspot": { "left": "51.1%", "top": "19%", "width": "2.5%", "height": "62%" } },
+      { "id": "b20", "hotspot": { "left": "53.8%", "top": "19%", "width": "2.7%", "height": "62%" } },
+      { "id": "b21", "hotspot": { "left": "56.7%", "top": "19%", "width": "2.5%", "height": "62%" } },
+      { "id": "b22", "hotspot": { "left": "59.4%", "top": "19%", "width": "2.7%", "height": "62%" } },
+      { "id": "b23", "hotspot": { "left": "62.3%", "top": "19%", "width": "2.9%", "height": "62%" } }
+    ]
+  }
+}

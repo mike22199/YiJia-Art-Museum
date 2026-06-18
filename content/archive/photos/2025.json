@@ -1,0 +1,66 @@
+{
+  "overview": "此為 2025 年田野踏查照片紀錄的示範介紹文字。正式內容請在此撰寫，或透過 Sanity CMS 編輯。",
+  "items": [
+    {
+      "title": "照片一",
+      "caption": "田野踏查紀錄照片一",
+      "keywords": "踏查 2025",
+      "image": { "src": "./assets/images/placeholder-photo.svg", "alt": "照片一" }
+    },
+    {
+      "title": "照片二",
+      "caption": "田野踏查紀錄照片二",
+      "image": { "src": "./assets/images/placeholder-photo.svg", "alt": "照片二" }
+    },
+    {
+      "title": "照片三",
+      "caption": "田野踏查紀錄照片三",
+      "image": { "src": "./assets/images/placeholder-photo.svg", "alt": "照片三" }
+    },
+    {
+      "title": "照片四",
+      "caption": "田野踏查紀錄照片四",
+      "image": { "src": "./assets/images/placeholder-photo.svg", "alt": "照片四" }
+    },
+    {
+      "title": "照片五",
+      "caption": "田野踏查紀錄照片五",
+      "image": { "src": "./assets/images/placeholder-photo.svg", "alt": "照片五" }
+    },
+    {
+      "title": "照片六",
+      "caption": "田野踏查紀錄照片六",
+      "image": { "src": "./assets/images/placeholder-photo.svg", "alt": "照片六" }
+    },
+    {
+      "title": "照片七",
+      "caption": "田野踏查紀錄照片七",
+      "image": { "src": "./assets/images/placeholder-photo.svg", "alt": "照片七" }
+    },
+    {
+      "title": "照片八",
+      "caption": "田野踏查紀錄照片八",
+      "image": { "src": "./assets/images/placeholder-photo.svg", "alt": "照片八" }
+    },
+    {
+      "title": "照片九",
+      "caption": "田野踏查紀錄照片九",
+      "image": { "src": "./assets/images/placeholder-photo.svg", "alt": "照片九" }
+    },
+    {
+      "title": "照片十",
+      "caption": "田野踏查紀錄照片十",
+      "image": { "src": "./assets/images/placeholder-photo.svg", "alt": "照片十" }
+    },
+    {
+      "title": "照片十一",
+      "caption": "田野踏查紀錄照片十一",
+      "image": { "src": "./assets/images/placeholder-photo.svg", "alt": "照片十一" }
+    },
+    {
+      "title": "照片十二",
+      "caption": "田野踏查紀錄照片十二",
+      "image": { "src": "./assets/images/placeholder-photo.svg", "alt": "照片十二" }
+    }
+  ]
+}

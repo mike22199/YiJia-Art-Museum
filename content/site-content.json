@@ -9,78 +9,120 @@
       "alt": "義家藝館 logo"
     },
     "headerLogo": {
-      "src": "./app/house.svg",
+      "building": "./assets/images/layout/logo-building.png",
+      "title": "./assets/images/layout/logo-title.png",
       "alt": "義家藝館"
     },
-    "headerNav": [
-      {
-        "id": "archive",
-        "label": "檔案庫",
-        "href": "#archive/collection"
-      },
-      {
-        "id": "co-create",
-        "label": "共創",
-        "href": "#co-create/text"
-      }
-    ],
     "footer": {
-      "address": "112 台北市北投區石牌路二段201號",
-      "phone": "02-28227101",
-      "fax": "02-28227102",
-      "email": "fifi@ntua.edu.tw",
+      "addressZh": "112-01 臺北市北投區學園路1號",
+      "addressEn": "No.1, Xueyuan Road., Beitou District., Taipei City 112, Taiwan (R.O.C.)",
+      "phone": "+886-2-2896-1000 # 3452",
+      "fax": "+886-2-7750-7260",
+      "email": "a_hedu@www.tnua.edu.tw",
       "social": {
         "youtube": "https://www.youtube.com/",
         "facebook": "https://www.facebook.com/"
       }
     }
   },
-  "homeImage": "./assets/images/mainsite.png",
+  "layout": {
+    "headerBg": "./assets/images/layout/header-bg.png",
+    "subnavBg": "./assets/images/layout/subnav-bg.jpg",
+    "footerBg": "./assets/images/layout/footer-bg.png",
+    "logoBuilding": "./assets/images/layout/logo-building.png",
+    "logoTitle": "./assets/images/layout/logo-title.png",
+    "iconSearch": "./assets/images/layout/icon-search.png",
+    "partnerLogos": "./assets/images/layout/partner-logo.png",
+    "iconYoutube": "./assets/images/layout/icon-youtube.png",
+    "iconFacebook": "./assets/images/layout/icon-facebook.png"
+  },
+  "collectionSubnav": [
+    {
+      "id": "exhibitions",
+      "label": "歷屆網站",
+      "href": "#archive/exhibitions"
+    },
+    {
+      "id": "photos",
+      "label": "照片紀錄",
+      "href": "#archive/photos"
+    },
+    {
+      "id": "videos",
+      "label": "動態影音紀錄",
+      "href": "#archive/videos"
+    }
+  ],
+  "homeImage": "./assets/images/home/home-base.jpg",
+  "homeLayers": {
+    "base": "./assets/images/home/home-base.jpg",
+    "door": {
+      "default": "./assets/images/home/door.png",
+      "hover": "./assets/images/home/Door-Open.png",
+      "left": "44.70%",
+      "top": "63.9%",
+      "width": "11.1%",
+      "height": "22.4%"
+    },
+    "bannerLeft": {
+      "default": "./assets/images/home/Banner-Left.png",
+      "hover": "./assets/images/home/Banner-Left-Open.png",
+      "left": "20%",
+      "top": "37.41%",
+      "width": "9.32%",
+      "height": "42.69%"
+    },
+    "bannerRight": {
+      "default": "./assets/images/home/Banner-Left.png",
+      "hover": "./assets/images/home/Banner-Left-Open.png",
+      "left": "71%",
+      "top": "37.41%",
+      "width": "9.32%",
+      "height": "42.69%"
+    }
+  },
   "homeZones": [
     {
       "id": "left",
-      "label": "開幕展",
-      "title": "開幕展（左）",
+      "label": "特展",
+      "title": "特展（左）",
       "href": "#exhibition-left/about",
-      "hotspot": {
-        "left": "22.4%",
-        "top": "40.5%",
-        "width": "5.0%",
-        "height": "35%"
-      },
       "nav": {
-        "left": "23.3%"
+        "image": "./assets/images/home/exhibition-right.png",
+        "imageHover": "./assets/images/home/exhibition-right-Open.png",
+        "left": "18.65%",
+        "bottom": "0",
+        "width": "9.27%",
+        "height": "10.28%"
       }
     },
     {
       "id": "center",
       "label": "檔案庫",
-      "title": "義家藝館",
+      "title": "典藏",
       "href": "#archive/collection",
       "accent": true,
-      "hotspot": {
-        "left": "48.6%",
-        "top": "69.9%",
-        "width": "4.5%",
-        "height": "10.5%"
-      },
       "nav": {
-        "left": "50%"
+        "image": "./assets/images/home/archive.png",
+        "imageHover": "./assets/images/home/archive-Open.png",
+        "left": "44.58%",
+        "bottom": "0",
+        "width": "10.89%",
+        "height": "10.28%"
       }
     },
     {
       "id": "right",
-      "label": "開幕展",
-      "title": "開幕展（右）",
+      "label": "特展",
+      "title": "特展（右）",
       "href": "#exhibition-right/about",
-      "hotspot": {
-        "left": "73.2%",
-        "top": "40.5%",
-        "width": "5.0%",
-        "height": "35%"
-      },
       "nav": {
-        "left": "76.7%"
+        "image": "./assets/images/home/exhibition-right.png",
+        "imageHover": "./assets/images/home/exhibition-right-Open.png",
+        "left": "72.08%",
+        "bottom": "0",
+        "width": "9.27%",
+        "height": "10.28%"
       }
     }
   ],
@@ -262,10 +304,10 @@
           {
             "year": "2026",
             "image": {
-              "src": "./app/house.svg",
-              "alt": "義家藝館建築"
+              "src": "./assets/images/layout/Building-2026.png",
+              "alt": "2026 義家藝館"
             },
-            "imagePosition": "below",
+            "imagePosition": "above",
             "links": [
               {
                 "label": "網站",
@@ -309,8 +351,8 @@
           {
             "year": "2021",
             "image": {
-              "src": "./assets/images/year-2021-detail.png",
-              "alt": "2021 家X書海報"
+              "src": "./assets/images/layout/Building-2021.png",
+              "alt": "2021 家X書"
             },
             "imagePosition": "above",
             "links": [
@@ -402,10 +444,10 @@
           {
             "year": "2016",
             "image": {
-              "src": "./app/logo.svg",
-              "alt": "2016 版畫"
+              "src": "./assets/images/layout/Building-2016.png",
+              "alt": "2016 義家藝館"
             },
-            "imagePosition": "below",
+            "imagePosition": "above",
             "links": [
               {
                 "label": "網站",
@@ -633,6 +675,8 @@
     }
   },
   "archive": {
+    "collectionHomeEnabled": false,
+    "defaultCollectionSection": "exhibitions",
     "home": {
       "banner": {
         "title": "義家藝館檔案庫",
@@ -921,7 +965,7 @@
         ]
       },
       "staticImagesPreview": {
-        "title": "靜態影像",
+        "title": "照片紀錄",
         "moreHref": "#archive/photos",
         "moreLabel": "了解更多＞",
         "items": [
@@ -952,7 +996,7 @@
         ]
       },
       "dynamicImagesPreview": {
-        "title": "動態影像",
+        "title": "動態影音紀錄",
         "moreHref": "#archive/videos",
         "moreLabel": "了解更多＞",
         "items": [
@@ -984,7 +1028,7 @@
       }
     },
     "pastExhibitions": {
-      "heading": "歷屆展覽回顧",
+      "heading": "歷屆網站",
       "rows": [
         [
           "2026",
@@ -2732,21 +2776,26 @@
       ]
     },
     "performances": {
+      "heading": "最新展演",
       "banners": [
         {
-          "title": "推開自由門",
-          "href": "#exhibition-left/about",
+          "title": "成為自由人",
+          "author": "作者xxx",
+          "period": "展期",
+          "href": "#exhibition-right/about",
           "image": {
-            "src": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%201920%20540'%3E%3Crect%20width%3D'1920'%20height%3D'540'%20fill%3D'%23b82020'%2F%3E%3Ctext%20x%3D'960'%20y%3D'270'%20text-anchor%3D'middle'%20fill%3D'%23fff'%20font-family%3D'sans-serif'%20font-size%3D'48'%20font-weight%3D'700'%3E%E6%8E%A8%E9%96%8B%E8%87%AA%E7%94%B1%E9%96%80%3C%2Ftext%3E%3C%2Fsvg%3E",
-            "alt": "推開自由門"
+            "src": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%201200%20360'%3E%3Crect%20width%3D'1200'%20height%3D'360'%20fill%3D'%23b8b4b0'%2F%3E%3C%2Fsvg%3E",
+            "alt": "成為自由人"
           }
         },
         {
-          "title": "成為自由人",
-          "href": "#exhibition-right/about",
+          "title": "推開自由門",
+          "author": "作者xxx",
+          "period": "展期",
+          "href": "#exhibition-left/about",
           "image": {
-            "src": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%201920%20540'%3E%3Crect%20width%3D'1920'%20height%3D'540'%20fill%3D'%232a6b8c'%2F%3E%3Ctext%20x%3D'960'%20y%3D'270'%20text-anchor%3D'middle'%20fill%3D'%23fff'%20font-family%3D'sans-serif'%20font-size%3D'48'%20font-weight%3D'700'%3E%E6%88%90%E7%82%BA%E8%87%AA%E7%94%B1%E4%BA%BA%3C%2Ftext%3E%3C%2Fsvg%3E",
-            "alt": "成為自由人"
+            "src": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%201200%20360'%3E%3Crect%20width%3D'1200'%20height%3D'360'%20fill%3D'%23b8b4b0'%2F%3E%3C%2Fsvg%3E",
+            "alt": "推開自由門"
           }
         }
       ]
@@ -2758,7 +2807,7 @@
         "heading": "書櫃典藏",
         "caption": "點選書櫃上的書本，了解如何申請閱讀權限。",
         "image": {
-          "src": "./assets/images/bookshelf.svg",
+          "src": "./assets/images/Journal/Book-shelf.png",
           "alt": "書櫃"
         },
         "accessTitle": "索取閱讀權限",

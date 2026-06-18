@@ -3,6 +3,36 @@
 const ARCHIVE_PLACEHOLDER_PHOTO = "./assets/images/placeholder-photo.svg";
 const ARCHIVE_PLACEHOLDER_BOOK = "./assets/images/placeholder-book.svg";
 const ARCHIVE_PLACEHOLDER_AVATAR = "./app/house.svg";
+const JOURNAL_OPEN_BOOK = "./assets/images/Journal/open-book.png";
+const JOURNAL_CLOSE_BOOK = "./assets/images/Journal/Close-book.png";
+const JOURNAL_FLIPBOOK_FRAME = "./assets/images/Journal/Flip-book.png";
+const JOURNAL_BOOKSHELF = "./assets/images/Journal/Book-shelf.png";
+const RESEARCH_SHELF_TAB_YEARS = ["2019", "2020", "2021", "2022", "2027"];
+const RESEARCH_SHELF_BOOK_HOTSPOTS = [
+  { id: "b01", left: "5.3%", width: "2.3%" },
+  { id: "b02", left: "7.8%", width: "2.7%" },
+  { id: "b03", left: "10.8%", width: "2.2%" },
+  { id: "b04", left: "13.2%", width: "2.5%" },
+  { id: "b05", left: "15.9%", width: "1.9%" },
+  { id: "b06", left: "18.0%", width: "1.9%" },
+  { id: "b07", left: "20.1%", width: "2.2%" },
+  { id: "b08", left: "22.5%", width: "2.2%" },
+  { id: "b09", left: "24.9%", width: "2.4%" },
+  { id: "b10", left: "27.5%", width: "2.4%" },
+  { id: "b11", left: "30.1%", width: "2.2%" },
+  { id: "b12", left: "32.5%", width: "2.2%" },
+  { id: "b13", left: "34.9%", width: "2.2%" },
+  { id: "b14", left: "37.3%", width: "2.2%" },
+  { id: "b15", left: "39.7%", width: "2.2%" },
+  { id: "b16", left: "42.1%", width: "1.5%" },
+  { id: "b17", left: "43.8%", width: "4.0%" },
+  { id: "b18", left: "48.2%", width: "2.7%" },
+  { id: "b19", left: "51.1%", width: "2.5%" },
+  { id: "b20", left: "53.8%", width: "2.7%" },
+  { id: "b21", left: "56.7%", width: "2.5%" },
+  { id: "b22", left: "59.4%", width: "2.7%" },
+  { id: "b23", left: "62.3%", width: "2.9%" },
+];
 const ARCHIVE_TEACHER_AVATAR_COLORS = [
   "#b82020",
   "#2a6b8c",
@@ -113,7 +143,7 @@ function archiveData() {
 }
 
 function archiveSubnavItems() {
-  return Array.isArray(window.SITE_CONTENT?.archiveSubnav)
+  const items = Array.isArray(window.SITE_CONTENT?.archiveSubnav)
     ? window.SITE_CONTENT.archiveSubnav
     : [
         { id: "collection", label: "典藏", href: "#archive/collection" },
@@ -122,19 +152,41 @@ function archiveSubnavItems() {
         { id: "teachers", label: "藝術家教師", href: "#archive/teachers" },
         { id: "bibliography", label: "延伸閱讀", href: "#archive/bibliography" },
       ];
+
+  if (!isArchiveCollectionHomeEnabled()) {
+    return items.map((item) =>
+      item.id === "collection" ? { ...item, href: archiveCollectionNavHref() } : item
+    );
+  }
+  return items;
 }
 
 const ARCHIVE_COLLECTION_SUBSECTIONS = new Set(["exhibitions", "photos", "videos"]);
+
+function isArchiveCollectionHomeEnabled() {
+  const flag = archiveData().collectionHomeEnabled;
+  return flag !== false;
+}
+
+function archiveCollectionLandingSection() {
+  const preferred = archiveData().defaultCollectionSection || "exhibitions";
+  return ARCHIVE_COLLECTION_SUBSECTIONS.has(preferred) ? preferred : "exhibitions";
+}
+
+function archiveCollectionNavHref() {
+  if (isArchiveCollectionHomeEnabled()) return "#archive/collection";
+  return `#archive/${archiveCollectionLandingSection()}`;
+}
 
 function renderArchiveBackToCollection(label = "返回典藏") {
   return el("nav", { class: "archiveCollectionNav", "aria-label": "典藏導覽" }, [
     el("a", {
       class: "archiveCollectionBack",
-      href: "#archive/collection",
+      href: archiveCollectionNavHref(),
       text: `← ${label}`,
       onclick: (e) => {
         e.preventDefault();
-        navigateFromHref("#archive/collection");
+        navigateFromHref(archiveCollectionNavHref());
       },
     }),
   ]);
@@ -478,7 +530,7 @@ function resolveCollectionHome() {
           : legacy.pastExhibitionsPreview?.items || legacy.specialExhibitions || [],
     },
     staticImagesPreview: {
-      title: staticImagesPreview.title || "靜態影像",
+      title: staticImagesPreview.title || "照片紀錄",
       moreHref: staticImagesPreview.moreHref || "#archive/photos",
       moreLabel: staticImagesPreview.moreLabel || "了解更多＞",
       items:
@@ -487,7 +539,7 @@ function resolveCollectionHome() {
           : legacy.featuredMedia || [],
     },
     dynamicImagesPreview: {
-      title: dynamicImagesPreview.title || "動態影像",
+      title: dynamicImagesPreview.title || "動態影音紀錄",
       moreHref: dynamicImagesPreview.moreHref || "#archive/videos",
       moreLabel: dynamicImagesPreview.moreLabel || "了解更多＞",
       items:
@@ -1037,23 +1089,14 @@ function renderPastExhibitionTimelineRow(years, rowIndex = 0) {
 
 function renderArchiveExhibitions() {
   const past = archiveData().pastExhibitions || {};
-  const rows = resolvePastExhibitionTimelineRows();
+  const heading = past.heading || "歷屆網站";
 
-  const root = el("div", { class: "archivePage archiveExhibitionsPage archiveExhibitionsPage--timeline" });
-  root.appendChild(renderArchiveBackToCollection());
-  root.appendChild(
-    el("h1", {
-      class: "archivePageTitle archiveExhibitionsTimelineTitle",
-      text: past.heading || "歷屆展覽回顧",
-    })
-  );
+  const root = el("div", { class: "archivePage archivePastWebsitesPage" });
+  root.appendChild(el("h1", { class: "archivePastWebsitesTitle", text: heading }));
 
-  const timeline = el("div", { class: "archiveExhibitionTimeline" });
-  rows.slice(0, 2).forEach((years, index) => {
-    const rowEl = renderPastExhibitionTimelineRow(years, index);
-    if (rowEl) timeline.appendChild(rowEl);
-  });
-  root.appendChild(timeline);
+  if (typeof renderClassicsTimeline === "function") {
+    root.appendChild(renderClassicsTimeline({ pastWebsites: true }));
+  }
 
   return root;
 }
@@ -1136,6 +1179,130 @@ function renderArchivePractice() {
   return root;
 }
 
+const ARCHIVE_MEDIA_PER_PAGE = 9;
+
+function resolveArchiveRecordYearPack(section, year) {
+  const byYear = section.byYear || {};
+  const pack = byYear[year];
+  if (pack && typeof pack === "object") {
+    return {
+      overview: pack.overview || "",
+      items: Array.isArray(pack.items) ? pack.items : [],
+    };
+  }
+  return { overview: "", items: [] };
+}
+
+function normalizeLegacyMediaSection(legacy, sectionKey) {
+  const years = Array.isArray(legacy.years) ? legacy.years : ["2025"];
+  const byYear = {};
+  const isVideoSection = sectionKey === "videos";
+
+  years.forEach((year) => {
+    const pack = resolveMediaYearPack(legacy, year);
+    let items = pack.items;
+    if (isVideoSection) {
+      items = items.filter((item) => archiveMediaItemIsVideo(item));
+    } else {
+      items = items.filter((item) => !archiveMediaItemIsVideo(item));
+      if (!items.length && Array.isArray(legacy.photos)) {
+        items = legacy.photos.map((p) => ({
+          type: "photo",
+          title: p.title,
+          caption: p.caption,
+          keywords: p.keywords,
+          image: p.image,
+        }));
+      }
+    }
+    byYear[year] = { overview: pack.overview, items };
+  });
+
+  const carousel = Array.isArray(legacy.featuredCarousel) ? legacy.featuredCarousel : [];
+  return {
+    years,
+    perPage: legacy.perPage || ARCHIVE_MEDIA_PER_PAGE,
+    featuredCarousel: isVideoSection
+      ? carousel.filter((slide) => archiveMediaItemIsVideo(slide))
+      : carousel.filter((slide) => !archiveMediaItemIsVideo(slide)),
+    byYear,
+  };
+}
+
+function resolveArchiveRecordSection(sectionKey) {
+  const archive = archiveData();
+  const direct = archive[sectionKey];
+  if (direct && (Array.isArray(direct.years) || direct.byYear)) {
+    return {
+      years: Array.isArray(direct.years) ? direct.years : Object.keys(direct.byYear || {}),
+      perPage: direct.perPage || ARCHIVE_MEDIA_PER_PAGE,
+      featuredCarousel: Array.isArray(direct.featuredCarousel) ? direct.featuredCarousel : [],
+      byYear: direct.byYear || {},
+    };
+  }
+  return normalizeLegacyMediaSection(archive.media || {}, sectionKey);
+}
+
+function archiveMediaItemSearchText(item) {
+  return `${item.title || ""} ${item.caption || ""} ${item.keywords || ""}`.toLowerCase();
+}
+
+function openArchivePhotoLightbox(item, index = 0) {
+  const src = archiveMediaImageSrc(item, index);
+  const img = el("img", {
+    class: "archivePhotoLightboxImg",
+    src,
+    alt: item.image?.alt || item.title || "照片",
+  });
+  const caption = item.caption || item.title || "";
+  const content = el("figure", { class: "archivePhotoLightbox" }, [
+    img,
+    caption ? el("figcaption", { class: "archivePhotoLightboxCaption", text: caption }) : null,
+  ]);
+  openArchiveModal({
+    title: item.title || "照片紀錄",
+    content,
+    lightbox: true,
+    wide: true,
+  });
+}
+
+function renderArchiveMediaPagination(currentPage, totalPages, buildHref) {
+  if (totalPages <= 1) return null;
+
+  const nav = el("nav", { class: "archiveMediaPager", "aria-label": "分頁" });
+  for (let page = 1; page <= totalPages; page += 1) {
+    nav.appendChild(
+      el("a", {
+        class: `archiveMediaPagerBtn${page === currentPage ? " archiveMediaPagerBtn--active" : ""}`,
+        href: buildHref(page),
+        text: String(page),
+        "aria-current": page === currentPage ? "page" : undefined,
+        onclick: (e) => {
+          e.preventDefault();
+          navigateFromHref(buildHref(page));
+        },
+      })
+    );
+  }
+
+  if (currentPage < totalPages) {
+    nav.appendChild(
+      el("a", {
+        class: "archiveMediaPagerNext",
+        href: buildHref(currentPage + 1),
+        text: "下一頁 ›",
+        onclick: (e) => {
+          e.preventDefault();
+          navigateFromHref(buildHref(currentPage + 1));
+        },
+      })
+    );
+  }
+
+  return nav;
+}
+
 function resolveMediaYearPack(media, year) {
   const byYear = media.byYear || {};
   const pack = byYear[year];
@@ -1182,7 +1349,7 @@ function renderArchiveFeaturedCarousel(slides) {
   return section;
 }
 
-function renderArchiveMediaGalleryItem(item, onSelect, isActive, index = 0) {
+function renderArchiveMediaGalleryItem(item, index = 0) {
   const isVideo = archiveMediaItemIsVideo(item);
   const youtubeUrl = archiveMediaItemYoutubeUrl(item);
   const thumb = archiveMediaImageSrc(item, index);
@@ -1198,25 +1365,16 @@ function renderArchiveMediaGalleryItem(item, onSelect, isActive, index = 0) {
     ]),
   ];
 
-  const handleSelect = (e) => onSelect(item, e.currentTarget);
-
   if (isVideo && youtubeUrl) {
     return el(
       "a",
       {
-        class: `archiveMediaGalleryItem archiveMediaGalleryItem--video${isActive ? " archiveMediaGalleryItem--active" : ""}`,
+        class: "archiveMediaGalleryItem archiveMediaGalleryItem--video",
         href: youtubeUrl,
         target: "_blank",
         rel: "noopener noreferrer",
         title: item.title || "在 YouTube 觀看",
         "aria-label": `${item.title || "影片"}（在 YouTube 觀看）`,
-        onclick: (e) => {
-          handleSelect(e);
-          if (e.defaultPrevented || e.button !== 0) return;
-          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-          e.preventDefault();
-          window.open(youtubeUrl, "_blank", "noopener,noreferrer");
-        },
       },
       inner
     );
@@ -1225,9 +1383,10 @@ function renderArchiveMediaGalleryItem(item, onSelect, isActive, index = 0) {
   return el(
     "button",
     {
-      class: `archiveMediaGalleryItem${isActive ? " archiveMediaGalleryItem--active" : ""}`,
+      class: "archiveMediaGalleryItem",
       type: "button",
-      onclick: handleSelect,
+      "aria-label": item.title || `照片 ${index + 1}`,
+      onclick: () => openArchivePhotoLightbox(item, index),
     },
     inner
   );
@@ -1253,43 +1412,57 @@ function resolveMediaItemsByType(media, year, mediaType) {
 }
 
 function renderArchiveMediaPage(options = {}) {
-  const mediaType = options.mediaType || "all";
-  const pageTitle = options.pageTitle || "影音";
-  const recordTitleSuffix = mediaType === "photo" ? "靜態影像" : mediaType === "video" ? "動態影像" : "";
-  const captionLabel = mediaType === "video" ? "影片說明" : "內容說明";
-  const baseHref = options.baseHref || "#archive/media";
+  const sectionKey = options.sectionKey || "photos";
+  const pageTitle = options.pageTitle || "照片紀錄";
+  const baseHref = options.baseHref || `#archive/${sectionKey}`;
 
-  const media = archiveData().media || {};
-  const years = Array.isArray(media.years) ? media.years : ["2025"];
+  const section = resolveArchiveRecordSection(sectionKey);
+  const years = section.years.length ? section.years : ["2025"];
+  const perPage = section.perPage || ARCHIVE_MEDIA_PER_PAGE;
   const params = getHashQuery();
   const year = params.get("year") || years[0] || "2025";
   const query = (params.get("q") || "").trim().toLowerCase();
-  const yearPack = resolveMediaYearPack(media, year);
-  const typeItems = resolveMediaItemsByType(media, year, mediaType);
+  const yearPack = resolveArchiveRecordYearPack(section, year);
+  const typeItems = yearPack.items;
   const featured =
-    Array.isArray(media.featuredCarousel) && media.featuredCarousel.length
-      ? media.featuredCarousel.filter((slide) => {
-          if (mediaType === "photo") return !archiveMediaItemIsVideo(slide);
-          if (mediaType === "video") return archiveMediaItemIsVideo(slide);
-          return true;
-        })
+    Array.isArray(section.featuredCarousel) && section.featuredCarousel.length
+      ? section.featuredCarousel
       : typeItems.slice(0, 5);
+
+  const buildHref = (pageNum) => {
+    const q = new URLSearchParams({ year });
+    if (query) q.set("q", params.get("q") || "");
+    if (pageNum > 1) q.set("page", String(pageNum));
+    const qs = q.toString();
+    return qs ? `${baseHref}?${qs}` : baseHref;
+  };
+
+  const filtered = typeItems.filter((item) => {
+    if (!query) return true;
+    return archiveMediaItemSearchText(item).includes(query);
+  });
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
+  const requestedPage = Math.max(1, parseInt(params.get("page") || "1", 10) || 1);
+  const currentPage = Math.min(requestedPage, totalPages);
+  const pageOffset = (currentPage - 1) * perPage;
+  const pageItems = filtered.slice(pageOffset, pageOffset + perPage);
 
   const root = el("div", { class: "archivePage archiveMediaPage" });
   root.appendChild(renderArchiveBackToCollection());
-  root.appendChild(el("h1", { class: "archivePageTitle", text: pageTitle }));
   root.appendChild(renderArchiveFeaturedCarousel(featured));
+  root.appendChild(el("h1", { class: "archivePageTitle archivePageTitle--media", text: pageTitle }));
 
   const filters = el("div", { class: "archiveFilters archiveFilters--media" });
-  const yearSel = el("select", { class: "archiveSelect", "aria-label": "年份選擇" });
+  const yearSel = el("select", { class: "archiveSelect archiveSelect--media", "aria-label": "年份" });
   years.forEach((y) => yearSel.appendChild(el("option", { value: y, text: y })));
   yearSel.value = year;
 
   const searchInput = el("input", {
-    class: "archiveSearchInput archiveSearchInput--practice",
+    class: "archiveSearchInput archiveSearchInput--media",
     type: "search",
-    placeholder: "關鍵字搜尋",
-    "aria-label": "關鍵字搜尋",
+    placeholder: "關鍵字",
+    "aria-label": "關鍵字",
     value: params.get("q") || "",
   });
 
@@ -1304,100 +1477,71 @@ function renderArchiveMediaPage(options = {}) {
   });
   yearSel.addEventListener("change", applyFilters);
 
-  filters.appendChild(el("div", { class: "archiveFiltersMediaLeft" }, [yearSel, searchInput]));
+  filters.appendChild(
+    el("div", { class: "archiveFiltersMediaField" }, [
+      el("span", { class: "archiveFilterLabel", text: "年份" }),
+      yearSel,
+    ])
+  );
+  filters.appendChild(
+    el("div", { class: "archiveFiltersMediaField archiveFiltersMediaField--search" }, [
+      el("span", { class: "archiveFilterLabel", text: "關鍵字" }),
+      searchInput,
+      el("button", {
+        class: "archiveFilterSearchBtn",
+        type: "button",
+        text: "搜索",
+        onclick: applyFilters,
+      }),
+    ])
+  );
   root.appendChild(filters);
 
-  const filtered = typeItems.filter((item) => {
-    if (!query) return true;
-    const hay = `${item.title || ""} ${item.caption || ""}`.toLowerCase();
-    return hay.includes(query);
-  });
-
   const recordSec = el("section", { class: "archiveMediaRecord" });
-  const recordTitle = recordTitleSuffix
-    ? `${year} ${recordTitleSuffix}`
-    : yearPack.title;
-  recordSec.appendChild(el("h2", { class: "archiveMediaRecordTitle", text: recordTitle }));
-
-  const layout = el("div", { class: "archiveMediaRecordLayout" });
-  const grid = el("div", { class: "archiveMediaGallery" });
-
-  const overviewBox = el("div", { class: "archiveMediaSidebarBox archiveMediaSidebarBox--overview" }, [
-    el("h3", { class: "archiveMediaSidebarLabel", text: "田野踏查概述" }),
-    el("p", {
-      class: "archiveMediaSidebarText",
-      text: yearPack.overview || "",
-    }),
-  ]);
-  const captionBody = el("div", { class: "archiveMediaSidebarBody" }, [
-    el("p", { class: "archiveMediaSidebarText", text: "點選左側縮圖以檢視說明。" }),
-  ]);
-  const captionBox = el("div", { class: "archiveMediaSidebarBox archiveMediaSidebarBox--caption" }, [
-    el("h3", { class: "archiveMediaSidebarLabel", text: captionLabel }),
-    captionBody,
-  ]);
-
-  const selectItem = (item, activeEl) => {
-    grid.querySelectorAll(".archiveMediaGalleryItem").forEach((node) => {
-      node.classList.remove("archiveMediaGalleryItem--active");
-    });
-    if (activeEl) activeEl.classList.add("archiveMediaGalleryItem--active");
-
-    const youtubeUrl = archiveMediaItemYoutubeUrl(item);
-    const isVideo = archiveMediaItemIsVideo(item);
-    captionBody.replaceChildren(
-      el("p", { class: "archiveMediaSidebarText", text: item.caption || item.title || "" }),
-      isVideo && youtubeUrl
-        ? el(
-            "a",
-            {
-              class: "archiveMediaYoutubeLink",
-              href: youtubeUrl,
-              target: "_blank",
-              rel: "noopener noreferrer",
-              text: "在 YouTube 觀看",
-            }
-          )
-        : null
-    );
-  };
-
-  filtered.forEach((item, i) => {
-    grid.appendChild(renderArchiveMediaGalleryItem(item, selectItem, i === 0, i));
-  });
-  if (filtered.length) {
-    const firstEl = grid.querySelector(".archiveMediaGalleryItem");
-    selectItem(filtered[0], firstEl);
+  recordSec.appendChild(el("h2", { class: "archiveMediaYearHeading", text: year }));
+  if (yearPack.overview) {
+    recordSec.appendChild(el("p", { class: "archiveMediaYearOverview", text: yearPack.overview }));
   }
 
-  layout.appendChild(grid);
-  layout.appendChild(el("aside", { class: "archiveMediaSidebar" }, [overviewBox, captionBox]));
-  recordSec.appendChild(layout);
-  root.appendChild(recordSec);
+  const grid = el("div", { class: "archiveMediaGallery" });
+  if (!pageItems.length) {
+    grid.appendChild(
+      el("p", { class: "archiveMediaGalleryEmpty", text: query ? "找不到符合關鍵字的項目。" : "此年份尚無內容。" })
+    );
+  } else {
+    pageItems.forEach((item, i) => {
+      grid.appendChild(renderArchiveMediaGalleryItem(item, pageOffset + i));
+    });
+  }
+  recordSec.appendChild(grid);
 
+  const pager = renderArchiveMediaPagination(currentPage, totalPages, buildHref);
+  if (pager) recordSec.appendChild(pager);
+
+  root.appendChild(recordSec);
   return root;
 }
 
 function renderArchivePhotos() {
   return renderArchiveMediaPage({
-    mediaType: "photo",
-    pageTitle: "靜態影像",
+    sectionKey: "photos",
+    pageTitle: "照片紀錄",
     baseHref: "#archive/photos",
   });
 }
 
 function renderArchiveVideos() {
   return renderArchiveMediaPage({
-    mediaType: "video",
-    pageTitle: "動態影像",
+    sectionKey: "videos",
+    pageTitle: "動態影音紀錄",
     baseHref: "#archive/videos",
   });
 }
 
 function renderArchiveMedia() {
   return renderArchiveMediaPage({
-    mediaType: "all",
-    pageTitle: "影音",
+    sectionKey: "videos",
+    pageTitle: "動態影音紀錄",
     baseHref: "#archive/media",
   });
 }
@@ -1515,29 +1659,13 @@ function bibliographyMetaLine(book) {
 function renderArchiveBibliographyItem(book, index) {
   const action = resolveBibliographyAction(book);
   const isInteractive = action.type !== "none";
-  const meta = bibliographyMetaLine(book);
-
-  const textChildren = [
-    book.title ? el("h3", { class: "archiveBibliographyTitle", text: book.title }) : null,
-    meta ? el("p", { class: "archiveBibliographyMeta", text: meta }) : null,
-    el("p", {
-      class: "archiveBibliographyDesc",
-      text: book.description || book.intro || "文本介紹",
-    }),
-    isInteractive
-      ? el("span", { class: "archiveBibliographyAction", text: `${action.label} ›` })
-      : null,
-  ];
 
   const inner = [
-    el("div", { class: "archiveBibliographyCover" }, [
-      el("img", {
-        src: bibliographyBookCoverSrc(book, index),
-        alt: book.cover?.alt || book.title || `書籍 ${index + 1}`,
-        loading: "lazy",
-      }),
-    ]),
-    el("div", { class: "archiveBibliographyText" }, textChildren),
+    book.title ? el("h3", { class: "archiveBibliographyItemTitle", text: book.title }) : null,
+    el("p", {
+      class: "archiveBibliographyItemDesc",
+      text: book.description || book.intro || "我是介紹",
+    }),
   ];
 
   if (!isInteractive) {
@@ -1645,6 +1773,9 @@ function renderArchiveBibliographyCategory(category, categoryIndex = 0) {
   const list = el("div", { class: "archiveBibliographyList" });
   items.forEach((book, index) => {
     list.appendChild(renderArchiveBibliographyItem(book, categoryIndex * 10 + index));
+    if (index < items.length - 1) {
+      list.appendChild(el("hr", { class: "archiveBibliographyDivider", "aria-hidden": "true" }));
+    }
   });
   section.appendChild(list);
   return section;
@@ -1653,41 +1784,28 @@ function renderArchiveBibliographyCategory(category, categoryIndex = 0) {
 function renderArchiveBibliography() {
   const data = archiveData();
   const categories = resolveBibliographyCategories(data);
-  const sectionMeta = data.bibliographySection || {};
 
   const root = el("div", { class: "archivePage archiveBibliographyPage" });
-  root.appendChild(el("h1", { class: "archivePageTitle", text: sectionMeta.heading || "延伸閱讀" }));
-  if (sectionMeta.body) {
-    root.appendChild(el("p", { class: "archiveIntroBody archiveBibliographyIntro", text: sectionMeta.body }));
-  }
-
   const body = el("div", { class: "archiveBibliographyBody" });
   categories.forEach((category, index) => {
     const block = renderArchiveBibliographyCategory(category, index);
     if (block) body.appendChild(block);
   });
   root.appendChild(body);
-  root.appendChild(renderArchiveBackToTopButton());
 
   return root;
 }
 
-function performanceBannerPlaceholderSrc(label, color, sublabel = "") {
-  const safeLabel = String(label || "").trim() || "展演";
-  const subTag = sublabel
-    ? `<text x='960' y='310' text-anchor='middle' fill='rgba(255,255,255,.85)' font-family='sans-serif' font-size='28'>${sublabel}</text>`
-    : "";
-  const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 540'><rect width='1920' height='540' fill='${color}'/><text x='960' y='270' text-anchor='middle' fill='#fff' font-family='sans-serif' font-size='48' font-weight='700'>${safeLabel}</text>${subTag}</svg>`;
+function performanceBannerPlaceholderSrc() {
+  const svg =
+    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 360'><rect width='1200' height='360' fill='#b8b4b0'/></svg>";
   return `data:image/svg+xml,${encodeURIComponent(svg)}`;
 }
 
-function performanceBannerImageSrc(banner, index = 0) {
+function performanceBannerImageSrc(banner) {
   const src = banner?.image?.src || "";
   if (src && !archiveIsPlaceholderImage(src)) return src;
-  const title = String(banner?.title || `展演 ${index + 1}`).trim();
-  const label = title.length > 12 ? `${title.slice(0, 11)}…` : title;
-  const color = ARCHIVE_TEACHER_AVATAR_COLORS[index % ARCHIVE_TEACHER_AVATAR_COLORS.length];
-  return performanceBannerPlaceholderSrc(label, color, "最新展演");
+  return performanceBannerPlaceholderSrc();
 }
 
 function resolvePerformanceBanners() {
@@ -1710,36 +1828,57 @@ function resolvePerformanceBanners() {
   ];
 }
 
-function renderArchivePerformanceBanner(banner, index) {
+function performanceMetaLine(banner, field, fallback) {
+  const value = String(banner?.[field] || "").trim();
+  return value || fallback;
+}
+
+function renderArchivePerformanceCard(banner, index) {
   const href = banner.href || "#home/index";
-  const imgSrc = performanceBannerImageSrc(banner, index);
+  const imgSrc = performanceBannerImageSrc(banner);
   const imgAlt = banner.image?.alt || banner.title || "最新展演";
+  const author = performanceMetaLine(banner, "author", "作者xxx");
+  const period = performanceMetaLine(
+    banner,
+    "period",
+    performanceMetaLine(banner, "exhibitionPeriod", "展期")
+  );
 
   return el(
-    "a",
-    {
-      class: "archivePerformanceBanner",
-      href,
-      "aria-label": banner.title || "最新展演",
-      onclick: (e) => {
-        if (String(href).startsWith("#")) {
-          e.preventDefault();
-          navigateFromHref(href);
-        }
-      },
-    },
+    "article",
+    { class: "archivePerformanceCard" },
     [
-      el("img", {
-        class: "archivePerformanceBannerImg",
-        src: imgSrc,
-        alt: imgAlt,
-        loading: index === 0 ? "eager" : "lazy",
-      }),
-      banner.title
-        ? el("div", { class: "archivePerformanceBannerOverlay" }, [
-            el("span", { class: "archivePerformanceBannerTitle", text: banner.title }),
-          ])
-        : null,
+      el(
+        "a",
+        {
+          class: "archivePerformanceCardLink",
+          href,
+          "aria-label": banner.title || "最新展演",
+          onclick: (e) => {
+            if (String(href).startsWith("#")) {
+              e.preventDefault();
+              navigateFromHref(href);
+            }
+          },
+        },
+        [
+          el("div", { class: "archivePerformanceCardMedia" }, [
+            el("img", {
+              class: "archivePerformanceCardImg",
+              src: imgSrc,
+              alt: imgAlt,
+              loading: index === 0 ? "eager" : "lazy",
+            }),
+          ]),
+          el("div", { class: "archivePerformanceCardBody" }, [
+            banner.title
+              ? el("h2", { class: "archivePerformanceCardTitle", text: banner.title })
+              : null,
+            el("p", { class: "archivePerformanceCardMeta", text: author }),
+            el("p", { class: "archivePerformanceCardMeta", text: period }),
+          ]),
+        ]
+      ),
     ]
   );
 }
@@ -1748,17 +1887,17 @@ function renderArchivePerformances() {
   const performances = archiveData().performances || {};
   const banners = resolvePerformanceBanners().slice(0, 2);
 
-  const root = el("div", { class: "archivePerformancesPage" });
-  if (performances.heading) {
-    root.appendChild(el("h1", { class: "archivePageTitle archivePerformancesTitle", text: performances.heading }));
-  }
-  if (performances.body) {
-    root.appendChild(el("p", { class: "archiveIntroBody archivePerformancesIntro", text: performances.body }));
-  }
+  const root = el("div", { class: "archivePage archivePerformancesPage" });
+  root.appendChild(
+    el("h1", {
+      class: "archivePageTitle archivePerformancesTitle",
+      text: performances.heading || "最新展演",
+    })
+  );
 
   const list = el("div", { class: "archivePerformancesList" });
   banners.forEach((banner, index) => {
-    list.appendChild(renderArchivePerformanceBanner(banner, index));
+    list.appendChild(renderArchivePerformanceCard(banner, index));
   });
   root.appendChild(list);
 
@@ -1936,7 +2075,9 @@ function renderArchiveTeacherPicker(teachers, selected, year, years, teachersDat
       ? "archiveTeachersCarouselNotebook"
       : "archiveTeachersCarouselAvatar";
     const iconSrc = useNotebookIcon
-      ? teacherNotebookIconSrc(t.name)
+      ? isActive
+        ? JOURNAL_OPEN_BOOK
+        : JOURNAL_CLOSE_BOOK
       : t.avatar?.src || ARCHIVE_PLACEHOLDER_AVATAR;
 
     track.appendChild(
@@ -1982,7 +2123,9 @@ function renderArchiveTeacherPicker(teachers, selected, year, years, teachersDat
   carousel.appendChild(nextBtn);
   section.appendChild(carousel);
 
-  section.appendChild(renderArchiveTeacherTimeline(years, year, selected?.id, teachersData, navSection));
+  if (!options.hideTimeline) {
+    section.appendChild(renderArchiveTeacherTimeline(years, year, selected?.id, teachersData, navSection));
+  }
 
   window.requestAnimationFrame(() => {
     const active = track.querySelector(".archiveTeachersCarouselItem--active");
@@ -2094,7 +2237,21 @@ function resolveJournalPages(journal, teacherName) {
   return pages;
 }
 
-function renderArchiveIssuuFlipbook(pages, id) {
+function wrapResearchJournalFrame(viewerContent) {
+  const frame = el("div", { class: "archiveJournalFrame" }, [
+    el("img", {
+      class: "archiveJournalFrameBg",
+      src: JOURNAL_FLIPBOOK_FRAME,
+      alt: "",
+      loading: "lazy",
+      "aria-hidden": "true",
+    }),
+    el("div", { class: "archiveJournalFrameContent" }, [viewerContent]),
+  ]);
+  return frame;
+}
+
+function renderArchiveIssuuFlipbook(pages, id, options = {}) {
   const list = Array.isArray(pages) && pages.length ? pages : buildPlaceholderJournalPages();
   const wrap = el("div", { class: "archiveTeachersViewer" });
   const viewer = el("div", {
@@ -2266,7 +2423,7 @@ function renderArchiveIssuuFlipbook(pages, id) {
 
   wrap.appendChild(toolbar);
   wrap.appendChild(viewer);
-  return wrap;
+  return options.frame ? wrapResearchJournalFrame(wrap) : wrap;
 }
 
 function renderArchiveJournalFlipbook(pages, id) {
@@ -2343,11 +2500,11 @@ function renderArchiveCollectionDetail(work) {
   nav.appendChild(
     el("a", {
       class: "archiveCollectionBack",
-      href: "#archive/collection",
+      href: archiveCollectionNavHref(),
       text: "← 返回典藏列表",
       onclick: (e) => {
         e.preventDefault();
-        navigateFromHref("#archive/collection");
+        navigateFromHref(archiveCollectionNavHref());
       },
     })
   );
@@ -2422,6 +2579,11 @@ function renderArchiveCollection() {
     return root;
   }
 
+  if (!isArchiveCollectionHomeEnabled()) {
+    navigateFromHref(`#archive/${archiveCollectionLandingSection()}`);
+    return el("div");
+  }
+
   return renderArchiveCollectionHome();
 }
 
@@ -2483,7 +2645,9 @@ function openArchiveModal(options = {}) {
   });
   const panelClass = `archiveModalPanel${options.wide ? " archiveModalPanel--wide" : ""}${
     options.flipbook ? " archiveModalPanel--flipbook" : ""
-  }${options.preview ? " archiveModalPanel--preview" : ""}`;
+  }${options.preview ? " archiveModalPanel--preview" : ""}${
+    options.lightbox ? " archiveModalPanel--lightbox" : ""
+  }`;
   const panel = el("div", { class: panelClass });
   const closeBtn = el("button", {
     class: "archiveModalClose",
@@ -2561,10 +2725,81 @@ function renderResearchBookCard(journal, index) {
   );
 }
 
-function renderResearchBookshelf(bookshelf = {}) {
+function resolveResearchShelfBooks(bookshelf = {}) {
+  const configured = Array.isArray(bookshelf.shelfBooks) ? bookshelf.shelfBooks : [];
+  if (configured.length) return configured;
+  return RESEARCH_SHELF_BOOK_HOTSPOTS.map((book) => ({
+    id: book.id,
+    hotspot: {
+      left: book.left,
+      top: "19%",
+      width: book.width,
+      height: "62%",
+    },
+  }));
+}
+
+function renderResearchBookshelf(bookshelf = {}, options = {}) {
+  const {
+    tabYears = RESEARCH_SHELF_TAB_YEARS,
+    currentYear = "",
+    teachers = [],
+    teachersData,
+  } = options;
   const image = bookshelf.image || {};
-  const imgSrc = image.src || "./assets/images/bookshelf.svg";
-  const lockedBooks = Array.isArray(bookshelf.lockedBooks) ? bookshelf.lockedBooks : [];
+  const imgSrc = image.src || JOURNAL_BOOKSHELF;
+  const shelfBooks = resolveResearchShelfBooks(bookshelf);
+  const hotspotStyle =
+    typeof zoneHotspotStyle === "function"
+      ? zoneHotspotStyle
+      : (hs) =>
+          [hs?.left && `left:${hs.left}`, hs?.top && `top:${hs.top}`, hs?.width && `width:${hs.width}`, hs?.height && `height:${hs.height}`]
+            .filter(Boolean)
+            .join(";");
+
+  const yearTabs = el("div", {
+    class: "archiveResearchBookshelfYearTabs",
+    role: "tablist",
+    "aria-label": "年份選擇",
+  });
+  tabYears.forEach((y) => {
+    yearTabs.appendChild(
+      el("button", {
+        class: `archiveResearchBookshelfYearTab${y === currentYear ? " archiveResearchBookshelfYearTab--active" : ""}`,
+        type: "button",
+        role: "tab",
+        text: y,
+        "aria-selected": y === currentYear ? "true" : "false",
+        onclick: () => navigateFromHref(archiveTeacherNavHref(y, "", teachersData, "research")),
+      })
+    );
+  });
+
+  const bookHotspots = el(
+    "div",
+    { class: "archiveResearchBookshelfHotspots", "aria-label": "書櫃書本" },
+    shelfBooks.map((book, index) => {
+      const hs = book.hotspot || {};
+      const teacher = teachers[index] || null;
+      const label = teacher?.name || book.label || `書本 ${index + 1}`;
+      return el("button", {
+        class: `archiveResearchBookshelfHotspot${teacher ? " archiveResearchBookshelfHotspot--linked" : ""}`,
+        type: "button",
+        style: hotspotStyle(hs),
+        "aria-label": teacher ? `開啟 ${label} 日誌` : label,
+        title: label,
+        onclick: () => {
+          if (teacher) {
+            navigateFromHref(
+              archiveTeacherNavHref(currentYear, teacher.id, teachersData, "research")
+            );
+            return;
+          }
+          openResearchAccessModal(bookshelf);
+        },
+      });
+    })
+  );
 
   const stage = el("div", { class: "archiveResearchBookshelfStage" }, [
     el("img", {
@@ -2573,38 +2808,29 @@ function renderResearchBookshelf(bookshelf = {}) {
       alt: image.alt || "書櫃",
       loading: "lazy",
     }),
-    el(
-      "div",
-      { class: "archiveResearchBookshelfHotspots", "aria-label": "書櫃書本" },
-      lockedBooks.map((book) => {
-        const hs = book.hotspot || {};
-        return el("button", {
-          class: "archiveResearchBookshelfHotspot",
-          type: "button",
-          style: typeof zoneHotspotStyle === "function" ? zoneHotspotStyle(hs) : "",
-          "aria-label": book.label || "書本",
-          title: book.label || "書本",
-          onclick: () => openResearchAccessModal(bookshelf),
-        });
-      })
-    ),
+    bookHotspots,
+    yearTabs,
   ]);
 
-  return el("section", { class: "archiveResearchBookshelf" }, [
-    el("h2", { class: "archiveResearchBookshelfTitle", text: bookshelf.heading || "書櫃典藏" }),
-    bookshelf.caption
-      ? el("p", { class: "archiveResearchBookshelfCaption", text: bookshelf.caption })
-      : null,
-    stage,
-  ]);
+  return el("section", { class: "archiveResearchBookshelf" }, [stage]);
 }
 
 function renderArchiveResearch() {
   const research = archiveData().research || {};
   const teachersData = archiveData().teachers || {};
-  const years = Array.isArray(teachersData.years) ? teachersData.years : ["2026"];
+  const bookshelf = research.bookshelf || {};
+  const tabYears =
+    Array.isArray(bookshelf.tabYears) && bookshelf.tabYears.length
+      ? bookshelf.tabYears
+      : RESEARCH_SHELF_TAB_YEARS;
   const params = getHashQuery();
-  const year = params.get("year") || teachersData.defaultYear || years[years.length - 1] || "2026";
+  let year =
+    params.get("year") ||
+    bookshelf.defaultYear ||
+    teachersData.defaultYear ||
+    tabYears[tabYears.length - 1] ||
+    "2027";
+  if (!tabYears.includes(year)) year = tabYears[tabYears.length - 1];
   const yearPack = (teachersData.byYear || {})[year] || {};
   const teachers = Array.isArray(yearPack.teachers) ? yearPack.teachers : [];
   const selectedId = params.get("teacher") || (teachers[0] && teachers[0].id) || "";
@@ -2622,25 +2848,34 @@ function renderArchiveResearch() {
   journalSec.appendChild(
     renderArchiveIssuuFlipbook(
       journalPages,
-      `research-journal-${year}-${selected?.id || "default"}`
+      `research-journal-${year}-${selected?.id || "default"}`,
+      { frame: true }
     )
   );
   journalSec.appendChild(
     el("p", {
       class: "archiveResearchJournalTeacherName",
-      text: selected?.name || "藝術家教師名字",
+      text: selected?.name ? `藝術家教師 ${selected.name}` : "藝術家教師名字",
     })
   );
   root.appendChild(journalSec);
 
   root.appendChild(
-    renderArchiveTeacherPicker(teachers, selected, year, years, teachersData, {
+    renderArchiveTeacherPicker(teachers, selected, year, tabYears, teachersData, {
       section: "research",
       notebookIcon: true,
+      hideTimeline: true,
     })
   );
 
-  root.appendChild(renderResearchBookshelf(research.bookshelf || {}));
+  root.appendChild(
+    renderResearchBookshelf(bookshelf, {
+      tabYears,
+      currentYear: year,
+      teachers,
+      teachersData,
+    })
+  );
 
   return root;
 }
@@ -2661,14 +2896,17 @@ function renderArchivePlaceholderPage(title, heading, body, items) {
 }
 
 function classicsSectionToArchive(section) {
+  const collectionTarget = isArchiveCollectionHomeEnabled()
+    ? "collection"
+    : archiveCollectionLandingSection();
   const map = {
     years: "exhibitions",
     year: "exhibitions",
-    practice: "collection",
+    practice: collectionTarget,
     media: "photos",
-    index: "collection",
+    index: collectionTarget,
   };
-  return map[section] || section || "collection";
+  return map[section] || section || collectionTarget;
 }
 
 function renderArchivePage(main, route) {
@@ -2684,40 +2922,57 @@ function renderArchivePage(main, route) {
   if (section === "index") {
     const raw = (location.hash || "").replace(/^#/, "");
     const q = raw.includes("?") ? raw.slice(raw.indexOf("?")) : "";
-    navigateFromHref(`#archive/collection${q}`);
+    navigateFromHref(`${archiveCollectionNavHref()}${q}`);
     return;
   }
 
   if (section === "practice" || section === "media") {
     const raw = (location.hash || "").replace(/^#/, "");
     const q = raw.includes("?") ? raw.slice(raw.indexOf("?")) : "";
-    const target = section === "media" ? "videos" : "collection";
+    const target =
+      section === "media"
+        ? "videos"
+        : isArchiveCollectionHomeEnabled()
+          ? "collection"
+          : archiveCollectionLandingSection();
     navigateFromHref(`#archive/${target}${q}`);
     return;
   }
 
   let content;
-  let activeSubnav = section;
+  let activeSubnav = "";
+  let activeNav = section;
   let contentClass = "";
+  const collectionSections = new Set(["collection", "exhibitions", "photos", "videos"]);
 
   switch (section) {
-    case "collection":
+    case "collection": {
+      const workId = (params.get("work") || "").trim();
+      if (!isArchiveCollectionHomeEnabled() && !workId) {
+        navigateFromHref(`#archive/${archiveCollectionLandingSection()}`);
+        return;
+      }
       content = renderArchiveCollection();
-      activeSubnav = "collection";
-      if (!params.get("work")) contentClass = "innerContent--archiveHome";
+      activeNav = "collection";
+      if (!workId) contentClass = "innerContent--archiveHome";
       break;
+    }
     case "exhibitions":
       content = renderArchiveExhibitions();
-      activeSubnav = "collection";
+      activeNav = "collection";
+      activeSubnav = "exhibitions";
+      contentClass = "innerContent--pastWebsites";
       break;
     case "photos":
       content = renderArchivePhotos();
-      activeSubnav = "collection";
+      activeNav = "collection";
+      activeSubnav = "photos";
       contentClass = "innerContent--archiveMedia";
       break;
     case "videos":
       content = renderArchiveVideos();
-      activeSubnav = "collection";
+      activeNav = "collection";
+      activeSubnav = "videos";
       contentClass = "innerContent--archiveMedia";
       break;
     case "teachers":
@@ -2725,6 +2980,7 @@ function renderArchivePage(main, route) {
       break;
     case "bibliography":
       content = renderArchiveBibliography();
+      contentClass = "innerContent--archiveBibliography";
       break;
     case "research":
       content = renderArchiveResearch();
@@ -2740,9 +2996,9 @@ function renderArchivePage(main, route) {
 
   main.innerHTML = "";
   const shell = wrapInnerPage(content, {
-    activeNav: "archive",
+    activeNav,
     activeSubnav,
-    showSubnav: true,
+    showSubnav: collectionSections.has(section),
   });
   main.appendChild(shell);
   if (contentClass) {

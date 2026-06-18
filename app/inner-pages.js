@@ -1,34 +1,79 @@
 /* 內頁版面：header / subnav / footer / 典藏時間軸 / 展覽頁 */
 
+function layoutAssets() {
+  const layout = window.SITE_CONTENT?.layout || {};
+  return {
+    headerBg: layout.headerBg || "./assets/images/layout/header-bg.png",
+    subnavBg: layout.subnavBg || "./assets/images/layout/subnav-bg.jpg",
+    footerBg: layout.footerBg || "./assets/images/layout/footer-bg.jpg",
+    logoBuilding: layout.logoBuilding || "./assets/images/layout/logo-building.png",
+    logoTitle: layout.logoTitle || "./assets/images/layout/logo-title.png",
+    iconSearch: layout.iconSearch || "./assets/images/layout/icon-search.png",
+    partnerLogos: layout.partnerLogos || "./assets/images/layout/partner-logo.png",
+    iconYoutube: layout.iconYoutube || "./assets/images/layout/icon-youtube.png",
+    iconFacebook: layout.iconFacebook || "./assets/images/layout/icon-facebook.png",
+  };
+}
+
+function mainNavItems() {
+  if (typeof archiveSubnavItems === "function") return archiveSubnavItems();
+  return Array.isArray(window.SITE_CONTENT?.archiveSubnav) ? window.SITE_CONTENT.archiveSubnav : [];
+}
+
+function collectionSubnavItems() {
+  return Array.isArray(window.SITE_CONTENT?.collectionSubnav)
+    ? window.SITE_CONTENT.collectionSubnav
+    : [
+        { id: "exhibitions", label: "歷屆網站", href: "#archive/exhibitions" },
+        { id: "photos", label: "照片紀錄", href: "#archive/photos" },
+        { id: "videos", label: "動態影音紀錄", href: "#archive/videos" },
+      ];
+}
+
+function innerNavLinkClass(baseClass, isActive) {
+  return `${baseClass}${isActive ? ` ${baseClass}Active` : ""}`;
+}
+
 function renderSiteHeader(activeNavId) {
   const site = window.SITE_CONTENT?.site || {};
-  const navItems = Array.isArray(site.headerNav) ? site.headerNav : [
-    { id: "co-create", label: "共創", href: "#co-create/text" },
-    { id: "classics", label: "典藏", href: "#classics/years" },
-    { id: "research", label: "研究", href: "#research/book" },
-  ];
-  const logo = site.headerLogo || site.logo || {};
+  const assets = layoutAssets();
+  const logo = site.headerLogo || {};
+  const navItems = mainNavItems();
+  const buildingSrc = logo.building || assets.logoBuilding;
+  const titleSrc = logo.title || assets.logoTitle;
 
-  const navChildren = [];
-  navItems.forEach((item, i) => {
-    if (i > 0) navChildren.push(el("span", { class: "innerNavSep", text: "|", "aria-hidden": "true" }));
-    navChildren.push(
-      el(
-        "a",
-        {
-          class: `innerNavItem${item.id === activeNavId ? " innerNavItemActive" : ""}`,
-          href: item.href || `#${item.id}/text`,
-          onclick: (e) => {
-            e.preventDefault();
-            navigateFromHref(item.href || `#${item.id}/text`);
-          },
+  const navChildren = navItems.map((item) =>
+    el(
+      "a",
+      {
+        class: innerNavLinkClass("innerNavItem", item.id === activeNavId),
+        href: item.href || `#archive/${item.id}`,
+        onclick: (e) => {
+          e.preventDefault();
+          navigateFromHref(item.href || `#archive/${item.id}`);
         },
-        [item.label || item.id]
-      )
-    );
+      },
+      [item.label || item.id]
+    )
+  );
+
+  const searchInput = el("input", {
+    class: "innerSearchInput",
+    type: "search",
+    name: "q",
+    placeholder: "Search",
+    "aria-label": "搜尋網站內容",
   });
 
   return el("header", { class: "innerHeader", "aria-label": "site header" }, [
+    el("img", {
+      class: "innerHeaderBgImg",
+      src: assets.headerBg,
+      alt: "",
+      decoding: "async",
+      width: 1962,
+      height: 424,
+    }),
     el("div", { class: "innerHeaderInner" }, [
       el(
         "a",
@@ -41,58 +86,71 @@ function renderSiteHeader(activeNavId) {
           },
         },
         [
-          logo.src
-            ? el("img", { class: "innerBrandImg", src: logo.src, alt: logo.alt || site.title || "logo" })
+          buildingSrc
+            ? el("img", {
+                class: "innerBrandBuilding",
+                src: buildingSrc,
+                alt: "",
+                "aria-hidden": "true",
+              })
             : null,
-          el("div", { class: "innerBrandText" }, [
-            el("div", { class: "innerBrandTitle", text: site.title || "義家藝館" }),
-            el("div", { class: "innerBrandSub", text: site.subtitle || "" }),
-          ]),
+          titleSrc
+            ? el("img", {
+                class: "innerBrandTitleImg",
+                src: titleSrc,
+                alt: logo.alt || site.title || "義家藝館",
+              })
+            : el("div", { class: "innerBrandText" }, [
+                el("div", { class: "innerBrandTitle", text: site.title || "義家藝館" }),
+                el("div", { class: "innerBrandSub", text: site.subtitle || "" }),
+              ]),
         ]
       ),
-      el("nav", { class: "innerNav", "aria-label": "主選單" }, navChildren),
-      el(
-        "button",
-        {
-          class: "innerSearchBtn",
-          type: "button",
-          "aria-label": "搜尋",
-          text: "搜尋",
-        }
-      ),
+      el("div", { class: "innerHeaderAside" }, [
+        el(
+          "form",
+          {
+            class: "innerSearchForm",
+            role: "search",
+            onsubmit: (e) => {
+              e.preventDefault();
+              const q = searchInput.value.trim();
+              if (q) openSiteSearch(q);
+            },
+          },
+          [
+            el("img", {
+              class: "innerSearchIcon",
+              src: assets.iconSearch,
+              alt: "",
+              "aria-hidden": "true",
+            }),
+            searchInput,
+            el("button", { class: "innerSearchSubmit", type: "submit", text: "搜索" }),
+          ]
+        ),
+        el("nav", { class: "innerNav", "aria-label": "主選單" }, navChildren),
+      ]),
     ]),
-    el("div", { class: "innerTornEdge", "aria-hidden": "true" }),
   ]);
 }
 
 function renderSiteSubnav(activeSectionId) {
-  const items =
-    typeof archiveSubnavItems === "function"
-      ? archiveSubnavItems()
-      : Array.isArray(window.SITE_CONTENT?.archiveSubnav)
-        ? window.SITE_CONTENT.archiveSubnav
-        : Array.isArray(window.SITE_CONTENT?.classicsSubnav)
-          ? window.SITE_CONTENT.classicsSubnav
-          : [
-              { id: "collection", label: "典藏", href: "#archive/collection" },
-              { id: "research", label: "研究", href: "#archive/research" },
-              { id: "performances", label: "最新展演", href: "#archive/performances" },
-              { id: "teachers", label: "藝術家教師", href: "#archive/teachers" },
-              { id: "bibliography", label: "延伸閱讀", href: "#archive/bibliography" },
-            ];
-
+  const items = collectionSubnavItems();
+  const assets = layoutAssets();
   const subChildren = [];
+
   items.forEach((item, i) => {
     if (i > 0) subChildren.push(el("span", { class: "innerSubnavSep", text: "|", "aria-hidden": "true" }));
     subChildren.push(
       el(
         "a",
         {
-          class: `innerSubnavItem${item.id === activeSectionId ? " innerSubnavItemActive" : ""}`,
-          href: item.href || `#classics/${item.id}`,
+          class: innerNavLinkClass("innerSubnavItem", item.id === activeSectionId),
+          href: item.href || `#archive/${item.id}`,
           onclick: (e) => {
             e.preventDefault();
-            navigateFromHref(item.href || `#classics/${item.id}`);
+            navigateFromHref(item.href || `#archive/${item.id}`);
           },
         },
         [item.label || item.id]
@@ -100,31 +158,157 @@ function renderSiteSubnav(activeSectionId) {
     );
   });
 
-  return el("nav", { class: "innerSubnav", "aria-label": "檔案庫子選單" }, subChildren);
+  return el("nav", { class: "innerSubnav", "aria-label": "典藏子選單" }, [
+    el("div", {
+      class: "innerSubnavBg",
+      style: { backgroundImage: `url("${assets.subnavBg}")` },
+      "aria-hidden": "true",
+    }),
+    el("div", { class: "innerSubnavInner" }, subChildren),
+  ]);
 }
 
 function renderSiteFooter() {
   const footer = window.SITE_CONTENT?.site?.footer || {};
   const social = footer.social || {};
+  const assets = layoutAssets();
+  const addressZh = footer.addressZh || footer.address || "";
+  const addressEn = footer.addressEn || "";
 
   return el("footer", { class: "innerFooter" }, [
+    el("div", { class: "innerFooterBgWrap", "aria-hidden": "true" }, [
+      el("img", {
+        class: "innerFooterBgImg",
+        src: assets.footerBg,
+        alt: "",
+        decoding: "async",
+        width: 1962,
+        height: 418,
+      }),
+    ]),
     el("div", { class: "innerFooterInner" }, [
+      assets.partnerLogos
+        ? el("div", { class: "innerFooterPartners" }, [
+            el("img", {
+              class: "innerFooterPartnersImg",
+              src: assets.partnerLogos,
+              alt: "合作單位",
+              loading: "lazy",
+            }),
+          ])
+        : null,
       el("div", { class: "innerFooterContact" }, [
-        footer.address ? el("div", { text: footer.address }) : null,
+        addressZh ? el("div", { text: addressZh }) : null,
+        addressEn ? el("div", { text: addressEn }) : null,
         footer.phone ? el("div", { text: `電話 ${footer.phone}` }) : null,
         footer.fax ? el("div", { text: `傳真 ${footer.fax}` }) : null,
         footer.email ? el("div", { text: footer.email }) : null,
       ]),
       el("div", { class: "innerFooterSocial" }, [
         social.youtube
-          ? el("a", { class: "innerSocialLink", href: social.youtube, target: "_blank", rel: "noreferrer", "aria-label": "YouTube", text: "YT" })
+          ? el("a", {
+              class: "innerSocialLink",
+              href: social.youtube,
+              target: "_blank",
+              rel: "noreferrer",
+              "aria-label": "YouTube",
+            }, [el("img", { src: assets.iconYoutube, alt: "", "aria-hidden": "true" })])
           : null,
         social.facebook
-          ? el("a", { class: "innerSocialLink", href: social.facebook, target: "_blank", rel: "noreferrer", "aria-label": "Facebook", text: "FB" })
+          ? el("a", {
+              class: "innerSocialLink",
+              href: social.facebook,
+              target: "_blank",
+              rel: "noreferrer",
+              "aria-label": "Facebook",
+            }, [el("img", { src: assets.iconFacebook, alt: "", "aria-hidden": "true" })])
           : null,
       ]),
     ]),
   ]);
+}
+
+function collectSiteSearchEntries(node, path = "", out = []) {
+  if (node == null) return out;
+  if (typeof node === "string") {
+    const text = node.trim();
+    if (text.length >= 2) out.push({ path, text });
+    return out;
+  }
+  if (Array.isArray(node)) {
+    node.forEach((item, i) => collectSiteSearchEntries(item, `${path}[${i}]`, out));
+    return out;
+  }
+  if (typeof node === "object") {
+    Object.entries(node).forEach(([key, value]) => {
+      if (["src", "href", "id", "type", "image", "social"].includes(key)) return;
+      collectSiteSearchEntries(value, path ? `${path}.${key}` : key, out);
+    });
+  }
+  return out;
+}
+
+function runSiteSearch(query) {
+  const q = String(query || "").trim().toLowerCase();
+  if (!q) return [];
+  const entries = collectSiteSearchEntries(window.SITE_CONTENT || {});
+  const seen = new Set();
+  const results = [];
+  entries.forEach(({ path, text }) => {
+    if (!text.toLowerCase().includes(q)) return;
+    const snippet = text.length > 120 ? `${text.slice(0, 119)}…` : text;
+    const key = `${path}:${snippet}`;
+    if (seen.has(key)) return;
+    seen.add(key);
+    results.push({ path, snippet });
+  });
+  return results.slice(0, 40);
+}
+
+function ensureSiteSearchOverlay() {
+  let overlay = document.getElementById("siteSearchOverlay");
+  if (overlay) return overlay;
+
+  overlay = el("div", { id: "siteSearchOverlay", class: "siteSearchOverlay", hidden: true }, [
+    el("div", { class: "siteSearchBackdrop", onclick: () => closeSiteSearch() }),
+    el("div", { class: "siteSearchPanel", role: "dialog", "aria-modal": "true", "aria-label": "搜尋結果" }, [
+      el("div", { class: "siteSearchHead" }, [
+        el("h2", { class: "siteSearchTitle", text: "搜尋結果" }),
+        el("button", { class: "siteSearchClose", type: "button", text: "關閉", onclick: () => closeSiteSearch() }),
+      ]),
+      el("div", { id: "siteSearchResults", class: "siteSearchResults" }),
+    ]),
+  ]);
+  document.body.appendChild(overlay);
+  return overlay;
+}
+
+function closeSiteSearch() {
+  const overlay = document.getElementById("siteSearchOverlay");
+  if (overlay) overlay.hidden = true;
+}
+
+function openSiteSearch(query) {
+  const overlay = ensureSiteSearchOverlay();
+  const resultsEl = overlay.querySelector("#siteSearchResults");
+  const results = runSiteSearch(query);
+  resultsEl.innerHTML = "";
+
+  if (!results.length) {
+    resultsEl.appendChild(el("p", { class: "siteSearchEmpty", text: `找不到與「${query}」相關的內容。` }));
+  } else {
+    resultsEl.appendChild(
+      el(
+        "ul",
+        { class: "siteSearchList" },
+        results.map((item) =>
+          el("li", {}, [el("span", { class: "siteSearchPath", text: item.path }), el("p", { text: item.snippet })])
+        )
+      )
+    );
+  }
+
+  overlay.hidden = false;
 }
 
 function wrapInnerPage(contentEl, { activeNav = "", activeSubnav = "", showSubnav = false } = {}) {
@@ -137,7 +321,8 @@ function wrapInnerPage(contentEl, { activeNav = "", activeSubnav = "", showSubna
   return shell;
 }
 
-function renderTimelineEntry(entry) {
+function renderTimelineEntry(entry, options = {}) {
+  const pastWebsites = options.pastWebsites === true;
   const links = Array.isArray(entry.links) ? entry.links : [];
   const image = entry.image;
   const imagePosition = entry.imagePosition === "above" ? "above" : "below";
@@ -200,10 +385,19 @@ function renderTimelineEntry(entry) {
     )
   );
 
+  if (pastWebsites) {
+    return el("div", { class: "timelineEntry timelineEntry--pastWebsites" }, [
+      el("div", { class: "timelineEntryArt" }, imageEl ? [imageEl] : []),
+      el("div", { class: "timelineEntryMarker" }, [dotEl]),
+      el("div", { class: "timelineEntryYear" }, [yearEl]),
+      linksEl,
+    ]);
+  }
+
   const stack = el("div", { class: `timelineStack timelineStack--${imagePosition}` }, [
     imagePosition === "above" ? imageEl : null,
-    yearEl,
     dotEl,
+    yearEl,
     linksEl,
     imagePosition === "below" ? imageEl : null,
   ]);
@@ -211,11 +405,14 @@ function renderTimelineEntry(entry) {
   return el("div", { class: "timelineEntry" }, [stack]);
 }
 
-function renderClassicsTimeline() {
+function renderClassicsTimeline(options = {}) {
+  const pastWebsites = options.pastWebsites === true;
   const data = window.SITE_CONTENT?.classics || {};
   const rows = Array.isArray(data.timelineRows) ? data.timelineRows : [];
 
-  const content = el("div", { class: "timelinePage" });
+  const content = el("div", {
+    class: `timelinePage${pastWebsites ? " timelinePage--pastWebsites" : ""}`,
+  });
   for (const row of rows) {
     const entries = Array.isArray(row.entries) ? row.entries : [];
     const rowEl = el("div", { class: "timelineRow" }, [
@@ -223,7 +420,7 @@ function renderClassicsTimeline() {
       el(
         "div",
         { class: `timelineGrid timelineGrid--${Math.min(4, Math.max(1, entries.length))}` },
-        entries.map((entry) => renderTimelineEntry(entry))
+        entries.map((entry) => renderTimelineEntry(entry, { pastWebsites }))
       ),
     ]);
     content.appendChild(rowEl);
