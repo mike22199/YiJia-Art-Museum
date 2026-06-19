@@ -12,30 +12,223 @@
     },
     "accessTitle": "索取閱讀權限",
     "accessMessage": "若是要閱讀，請與網頁負責人要求存取權。",
+    "booksArea": {
+      "top": "20.3%",
+      "height": "65.5%"
+    },
     "shelfBooks": [
-      { "id": "b01", "hotspot": { "left": "5.3%", "top": "19%", "width": "2.3%", "height": "62%" } },
-      { "id": "b02", "hotspot": { "left": "7.8%", "top": "19%", "width": "2.7%", "height": "62%" } },
-      { "id": "b03", "hotspot": { "left": "10.8%", "top": "19%", "width": "2.2%", "height": "62%" } },
-      { "id": "b04", "hotspot": { "left": "13.2%", "top": "19%", "width": "2.5%", "height": "62%" } },
-      { "id": "b05", "hotspot": { "left": "15.9%", "top": "19%", "width": "1.9%", "height": "62%" } },
-      { "id": "b06", "hotspot": { "left": "18.0%", "top": "19%", "width": "1.9%", "height": "62%" } },
-      { "id": "b07", "hotspot": { "left": "20.1%", "top": "19%", "width": "2.2%", "height": "62%" } },
-      { "id": "b08", "hotspot": { "left": "22.5%", "top": "19%", "width": "2.2%", "height": "62%" } },
-      { "id": "b09", "hotspot": { "left": "24.9%", "top": "19%", "width": "2.4%", "height": "62%" } },
-      { "id": "b10", "hotspot": { "left": "27.5%", "top": "19%", "width": "2.4%", "height": "62%" } },
-      { "id": "b11", "hotspot": { "left": "30.1%", "top": "19%", "width": "2.2%", "height": "62%" } },
-      { "id": "b12", "hotspot": { "left": "32.5%", "top": "19%", "width": "2.2%", "height": "62%" } },
-      { "id": "b13", "hotspot": { "left": "34.9%", "top": "19%", "width": "2.2%", "height": "62%" } },
-      { "id": "b14", "hotspot": { "left": "37.3%", "top": "19%", "width": "2.2%", "height": "62%" } },
-      { "id": "b15", "hotspot": { "left": "39.7%", "top": "19%", "width": "2.2%", "height": "62%" } },
-      { "id": "b16", "hotspot": { "left": "42.1%", "top": "19%", "width": "1.5%", "height": "62%" } },
-      { "id": "b17", "hotspot": { "left": "43.8%", "top": "19%", "width": "4.0%", "height": "62%" } },
-      { "id": "b18", "hotspot": { "left": "48.2%", "top": "19%", "width": "2.7%", "height": "62%" } },
-      { "id": "b19", "hotspot": { "left": "51.1%", "top": "19%", "width": "2.5%", "height": "62%" } },
-      { "id": "b20", "hotspot": { "left": "53.8%", "top": "19%", "width": "2.7%", "height": "62%" } },
-      { "id": "b21", "hotspot": { "left": "56.7%", "top": "19%", "width": "2.5%", "height": "62%" } },
-      { "id": "b22", "hotspot": { "left": "59.4%", "top": "19%", "width": "2.7%", "height": "62%" } },
-      { "id": "b23", "hotspot": { "left": "62.3%", "top": "19%", "width": "2.9%", "height": "62%" } }
+      [
+        {
+          "id": "b01",
+          "hotspot": {
+            "left": "9.4%",
+            "top": "19.5%",
+            "width": "2.5%",
+            "height": "66.3%"
+          }
+        },
+        {
+          "id": "b02",
+          "hotspot": {
+            "left": "14.6%",
+            "top": "28.2%",
+            "width": "2.2%",
+            "height": "57.5%",
+            "rotate": -5.9
+          }
+        },
+        {
+          "id": "b03",
+          "hotspot": {
+            "left": "17.1%",
+            "top": "27.6%",
+            "width": "2.3%",
+            "height": "58.9%"
+          }
+        },
+        {
+          "id": "b04",
+          "hotspot": {
+            "left": "20.1%",
+            "top": "28.4%",
+            "width": "2.0%",
+            "height": "57.9%"
+          }
+        },
+        {
+          "id": "b05",
+          "hotspot": {
+            "left": "22.8%",
+            "top": "28.7%",
+            "width": "2.3%",
+            "height": "58.5%"
+          }
+        },
+        {
+          "id": "b06",
+          "hotspot": {
+            "left": "25.7%",
+            "top": "28.3%",
+            "width": "2.2%",
+            "height": "58.1%"
+          }
+        },
+        {
+          "id": "b07",
+          "hotspot": {
+            "left": "28.5%",
+            "top": "25.6%",
+            "width": "4.1%",
+            "height": "60.4%"
+          }
+        },
+        {
+          "id": "b08",
+          "hotspot": {
+            "left": "33.3%",
+            "top": "26.6%",
+            "width": "3.9%",
+            "height": "58.6%"
+          }
+        },
+        {
+          "id": "b09",
+          "hotspot": {
+            "left": "37.6%",
+            "top": "20.3%",
+            "width": "2.9%",
+            "height": "65.8%"
+          }
+        },
+        {
+          "id": "b10",
+          "hotspot": {
+            "left": "41.2%",
+            "top": "20.3%",
+            "width": "2.7%",
+            "height": "65.8%"
+          }
+        },
+        {
+          "id": "b11",
+          "hotspot": {
+            "left": "44.4%",
+            "top": "20.3%",
+            "width": "2.9%",
+            "height": "65.8%"
+          }
+        },
+        {
+          "id": "b12",
+          "hotspot": {
+            "left": "47.9%",
+            "top": "20.3%",
+            "width": "2.6%",
+            "height": "65.8%"
+          }
+        },
+        {
+          "id": "b13",
+          "hotspot": {
+            "left": "51.2%",
+            "top": "20.3%",
+            "width": "2.7%",
+            "height": "65.8%"
+          }
+        },
+        {
+          "id": "b14",
+          "hotspot": {
+            "left": "54.6%",
+            "top": "20.3%",
+            "width": "2.6%",
+            "height": "65.8%"
+          }
+        },
+        {
+          "id": "b15",
+          "hotspot": {
+            "left": "58.0%",
+            "top": "20.3%",
+            "width": "2.5%",
+            "height": "65.8%"
+          }
+        },
+        {
+          "id": "b16",
+          "hotspot": {
+            "left": "61.4%",
+            "top": "18.6%",
+            "width": "1.3%",
+            "height": "67.2%",
+            "rotate": 5.4
+          }
+        },
+        {
+          "id": "b17",
+          "hotspot": {
+            "left": "65.5%",
+            "top": "23.1%",
+            "width": "6.5%",
+            "height": "63.1%"
+          }
+        },
+        {
+          "id": "b18",
+          "hotspot": {
+            "left": "75.4%",
+            "top": "19.3%",
+            "width": "2.4%",
+            "height": "65.8%",
+            "rotate": -7
+          }
+        },
+        {
+          "id": "b19",
+          "hotspot": {
+            "left": "78.6%",
+            "top": "28.6%",
+            "width": "2.1%",
+            "height": "57.9%"
+          }
+        },
+        {
+          "id": "b20",
+          "hotspot": {
+            "left": "81.3%",
+            "top": "28.6%",
+            "width": "2.3%",
+            "height": "58.1%"
+          }
+        },
+        {
+          "id": "b21",
+          "hotspot": {
+            "left": "84.2%",
+            "top": "28.6%",
+            "width": "2.4%",
+            "height": "58.6%"
+          }
+        },
+        {
+          "id": "b22",
+          "hotspot": {
+            "left": "87.4%",
+            "top": "20.3%",
+            "width": "2.3%",
+            "height": "65.8%"
+          }
+        },
+        {
+          "id": "b23",
+          "hotspot": {
+            "left": "90.7%",
+            "top": "20.3%",
+            "width": "2.5%",
+            "height": "65.8%"
+          }
+        }
+      ]
     ]
   }
 }

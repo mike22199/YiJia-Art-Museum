@@ -51,7 +51,7 @@
     if (id === "journal" && Array.isArray(sec.books)) {
       out.books = sec.books.map((b) => ({
         title: b.title || "",
-        href: b.href || "#research/book",
+        href: b.href || "#archive/research",
         image: toImageObj(b.cover, b.title) || {
           src: "./assets/images/placeholder-book.svg",
           alt: b.title || "日誌",

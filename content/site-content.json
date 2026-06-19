@@ -523,7 +523,7 @@
             "books": [
               {
                 "title": "李孟潔｜日誌一",
-                "href": "#research/book",
+                "href": "#archive/research",
                 "image": {
                   "src": "./assets/images/placeholder-book.svg",
                   "alt": "教師日誌一"
@@ -531,7 +531,7 @@
               },
               {
                 "title": "李孟潔｜日誌二",
-                "href": "#research/book",
+                "href": "#archive/research",
                 "image": {
                   "src": "./assets/images/placeholder-book.svg",
                   "alt": "教師日誌二"
@@ -539,7 +539,7 @@
               },
               {
                 "title": "李孟潔｜日誌三",
-                "href": "#research/book",
+                "href": "#archive/research",
                 "image": {
                   "src": "./assets/images/placeholder-book.svg",
                   "alt": "教師日誌三"
@@ -547,7 +547,7 @@
               },
               {
                 "title": "李孟潔｜日誌四",
-                "href": "#research/book",
+                "href": "#archive/research",
                 "image": {
                   "src": "./assets/images/placeholder-book.svg",
                   "alt": "教師日誌四"
@@ -555,7 +555,7 @@
               },
               {
                 "title": "李孟潔｜日誌五",
-                "href": "#research/book",
+                "href": "#archive/research",
                 "image": {
                   "src": "./assets/images/placeholder-book.svg",
                   "alt": "教師日誌五"
@@ -617,7 +617,7 @@
             "books": [
               {
                 "title": "教師日誌一",
-                "href": "#research/book",
+                "href": "#archive/research",
                 "image": {
                   "src": "./assets/images/placeholder-book.svg",
                   "alt": "日誌"
@@ -625,7 +625,7 @@
               },
               {
                 "title": "教師日誌二",
-                "href": "#research/book",
+                "href": "#archive/research",
                 "image": {
                   "src": "./assets/images/placeholder-book.svg",
                   "alt": "日誌"

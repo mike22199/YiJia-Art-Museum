@@ -71,7 +71,7 @@ const introBook = defineType({
   type: "object",
   fields: [
     defineField({ name: "title", type: "string", title: "書名／標題" }),
-    defineField({ name: "href", type: "string", title: "連結", initialValue: "#research/book" }),
+    defineField({ name: "href", type: "string", title: "連結", initialValue: "#archive/research" }),
     imageField("cover", "封面圖"),
   ],
 });

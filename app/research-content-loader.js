@@ -68,7 +68,10 @@
 
         const journalMap = pack.journals && typeof pack.journals === "object" ? pack.journals : {};
         for (const [teacherId, journal] of Object.entries(journalMap)) {
-          if (journal && Array.isArray(journal.pages)) {
+          if (
+            journal &&
+            (Array.isArray(journal.spreads) || Array.isArray(journal.pages))
+          ) {
             teachers.journals[teacherId] = journal;
           }
         }

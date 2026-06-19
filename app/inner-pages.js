@@ -476,10 +476,10 @@ function buildIntroSectionsFromLegacy(detail) {
     books: carousel.length
       ? carousel.map((item, i) => ({
           title: item.name || `日誌 ${i + 1}`,
-          href: "#research/book",
+          href: "#archive/research",
           image: item.image || { src: bookImg, alt: "教師日誌" },
         }))
-      : [{ title: "教師日誌", href: "#research/book", image: { src: bookImg, alt: "教師日誌" } }],
+      : [{ title: "教師日誌", href: "#archive/research", image: { src: bookImg, alt: "教師日誌" } }],
   });
   return sections;
 }
@@ -554,7 +554,7 @@ function renderIntroSectionBlock(section) {
           "a",
           {
             class: "bookCarouselItem",
-            href: book.href || "#research/book",
+            href: book.href || "#archive/research",
             onclick: (e) => {
               if (String(book.href || "").startsWith("#")) {
                 e.preventDefault();
@@ -804,14 +804,6 @@ function renderCoCreatePage(main) {
   main.appendChild(wrapInnerPage(panel, { activeNav: "co-create" }));
 }
 
-function renderResearchPage(main, route) {
-  const container = el("div");
-  renderResearch(container, route);
-  const pageEl = container.firstChild;
-  if (pageEl) {
-    pageEl.querySelector(".backRow")?.remove();
-    pageEl.querySelector(".hero")?.remove();
-    main.innerHTML = "";
-    main.appendChild(wrapInnerPage(pageEl, { activeNav: "research" }));
-  }
+function renderResearchPage(main) {
+  navigateFromHref("#archive/research");
 }

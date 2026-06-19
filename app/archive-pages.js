@@ -9,29 +9,29 @@ const JOURNAL_FLIPBOOK_FRAME = "./assets/images/Journal/Flip-book.png";
 const JOURNAL_BOOKSHELF = "./assets/images/Journal/Book-shelf.png";
 const RESEARCH_SHELF_TAB_YEARS = ["2019", "2020", "2021", "2022", "2027"];
 const RESEARCH_SHELF_BOOK_HOTSPOTS = [
-  { id: "b01", left: "5.3%", width: "2.3%" },
-  { id: "b02", left: "7.8%", width: "2.7%" },
-  { id: "b03", left: "10.8%", width: "2.2%" },
-  { id: "b04", left: "13.2%", width: "2.5%" },
-  { id: "b05", left: "15.9%", width: "1.9%" },
-  { id: "b06", left: "18.0%", width: "1.9%" },
-  { id: "b07", left: "20.1%", width: "2.2%" },
-  { id: "b08", left: "22.5%", width: "2.2%" },
-  { id: "b09", left: "24.9%", width: "2.4%" },
-  { id: "b10", left: "27.5%", width: "2.4%" },
-  { id: "b11", left: "30.1%", width: "2.2%" },
-  { id: "b12", left: "32.5%", width: "2.2%" },
-  { id: "b13", left: "34.9%", width: "2.2%" },
-  { id: "b14", left: "37.3%", width: "2.2%" },
-  { id: "b15", left: "39.7%", width: "2.2%" },
-  { id: "b16", left: "42.1%", width: "1.5%" },
-  { id: "b17", left: "43.8%", width: "4.0%" },
-  { id: "b18", left: "48.2%", width: "2.7%" },
-  { id: "b19", left: "51.1%", width: "2.5%" },
-  { id: "b20", left: "53.8%", width: "2.7%" },
-  { id: "b21", left: "56.7%", width: "2.5%" },
-  { id: "b22", left: "59.4%", width: "2.7%" },
-  { id: "b23", left: "62.3%", width: "2.9%" },
+  { id: "b01", left: "3.9%", width: "1.8%" },
+  { id: "b02", left: "5.8%", width: "2.1%" },
+  { id: "b03", left: "8.0%", width: "1.9%" },
+  { id: "b04", left: "9.9%", width: "2.0%" },
+  { id: "b05", left: "12.0%", width: "1.6%" },
+  { id: "b06", left: "13.7%", width: "1.6%" },
+  { id: "b07", left: "15.4%", width: "1.9%" },
+  { id: "b08", left: "17.4%", width: "1.9%" },
+  { id: "b09", left: "19.4%", width: "2.1%" },
+  { id: "b10", left: "21.6%", width: "2.1%" },
+  { id: "b11", left: "23.8%", width: "1.9%" },
+  { id: "b12", left: "25.8%", width: "1.9%" },
+  { id: "b13", left: "27.8%", width: "1.9%" },
+  { id: "b14", left: "29.8%", width: "1.9%" },
+  { id: "b15", left: "31.8%", width: "1.9%" },
+  { id: "b16", left: "33.8%", width: "1.3%" },
+  { id: "b17", left: "35.2%", width: "3.7%" },
+  { id: "b18", left: "39.1%", width: "2.4%" },
+  { id: "b19", left: "41.7%", width: "2.1%" },
+  { id: "b20", left: "43.9%", width: "2.3%" },
+  { id: "b21", left: "46.3%", width: "2.1%" },
+  { id: "b22", left: "48.5%", width: "2.3%" },
+  { id: "b23", left: "50.9%", width: "2.5%" },
 ];
 const ARCHIVE_TEACHER_AVATAR_COLORS = [
   "#b82020",
@@ -2161,80 +2161,163 @@ function renderArchiveTeacherTimeline(years, year, teacherId, teachersData, sect
   return bar;
 }
 
-function appendFlipPageContent(node, page, pageNo, total) {
-  node.style.backgroundColor = page?.color || "#fff";
-  if (page?.image?.src) {
-    node.appendChild(
+const JOURNAL_PAPER_COLOR = "#f4f0e6";
+const JOURNAL_COVER_COLOR = "#ffffff";
+// 翻書尺寸：JOURNAL_FRAME_FIT_SCALE 整體縮放（1 = 100%）
+// 跨頁比例：有掃描圖時自動偵測；無圖時用 JOURNAL_DEFAULT_SPREAD_ASPECT
+const JOURNAL_DEFAULT_SPREAD_ASPECT = 2.56;
+const JOURNAL_FRAME_FIT_SCALE = 1;
+
+function firstSpreadImageSrc(spreads) {
+  const hit = (Array.isArray(spreads) ? spreads : []).find((spread) => spread?.image?.src);
+  return hit?.image?.src || "";
+}
+
+function detectSpreadAspect(spreads) {
+  const src = firstSpreadImageSrc(spreads);
+  if (!src) return Promise.resolve(JOURNAL_DEFAULT_SPREAD_ASPECT);
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      const aspect = img.naturalWidth / Math.max(1, img.naturalHeight);
+      resolve(aspect > 1 ? aspect : JOURNAL_DEFAULT_SPREAD_ASPECT);
+    };
+    img.onerror = () => resolve(JOURNAL_DEFAULT_SPREAD_ASPECT);
+    img.src = src;
+  });
+}
+
+function resolveStfPageSize(shellEl, spreadAspect = JOURNAL_DEFAULT_SPREAD_ASPECT, scale = JOURNAL_FRAME_FIT_SCALE) {
+  const rect = shellEl.getBoundingClientRect();
+  const availW = Math.max(160, rect.width || shellEl.clientWidth || 480) * scale;
+  const availH = Math.max(140, rect.height || shellEl.clientHeight || 280) * scale;
+
+  let spreadW = availW;
+  let spreadH = spreadW / spreadAspect;
+  if (spreadH > availH) {
+    spreadH = availH;
+    spreadW = spreadH * spreadAspect;
+  }
+
+  const width = Math.max(120, Math.round(spreadW / 2));
+  const height = Math.max(100, Math.round(spreadH));
+
+  return {
+    width,
+    height,
+    spreadW: width * 2,
+    spreadH: height,
+  };
+}
+
+function applyStfBookLayout(hostEl, layout) {
+  hostEl.style.width = `${layout.spreadW}px`;
+  hostEl.style.height = `${layout.spreadH}px`;
+  hostEl.style.maxWidth = "100%";
+  hostEl.style.maxHeight = "100%";
+  hostEl.style.flex = "0 0 auto";
+}
+
+function createStPageElement(kind, options = {}) {
+  const page = el("div", { class: "archiveStfPage" });
+  if (kind === "cover" || kind === "back") {
+    page.dataset.density = "hard";
+    page.style.backgroundColor = JOURNAL_COVER_COLOR;
+    return page;
+  }
+  if (kind === "spread-half") {
+    page.style.backgroundColor = JOURNAL_PAPER_COLOR;
+    const half = el("div", { class: `flipSpreadHalf flipSpreadHalf--${options.side}` });
+    half.appendChild(
       el("img", {
-        class: "flipPageImage",
-        src: page.image.src,
-        alt: page.image.alt || page.title || `日誌第 ${pageNo} 頁`,
-        loading: "lazy",
+        class: "flipSpreadImage",
+        src: options.src,
+        alt: options.alt || "日誌跨頁",
+        draggable: "false",
       })
     );
-  } else {
-    if (page?.title) node.appendChild(el("div", { class: "bookTitle", text: page.title }));
-    if (page?.body) node.appendChild(el("div", { class: "bookBody", text: page.body }));
+    page.appendChild(half);
+    return page;
   }
-  node.appendChild(el("div", { class: "bookPageNo", text: `${pageNo} / ${total}` }));
+  page.style.backgroundColor = JOURNAL_PAPER_COLOR;
+  return page;
 }
 
-function fillFlipPage(node, page, pageNo, total) {
-  node.innerHTML = "";
-  appendFlipPageContent(node, page, pageNo, total);
+function spreadsToStPageElements(spreads) {
+  const pages = [];
+  for (const spread of spreads) {
+    if (spread?.kind === "cover") {
+      pages.push(createStPageElement("cover"));
+      continue;
+    }
+    if (spread?.kind === "back") {
+      pages.push(createStPageElement("back"));
+      continue;
+    }
+    if (spread?.image?.src) {
+      pages.push(
+        createStPageElement("spread-half", {
+          side: "left",
+          src: spread.image.src,
+          alt: spread.image.alt || spread.title || "",
+        })
+      );
+      pages.push(
+        createStPageElement("spread-half", {
+          side: "right",
+          src: spread.image.src,
+          alt: spread.image.alt || spread.title || "",
+        })
+      );
+    }
+  }
+  return pages.length ? pages : [createStPageElement("cover"), createStPageElement("back")];
 }
 
-function fillFlipSheet(node, frontPage, frontPageNo, backPage, backPageNo, total) {
-  node.innerHTML = "";
-  const front = el("div", { class: "flipSheetFace flipSheetFace--front" });
-  const back = el("div", { class: "flipSheetFace flipSheetFace--back" });
-  appendFlipPageContent(front, frontPage, frontPageNo, total);
-  if (backPage) {
-    appendFlipPageContent(back, backPage, backPageNo, total);
-  } else {
-    back.style.backgroundColor = frontPage?.color || "#f4f1ea";
+function spreadIndexFromPageIndex(pageIndex, spreads) {
+  let pagePtr = 0;
+  for (let i = 0; i < spreads.length; i += 1) {
+    if (pagePtr >= pageIndex) return i;
+    const spread = spreads[i];
+    if (spread?.kind === "cover" || spread?.kind === "back") pagePtr += 1;
+    else if (spread?.image?.src) pagePtr += 2;
   }
-  node.appendChild(front);
-  node.appendChild(back);
+  return Math.max(0, spreads.length - 1);
+}
+
+function buildPlaceholderJournalSpreads() {
+  return [{ kind: "cover" }, { kind: "back" }];
+}
+
+function resolveJournalSpreads(journal, teacherName) {
+  if (Array.isArray(journal?.spreads) && journal.spreads.length) {
+    return journal.spreads;
+  }
+
+  const pages = Array.isArray(journal?.pages) ? journal.pages.filter(Boolean) : [];
+  if (!pages.length) return buildPlaceholderJournalSpreads();
+
+  if (journal?.layout === "spread" || pages.every((page) => page?.image?.src)) {
+    const spreads = [{ kind: "cover" }];
+    pages.forEach((page) => {
+      spreads.push({
+        title: page.title || "",
+        image: page.image,
+      });
+    });
+    spreads.push({ kind: "back" });
+    return spreads;
+  }
+
+  return buildPlaceholderJournalSpreads();
 }
 
 function buildPlaceholderJournalPages(teacherName) {
-  const name = teacherName || "藝術家教師";
-  const colors = ["#FFE4E1", "#FFF8DC", "#E0FFE0", "#E0F7FF", "#F3E5FF", "#FFF0E6"];
-  return colors.map((color, i) => ({
-    title: `日誌第 ${i + 1} 頁`,
-    date: "",
-    color,
-    body: "藝術家教師日誌內容",
-  }));
+  return buildPlaceholderJournalSpreads();
 }
 
 function resolveJournalPages(journal, teacherName) {
-  const colors = ["#FFE4E1", "#FFF8DC", "#E0FFE0", "#E0F7FF", "#F3E5FF", "#FFF0E6"];
-  const minPages = 6;
-  const name = teacherName || "藝術家教師";
-  const existing = Array.isArray(journal?.pages) ? journal.pages.filter(Boolean) : [];
-
-  if (existing.length >= 2) return existing;
-
-  if (!existing.length) return buildPlaceholderJournalPages(name);
-
-  const pages = [];
-  for (let i = 0; i < minPages; i += 1) {
-    if (i < existing.length) {
-      pages.push({
-        ...existing[i],
-        color: existing[i].color || colors[i % colors.length],
-      });
-      continue;
-    }
-    pages.push({
-      title: `日誌第 ${i + 1} 頁`,
-      color: colors[i % colors.length],
-      body: "藝術家教師日誌內容",
-    });
-  }
-  return pages;
+  return resolveJournalSpreads(journal, teacherName);
 }
 
 function wrapResearchJournalFrame(viewerContent) {
@@ -2251,16 +2334,16 @@ function wrapResearchJournalFrame(viewerContent) {
   return frame;
 }
 
-function renderArchiveIssuuFlipbook(pages, id, options = {}) {
-  const list = Array.isArray(pages) && pages.length ? pages : buildPlaceholderJournalPages();
+function renderArchiveIssuuFlipbook(spreads, id, options = {}) {
+  const list = Array.isArray(spreads) && spreads.length ? spreads : buildPlaceholderJournalSpreads();
   const wrap = el("div", { class: "archiveTeachersViewer" });
   const viewer = el("div", {
-    class: "archiveJournalWrap archiveJournalWrap--issuu flipBookWrap",
+    class: "archiveJournalWrap archiveJournalWrap--stf flipBookWrap",
     id: id || "archive-journal",
   });
   const pageCounter = el("span", { class: "archiveIssuuPageNo", text: "" });
   const toolbar = el("div", { class: "archiveIssuuToolbar" }, [
-    el("span", { class: "archiveIssuuHint", text: "點擊左頁上一頁 · 點擊右頁下一頁 · 方向鍵亦可翻頁" }),
+    el("span", { class: "archiveIssuuHint", text: "點擊書頁左右側翻頁 · 方向鍵亦可 · 手機可用下方按鈕" }),
     pageCounter,
     el("button", {
       class: "btn btnGhost archiveIssuuZoomBtn",
@@ -2270,215 +2353,138 @@ function renderArchiveIssuuFlipbook(pages, id, options = {}) {
     }),
   ]);
 
-  const book = el("div", {
-    class: "flipBook archiveFlipBook archiveFlipBook--issuu",
-    role: "group",
-    "aria-label": "教師日誌",
-    tabindex: "0",
-  });
-  const pageLeft = el("div", { class: "flipPage flipPageLeft" });
-  const pageFront = el("div", { class: "flipPage flipPageFront flipPageRight" });
-  const pageBack = el("div", { class: "flipPage flipPageBack flipPageRight" });
   const prevBtn = el("button", {
     class: "btn btnGhost archiveIssuuNavBtn",
     type: "button",
     text: "‹ 上一頁",
+    "aria-label": "上一跨頁",
   });
   const nextBtn = el("button", {
     class: "btn archiveIssuuNavBtn",
     type: "button",
     text: "下一頁 ›",
+    "aria-label": "下一跨頁",
   });
-  let idx = 0;
-  const FLIP_MS = 1100;
-  const FLIP_ANGLE = "-180deg";
 
-  const pageLabel = (pageIndex) => {
-    const leftNo = pageIndex + 1;
-    const rightNo = Math.min(list.length, pageIndex + 2);
-    return leftNo === rightNo ? `${leftNo} / ${list.length}` : `${leftNo}–${rightNo} / ${list.length}`;
+  const bookShell = el("div", { class: "archiveStfBookShell" });
+  const bookHost = el("div", {
+    class: "archiveStfBookHost",
+    role: "group",
+    "aria-label": "教師日誌",
+    tabindex: "0",
+  });
+  const pageEls = spreadsToStPageElements(list);
+  pageEls.forEach((page) => bookHost.appendChild(page));
+  bookShell.appendChild(bookHost);
+
+  const updateNav = (pageFlip) => {
+    if (!pageFlip) return;
+    const pageIndex = pageFlip.getCurrentPageIndex();
+    const spreadIdx = spreadIndexFromPageIndex(pageIndex, list);
+    pageCounter.textContent = `${spreadIdx + 1} / ${list.length}`;
+    prevBtn.disabled = spreadIdx <= 0;
+    nextBtn.disabled = spreadIdx >= list.length - 1;
   };
 
-  const sync = () => {
-    const left = list[idx];
-    const right = list[Math.min(list.length - 1, idx + 1)] || left;
-    const under = list[Math.min(list.length - 1, idx + 2)] || right;
-    fillFlipPage(pageLeft, left, idx + 1, list.length);
-    fillFlipSheet(
-      pageFront,
-      right,
-      Math.min(list.length, idx + 2),
-      under,
-      Math.min(list.length, idx + 3),
-      list.length
-    );
-    fillFlipPage(pageBack, under, Math.min(list.length, idx + 3), list.length);
-    book.style.backgroundColor = right?.color || "#f5f5f5";
-    pageCounter.textContent = pageLabel(idx);
-    prevBtn.disabled = idx <= 0;
-    nextBtn.disabled = idx >= list.length - 1;
+  let pageFlip = null;
+  let resizeObserver = null;
+  let flipLocked = false;
+  let resizeTimer = null;
+  const isMobile = () => window.matchMedia("(max-width: 720px)").matches;
+
+  const scheduleLayoutUpdate = () => {
+    if (!pageFlip || flipLocked) return;
+    clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(() => {
+      if (!pageFlip || flipLocked) return;
+      pageFlip.update();
+      updateNav(pageFlip);
+    }, 120);
   };
 
-  const resetPageFront = () => {
-    pageFront.style.transition = "none";
-    pageFront.style.transform = "translateZ(2px) rotateY(0deg)";
-    pageFront.style.transformOrigin = "left center";
-    void pageFront.offsetWidth;
-    pageFront.style.removeProperty("transition");
-    pageFront.style.removeProperty("transform");
-    pageFront.style.removeProperty("transform-origin");
-  };
+  const initPageFlip = async () => {
+    if (!window.St?.PageFlip) {
+      if (!bookHost.querySelector(".archiveStfFallback")) {
+        bookHost.appendChild(
+          el("p", { class: "archiveStfFallback", text: "翻頁元件載入失敗，請重新整理頁面。" })
+        );
+      }
+      return;
+    }
+    if (pageFlip) {
+      scheduleLayoutUpdate();
+      return;
+    }
 
-  const flip = (dir) => {
-    if (dir > 0 && idx >= list.length - 1) return;
-    if (dir < 0 && idx <= 0) return;
-    if (book.classList.contains("isFlipping")) return;
+    const spreadAspect = await detectSpreadAspect(list);
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    const layout = resolveStfPageSize(bookShell, spreadAspect);
+    applyStfBookLayout(bookHost, layout);
+    const mobile = isMobile();
 
-    book.classList.remove("flipDirNext", "flipDirPrev", "isFlipping");
-    resetPageFront();
+    pageFlip = new St.PageFlip(bookHost, {
+      width: layout.width,
+      height: layout.height,
+      size: "fixed",
+      showCover: true,
+      drawShadow: true,
+      flippingTime: 900,
+      usePortrait: mobile,
+      mobileScrollSupport: false,
+      autoSize: false,
+      maxShadowOpacity: 0.42,
+      swipeDistance: 30,
+      disableFlipByClick: mobile,
+    });
 
-    const startFlip = () => {
-      book.classList.add(dir > 0 ? "flipDirNext" : "flipDirPrev", "isFlipping");
+    pageFlip.loadFromHTML(pageEls);
+    pageFlip.on("flip", () => updateNav(pageFlip));
+    pageFlip.on("changeState", (e) => {
+      flipLocked = e.data !== "read";
+    });
+    pageFlip.on("changeOrientation", () => {
+      if (!flipLocked) scheduleLayoutUpdate();
+    });
+
+    prevBtn.onclick = () => pageFlip.flipPrev();
+    nextBtn.onclick = () => pageFlip.flipNext();
+
+    bookHost.onkeydown = (e) => {
+      if (e.key === "ArrowLeft" || e.key === "PageUp") {
+        e.preventDefault();
+        pageFlip.flipPrev();
+      } else if (e.key === "ArrowRight" || e.key === "PageDown" || e.key === " ") {
+        e.preventDefault();
+        pageFlip.flipNext();
+      }
     };
 
-    if (dir < 0) {
-      const leavingIdx = idx;
-      idx = Math.max(0, idx - 1);
-      const newRight = list[Math.min(list.length - 1, idx + 1)] || list[idx];
-      const oldRight = list[Math.min(list.length - 1, leavingIdx + 1)] || list[leavingIdx];
-      fillFlipPage(pageLeft, list[idx], idx + 1, list.length);
-      fillFlipSheet(
-        pageFront,
-        newRight,
-        Math.min(list.length, idx + 2),
-        oldRight,
-        Math.min(list.length, leavingIdx + 2),
-        list.length
-      );
-      fillFlipPage(pageBack, oldRight, Math.min(list.length, leavingIdx + 2), list.length);
-      book.style.backgroundColor = newRight?.color || "#f5f5f5";
-      pageFront.style.transition = "none";
-      pageFront.style.transformOrigin = "left center";
-      pageFront.style.transform = `translateZ(2px) rotateY(${FLIP_ANGLE})`;
-      void pageFront.offsetWidth;
-      requestAnimationFrame(() => {
-        startFlip();
-        pageFront.style.removeProperty("transition");
-        pageFront.style.removeProperty("transform");
-        pageFront.style.removeProperty("transform-origin");
-      });
-    } else {
-      requestAnimationFrame(startFlip);
-    }
-
-    window.setTimeout(() => {
-      if (dir > 0) idx = Math.min(list.length - 1, idx + 1);
-      sync();
-      resetPageFront();
-      book.classList.remove("isFlipping", "flipDirNext", "flipDirPrev");
-    }, FLIP_MS);
+    requestAnimationFrame(() => {
+      pageFlip.update();
+      updateNav(pageFlip);
+    });
   };
 
-  book.addEventListener("click", (e) => {
-    if (book.classList.contains("isFlipping")) return;
-    const rect = book.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / Math.max(1, rect.width);
-    if (x < 0.5) flip(-1);
-    else flip(1);
-  });
-
-  book.addEventListener("mousemove", (e) => {
-    if (book.classList.contains("isFlipping")) return;
-    const rect = book.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / Math.max(1, rect.width);
-    book.classList.toggle("clickZoneLeft", x < 0.5);
-    book.classList.toggle("clickZoneRight", x >= 0.5);
-  });
-  book.addEventListener("mouseleave", () => {
-    book.classList.remove("clickZoneLeft", "clickZoneRight");
-  });
-
-  book.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowLeft" || e.key === "PageUp") {
-      e.preventDefault();
-      flip(-1);
-    } else if (e.key === "ArrowRight" || e.key === "PageDown" || e.key === " ") {
-      e.preventDefault();
-      flip(1);
-    }
-  });
-
-  prevBtn.addEventListener("click", () => flip(-1));
-  nextBtn.addEventListener("click", () => flip(1));
-
-  book.appendChild(pageLeft);
-  book.appendChild(pageBack);
-  book.appendChild(pageFront);
-  sync();
-
-  viewer.appendChild(book);
+  viewer.appendChild(bookShell);
   viewer.appendChild(
     el("div", { class: "bookControls archiveIssuuControls" }, [prevBtn, nextBtn])
   );
 
   wrap.appendChild(toolbar);
   wrap.appendChild(viewer);
-  return options.frame ? wrapResearchJournalFrame(wrap) : wrap;
-}
+  const result = options.frame ? wrapResearchJournalFrame(wrap) : wrap;
 
-function renderArchiveJournalFlipbook(pages, id) {
-  const wrap = el("div", { class: "archiveJournalWrap flipBookWrap", id: id || "archive-journal" });
-  const book = el("div", { class: "flipBook archiveFlipBook", role: "group", "aria-label": "教師日誌" });
-  const pageFront = el("div", { class: "flipPage flipPageFront" });
-  const pageBack = el("div", { class: "flipPage flipPageBack" });
-  let idx = 0;
-  const FLIP_MS = 1200;
-
-  const renderPage = (node, p, showNo) => {
-    fillFlipPage(node, p, showNo, pages.length);
-  };
-
-  const sync = () => {
-    const p1 = pages[idx];
-    const p2 = pages[Math.min(pages.length - 1, idx + 1)] || p1;
-    renderPage(pageFront, p1, idx + 1);
-    renderPage(pageBack, p2, Math.min(pages.length, idx + 2));
-    book.style.backgroundColor = p2.color || "#fff";
-  };
-
-  const flip = (dir) => {
-    if (dir > 0 && idx >= pages.length - 1) return;
-    if (dir < 0 && idx <= 0) return;
-    if (book.classList.contains("isFlipping")) return;
-    book.classList.add(dir > 0 ? "flipDirNext" : "flipDirPrev", "isFlipping");
-    window.setTimeout(() => {
-      idx = Math.max(0, Math.min(pages.length - 1, idx + dir));
-      sync();
-      book.classList.remove("isFlipping", "flipDirNext", "flipDirPrev");
-      pageFront.style.transform = "rotateY(0deg)";
-    }, FLIP_MS);
-  };
-
-  book.addEventListener("click", (e) => {
-    if (book.classList.contains("isFlipping")) return;
-    const rect = book.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / Math.max(1, rect.width);
-    if (x < 0.46) flip(-1);
-    else if (x > 0.54) flip(1);
+  requestAnimationFrame(() => {
+    initPageFlip();
+    if (typeof ResizeObserver !== "undefined") {
+      resizeObserver = new ResizeObserver(() => scheduleLayoutUpdate());
+      resizeObserver.observe(bookShell);
+    } else {
+      window.addEventListener("resize", () => scheduleLayoutUpdate());
+    }
   });
 
-  book.appendChild(pageBack);
-  book.appendChild(pageFront);
-  sync();
-
-  wrap.appendChild(book);
-  wrap.appendChild(
-    el("div", { class: "bookControls" }, [
-      el("button", { class: "btn btnGhost", type: "button", text: "上一頁", onclick: () => flip(-1) }),
-      el("button", { class: "btn", type: "button", text: "下一頁", onclick: () => flip(1) }),
-    ])
-  );
-  return wrap;
+  return result;
 }
 
 function collectionWorkHref(workId) {
@@ -2616,9 +2622,7 @@ function researchBookCoverSrc(journal, index = 0) {
 }
 
 function resolveResearchJournalPages(journal) {
-  const pages = Array.isArray(journal?.pages) ? journal.pages.filter(Boolean) : [];
-  if (pages.length >= 2) return pages;
-  return buildPlaceholderJournalPages(journal?.artist || journal?.title || "藝術家");
+  return resolveJournalSpreads(journal, journal?.artist || journal?.title || "藝術家");
 }
 
 function closeArchiveModal(overlay) {
@@ -2725,18 +2729,70 @@ function renderResearchBookCard(journal, index) {
   );
 }
 
+function flattenShelfBooks(list) {
+  if (!Array.isArray(list)) return [];
+  const flat = [];
+  for (const item of list) {
+    if (Array.isArray(item)) flat.push(...flattenShelfBooks(item));
+    else if (item && typeof item === "object") flat.push(item);
+  }
+  return flat;
+}
+
+function researchHotspotStyle(hs) {
+  const parts = [];
+  if (hs?.left) parts.push(`left:${hs.left}`);
+  if (hs?.top) parts.push(`top:${hs.top}`);
+  if (hs?.width) parts.push(`width:${hs.width}`);
+  if (hs?.height) parts.push(`height:${hs.height}`);
+  const rotate = parseFloat(String(hs?.rotate ?? "").replace("deg", ""));
+  if (!Number.isNaN(rotate) && rotate !== 0) {
+    parts.push(`transform:rotate(${rotate}deg)`);
+    parts.push("transform-origin:center bottom");
+  }
+  return parts.join(";");
+}
+
 function resolveResearchShelfBooks(bookshelf = {}) {
-  const configured = Array.isArray(bookshelf.shelfBooks) ? bookshelf.shelfBooks : [];
-  if (configured.length) return configured;
+  const configured = flattenShelfBooks(bookshelf.shelfBooks);
+  const area = bookshelf.booksArea || {};
+  const defaultTop = area.top || "15.2%";
+  const defaultHeight = area.height || "67%";
+
+  if (configured.length) {
+    return configured
+      .map((book) => {
+        const hs = book.hotspot || {};
+        const hotspot = {
+          top: hs.top || defaultTop,
+          height: hs.height || defaultHeight,
+          left: hs.left,
+          width: hs.width,
+        };
+        const rotate = parseFloat(String(hs.rotate ?? "").replace("deg", ""));
+        if (!Number.isNaN(rotate) && rotate !== 0) hotspot.rotate = rotate;
+        return { ...book, hotspot };
+      })
+      .filter((book) => book.hotspot?.left && book.hotspot?.width);
+  }
+
   return RESEARCH_SHELF_BOOK_HOTSPOTS.map((book) => ({
     id: book.id,
     hotspot: {
       left: book.left,
-      top: "19%",
+      top: defaultTop,
       width: book.width,
-      height: "62%",
+      height: defaultHeight,
     },
   }));
+}
+
+function isResearchHotspotDebug() {
+  try {
+    return new URLSearchParams(location.search || "").get("hotspotDebug") === "1";
+  } catch {
+    return false;
+  }
 }
 
 function renderResearchBookshelf(bookshelf = {}, options = {}) {
@@ -2749,13 +2805,8 @@ function renderResearchBookshelf(bookshelf = {}, options = {}) {
   const image = bookshelf.image || {};
   const imgSrc = image.src || JOURNAL_BOOKSHELF;
   const shelfBooks = resolveResearchShelfBooks(bookshelf);
-  const hotspotStyle =
-    typeof zoneHotspotStyle === "function"
-      ? zoneHotspotStyle
-      : (hs) =>
-          [hs?.left && `left:${hs.left}`, hs?.top && `top:${hs.top}`, hs?.width && `width:${hs.width}`, hs?.height && `height:${hs.height}`]
-            .filter(Boolean)
-            .join(";");
+  const hotspotDebug = isResearchHotspotDebug();
+  const hotspotStyle = researchHotspotStyle;
 
   const yearTabs = el("div", {
     class: "archiveResearchBookshelfYearTabs",
@@ -2783,7 +2834,7 @@ function renderResearchBookshelf(bookshelf = {}, options = {}) {
       const teacher = teachers[index] || null;
       const label = teacher?.name || book.label || `書本 ${index + 1}`;
       return el("button", {
-        class: `archiveResearchBookshelfHotspot${teacher ? " archiveResearchBookshelfHotspot--linked" : ""}`,
+        class: `archiveResearchBookshelfHotspot${teacher ? " archiveResearchBookshelfHotspot--linked" : ""}${hotspotDebug ? " archiveResearchBookshelfHotspot--debug" : ""}`,
         type: "button",
         style: hotspotStyle(hs),
         "aria-label": teacher ? `開啟 ${label} 日誌` : label,
@@ -2801,7 +2852,9 @@ function renderResearchBookshelf(bookshelf = {}, options = {}) {
     })
   );
 
-  const stage = el("div", { class: "archiveResearchBookshelfStage" }, [
+  const stage = el("div", {
+    class: `archiveResearchBookshelfStage${hotspotDebug ? " archiveResearchBookshelfStage--debug" : ""}`,
+  }, [
     el("img", {
       class: "archiveResearchBookshelfImg",
       src: imgSrc,
@@ -2812,7 +2865,15 @@ function renderResearchBookshelf(bookshelf = {}, options = {}) {
     yearTabs,
   ]);
 
-  return el("section", { class: "archiveResearchBookshelf" }, [stage]);
+  return el("section", { class: "archiveResearchBookshelf" }, [
+    hotspotDebug
+      ? el("p", {
+          class: "archiveResearchHotspotDebugBanner",
+          text: "熱區除錯模式 · 開啟 admin/bookshelf-hotspots.html 調整座標",
+        })
+      : null,
+    stage,
+  ]);
 }
 
 function renderArchiveResearch() {
@@ -2836,7 +2897,7 @@ function renderArchiveResearch() {
   const selectedId = params.get("teacher") || (teachers[0] && teachers[0].id) || "";
   const selected = teachers.find((t) => t.id === selectedId) || teachers[0] || null;
   const journal = selected ? (teachersData.journals || {})[selected.id] : null;
-  const journalPages = resolveJournalPages(journal, selected?.name);
+  const journalSpreads = resolveJournalSpreads(journal, selected?.name);
 
   const root = el("div", { class: "archivePage archiveResearchPage archiveResearchPage--journal" });
   root.appendChild(el("h1", { class: "archivePageTitle", text: research.heading || "研究" }));
@@ -2847,7 +2908,7 @@ function renderArchiveResearch() {
   );
   journalSec.appendChild(
     renderArchiveIssuuFlipbook(
-      journalPages,
+      journalSpreads,
       `research-journal-${year}-${selected?.id || "default"}`,
       { frame: true }
     )

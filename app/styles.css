@@ -4087,6 +4087,117 @@ a.archiveBibliographyItem{
   transform: scale(1.06);
   z-index: 5;
 }
+.archiveJournalWrap--stf{
+  max-width: none;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  filter: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.archiveJournalWrap--stf.flipBookWrap{
+  filter: none;
+}
+.archiveStfBookShell{
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+.archiveStfBookHost{
+  position: relative;
+  flex: 0 0 auto;
+  min-height: 0;
+  background: transparent;
+  overflow: hidden;
+}
+.archiveStfBookHost.stf__parent{
+  width: auto;
+  height: auto;
+  min-width: 0;
+  min-height: 0;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0 auto;
+}
+.archiveStfBookHost .stf__wrapper{
+  margin: 0 auto;
+  position: relative !important;
+  height: 100% !important;
+  padding-bottom: 0 !important;
+}
+.archiveStfBookHost .stf__block{
+  position: relative !important;
+  top: 0 !important;
+  background: #f4f0e6;
+  overflow: hidden;
+}
+/* 書本在開口內的內距：數值越大書越小 */
+/* 書本上下微調：margin-top 負值往上、正值往下（例 -2% ≈ 上移一點） */
+.archiveJournalFrameContent .archiveStfBookShell{
+  padding: 0;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  margin-top: -7%;
+  align-items: center;
+  justify-content: flex-start;
+}
+.archiveJournalFrameContent .archiveStfBookHost{
+  width: auto;
+  height: auto;
+  min-height: 0;
+}
+/* 跨頁圖在單頁內的留白：數值越大圖越小 */
+.archiveJournalFrameContent .archiveStfPage .flipSpreadHalf{
+  inset: 0;
+}
+.archiveStfPage{
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #f4f0e6;
+}
+.archiveStfPage .flipSpreadHalf{
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.archiveStfPage .flipSpreadImage{
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 200%;
+  max-width: none;
+  object-fit: contain;
+  object-position: center;
+  pointer-events: none;
+  user-select: none;
+}
+.archiveStfPage .flipSpreadHalf--left .flipSpreadImage{
+  left: 0;
+}
+.archiveStfPage .flipSpreadHalf--right .flipSpreadImage{
+  left: -100%;
+}
+.archiveStfFallback{
+  margin: 0;
+  padding: 24px 16px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+}
 .archiveFlipBook{
   margin: 0 auto;
 }
@@ -4095,7 +4206,7 @@ a.archiveBibliographyItem{
   max-width: 100%;
   height: clamp(360px, 42vw, 520px);
   transform-style: preserve-3d;
-  background: #f8f8f8;
+  background: #f4f0e6;
   border: 0;
   border-radius: 2px;
   box-shadow:
@@ -4167,7 +4278,8 @@ a.archiveBibliographyItem{
   transform-origin: left center;
   z-index: 3;
   padding: 0;
-  backface-visibility: visible;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
   transform: translateZ(2px);
   box-shadow:
     -8px 0 18px rgba(0,0,0,.12),
@@ -4230,13 +4342,45 @@ a.archiveBibliographyItem{
   );
   pointer-events: none;
 }
+.archiveFlipBook--issuu .flipPage--spread,
+.archiveFlipBook--issuu .flipSheetFace:has(.flipSpreadHalf){
+  padding: 0;
+}
+.archiveFlipBook--issuu .flipSpreadHalf{
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #f4f0e6;
+}
+.archiveFlipBook--issuu .flipSpreadImage{
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 200%;
+  max-width: none;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+}
+.archiveFlipBook--issuu .flipSpreadHalf--left .flipSpreadImage{
+  left: 0;
+}
+.archiveFlipBook--issuu .flipSpreadHalf--right .flipSpreadImage{
+  left: -100%;
+}
 .archiveFlipBook--issuu .flipPageImage{
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
   display: block;
+  pointer-events: none;
+  user-select: none;
+}
+.archiveFlipBook--issuu .flipPage--image{
+  background: transparent;
 }
 .archiveFlipBook--issuu .flipPage{
   padding: 20px 18px 16px;
@@ -4298,7 +4442,8 @@ a.archiveBibliographyItem{
 .archiveJournalWrap--issuu .archiveIssuuControls .btn.btnGhost{
   background: rgba(255,255,255,.55);
 }
-.archiveJournalWrap--issuu .archiveIssuuControls .btn:disabled{
+.archiveJournalWrap--issuu .archiveIssuuControls .btn:disabled,
+.archiveJournalWrap--stf .archiveIssuuControls .btn:disabled{
   opacity: .4;
   cursor: not-allowed;
 }
@@ -4548,7 +4693,7 @@ a.archiveBibliographyItem{
 }
 .archiveResearchJournal{
   width: 100%;
-  max-width: min(900px, 100%);
+  max-width: min(1100px, 100%);
   margin-bottom: 28px;
   display: flex;
   flex-direction: column;
@@ -4568,7 +4713,7 @@ a.archiveBibliographyItem{
 .archiveJournalFrame{
   position: relative;
   width: 100%;
-  max-width: min(900px, 100%);
+  max-width: min(1100px, 100%);
   margin: 0 auto;
 }
 .archiveJournalFrameBg{
@@ -4578,15 +4723,16 @@ a.archiveBibliographyItem{
   user-select: none;
   pointer-events: none;
 }
+/* 翻書外框開口位置：調 top/left/right/bottom 對齊 Flip-book.png */
 .archiveJournalFrameContent{
   position: absolute;
-  top: 7%;
-  left: 13%;
-  right: 13%;
-  bottom: 22%;
+  top: 5%;
+  left: 8%;
+  right: 8%;
+  bottom: 20%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   min-height: 0;
   overflow: hidden;
 }
@@ -4598,22 +4744,26 @@ a.archiveBibliographyItem{
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
 .archiveJournalFrameContent .archiveIssuuToolbar{
   display: none;
 }
-.archiveJournalFrameContent .archiveJournalWrap--issuu{
-  width: 92%;
-  height: 78%;
-  max-height: 78%;
-  flex: 0 1 auto;
+.archiveJournalFrameContent .archiveJournalWrap--stf{
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  flex: 1 1 auto;
   min-height: 0;
   background: transparent;
   padding: 0;
   box-shadow: none;
   border-radius: 0;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
 .archiveJournalFrameContent .archiveFlipBook--issuu{
   width: 100%;
@@ -4621,6 +4771,12 @@ a.archiveBibliographyItem{
   max-height: 100%;
   min-height: 0;
   box-shadow: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  background: transparent;
+}
+.archiveJournalFrameContent .archiveFlipBook--issuu .flipPageImage{
+  object-fit: contain;
 }
 .archiveJournalFrameContent .archiveFlipBook--issuu .flipPage{
   padding: 12px 10px 22px;
@@ -4646,16 +4802,28 @@ a.archiveBibliographyItem{
   display: none;
 }
 @media (max-width: 720px){
+  .archiveJournalFrameContent .bookControls.archiveIssuuControls{
+    display: flex;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -42px;
+    justify-content: center;
+    gap: 10px;
+    z-index: 6;
+  }
+  .archiveJournalFrameContent .archiveIssuuControls .btn{
+    min-width: 96px;
+    font-size: 12px;
+    padding: 8px 14px;
+  }
+}
+@media (max-width: 720px){
   .archiveJournalFrameContent{
-    top: 7.5%;
+    top: 7%;
     left: 10%;
     right: 10%;
-    bottom: 21%;
-  }
-  .archiveJournalFrameContent .archiveJournalWrap--issuu{
-    width: 94%;
-    height: 76%;
-    max-height: 76%;
+    bottom: 18%;
   }
   .archiveTeachersCarouselNotebook{
     width: 44px;
@@ -4839,6 +5007,7 @@ a.archiveBibliographyItem{
   cursor: pointer;
   border-radius: 2px;
   pointer-events: auto;
+  transform-origin: center bottom;
   transition: background .15s ease, box-shadow .15s ease;
 }
 .archiveResearchBookshelfHotspot--linked:hover,
@@ -4852,6 +5021,21 @@ a.archiveBibliographyItem{
   background: rgba(184,32,32,.1);
   box-shadow: inset 0 0 0 1px rgba(184,32,32,.35);
   outline: none;
+}
+.archiveResearchBookshelfHotspot--debug,
+.archiveResearchBookshelfStage--debug .archiveResearchBookshelfHotspot{
+  background: rgba(184,32,32,.28);
+  box-shadow: inset 0 0 0 1px rgba(184,32,32,.75);
+}
+.archiveResearchHotspotDebugBanner{
+  margin: 0 0 10px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: #fff4f4;
+  border: 1px solid rgba(184,32,32,.35);
+  color: #8a2020;
+  font-size: 13px;
+  text-align: center;
 }
 
 .archiveModalOverlay{
@@ -4931,7 +5115,8 @@ a.archiveBibliographyItem{
 .archiveModalPanel--flipbook .archiveTeachersViewer{
   margin: 0;
 }
-.archiveModalPanel--flipbook .archiveJournalWrap--issuu{
+.archiveModalPanel--flipbook .archiveJournalWrap--issuu,
+.archiveModalPanel--flipbook .archiveJournalWrap--stf{
   padding: 20px 16px 14px;
 }
 .archiveResearchAccessDialog{
