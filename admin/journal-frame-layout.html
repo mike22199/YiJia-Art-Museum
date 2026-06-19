@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>日誌翻書框排版工具｜研究頁</title>
+  <style>
+    :root {
+      --bg: #1a1a1a;
+      --panel: #252525;
+      --border: #3a3a3a;
+      --text: #eee;
+      --muted: #999;
+      --accent: #b82020;
+      --handle: #fff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Microsoft JhengHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header h1 { margin: 0; font-size: 18px; font-weight: 600; }
+    header p { margin: 4px 0 0; font-size: 13px; color: var(--muted); }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 8px; }
+    button, label.fileBtn {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    button:hover, label.fileBtn:hover { border-color: var(--accent); }
+    button.primary { background: var(--accent); border-color: var(--accent); }
+    label.fileBtn { display: inline-block; }
+    label.fileBtn input { display: none; }
+    main {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: 0;
+      min-height: calc(100vh - 88px);
+    }
+    @media (max-width: 960px) { main { grid-template-columns: 1fr; } }
+    .stageWrap {
+      padding: 20px;
+      overflow: auto;
+      background: #111;
+    }
+    .journalPreview {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .stage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1624 / 848;
+    }
+    .stage > img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      pointer-events: none;
+      user-select: none;
+    }
+    .bottomBar {
+      position: absolute;
+      z-index: 4;
+    }
+    .bottomBar img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      pointer-events: none;
+      user-select: none;
+    }
+    .overlay {
+      position: absolute;
+      inset: 0;
+    }
+    .zone {
+      position: absolute;
+      border: 2px solid;
+      cursor: move;
+      touch-action: none;
+      min-width: 8px;
+      min-height: 8px;
+    }
+    .zone.selected {
+      box-shadow: 0 0 0 1px #fff;
+      z-index: 5;
+    }
+    .zone .label {
+      position: absolute;
+      top: 2px;
+      left: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 1px 3px rgba(0,0,0,.9);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    .zone[data-id="content"] { background: rgba(68, 170, 255, 0.22); border-color: #4af; }
+    .zone[data-id="prevArrow"],
+    .zone[data-id="nextArrow"] { background: rgba(255, 209, 102, 0.35); border-color: #ffd166; width: 3%; height: 8%; }
+    .zone[data-id="pageSlider"] { background: rgba(120, 220, 120, 0.2); border-color: #7d7; height: 12%; }
+    .zone[data-id="zoomSlider"] { background: rgba(180, 140, 255, 0.2); border-color: #b8f; height: 12%; }
+    .zone[data-id="pageLabel"] { background: rgba(255, 255, 255, 0.12); border-color: #ccc; }
+    .zone[data-id="fullscreenBtn"] { background: rgba(255, 120, 120, 0.25); border-color: #f88; }
+    .zone[data-id="bottomBar"] { background: rgba(255, 255, 255, 0.08); border-color: #aaa; border-style: dashed; }
+    .handle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: var(--handle);
+      border: 1px solid #333;
+      border-radius: 2px;
+    }
+    .handle.se { right: -5px; bottom: -5px; cursor: se-resize; }
+    .handle.e { right: -5px; top: 50%; margin-top: -5px; cursor: e-resize; }
+    .handle.s { bottom: -5px; left: 50%; margin-left: -5px; cursor: s-resize; }
+    .handle.w { left: -5px; top: 50%; margin-top: -5px; cursor: w-resize; }
+    .handle.n { top: -5px; left: 50%; margin-left: -5px; cursor: n-resize; }
+    aside {
+      border-left: 1px solid var(--border);
+      padding: 16px;
+      overflow: auto;
+      background: var(--panel);
+    }
+    aside h2 { margin: 0 0 12px; font-size: 14px; }
+    .zoneList { margin-bottom: 16px; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+    .zoneList button {
+      display: block;
+      width: 100%;
+      text-align: left;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      border-radius: 0;
+      padding: 8px 10px;
+      background: transparent;
+      color: var(--text);
+    }
+    .zoneList button:last-child { border-bottom: none; }
+    .zoneList button.active { background: rgba(184, 32, 32, 0.25); }
+    .field { margin-bottom: 10px; }
+    .field label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+    .field input {
+      width: 100%;
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: #111;
+      color: var(--text);
+      font-size: 13px;
+    }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    textarea {
+      width: 100%;
+      min-height: 200px;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #111;
+      color: #cfcfcf;
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: 11px;
+      line-height: 1.5;
+      resize: vertical;
+    }
+    .hint { font-size: 12px; color: var(--muted); line-height: 1.65; margin-top: 12px; }
+    .hint code { color: #ccc; }
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #222;
+      border: 1px solid var(--accent);
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      opacity: 0;
+      transition: opacity .2s;
+      pointer-events: none;
+      z-index: 99;
+    }
+    .toast.show { opacity: 1; }
+    .previewLink { font-size: 12px; margin-top: 8px; }
+    .previewLink a { color: #8cf; }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>日誌翻書框排版工具</h1>
+      <p>拖曳方框對齊開口、箭頭、拉桿與按鈕 · 拉邊角調整大小 · 複製 JSON 貼到 config.json</p>
+    </div>
+    <div class="toolbar">
+      <button type="button" id="loadConfigBtn">載入 config.json</button>
+      <label class="fileBtn">匯入 JSON<input type="file" id="importFile" accept="application/json,.json" /></label>
+      <button type="button" class="primary" id="copyBtn">複製 journalFrame JSON</button>
+      <button type="button" id="previewBtn">開啟研究頁預覽</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="stageWrap">
+      <div class="journalPreview" id="journalPreview">
+        <div class="stage" id="stage">
+          <img src="../assets/images/Journal/Frame_bg.png" alt="翻書框背景" />
+          <div class="overlay" id="stageOverlay"></div>
+          <div class="bottomBar" id="bottomBar">
+            <img src="../assets/images/Journal/Bottom-label.png" alt="下方控制列" />
+            <div class="overlay" id="bottomOverlay"></div>
+          </div>
+        </div>
+      </div>
+      <p class="previewLink">
+        研究頁預覽：
+        <a href="../index.html#archive/research?year=2027&amp;teacher=t01&amp;frameDebug=1" target="_blank" rel="noopener">#archive/research（frameDebug=1 顯示輔助框）</a>
+      </p>
+    </div>
+
+    <aside>
+      <h2>區塊列表</h2>
+      <div class="zoneList" id="zoneList"></div>
+
+      <h2>數值編輯</h2>
+      <div id="editorFields"></div>
+
+      <h2>匯出預覽</h2>
+      <textarea id="exportPreview" readonly></textarea>
+      <p class="hint">
+        貼到 <code>content/research/journals/config.json</code> 的
+        <code>journalFrame</code> 物件（整段取代）。<br />
+        儲存後重新整理研究頁即可看到效果。也可把 JSON 貼給工程師調整。
+      </p>
+    </aside>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const CONFIG_URL = "../content/research/journals/config.json";
+    const PREVIEW_URL = "../index.html#archive/research?year=2027&teacher=t01&frameDebug=1";
+
+    const ZONE_META = [
+      { id: "content", label: "翻書開口", parent: "stage", inset: true, handles: ["n","s","e","w","se"] },
+      { id: "prevArrow", label: "左箭頭", parent: "stage", point: true, w: 3, h: 8 },
+      { id: "nextArrow", label: "右箭頭", parent: "stage", point: true, w: 3, h: 8, right: true },
+      { id: "bottomBar", label: "下方控制列", parent: "stage", handles: ["n","s","e","w","se"] },
+      { id: "pageSlider", label: "頁數拉桿", parent: "bottom", handles: ["e","w"], h: 12 },
+      { id: "zoomSlider", label: "縮放拉桿", parent: "bottom", handles: ["e","w"], h: 12 },
+      { id: "pageLabel", label: "頁碼文字區", parent: "bottom", handles: ["se"], w: 14, h: 22 },
+      { id: "fullscreenBtn", label: "全螢幕按鈕", parent: "bottom", handles: ["se"], w: 8, h: 28, anchor: "br" },
+    ];
+
+    const DEFAULT_LAYOUT = {
+      frameMaxWidth: "1100px",
+      content: { top: 4.9, left: 11, right: 11, bottom: 22.6 },
+      prevArrow: { left: 3.4, top: 42 },
+      nextArrow: { right: 3.7, top: 41.6 },
+      bottomBar: { left: 3.4, bottom: 1.5, width: 93.3, height: 13.9 },
+      pageSlider: { left: 1.8, right: 2.6, top: 22 },
+      zoomSlider: { left: 42.2, right: 41.9, top: 60.9 },
+      pageLabel: { left: 4.5, bottom: 18, width: 10.5, height: 22 },
+      fullscreenBtn: { right: 2.3, bottom: 19.3, width: 2, height: 28 },
+      bookShiftY: 0,
+    };
+
+    let layout = structuredClone(DEFAULT_LAYOUT);
+    let selectedId = "content";
+    let drag = null;
+
+    const stageOverlay = document.getElementById("stageOverlay");
+    const bottomOverlay = document.getElementById("bottomOverlay");
+    const bottomBar = document.getElementById("bottomBar");
+    const exportPreview = document.getElementById("exportPreview");
+    const zoneList = document.getElementById("zoneList");
+    const editorFields = document.getElementById("editorFields");
+    const toast = document.getElementById("toast");
+
+    function pct(n) { return `${Number(n).toFixed(1)}%`; }
+    function num(v) { return parseFloat(v) || 0; }
+
+    function parseLayout(raw) {
+      const out = structuredClone(DEFAULT_LAYOUT);
+      if (!raw || typeof raw !== "object") return out;
+      if (raw.frameMaxWidth) out.frameMaxWidth = raw.frameMaxWidth;
+      if (raw.bookShiftY != null) out.bookShiftY = num(String(raw.bookShiftY).replace("%", ""));
+      const pickInset = (src, dst) => {
+        ["top", "left", "right", "bottom"].forEach((k) => {
+          if (src?.[k] != null) dst[k] = num(String(src[k]).replace("%", ""));
+        });
+      };
+      pickInset(raw.content, out.content);
+      pickInset(raw.prevArrow, out.prevArrow);
+      if (raw.prevArrow?.left != null) out.prevArrow.left = num(String(raw.prevArrow.left).replace("%", ""));
+      if (raw.prevArrow?.top != null) out.prevArrow.top = num(String(raw.prevArrow.top).replace("%", ""));
+      if (raw.nextArrow?.right != null) out.nextArrow.right = num(String(raw.nextArrow.right).replace("%", ""));
+      if (raw.nextArrow?.top != null) out.nextArrow.top = num(String(raw.nextArrow.top).replace("%", ""));
+      if (raw.bottomBar?.width != null) out.bottomBar.width = num(String(raw.bottomBar.width).replace("%", ""));
+      ["left", "bottom", "height"].forEach((k) => {
+        if (raw.bottomBar?.[k] != null) out.bottomBar[k] = num(String(raw.bottomBar[k]).replace("%", ""));
+      });
+      ["pageSlider", "zoomSlider"].forEach((id) => {
+        if (!raw[id]) return;
+        ["left", "right", "top"].forEach((k) => {
+          if (raw[id][k] != null) out[id][k] = num(String(raw[id][k]).replace("%", ""));
+        });
+      });
+      ["pageLabel", "fullscreenBtn"].forEach((id) => {
+        if (!raw[id]) return;
+        ["left", "right", "top", "bottom", "width", "height"].forEach((k) => {
+          if (raw[id][k] != null) out[id][k] = num(String(raw[id][k]).replace("%", ""));
+        });
+      });
+      return out;
+    }
+
+    function exportLayout() {
+      const pctObj = (obj, keys) => {
+        const out = {};
+        keys.forEach((k) => {
+          if (obj[k] != null) out[k] = pct(obj[k]);
+        });
+        return out;
+      };
+      return {
+        frameMaxWidth: layout.frameMaxWidth,
+        content: pctObj(layout.content, ["top", "left", "right", "bottom"]),
+        prevArrow: pctObj(layout.prevArrow, ["left", "top"]),
+        nextArrow: pctObj(layout.nextArrow, ["right", "top"]),
+        bottomBar: pctObj(layout.bottomBar, ["left", "bottom", "width", "height"]),
+        pageSlider: pctObj(layout.pageSlider, ["left", "right", "top"]),
+        zoomSlider: pctObj(layout.zoomSlider, ["left", "right", "top"]),
+        pageLabel: pctObj(layout.pageLabel, ["left", "bottom", "width", "height"]),
+        fullscreenBtn: pctObj(layout.fullscreenBtn, ["right", "bottom", "width", "height"]),
+        bookShiftY: layout.bookShiftY ? pct(layout.bookShiftY) : "0%",
+      };
+    }
+
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 2400);
+    }
+
+    function getZoneBox(id) {
+      const meta = ZONE_META.find((z) => z.id === id);
+      if (!meta) return null;
+      if (id === "content") {
+        const c = layout.content;
+        return { left: c.left, top: c.top, width: 100 - c.left - c.right, height: 100 - c.top - c.bottom };
+      }
+      if (id === "prevArrow") {
+        return { left: layout.prevArrow.left, top: layout.prevArrow.top - meta.h / 2, width: meta.w, height: meta.h };
+      }
+      if (id === "nextArrow") {
+        return { right: layout.nextArrow.right, top: layout.nextArrow.top - meta.h / 2, width: meta.w, height: meta.h, useRight: true };
+      }
+      if (id === "bottomBar") {
+        const b = layout.bottomBar;
+        return { left: b.left, bottom: b.bottom, width: b.width, height: b.height, useBottom: true };
+      }
+      if (id === "pageSlider" || id === "zoomSlider") {
+        const z = layout[id];
+        return { left: z.left, top: z.top - meta.h / 2, width: 100 - z.left - z.right, height: meta.h };
+      }
+      if (id === "pageLabel") {
+        const z = layout.pageLabel;
+        return { left: z.left, bottom: z.bottom, width: z.width, height: z.height, useBottom: true };
+      }
+      if (id === "fullscreenBtn") {
+        const z = layout.fullscreenBtn;
+        return { right: z.right, bottom: z.bottom, width: z.width, height: z.height, useBottom: true, useRight: true };
+      }
+      return null;
+    }
+
+    function setZoneBox(id, box) {
+      const meta = ZONE_META.find((z) => z.id === id);
+      if (!meta) return;
+      if (id === "content") {
+        layout.content.left = box.left;
+        layout.content.top = box.top;
+        layout.content.right = 100 - box.left - box.width;
+        layout.content.bottom = 100 - box.top - box.height;
+        return;
+      }
+      if (id === "prevArrow") {
+        layout.prevArrow.left = box.left;
+        layout.prevArrow.top = box.top + meta.h / 2;
+        return;
+      }
+      if (id === "nextArrow") {
+        layout.nextArrow.right = box.right ?? (100 - box.left - box.width);
+        layout.nextArrow.top = box.top + meta.h / 2;
+        return;
+      }
+      if (id === "bottomBar") {
+        layout.bottomBar.left = box.left;
+        layout.bottomBar.bottom = box.bottom ?? layout.bottomBar.bottom;
+        layout.bottomBar.width = box.width;
+        layout.bottomBar.height = box.height;
+        return;
+      }
+      if (id === "pageSlider" || id === "zoomSlider") {
+        layout[id].left = box.left;
+        layout[id].right = 100 - box.left - box.width;
+        layout[id].top = box.top + meta.h / 2;
+        return;
+      }
+      if (id === "pageLabel") {
+        layout.pageLabel.left = box.left;
+        layout.pageLabel.bottom = box.bottom ?? (100 - box.top - box.height);
+        layout.pageLabel.width = box.width;
+        layout.pageLabel.height = box.height;
+        return;
+      }
+      if (id === "fullscreenBtn") {
+        layout.fullscreenBtn.right = box.right ?? (100 - box.left - box.width);
+        layout.fullscreenBtn.bottom = box.bottom ?? (100 - box.top - box.height);
+        layout.fullscreenBtn.width = box.width;
+        layout.fullscreenBtn.height = box.height;
+      }
+    }
+
+    function applyPreviewChrome() {
+      document.getElementById("journalPreview").style.maxWidth = layout.frameMaxWidth || "1100px";
+      const b = layout.bottomBar;
+      bottomBar.style.left = pct(b.left);
+      bottomBar.style.bottom = pct(b.bottom);
+      bottomBar.style.width = pct(b.width);
+      bottomBar.style.height = pct(b.height);
+    }
+
+    function renderZones() {
+      applyPreviewChrome();
+      stageOverlay.innerHTML = "";
+      bottomOverlay.innerHTML = "";
+
+      ZONE_META.forEach((meta) => {
+        const box = getZoneBox(meta.id);
+        if (!box) return;
+        const parent = meta.parent === "bottom" ? bottomOverlay : stageOverlay;
+        const node = document.createElement("div");
+        node.className = `zone${meta.id === selectedId ? " selected" : ""}`;
+        node.dataset.id = meta.id;
+        if (box.useRight) node.style.right = pct(box.right ?? 0);
+        else node.style.left = pct(box.left ?? 0);
+        if (box.useBottom) node.style.bottom = pct(box.bottom ?? 0);
+        else node.style.top = pct(box.top ?? 0);
+        if (!box.useRight) node.style.width = pct(box.width);
+        if (!box.useBottom) node.style.height = pct(box.height);
+        if (box.useRight && box.width) node.style.width = pct(box.width);
+        if (box.useBottom && box.height) node.style.height = pct(box.height);
+
+        let handles = "";
+        (meta.handles || []).forEach((h) => { handles += `<span class="handle ${h}"></span>`; });
+        node.innerHTML = `<span class="label">${meta.label}</span>${handles}`;
+        node.addEventListener("pointerdown", (e) => onPointerDown(e, meta.id));
+        parent.appendChild(node);
+      });
+
+      exportPreview.value = JSON.stringify(exportLayout(), null, 2);
+      renderZoneList();
+      renderEditorFields();
+    }
+
+    function renderZoneList() {
+      zoneList.innerHTML = "";
+      ZONE_META.forEach((meta) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = meta.id === selectedId ? "active" : "";
+        btn.textContent = meta.label;
+        btn.onclick = () => { selectedId = meta.id; renderZones(); };
+        zoneList.appendChild(btn);
+      });
+    }
+
+    function renderEditorFields() {
+      const meta = ZONE_META.find((z) => z.id === selectedId);
+      if (!meta) { editorFields.innerHTML = ""; return; }
+      const rows = [];
+      const add = (label, key, obj) => {
+        rows.push(`<div class="field"><label>${label}</label><input data-obj="${obj}" data-key="${key}" type="number" step="0.1" value="${num(layout[obj]?.[key])}" /></div>`);
+      };
+      if (selectedId === "content") {
+        ["top", "left", "right", "bottom"].forEach((k) => add(k, k, "content"));
+      } else if (selectedId === "prevArrow") {
+        add("left (%)", "left", "prevArrow");
+        add("top (%)", "top", "prevArrow");
+      } else if (selectedId === "nextArrow") {
+        add("right (%)", "right", "nextArrow");
+        add("top (%)", "top", "nextArrow");
+      } else if (selectedId === "bottomBar") {
+        ["left", "bottom", "width", "height"].forEach((k) => add(k, k, "bottomBar"));
+      } else if (selectedId === "pageSlider" || selectedId === "zoomSlider") {
+        ["left", "right", "top"].forEach((k) => add(k, k, selectedId));
+      } else if (selectedId === "pageLabel" || selectedId === "fullscreenBtn") {
+        ["left", "right", "top", "bottom", "width", "height"].forEach((k) => {
+          if (layout[selectedId][k] != null || ["left","bottom","width","height"].includes(k))
+            add(k, k, selectedId);
+        });
+      }
+      if (selectedId === "content") {
+        rows.push(`<div class="field"><label>書本上下微調 bookShiftY (%)</label><input id="bookShiftY" type="number" step="0.5" value="${layout.bookShiftY}" /></div>`);
+        rows.push(`<div class="field"><label>外框最大寬度</label><input id="frameMaxWidth" type="text" value="${layout.frameMaxWidth}" /></div>`);
+      }
+      editorFields.innerHTML = `<div class="grid2">${rows.join("")}</div>`;
+      editorFields.querySelectorAll("input[data-key]").forEach((inp) => {
+        inp.addEventListener("input", () => {
+          const obj = inp.dataset.obj;
+          const key = inp.dataset.key;
+          layout[obj][key] = num(inp.value);
+          renderZones();
+        });
+      });
+      const shift = document.getElementById("bookShiftY");
+      if (shift) shift.addEventListener("input", () => { layout.bookShiftY = num(shift.value); renderZones(); });
+      const maxW = document.getElementById("frameMaxWidth");
+      if (maxW) maxW.addEventListener("input", () => { layout.frameMaxWidth = maxW.value.trim() || "1100px"; applyPreviewChrome(); renderZones(); });
+    }
+
+    function onPointerDown(e, id) {
+      if (e.button !== 0) return;
+      const meta = ZONE_META.find((z) => z.id === id);
+      if (!meta || meta.id === "bottomBar") return;
+      selectedId = id;
+      const target = e.target;
+      const parent = meta.parent === "bottom" ? bottomBar : document.getElementById("stage");
+      const rect = parent.getBoundingClientRect();
+      let mode = "move";
+      if (target.classList.contains("handle")) {
+        const cls = [...target.classList].find((c) => ["n","s","e","w","se"].includes(c));
+        mode = cls || "se";
+      }
+      drag = {
+        id,
+        mode,
+        startX: e.clientX,
+        startY: e.clientY,
+        rectW: rect.width,
+        rectH: rect.height,
+        orig: { ...getZoneBox(id) },
+      };
+      e.currentTarget.setPointerCapture(e.pointerId);
+      e.preventDefault();
+      renderZones();
+    }
+
+    window.addEventListener("pointermove", (e) => {
+      if (!drag) return;
+      const meta = ZONE_META.find((z) => z.id === drag.id);
+      const dx = ((e.clientX - drag.startX) / drag.rectW) * 100;
+      const dy = ((e.clientY - drag.startY) / drag.rectH) * 100;
+      const o = drag.orig;
+      const box = { ...o };
+
+      if (drag.mode === "move") {
+        if (o.useRight) box.right = Math.max(0, (o.right ?? 0) - dx);
+        else box.left = Math.max(0, (o.left ?? 0) + dx);
+        if (o.useBottom) box.bottom = Math.max(0, (o.bottom ?? 0) - dy);
+        else box.top = Math.max(0, (o.top ?? 0) + dy);
+      } else {
+        if (drag.mode.includes("e") && !o.useRight) box.width = Math.max(2, (o.width ?? 10) + dx);
+        if (drag.mode.includes("w") && !o.useRight) {
+          box.left = (o.left ?? 0) + dx;
+          box.width = Math.max(2, (o.width ?? 10) - dx);
+        }
+        if (drag.mode.includes("s") && !o.useBottom) box.height = Math.max(2, (o.height ?? 10) + dy);
+        if (drag.mode.includes("n") && !o.useBottom) {
+          box.top = (o.top ?? 0) + dy;
+          box.height = Math.max(2, (o.height ?? 10) - dy);
+        }
+        if (drag.mode === "se") {
+          if (!o.useRight) box.width = Math.max(2, (o.width ?? 10) + dx);
+          if (!o.useBottom) box.height = Math.max(2, (o.height ?? 10) + dy);
+          if (o.useRight) box.right = Math.max(0, (o.right ?? 0) - dx);
+          if (o.useBottom) box.bottom = Math.max(0, (o.bottom ?? 0) - dy);
+        }
+      }
+      setZoneBox(drag.id, box);
+      renderZones();
+    });
+    window.addEventListener("pointerup", () => { drag = null; });
+
+    document.getElementById("copyBtn").onclick = async () => {
+      const text = exportPreview.value;
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast("已複製！貼到 config.json 的 journalFrame");
+      } catch {
+        exportPreview.select();
+        showToast("已選取文字，請手動複製");
+      }
+    };
+    document.getElementById("previewBtn").onclick = () => window.open(PREVIEW_URL, "_blank");
+    document.getElementById("loadConfigBtn").onclick = async () => {
+      try {
+        const res = await fetch(CONFIG_URL, { cache: "no-store" });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        if (!data.journalFrame) throw new Error("找不到 journalFrame");
+        layout = parseLayout(data.journalFrame);
+        renderZones();
+        showToast("已載入 config.json");
+      } catch (err) {
+        showToast(`載入失敗：${err.message}`);
+      }
+    };
+    document.getElementById("importFile").onchange = async (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      try {
+        const data = JSON.parse(await file.text());
+        layout = parseLayout(data.journalFrame || data);
+        renderZones();
+        showToast("已匯入 JSON");
+      } catch (err) {
+        showToast(`匯入失敗：${err.message}`);
+      }
+    };
+
+    renderZones();
+  </script>
+</body>
+</html>

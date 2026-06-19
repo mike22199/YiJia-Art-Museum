@@ -5,6 +5,52 @@
   "defaultYear": "2027",
   "heading": "研究",
   "journalTitle": "藝術家教師日誌",
+  "journalFrame": {
+    "frameMaxWidth": "1100px",
+    "content": {
+      "top": "4.9%",
+      "left": "11.0%",
+      "right": "11.0%",
+      "bottom": "22.6%"
+    },
+    "prevArrow": {
+      "left": "3.4%",
+      "top": "42.0%"
+    },
+    "nextArrow": {
+      "right": "3.7%",
+      "top": "41.6%"
+    },
+    "bottomBar": {
+      "left": "3.4%",
+      "bottom": "1.5%",
+      "width": "93.3%",
+      "height": "13.9%"
+    },
+    "pageSlider": {
+      "left": "1.8%",
+      "right": "2.6%",
+      "top": "24.0%"
+    },
+    "zoomSlider": {
+      "left": "42.2%",
+      "right": "41.9%",
+      "top": "63.5%"
+    },
+    "pageLabel": {
+      "left": "4.5%",
+      "bottom": "18.0%",
+      "width": "10.5%",
+      "height": "22.0%"
+    },
+    "fullscreenBtn": {
+      "right": "2.3%",
+      "bottom": "19.3%",
+      "width": "2.0%",
+      "height": "28.0%"
+    },
+    "bookShiftY": "0%"
+  },
   "bookshelf": {
     "image": {
       "src": "./assets/images/Journal/Book-shelf.png",

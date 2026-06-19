@@ -39,6 +39,10 @@
         ...(content.archive.research || {}),
         heading: config.heading || content.archive.research?.heading || "研究",
         journalTitle: config.journalTitle || content.archive.research?.journalTitle || "藝術家教師日誌",
+        journalFrame: {
+          ...(content.archive.research?.journalFrame || {}),
+          ...(config.journalFrame || {}),
+        },
         bookshelf: {
           ...(content.archive.research?.bookshelf || {}),
           ...(config.bookshelf || {}),
