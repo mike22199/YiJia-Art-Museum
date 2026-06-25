@@ -2818,45 +2818,8 @@
     },
     "learningResources": {
       "heading": "學習資源",
-      "intro": "此區收錄教案、活動手冊與教學素材，供教師與學習者參考使用。",
-      "categories": [
-        {
-          "id": "lesson-plans",
-          "title": "教案與活動",
-          "items": [
-            {
-              "title": "田野踏查教案一",
-              "description": "以義家藝館為起點的田野踏查教學設計，含活動流程與討論提問。",
-              "href": "https://example.com/learning/lesson-01",
-              "linkLabel": "下載教案"
-            },
-            {
-              "title": "田野踏查教案二",
-              "description": "延伸活動設計，引導學生以影像與文字紀錄觀察。",
-              "preview": "./assets/files/sample-reading.pdf",
-              "previewLabel": "預覽檔案"
-            }
-          ]
-        },
-        {
-          "id": "handouts",
-          "title": "學習單與素材",
-          "items": [
-            {
-              "title": "學習單一",
-              "description": "課堂使用的觀察紀錄學習單，可列印後填寫。",
-              "href": "https://example.com/learning/handout-01",
-              "linkLabel": "下載學習單"
-            },
-            {
-              "title": "學習單二",
-              "description": "小組討論引導問題與反思欄位。",
-              "href": "https://example.com/learning/handout-02",
-              "linkLabel": "下載學習單"
-            }
-          ]
-        }
-      ]
+      "intro": "",
+      "categories": []
     },
     "research": {
       "heading": "研究",

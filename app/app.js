@@ -450,6 +450,8 @@ function bindHomeIntro(stage, introConfig) {
   if (!inner || !overlay || !gifEl) return;
 
   const finishIntro = () => {
+    overlay.style.pointerEvents = "none";
+    gifEl.style.pointerEvents = "none";
     overlay.classList.add("isFadingOut");
     inner.classList.remove("museumStageInner--awaitingIntro");
     inner.classList.add("museumStageInner--introRevealed");

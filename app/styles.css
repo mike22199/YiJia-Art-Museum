@@ -1371,6 +1371,7 @@ body.isHomePage .mainHome{
 }
 .museumIntroOverlay.isFadingOut{
   opacity: 0;
+  pointer-events: none;
 }
 .museumIntroGif{
   width: 73.6%;
@@ -1379,19 +1380,21 @@ body.isHomePage .mainHome{
   object-fit: fill;
   object-position: center center;
   transform: translate(var(--home-intro-offset-x, 0), var(--home-intro-offset-y, 0));
+  pointer-events: none;
   user-select: none;
   -webkit-user-drag: none;
 }
 
 .museumStageInner--awaitingIntro .museumProp,
-.museumStageInner--awaitingIntro .museumNav{
+.museumStageInner--awaitingIntro .museumNavItem{
   opacity: 0;
   pointer-events: none;
 }
 .museumStageInner--introRevealed .museumProp,
-.museumStageInner--introRevealed .museumNav{
+.museumStageInner--introRevealed .museumNavItem{
   opacity: 1;
   pointer-events: auto;
+  z-index: 6;
   transition: opacity var(--home-intro-fade-in, 1400ms) ease;
 }
 .museumStageInner--introRevealed .museumNavItem--left{
@@ -1537,7 +1540,7 @@ body.isHomePage .mainHome{
     display: none;
   }
   .museumStageInner--awaitingIntro .museumProp,
-  .museumStageInner--awaitingIntro .museumNav{
+  .museumStageInner--awaitingIntro .museumNavItem{
     opacity: 1;
     pointer-events: auto;
   }
