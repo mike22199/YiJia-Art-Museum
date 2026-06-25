@@ -132,10 +132,11 @@
     return out;
   }
 
-  function mapArchiveMediaSection(section) {
+  function mapArchiveMediaSection(section, sectionKey = "photos") {
     if (!section || typeof section !== "object") return null;
     const byYear = {};
     const years = [];
+    const defaultPerPage = sectionKey === "videos" ? 4 : 8;
 
     if (Array.isArray(section.yearPacks)) {
       for (const pack of section.yearPacks) {
@@ -153,7 +154,7 @@
 
     return {
       years,
-      perPage: section.perPage || 9,
+      perPage: section.perPage || defaultPerPage,
       featuredCarousel: (Array.isArray(section.featuredCarousel) ? section.featuredCarousel : [])
         .map(mapArchiveCarouselSlide)
         .filter(Boolean),
@@ -287,9 +288,9 @@
     if (right) base.exhibitions["exhibition-right"] = right;
 
     base.archive = base.archive || {};
-    const photos = mapArchiveMediaSection(doc.archivePhotos);
+    const photos = mapArchiveMediaSection(doc.archivePhotos, "photos");
     if (photos) base.archive.photos = photos;
-    const videos = mapArchiveMediaSection(doc.archiveVideos);
+    const videos = mapArchiveMediaSection(doc.archiveVideos, "videos");
     if (videos) base.archive.videos = videos;
 
     const researchMapped = mapArchiveResearch(doc.archiveResearch);

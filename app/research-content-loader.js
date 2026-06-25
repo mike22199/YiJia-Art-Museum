@@ -53,8 +53,6 @@
 
       content.archive.teachers = content.archive.teachers || {};
       const teachers = content.archive.teachers;
-      const existingYears = Array.isArray(teachers.years) ? teachers.years : [];
-      teachers.years = [...new Set([...existingYears, ...years])].sort();
       teachers.byYear = teachers.byYear || {};
       teachers.journals = teachers.journals || {};
 
@@ -79,10 +77,6 @@
             teachers.journals[teacherId] = journal;
           }
         }
-      }
-
-      if (years.length && !teachers.defaultYear) {
-        teachers.defaultYear = years[years.length - 1];
       }
     } catch (err) {
       console.warn("研究日誌資料夾載入失敗：", err);

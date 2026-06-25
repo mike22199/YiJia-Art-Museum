@@ -396,6 +396,97 @@ function homeLayerSrc(layers, key, fallback) {
   return typeof value === "string" && value.trim() ? value.trim() : fallback;
 }
 
+function homeIntroOffset(value, fallback = "0") {
+  if (value === undefined || value === null || value === "") return fallback;
+  if (typeof value === "number" && Number.isFinite(value)) return `${value}px`;
+  const text = String(value).trim();
+  return text || fallback;
+}
+
+function getHomeIntroConfig(content) {
+  const intro = content?.homeIntro;
+  if (!intro || intro.enabled === false) return null;
+  const gif = typeof intro.gif === "string" && intro.gif.trim() ? intro.gif.trim() : "";
+  if (!gif) return null;
+  return {
+    gif,
+    durationMs: Math.max(500, Number(intro.durationMs) || 4000),
+    gifFadeOutMs: Math.max(0, Number(intro.gifFadeOutMs) || 500),
+    contentFadeInMs: Math.max(0, Number(intro.contentFadeInMs) || 1400),
+    oncePerSession: intro.oncePerSession !== false,
+    storageKey: String(intro.storageKey || "fifiHomeIntroPlayed"),
+    offsetX: homeIntroOffset(intro.offsetX, "0"),
+    offsetY: homeIntroOffset(intro.offsetY, "0"),
+  };
+}
+
+function shouldPlayHomeIntro(config) {
+  if (!config) return false;
+  if (!config.oncePerSession) return true;
+  try {
+    return !sessionStorage.getItem(config.storageKey);
+  } catch {
+    return true;
+  }
+}
+
+function markHomeIntroPlayed(config) {
+  if (!config?.oncePerSession) return;
+  try {
+    sessionStorage.setItem(config.storageKey, "1");
+  } catch {
+    /* ignore */
+  }
+}
+
+function prefersReducedMotion() {
+  return window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches === true;
+}
+
+function bindHomeIntro(stage, introConfig) {
+  const inner = stage?.querySelector(".museumStageInner");
+  const overlay = stage?.querySelector(".museumIntroOverlay");
+  const gifEl = overlay?.querySelector(".museumIntroGif");
+  if (!inner || !overlay || !gifEl) return;
+
+  const finishIntro = () => {
+    overlay.classList.add("isFadingOut");
+    inner.classList.remove("museumStageInner--awaitingIntro");
+    inner.classList.add("museumStageInner--introRevealed");
+
+    const removeOverlay = () => {
+      overlay.remove();
+      stage.classList.remove("museumStage--introActive");
+    };
+
+    if (introConfig.gifFadeOutMs > 0) {
+      window.setTimeout(removeOverlay, introConfig.gifFadeOutMs + 80);
+    } else {
+      removeOverlay();
+    }
+  };
+
+  let finished = false;
+  const safeFinish = (playedSuccessfully = true) => {
+    if (finished) return;
+    finished = true;
+    if (playedSuccessfully) markHomeIntroPlayed(introConfig);
+    finishIntro();
+  };
+
+  gifEl.addEventListener("error", () => safeFinish(false));
+
+  const startPlayback = () => {
+    const src = gifEl.src;
+    gifEl.src = "";
+    gifEl.src = src;
+    window.setTimeout(() => safeFinish(true), introConfig.durationMs);
+  };
+
+  if (gifEl.complete) startPlayback();
+  else gifEl.addEventListener("load", startPlayback, { once: true });
+}
+
 function renderHome(main) {
   const content = window.SITE_CONTENT || {};
   const layers = content.homeLayers || {};
@@ -407,6 +498,8 @@ function renderHome(main) {
   const bannerLeft = homeAssetBox(layers, "bannerLeft");
   const bannerRight = homeAssetBox(layers, "bannerRight");
   const zones = Array.isArray(content.homeZones) ? content.homeZones : defaultHomeZones();
+  const introConfig = getHomeIntroConfig(content);
+  const playIntro = introConfig && shouldPlayHomeIntro(introConfig) && !prefersReducedMotion();
 
   document.body.classList.add("isHomePage");
   main.classList.remove("mainSingle");
@@ -421,6 +514,21 @@ function renderHome(main) {
       alt: "義家藝館首頁",
       loading: "eager",
     }),
+    playIntro
+      ? el("div", {
+          class: "museumIntroOverlay",
+          "aria-hidden": "true",
+          style: `--home-intro-gif-fade: ${introConfig.gifFadeOutMs}ms; --home-intro-offset-x: ${introConfig.offsetX}; --home-intro-offset-y: ${introConfig.offsetY}`,
+        }, [
+          el("img", {
+            class: "museumIntroGif",
+            src: introConfig.gif,
+            alt: "",
+            loading: "eager",
+            decoding: "sync",
+          }),
+        ])
+      : null,
     renderSwapLink(
       "museumProp museumProp--banner-left",
       zones.find((z) => z.id === "left")?.href || "#exhibition-left/about",
@@ -464,13 +572,25 @@ function renderHome(main) {
     ),
   ];
 
-  const stageInner = el("div", { class: "museumStageInner" }, stageInnerChildren);
-  const stage = el("div", { class: "museumStage" }, [stageInner]);
+  const stageInner = el(
+    "div",
+    {
+      class: `museumStageInner${playIntro ? " museumStageInner--awaitingIntro" : ""}`,
+      style: playIntro ? `--home-intro-fade-in: ${introConfig.contentFadeInMs}ms` : undefined,
+    },
+    stageInnerChildren
+  );
+  const stage = el(
+    "div",
+    { class: `museumStage${playIntro ? " museumStage--introActive" : ""}` },
+    [stageInner]
+  );
 
   root.appendChild(el("section", { class: "homeMuseumArea" }, [stage]));
   main.innerHTML = "";
   main.appendChild(root);
   bindMuseumStageFit(stage);
+  if (playIntro) bindHomeIntro(stage, introConfig);
 }
 
 function renderCoCreate(main) {

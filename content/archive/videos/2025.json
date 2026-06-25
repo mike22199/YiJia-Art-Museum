@@ -25,54 +25,6 @@
       "caption": "田野踏查紀錄影片四",
       "image": { "src": "./assets/images/placeholder-photo.svg", "alt": "踏查影片四" },
       "youtubeUrl": "https://www.youtube.com/"
-    },
-    {
-      "title": "踏查影片五",
-      "caption": "田野踏查紀錄影片五",
-      "image": { "src": "./assets/images/placeholder-photo.svg", "alt": "踏查影片五" },
-      "youtubeUrl": "https://www.youtube.com/"
-    },
-    {
-      "title": "踏查影片六",
-      "caption": "田野踏查紀錄影片六",
-      "image": { "src": "./assets/images/placeholder-photo.svg", "alt": "踏查影片六" },
-      "youtubeUrl": "https://www.youtube.com/"
-    },
-    {
-      "title": "踏查影片七",
-      "caption": "田野踏查紀錄影片七",
-      "image": { "src": "./assets/images/placeholder-photo.svg", "alt": "踏查影片七" },
-      "youtubeUrl": "https://www.youtube.com/"
-    },
-    {
-      "title": "踏查影片八",
-      "caption": "田野踏查紀錄影片八",
-      "image": { "src": "./assets/images/placeholder-photo.svg", "alt": "踏查影片八" },
-      "youtubeUrl": "https://www.youtube.com/"
-    },
-    {
-      "title": "踏查影片九",
-      "caption": "田野踏查紀錄影片九",
-      "image": { "src": "./assets/images/placeholder-photo.svg", "alt": "踏查影片九" },
-      "youtubeUrl": "https://www.youtube.com/"
-    },
-    {
-      "title": "踏查影片十",
-      "caption": "田野踏查紀錄影片十",
-      "image": { "src": "./assets/images/placeholder-photo.svg", "alt": "踏查影片十" },
-      "youtubeUrl": "https://www.youtube.com/"
-    },
-    {
-      "title": "踏查影片十一",
-      "caption": "田野踏查紀錄影片十一",
-      "image": { "src": "./assets/images/placeholder-photo.svg", "alt": "踏查影片十一" },
-      "youtubeUrl": "https://www.youtube.com/"
-    },
-    {
-      "title": "踏查影片十二",
-      "caption": "田野踏查紀錄影片十二",
-      "image": { "src": "./assets/images/placeholder-photo.svg", "alt": "踏查影片十二" },
-      "youtubeUrl": "https://www.youtube.com/"
     }
   ]
 }

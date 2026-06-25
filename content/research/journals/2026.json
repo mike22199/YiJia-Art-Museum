@@ -1,56 +1,38 @@
 {
-  "teachers": [
-    { "id": "t01", "name": "姓名" },
-    { "id": "t02", "name": "姓名" },
-    { "id": "t03", "name": "姓名" },
-    { "id": "t04", "name": "姓名" },
-    { "id": "t05", "name": "姓名" },
-    { "id": "t06", "name": "姓名" },
-    { "id": "t07", "name": "姓名" },
-    { "id": "t08", "name": "姓名" }
-  ],
   "journals": {
     "t01": {
-      "pages": [
+      "spreads": [
+        { "kind": "cover" },
         {
-          "title": "封面",
-          "color": "#f4f1ea",
-          "body": "藝術家教師日誌內容（正式掃描圖尚未提供，可於本資料夾或 Sanity 上傳 image）"
+          "title": "內頁跨頁 1",
+          "image": {
+            "src": "./assets/images/Journal/spread-sample.png",
+            "alt": "教師日誌跨頁 1"
+          }
         },
-        {
-          "title": "第 2 頁",
-          "color": "#f8f8f8",
-          "body": "藝術家教師日誌內容"
-        },
-        {
-          "title": "第 3 頁",
-          "color": "#f0f0f0",
-          "body": "藝術家教師日誌內容"
-        },
-        {
-          "title": "第 4 頁",
-          "color": "#ececec",
-          "body": "藝術家教師日誌內容"
-        },
-        {
-          "title": "第 5 頁",
-          "color": "#e8e8e8",
-          "body": "藝術家教師日誌內容"
-        },
-        {
-          "title": "第 6 頁",
-          "color": "#e4e4e4",
-          "body": "藝術家教師日誌內容"
-        }
-      ]
+        { "kind": "back" }
+      ],
+      "video": {
+        "youtubeUrl": "",
+        "title": ""
+      }
     },
     "t02": {
-      "pages": [
-        { "title": "封面", "color": "#f4f1ea", "body": "藝術家教師日誌內容" },
-        { "title": "第 2 頁", "color": "#f8f8f8", "body": "藝術家教師日誌內容" },
-        { "title": "第 3 頁", "color": "#f0f0f0", "body": "藝術家教師日誌內容" },
-        { "title": "第 4 頁", "color": "#ececec", "body": "藝術家教師日誌內容" }
-      ]
+      "spreads": [
+        { "kind": "cover" },
+        {
+          "title": "內頁跨頁 1",
+          "image": {
+            "src": "./assets/images/Journal/spread-sample.png",
+            "alt": "教師日誌跨頁 1"
+          }
+        },
+        { "kind": "back" }
+      ],
+      "video": {
+        "youtubeUrl": "",
+        "title": ""
+      }
     }
   }
 }

@@ -28,7 +28,7 @@
 
     return {
       years,
-      perPage: config.perPage || 9,
+      perPage: config.perPage || (key === "videos" ? 4 : 8),
       featuredCarousel: Array.isArray(config.featuredCarousel) ? config.featuredCarousel : [],
       byYear,
     };

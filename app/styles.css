@@ -1357,6 +1357,53 @@ body.isHomePage .mainHome{
   -webkit-user-drag: none;
 }
 
+.museumIntroOverlay{
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  opacity: 1;
+  transition: opacity var(--home-intro-gif-fade, 500ms) ease;
+  pointer-events: none;
+}
+.museumIntroOverlay.isFadingOut{
+  opacity: 0;
+}
+.museumIntroGif{
+  width: 73.6%;
+  height: 116%;
+  display: block;
+  object-fit: fill;
+  object-position: center center;
+  transform: translate(var(--home-intro-offset-x, 0), var(--home-intro-offset-y, 0));
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.museumStageInner--awaitingIntro .museumProp,
+.museumStageInner--awaitingIntro .museumNav{
+  opacity: 0;
+  pointer-events: none;
+}
+.museumStageInner--introRevealed .museumProp,
+.museumStageInner--introRevealed .museumNav{
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity var(--home-intro-fade-in, 1400ms) ease;
+}
+.museumStageInner--introRevealed .museumNavItem--left{
+  transition-delay: 120ms;
+}
+.museumStageInner--introRevealed .museumNavItem--center{
+  transition-delay: 240ms;
+}
+.museumStageInner--introRevealed .museumNavItem--right{
+  transition-delay: 360ms;
+}
+
 .museumProp,
 .museumNavItem{
   position: absolute;
@@ -1390,6 +1437,10 @@ body.isHomePage .mainHome{
   opacity: 0;
   pointer-events: none;
 }
+@keyframes museumPropGlowBlink{
+  0%, 100%{ opacity: .18; }
+  50%{ opacity: .95; }
+}
 /* 底圖已有灰色 banner 框；預設不疊 Banner 圖，hover 才顯示光效 */
 .museumProp--banner-left .museumSwapArt--default,
 .museumProp--banner-right .museumSwapArt--default{
@@ -1400,6 +1451,11 @@ body.isHomePage .mainHome{
 .museumProp--door .museumSwapArt--default,
 .museumProp--door .museumSwapArt--hover{
   mix-blend-mode: screen;
+}
+.museumProp--banner-left .museumSwapArt--hover,
+.museumProp--banner-right .museumSwapArt--hover,
+.museumProp--door .museumSwapArt--hover{
+  animation: museumPropGlowBlink 2.2s ease-in-out infinite;
 }
 .museumNavItem .museumSwapArt--default,
 .museumNavItem .museumSwapArt--hover{
@@ -1421,6 +1477,15 @@ body.isHomePage .mainHome{
 .museumProp:focus-visible .museumSwapArt--hover,
 .museumNavItem:hover .museumSwapArt--hover,
 .museumNavItem:focus-visible .museumSwapArt--hover{
+  opacity: 1;
+}
+.museumProp--banner-left:hover .museumSwapArt--hover,
+.museumProp--banner-left:focus-visible .museumSwapArt--hover,
+.museumProp--banner-right:hover .museumSwapArt--hover,
+.museumProp--banner-right:focus-visible .museumSwapArt--hover,
+.museumProp--door:hover .museumSwapArt--hover,
+.museumProp--door:focus-visible .museumSwapArt--hover{
+  animation: none;
   opacity: 1;
 }
 
@@ -1458,6 +1523,36 @@ body.isHomePage .mainHome{
   }
   .museumProp:active .museumSwapArt--hover,
   .museumNavItem:active .museumSwapArt--hover{
+    opacity: 1;
+  }
+  .museumProp--banner-left:active .museumSwapArt--hover,
+  .museumProp--banner-right:active .museumSwapArt--hover,
+  .museumProp--door:active .museumSwapArt--hover{
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .museumIntroOverlay{
+    display: none;
+  }
+  .museumStageInner--awaitingIntro .museumProp,
+  .museumStageInner--awaitingIntro .museumNav{
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .museumProp--banner-left .museumSwapArt--hover,
+  .museumProp--banner-right .museumSwapArt--hover,
+  .museumProp--door .museumSwapArt--hover{
+    animation: none;
+    opacity: .55;
+  }
+  .museumProp--banner-left:hover .museumSwapArt--hover,
+  .museumProp--banner-left:focus-visible .museumSwapArt--hover,
+  .museumProp--banner-right:hover .museumSwapArt--hover,
+  .museumProp--banner-right:focus-visible .museumSwapArt--hover,
+  .museumProp--door:hover .museumSwapArt--hover,
+  .museumProp--door:focus-visible .museumSwapArt--hover{
     opacity: 1;
   }
 }
@@ -1680,6 +1775,16 @@ body.isInnerPage .mainInner{
   gap: calc(60 * var(--ui-scale));
   width: 100%;
   margin-top: calc(8 * var(--ui-scale));
+}
+.innerNav--compact{
+  justify-content: space-between;
+  gap: calc(10 * var(--ui-scale));
+}
+.innerNav--compact .innerNavItem{
+  font-size: max(12px, calc(15.5 * var(--ui-scale)));
+  letter-spacing: .06em;
+  padding-bottom: calc(2 * var(--ui-scale));
+  border-bottom-width: max(2px, calc(2.5 * var(--ui-scale)));
 }
 .innerNavItem,
 .innerSubnavItem{
@@ -2002,7 +2107,8 @@ body.isInnerPage .mainInner{
   right: max(24px, calc(32 * var(--ui-scale)));
 }
 .archivePastWebsitesPage .timelineYear,
-.archivePastWebsitesPage .timelineYearLink{
+.archivePastWebsitesPage .timelineYearLink,
+.archivePastWebsitesPage .timelineYearButton{
   font-family: var(--inner-font);
   font-size: max(28px, calc(46 * var(--ui-scale)));
   font-weight: 900;
@@ -2024,6 +2130,31 @@ body.isInnerPage .mainInner{
   object-fit: contain;
   display: block;
   mix-blend-mode: screen;
+}
+.archivePastWebsitesPage .timelineArtButton{
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+.archivePastWebsitesPage .timelineArtButton:focus-visible{
+  outline: 2px solid var(--inner-accent);
+  outline-offset: 4px;
+}
+.archivePastWebsitesPage .timelineYearButton{
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+.archivePastWebsitesPage .timelineYearButton:hover{
+  opacity: .75;
+}
+.archivePastWebsitesPage .timelineYearButton:focus-visible{
+  outline: 2px solid var(--inner-accent);
+  outline-offset: 4px;
 }
 .archivePastWebsitesPage .timelineGrid{
   gap: max(12px, calc(18 * var(--ui-scale)));
@@ -2071,6 +2202,7 @@ body.isInnerPage .mainInner{
 }
 .timelineGrid--3{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .timelineGrid--4{ grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.timelineGrid--5{ grid-template-columns: repeat(5, minmax(0, 1fr)); }
 .timelineEntry{
   text-align: center;
 }
@@ -2436,6 +2568,13 @@ body.isInnerPage .mainInner{
     flex-wrap: wrap;
     justify-content: flex-end;
     gap: calc(14 * var(--ui-scale));
+  }
+  .innerNav--compact{
+    justify-content: space-between;
+    gap: calc(8 * var(--ui-scale)) calc(12 * var(--ui-scale));
+  }
+  .innerNav--compact .innerNavItem{
+    font-size: max(11px, calc(13.5 * var(--ui-scale)));
   }
   .innerSubnavInner{
     flex-wrap: wrap;
@@ -3681,8 +3820,18 @@ body.isInnerPage .mainInner{
 }
 .archiveMediaGallery{
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
+}
+.archiveMediaGallery--photos{
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.archiveMediaGallery--videos{
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+}
+.archiveMediaGallery--videos .archiveMediaGalleryThumb img{
+  aspect-ratio: 16 / 9;
+  max-height: min(52vh, 420px);
 }
 .archiveMediaGalleryEmpty{
   grid-column: 1 / -1;
@@ -3851,6 +4000,16 @@ body.isInnerPage .mainInner{
 .innerContent--archiveBibliography{
   background: #faf8f3;
 }
+.innerContent--archiveLearning{
+  background: #faf8f3;
+}
+.archiveLearningResourcesIntro{
+  margin: 0 0 28px;
+  max-width: 62ch;
+}
+.archiveLearningResourcesPage .archivePageTitle{
+  margin-bottom: 16px;
+}
 .archiveBibliographyPage{
   max-width: min(96vw, 900px);
   margin: 0 auto;
@@ -3932,8 +4091,8 @@ body.isInnerPage .mainInner{
 }
 
 @media (max-width: 900px){
-  .archiveMediaGallery{
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .archiveMediaGallery--photos{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .archiveFiltersMediaField--search{
     width: 100%;
@@ -3953,8 +4112,11 @@ body.isInnerPage .mainInner{
     width: 100%;
     flex-wrap: wrap;
   }
-  .archiveMediaGallery{
+  .archiveMediaGallery--photos{
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .archiveMediaGallery--videos .archiveMediaGalleryThumb img{
+    max-height: none;
   }
   .archiveMediaPage > .archivePageTitle--media{
     font-size: 24px;
@@ -4510,6 +4672,13 @@ a.archiveBibliographyItem{
   font-size: 20px;
   letter-spacing: .1em;
   color: #b82020;
+  text-align: center;
+}
+.archiveTeachersPickerComingSoon{
+  margin: 30px 0 8px;
+  font-size: 22px;
+  letter-spacing: .12em;
+  color: #222;
   text-align: center;
 }
 .archiveTeachersCarousel{
@@ -5088,6 +5257,30 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
   letter-spacing: .1em;
   color: #222;
 }
+.archiveResearchJournalVideo{
+  width: 100%;
+  max-width: min(900px, 100%);
+  margin: 0 auto 28px;
+}
+.archiveResearchJournalVideoFrame{
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #1a1a1a;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, .12);
+}
+.archiveResearchJournalVideoPlayer{
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+}
+.archiveResearchJournalVideoPlaceholder{
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 4px;
+  background: linear-gradient(135deg, #5b4d8a 0%, #7a6aad 100%);
+}
 .archiveResearchPage--journal .archiveTeachersPicker{
   width: 100%;
   max-width: min(900px, 100%);
@@ -5556,6 +5749,35 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
   color: #333;
   text-align: left;
   max-width: 420px;
+}
+.archivePastWebsiteModalDialog{
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 4px 8px 0;
+  max-width: 520px;
+}
+.archivePastWebsiteModalSection{
+  text-align: left;
+}
+.archivePastWebsiteModalHeading{
+  margin: 0 0 10px;
+  font-size: 16px;
+  letter-spacing: .12em;
+  color: #b82020;
+  font-weight: 700;
+}
+.archivePastWebsiteModalBody{
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.85;
+  color: #333;
+}
+.archivePastWebsiteModalBody p{
+  margin: 0 0 12px;
+}
+.archivePastWebsiteModalBody p:last-child{
+  margin-bottom: 0;
 }
 
 @media (max-width: 900px){

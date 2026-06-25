@@ -12,7 +12,8 @@ const JOURNAL_RIGHT_ARROW = "./assets/images/Journal/Right-Arrow.png";
 const JOURNAL_DRAG_POINT = "./assets/images/Journal/DragPoint.png";
 const JOURNAL_FLIPBOOK_FRAME = JOURNAL_FRAME_BG;
 const JOURNAL_BOOKSHELF = "./assets/images/Journal/Book-shelf.png";
-const RESEARCH_SHELF_TAB_YEARS = ["2019", "2020", "2021", "2022", "2027"];
+const RESEARCH_SHELF_TAB_YEARS = ["2019", "2020", "2021", "2022", "2026"];
+const RESEARCH_BOOKSHELF_HOTSPOTS_ENABLED = false;
 const RESEARCH_SHELF_BOOK_HOTSPOTS = [
   { id: "b01", left: "3.9%", width: "1.8%" },
   { id: "b02", left: "5.8%", width: "2.1%" },
@@ -126,6 +127,29 @@ function resolveYoutubeWatchUrl(url) {
   return raw;
 }
 
+function resolveYoutubeEmbedUrl(source) {
+  if (!source) return "";
+  if (typeof source === "object") {
+    const id = String(source.youtubeId || "").trim();
+    if (id) return `https://www.youtube.com/embed/${encodeURIComponent(id)}`;
+    return resolveYoutubeEmbedUrl(source.youtubeUrl || source.videoUrl || "");
+  }
+  const watch = resolveYoutubeWatchUrl(source);
+  if (!watch) return "";
+  try {
+    const parsed = new URL(watch);
+    const id = parsed.searchParams.get("v");
+    return id ? `https://www.youtube.com/embed/${encodeURIComponent(id)}` : "";
+  } catch {
+    return "";
+  }
+}
+
+function isResearchYearComingSoon(year) {
+  const y = parseInt(String(year), 10);
+  return !Number.isNaN(y) && y < 2026;
+}
+
 function archiveMediaItemIsVideo(item) {
   return item?.type === "video" || Boolean(item?.youtubeUrl || item?.videoUrl);
 }
@@ -154,6 +178,7 @@ function archiveSubnavItems() {
         { id: "collection", label: "典藏", href: "#archive/collection" },
         { id: "research", label: "研究", href: "#archive/research" },
         { id: "performances", label: "最新展演", href: "#archive/performances" },
+        { id: "learning", label: "學習資源", href: "#archive/learning" },
         { id: "teachers", label: "藝術家教師", href: "#archive/teachers" },
         { id: "bibliography", label: "延伸閱讀", href: "#archive/bibliography" },
       ];
@@ -1184,7 +1209,14 @@ function renderArchivePractice() {
   return root;
 }
 
-const ARCHIVE_MEDIA_PER_PAGE = 9;
+const ARCHIVE_MEDIA_PER_PAGE = {
+  photos: 8,
+  videos: 4,
+};
+
+function archiveMediaPerPage(sectionKey) {
+  return ARCHIVE_MEDIA_PER_PAGE[sectionKey] || 8;
+}
 
 function resolveArchiveRecordYearPack(section, year) {
   const byYear = section.byYear || {};
@@ -1226,7 +1258,7 @@ function normalizeLegacyMediaSection(legacy, sectionKey) {
   const carousel = Array.isArray(legacy.featuredCarousel) ? legacy.featuredCarousel : [];
   return {
     years,
-    perPage: legacy.perPage || ARCHIVE_MEDIA_PER_PAGE,
+    perPage: legacy.perPage || archiveMediaPerPage(sectionKey),
     featuredCarousel: isVideoSection
       ? carousel.filter((slide) => archiveMediaItemIsVideo(slide))
       : carousel.filter((slide) => !archiveMediaItemIsVideo(slide)),
@@ -1240,7 +1272,7 @@ function resolveArchiveRecordSection(sectionKey) {
   if (direct && (Array.isArray(direct.years) || direct.byYear)) {
     return {
       years: Array.isArray(direct.years) ? direct.years : Object.keys(direct.byYear || {}),
-      perPage: direct.perPage || ARCHIVE_MEDIA_PER_PAGE,
+      perPage: direct.perPage || archiveMediaPerPage(sectionKey),
       featuredCarousel: Array.isArray(direct.featuredCarousel) ? direct.featuredCarousel : [],
       byYear: direct.byYear || {},
     };
@@ -1423,7 +1455,7 @@ function renderArchiveMediaPage(options = {}) {
 
   const section = resolveArchiveRecordSection(sectionKey);
   const years = section.years.length ? section.years : ["2025"];
-  const perPage = section.perPage || ARCHIVE_MEDIA_PER_PAGE;
+  const perPage = section.perPage || archiveMediaPerPage(sectionKey);
   const params = getHashQuery();
   const year = params.get("year") || years[0] || "2025";
   const query = (params.get("q") || "").trim().toLowerCase();
@@ -1453,8 +1485,7 @@ function renderArchiveMediaPage(options = {}) {
   const pageOffset = (currentPage - 1) * perPage;
   const pageItems = filtered.slice(pageOffset, pageOffset + perPage);
 
-  const root = el("div", { class: "archivePage archiveMediaPage" });
-  root.appendChild(renderArchiveBackToCollection());
+  const root = el("div", { class: `archivePage archiveMediaPage archiveMediaPage--${sectionKey}` });
   root.appendChild(renderArchiveFeaturedCarousel(featured));
   root.appendChild(el("h1", { class: "archivePageTitle archivePageTitle--media", text: pageTitle }));
 
@@ -1508,7 +1539,7 @@ function renderArchiveMediaPage(options = {}) {
     recordSec.appendChild(el("p", { class: "archiveMediaYearOverview", text: yearPack.overview }));
   }
 
-  const grid = el("div", { class: "archiveMediaGallery" });
+  const grid = el("div", { class: `archiveMediaGallery archiveMediaGallery--${sectionKey}` });
   if (!pageItems.length) {
     grid.appendChild(
       el("p", { class: "archiveMediaGalleryEmpty", text: query ? "找不到符合關鍵字的項目。" : "此年份尚無內容。" })
@@ -1801,6 +1832,50 @@ function renderArchiveBibliography() {
   return root;
 }
 
+function resolveLearningResourceCategories(data) {
+  const section = data.learningResources || {};
+  const configured = Array.isArray(section.categories) ? section.categories : [];
+  if (configured.length) {
+    return configured.map((category) => ({
+      id: category.id || category.title || "category",
+      title: category.title || "",
+      items: Array.isArray(category.items) ? category.items : [],
+    }));
+  }
+  return [];
+}
+
+function renderArchiveLearningResources() {
+  const data = archiveData();
+  const section = data.learningResources || {};
+  const categories = resolveLearningResourceCategories(data);
+
+  const root = el("div", { class: "archivePage archiveBibliographyPage archiveLearningResourcesPage" });
+  root.appendChild(
+    el("h1", {
+      class: "archivePageTitle",
+      text: section.heading || "學習資源",
+    })
+  );
+  if (section.intro) {
+    root.appendChild(el("p", { class: "archiveIntroBody archiveLearningResourcesIntro", text: section.intro }));
+  }
+
+  const body = el("div", { class: "archiveBibliographyBody" });
+  categories.forEach((category, index) => {
+    const block = renderArchiveBibliographyCategory(category, index);
+    if (block) body.appendChild(block);
+  });
+  if (!categories.length) {
+    body.appendChild(
+      el("p", { class: "archiveIntroBody", text: "此區尚無學習資源內容。" })
+    );
+  }
+  root.appendChild(body);
+
+  return root;
+}
+
 function performanceBannerPlaceholderSrc() {
   const svg =
     "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 360'><rect width='1200' height='360' fill='#b8b4b0'/></svg>";
@@ -1938,6 +2013,38 @@ function openTeacherDetailModal(teacher, index = 0) {
   });
 }
 
+function renderPastWebsiteModalSection(section, fallbackHeading) {
+  const heading = section?.heading || fallbackHeading;
+  const blocks = Array.isArray(section?.blocks) ? section.blocks.filter(Boolean) : [];
+  const body = String(section?.body || "").trim();
+  if (!heading && !body && !blocks.length) return null;
+
+  const bodyEl =
+    blocks.length > 0
+      ? el(
+          "div",
+          { class: "archivePastWebsiteModalBody" },
+          blocks.map((block) => el("p", { text: block }))
+        )
+      : el("p", { class: "archivePastWebsiteModalBody", text: body });
+
+  return el("section", { class: "archivePastWebsiteModalSection" }, [
+    heading ? el("h3", { class: "archivePastWebsiteModalHeading", text: heading }) : null,
+    bodyEl,
+  ]);
+}
+
+function openPastWebsiteModal(modalData = {}) {
+  const discourse = renderPastWebsiteModalSection(modalData.discourse, "展覽論述");
+  const credit = renderPastWebsiteModalSection(modalData.credit, "Credit");
+  const content = el("div", { class: "archivePastWebsiteModalDialog" }, [discourse, credit].filter(Boolean));
+
+  openArchiveModal({
+    title: modalData.title || "",
+    content,
+  });
+}
+
 function renderArchiveTeacherGridCard(teacher, index) {
   return el(
     "button",
@@ -2052,6 +2159,13 @@ function renderArchiveTeacherPicker(teachers, selected, year, years, teachersDat
   section.appendChild(
     el("h2", { class: "archiveTeachersPickerTitle", text: `${year}年藝術家教師` })
   );
+
+  if (options.comingSoon) {
+    section.appendChild(
+      el("p", { class: "archiveTeachersPickerComingSoon", text: "即將開放" })
+    );
+    return section;
+  }
 
   const carousel = el("div", { class: "archiveTeachersCarousel" });
   const prevBtn = el("button", {
@@ -3178,6 +3292,32 @@ function openResearchJournalModal(journal, index = 0) {
   });
 }
 
+function renderResearchJournalVideo(journal) {
+  const video = journal?.video && typeof journal.video === "object" ? journal.video : {};
+  const embedSrc = resolveYoutubeEmbedUrl(video);
+  const section = el("section", { class: "archiveResearchJournalVideo" });
+
+  if (embedSrc) {
+    section.appendChild(
+      el("div", { class: "archiveResearchJournalVideoFrame" }, [
+        el("iframe", {
+          class: "archiveResearchJournalVideoPlayer",
+          src: embedSrc,
+          title: video.title || "藝術家教師日誌影片",
+          loading: "lazy",
+          allow:
+            "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",
+          allowfullscreen: "true",
+        }),
+      ])
+    );
+    return section;
+  }
+
+  section.appendChild(el("div", { class: "archiveResearchJournalVideoPlaceholder", "aria-hidden": "true" }));
+  return section;
+}
+
 function openResearchAccessModal(bookshelf = {}) {
   const message =
     bookshelf.accessMessage ||
@@ -3310,44 +3450,48 @@ function renderResearchBookshelf(bookshelf = {}, options = {}) {
     );
   });
 
-  const bookHotspots = el(
-    "div",
-    { class: "archiveResearchBookshelfHotspots", "aria-label": "書櫃書本" },
-    shelfBooks.map((book, index) => {
-      const hs = book.hotspot || {};
-      const teacher = teachers[index] || null;
-      const label = teacher?.name || book.label || `書本 ${index + 1}`;
-      return el("button", {
-        class: `archiveResearchBookshelfHotspot${teacher ? " archiveResearchBookshelfHotspot--linked" : ""}${hotspotDebug ? " archiveResearchBookshelfHotspot--debug" : ""}`,
-        type: "button",
-        style: hotspotStyle(hs),
-        "aria-label": teacher ? `開啟 ${label} 日誌` : label,
-        title: label,
-        onclick: () => {
-          if (teacher) {
-            navigateFromHref(
-              archiveTeacherNavHref(currentYear, teacher.id, teachersData, "research")
-            );
-            return;
-          }
-          openResearchAccessModal(bookshelf);
-        },
-      });
-    })
-  );
+  const bookHotspots = RESEARCH_BOOKSHELF_HOTSPOTS_ENABLED
+    ? el(
+        "div",
+        { class: "archiveResearchBookshelfHotspots", "aria-label": "書櫃書本" },
+        shelfBooks.map((book, index) => {
+          const hs = book.hotspot || {};
+          const teacher = teachers[index] || null;
+          const label = teacher?.name || book.label || `書本 ${index + 1}`;
+          return el("button", {
+            class: `archiveResearchBookshelfHotspot${teacher ? " archiveResearchBookshelfHotspot--linked" : ""}${hotspotDebug ? " archiveResearchBookshelfHotspot--debug" : ""}`,
+            type: "button",
+            style: hotspotStyle(hs),
+            "aria-label": teacher ? `開啟 ${label} 日誌` : label,
+            title: label,
+            onclick: () => {
+              if (teacher) {
+                navigateFromHref(
+                  archiveTeacherNavHref(currentYear, teacher.id, teachersData, "research")
+                );
+                return;
+              }
+              openResearchAccessModal(bookshelf);
+            },
+          });
+        })
+      )
+    : null;
 
-  const stage = el("div", {
-    class: `archiveResearchBookshelfStage${hotspotDebug ? " archiveResearchBookshelfStage--debug" : ""}`,
-  }, [
+  const stageChildren = [
     el("img", {
       class: "archiveResearchBookshelfImg",
       src: imgSrc,
       alt: image.alt || "書櫃",
       loading: "lazy",
     }),
-    bookHotspots,
     yearTabs,
-  ]);
+  ];
+  if (bookHotspots) stageChildren.splice(1, 0, bookHotspots);
+
+  const stage = el("div", {
+    class: `archiveResearchBookshelfStage${hotspotDebug ? " archiveResearchBookshelfStage--debug" : ""}`,
+  }, stageChildren);
 
   return el("section", { class: "archiveResearchBookshelf" }, [
     hotspotDebug
@@ -3374,7 +3518,7 @@ function renderArchiveResearch() {
     bookshelf.defaultYear ||
     teachersData.defaultYear ||
     tabYears[tabYears.length - 1] ||
-    "2027";
+    "2026";
   if (!tabYears.includes(year)) year = tabYears[tabYears.length - 1];
   const yearPack = (teachersData.byYear || {})[year] || {};
   const teachers = Array.isArray(yearPack.teachers) ? yearPack.teachers : [];
@@ -3405,11 +3549,16 @@ function renderArchiveResearch() {
   );
   root.appendChild(journalSec);
 
+  if (year === "2026") {
+    root.appendChild(renderResearchJournalVideo(journal));
+  }
+
   root.appendChild(
     renderArchiveTeacherPicker(teachers, selected, year, tabYears, teachersData, {
       section: "research",
       notebookIcon: true,
       hideTimeline: true,
+      comingSoon: isResearchYearComingSoon(year),
     })
   );
 
@@ -3526,6 +3675,10 @@ function renderArchivePage(main, route) {
     case "bibliography":
       content = renderArchiveBibliography();
       contentClass = "innerContent--archiveBibliography";
+      break;
+    case "learning":
+      content = renderArchiveLearningResources();
+      contentClass = "innerContent--archiveLearning";
       break;
     case "research":
       content = renderArchiveResearch();

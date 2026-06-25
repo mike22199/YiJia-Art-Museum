@@ -239,7 +239,8 @@ const archiveMediaSection = defineType({
       name: "perPage",
       type: "number",
       title: "每頁顯示筆數",
-      initialValue: 9,
+      description: "照片紀錄建議 8（一行兩張、四行）；動態影音紀錄建議 4（一行一支、四行）。",
+      initialValue: 8,
       validation: (rule) => rule.min(1).max(30),
     }),
     defineField({

@@ -1,8 +1,8 @@
 {
   "override": true,
-  "years": ["2027"],
-  "tabYears": ["2019", "2020", "2021", "2022", "2027"],
-  "defaultYear": "2027",
+  "years": ["2026"],
+  "tabYears": ["2019", "2020", "2021", "2022", "2026"],
+  "defaultYear": "2026",
   "heading": "研究",
   "journalTitle": "藝術家教師日誌",
   "journalFrame": {

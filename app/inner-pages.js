@@ -129,7 +129,10 @@ function renderSiteHeader(activeNavId) {
             el("button", { class: "innerSearchSubmit", type: "submit", text: "搜索" }),
           ]
         ),
-        el("nav", { class: "innerNav", "aria-label": "主選單" }, navChildren),
+        el("nav", {
+          class: `innerNav${navItems.length >= 6 ? " innerNav--compact" : ""}`,
+          "aria-label": "主選單",
+        }, navChildren),
       ]),
     ]),
   ]);
@@ -321,47 +324,162 @@ function wrapInnerPage(contentEl, { activeNav = "", activeSubnav = "", showSubna
   return shell;
 }
 
+function pastExhibitionsData() {
+  return window.SITE_CONTENT?.archive?.pastExhibitions || {};
+}
+
+function resolvePastWebsiteHref(year) {
+  const past = pastExhibitionsData();
+  const configured = past.byYear?.[year];
+  const legacyItem = Array.isArray(past.items)
+    ? past.items.find((item) => {
+        const itemYear = String(item.year || "").trim();
+        if (itemYear === String(year)) return true;
+        return String(item.title || "").startsWith(String(year));
+      })
+    : null;
+  return configured?.href || configured?.website || legacyItem?.href || "";
+}
+
+function findClassicsTimelineEntry(year) {
+  const rows = window.SITE_CONTENT?.classics?.timelineRows || [];
+  for (const row of rows) {
+    const entries = Array.isArray(row.entries) ? row.entries : [];
+    const match = entries.find((entry) => String(entry.year) === String(year));
+    if (match) return match;
+  }
+  return null;
+}
+
+function pastWebsiteImageYears() {
+  const past = pastExhibitionsData();
+  if (Array.isArray(past.imageYears)) return past.imageYears.map(String);
+  return ["2027-2026", "2021", "2016"];
+}
+
+function buildPastWebsiteTimelineEntry(yearKey) {
+  const past = pastExhibitionsData();
+  const configured = past.byYear?.[yearKey];
+  const legacyItem = Array.isArray(past.items)
+    ? past.items.find((item) => {
+        const itemYear = String(item.year || "").trim();
+        if (itemYear === String(yearKey)) return true;
+        return String(item.title || "").startsWith(String(yearKey));
+      })
+    : null;
+  const href = resolvePastWebsiteHref(yearKey);
+  const yearLabel = configured?.yearLabel || configured?.label || yearKey;
+  const shouldShowImage = pastWebsiteImageYears().includes(String(yearKey));
+  const configuredBanner = configured?.banner || configured?.image;
+  const classicsEntry =
+    findClassicsTimelineEntry(yearKey) ||
+    findClassicsTimelineEntry(String(yearKey).split("-")[0]);
+  let image = null;
+
+  if (shouldShowImage) {
+    image =
+      (configuredBanner?.src && !String(configuredBanner.src).includes("placeholder")
+        ? configuredBanner
+        : null) ||
+      (legacyItem?.image?.src && !String(legacyItem.image.src).includes("placeholder")
+        ? legacyItem.image
+        : null) ||
+      classicsEntry?.image ||
+      configuredBanner ||
+      null;
+  }
+
+  return {
+    year: String(yearKey),
+    yearLabel,
+    image,
+    modal: configured?.modal || null,
+    imagePosition: classicsEntry?.imagePosition || "above",
+    links: href ? [{ label: "網站", href }] : [],
+  };
+}
+
+function timelineExternalLinkAttrs(href) {
+  const isExternal = href && !String(href).startsWith("#");
+  return {
+    href: href || "#",
+    target: isExternal ? "_blank" : undefined,
+    rel: isExternal ? "noopener noreferrer" : undefined,
+    onclick: isExternal
+      ? undefined
+      : (e) => {
+          e.preventDefault();
+          navigateFromHref(href);
+        },
+  };
+}
+
+function openPastWebsiteModalFromEntry(modalData, yearLabel) {
+  if (typeof openPastWebsiteModal === "function") openPastWebsiteModal(modalData);
+}
+
+function pastWebsiteModalButtonAttrs(modalData, yearLabel) {
+  return {
+    class: "timelineYear timelineYearLink timelineYearButton",
+    type: "button",
+    text: yearLabel,
+    "aria-label": `${yearLabel} 展覽論述`,
+    onclick: () => openPastWebsiteModalFromEntry(modalData, yearLabel),
+  };
+}
+
 function renderTimelineEntry(entry, options = {}) {
   const pastWebsites = options.pastWebsites === true;
   const links = Array.isArray(entry.links) ? entry.links : [];
   const image = entry.image;
   const imagePosition = entry.imagePosition === "above" ? "above" : "below";
   const year = entry.year || "";
+  const yearLabel = entry.yearLabel || year;
   const detailHref = yearIntroHref(year);
+  const websiteHref = pastWebsites ? resolvePastWebsiteHref(year) || links.find((l) => l.label === "網站")?.href || "" : "";
+  const pageHref = pastWebsites && websiteHref ? websiteHref : detailHref;
 
   const imageInner = image?.src
-    ? el("img", { src: image.src, alt: image.alt || year || "artwork", loading: "lazy" })
+    ? el("img", { src: image.src, alt: image.alt || yearLabel || "artwork", loading: "lazy" })
     : null;
 
-  const imageEl =
-    imageInner
-      ? el(
-          "a",
-          {
-            class: "timelineArt timelineArtLink",
-            href: detailHref,
-            "aria-label": `${year} 年度介紹`,
-            onclick: (e) => {
-              e.preventDefault();
-              navigateFromHref(detailHref);
-            },
-          },
-          [imageInner]
-        )
-      : null;
-
-  const yearEl = el(
-    "a",
-    {
-      class: "timelineYear timelineYearLink",
-      href: detailHref,
-      text: year,
-      onclick: (e) => {
-        e.preventDefault();
-        navigateFromHref(detailHref);
-      },
+  const modalData = entry.modal;
+  let imageEl = null;
+  if (imageInner) {
+    if (pastWebsites && modalData) {
+      imageEl = el(
+        "button",
+        {
+          class: "timelineArt timelineArtLink timelineArtButton",
+          type: "button",
+          "aria-label": `${yearLabel} 展覽論述`,
+          onclick: () => openPastWebsiteModalFromEntry(modalData, yearLabel),
+        },
+        [imageInner]
+      );
+    } else {
+      imageEl = el(
+        "a",
+        {
+          class: "timelineArt timelineArtLink",
+          "aria-label": pastWebsites ? `${yearLabel} 歷屆網站` : `${yearLabel} 年度介紹`,
+          ...timelineExternalLinkAttrs(pageHref),
+        },
+        [imageInner]
+      );
     }
-  );
+  }
+
+  const yearEl =
+    pastWebsites && modalData && !websiteHref
+      ? el("button", pastWebsiteModalButtonAttrs(modalData, yearLabel))
+      : pastWebsites && !websiteHref
+        ? el("span", { class: "timelineYear", text: yearLabel })
+        : el("a", {
+            class: "timelineYear timelineYearLink",
+            text: yearLabel,
+            ...timelineExternalLinkAttrs(pageHref),
+          });
   const dotEl = el("div", { class: "timelineDot", "aria-hidden": "true" });
   const linksEl = el(
     "ul",
@@ -371,13 +489,7 @@ function renderTimelineEntry(entry, options = {}) {
         el(
           "a",
           {
-            href: link.href || detailHref,
-            onclick: (e) => {
-              if (String(link.href || "").startsWith("#")) {
-                e.preventDefault();
-                navigateFromHref(link.href);
-              }
-            },
+            ...timelineExternalLinkAttrs(link.href || detailHref),
           },
           [link.label || "連結"]
         ),
@@ -390,7 +502,6 @@ function renderTimelineEntry(entry, options = {}) {
       el("div", { class: "timelineEntryArt" }, imageEl ? [imageEl] : []),
       el("div", { class: "timelineEntryMarker" }, [dotEl]),
       el("div", { class: "timelineEntryYear" }, [yearEl]),
-      linksEl,
     ]);
   }
 
@@ -407,8 +518,20 @@ function renderTimelineEntry(entry, options = {}) {
 
 function renderClassicsTimeline(options = {}) {
   const pastWebsites = options.pastWebsites === true;
-  const data = window.SITE_CONTENT?.classics || {};
-  const rows = Array.isArray(data.timelineRows) ? data.timelineRows : [];
+  let rows;
+
+  if (pastWebsites) {
+    const past = pastExhibitionsData();
+    const configuredRows = Array.isArray(past.rows) ? past.rows : [];
+    rows = configuredRows.slice(0, 2).map((rowYears) => ({
+      entries: (Array.isArray(rowYears) ? rowYears : [])
+        .map((y) => buildPastWebsiteTimelineEntry(String(y).trim()))
+        .filter((entry) => entry.year),
+    }));
+  } else {
+    const data = window.SITE_CONTENT?.classics || {};
+    rows = Array.isArray(data.timelineRows) ? data.timelineRows : [];
+  }
 
   const content = el("div", {
     class: `timelinePage${pastWebsites ? " timelinePage--pastWebsites" : ""}`,
@@ -419,7 +542,7 @@ function renderClassicsTimeline(options = {}) {
       el("div", { class: "timelineLine", "aria-hidden": "true" }),
       el(
         "div",
-        { class: `timelineGrid timelineGrid--${Math.min(4, Math.max(1, entries.length))}` },
+        { class: `timelineGrid timelineGrid--${Math.min(5, Math.max(1, entries.length))}` },
         entries.map((entry) => renderTimelineEntry(entry, { pastWebsites }))
       ),
     ]);

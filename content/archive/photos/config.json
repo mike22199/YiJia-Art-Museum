@@ -1,7 +1,7 @@
 {
   "override": true,
   "years": ["2025"],
-  "perPage": 9,
+  "perPage": 8,
   "featuredCarousel": [
     {
       "title": "精選照片一",

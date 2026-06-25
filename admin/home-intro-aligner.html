@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>首頁開場 GIF 對齊工具</title>
+  <style>
+    :root {
+      --bg: #1a1a1a;
+      --panel: #252525;
+      --border: #3a3a3a;
+      --text: #eee;
+      --muted: #999;
+      --accent: #b82020;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Microsoft JhengHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+    header h1 { margin: 0; font-size: 18px; font-weight: 600; }
+    header p { margin: 4px 0 0; font-size: 13px; color: var(--muted); max-width: 52rem; line-height: 1.5; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    button, label.fileBtn {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    button:hover, label.fileBtn:hover { border-color: var(--accent); }
+    button.primary { background: var(--accent); border-color: var(--accent); }
+    label.fileBtn { display: inline-block; }
+    label.fileBtn input { display: none; }
+    main {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 360px;
+      gap: 0;
+      min-height: calc(100vh - 96px);
+    }
+    @media (max-width: 1000px) { main { grid-template-columns: 1fr; } }
+    .stageWrap {
+      padding: 20px;
+      overflow: auto;
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .museumStage {
+      width: min(100%, calc((100vh - 180px) * 16 / 9));
+      aspect-ratio: 16 / 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #e8e4dc;
+      border: 1px solid var(--border);
+    }
+    .museumStageInner {
+      position: relative;
+      flex: none;
+      width: 1920px;
+      height: 1080px;
+      transform: scale(var(--home-scale, 1));
+      transform-origin: center center;
+    }
+    .museumPhoto--base {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      user-select: none;
+      pointer-events: none;
+    }
+    .museumIntroOverlay {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+    .museumIntroOverlay.hasWhiteBg { background: #fff; }
+    .museumIntroGif {
+      display: block;
+      object-fit: fill;
+      object-position: center center;
+      user-select: none;
+      pointer-events: auto;
+      cursor: move;
+      touch-action: none;
+      outline: 1px dashed rgba(184, 32, 32, 0.55);
+      outline-offset: -1px;
+    }
+    .museumIntroGif.isHidden { opacity: 0; }
+    .stageHint {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+    }
+    aside {
+      border-left: 1px solid var(--border);
+      background: var(--panel);
+      padding: 16px;
+      overflow: auto;
+    }
+    @media (max-width: 1000px) { aside { border-left: 0; border-top: 1px solid var(--border); } }
+    aside h2 {
+      margin: 0 0 12px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .field {
+      margin-bottom: 14px;
+    }
+    .field label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .field label strong { color: var(--text); }
+    .field input[type="range"] { width: 100%; }
+    .field input[type="text"],
+    .field input[type="number"],
+    .field select {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #1a1a1a;
+      color: var(--text);
+      font-size: 13px;
+    }
+    .row2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .toggleRow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .toggleRow label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    pre.output {
+      margin: 0 0 10px;
+      padding: 10px;
+      background: #1a1a1a;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 11px;
+      line-height: 1.45;
+      white-space: pre-wrap;
+      word-break: break-all;
+      max-height: 200px;
+      overflow: auto;
+    }
+    .status {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+    .status.ok { color: #7dcea0; }
+    .status.warn { color: #f5c542; }
+    .status.err { color: #e88; }
+    .copyRow { display: flex; gap: 8px; margin-bottom: 16px; }
+    .copyRow button { flex: 1; }
+    hr { border: 0; border-top: 1px solid var(--border); margin: 16px 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>首頁開場 GIF 對齊工具</h1>
+      <p>以 GIF <strong>最後一幀</strong>疊在 <code>home-base.jpg</code> 上比對。拖曳紅框圖層調位置，滑桿調寬高與透明度。完成後複製 CSS／JSON 貼回專案。</p>
+    </div>
+    <div class="toolbar">
+      <button type="button" id="btnLoadSite">讀取 site-content.json</button>
+      <label class="fileBtn">自訂 GIF<input type="file" id="gifFile" accept="image/gif" /></label>
+      <label class="fileBtn">自訂背景<input type="file" id="bgFile" accept="image/*" /></label>
+    </div>
+  </header>
+
+  <main>
+    <div class="stageWrap">
+      <div class="museumStage" id="museumStage">
+        <div class="museumStageInner" id="museumStageInner">
+          <img class="museumPhoto--base" id="baseImg" alt="首頁背景" />
+          <div class="museumIntroOverlay hasWhiteBg" id="introOverlay">
+            <img class="museumIntroGif" id="gifLayer" alt="GIF 最後一幀" draggable="false" />
+          </div>
+        </div>
+      </div>
+      <p class="stageHint">拖曳紅框圖層移動｜方向鍵微調（Shift ×10）｜畫布 1920×1080，與首頁一致</p>
+    </div>
+
+    <aside>
+      <p class="status" id="status">載入中…</p>
+
+      <h2>顯示</h2>
+      <div class="toggleRow">
+        <label><input type="checkbox" id="whiteBg" checked /> 白色底（播放時）</label>
+        <label><input type="checkbox" id="showBase" checked /> 顯示背景圖</label>
+        <label><input type="checkbox" id="showOverlay" checked /> 顯示 GIF 圖層</label>
+      </div>
+      <div class="field">
+        <label><span>圖層透明度（比對用）</span><strong id="opacityVal">88%</strong></label>
+        <input type="range" id="opacity" min="0" max="100" value="88" />
+      </div>
+
+      <h2>尺寸</h2>
+      <div class="field">
+        <label><span>width</span><strong id="widthVal">70%</strong></label>
+        <input type="range" id="width" min="10" max="150" step="0.5" value="70" />
+      </div>
+      <div class="field">
+        <label><span>height</span><strong id="heightVal">110%</strong></label>
+        <input type="range" id="height" min="10" max="150" step="0.5" value="110" />
+      </div>
+
+      <h2>位移</h2>
+      <div class="field">
+        <label><span>offsetX</span><strong id="offsetXVal">-0.5%</strong></label>
+        <input type="range" id="offsetX" min="-30" max="30" step="0.1" value="-0.5" />
+      </div>
+      <div class="field">
+        <label><span>offsetY</span><strong id="offsetYVal">-2.5%</strong></label>
+        <input type="range" id="offsetY" min="-30" max="30" step="0.1" value="-2.5" />
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>offset 單位</label>
+          <select id="offsetUnit">
+            <option value="%" selected>%</option>
+            <option value="px">px</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>鍵盤步進</label>
+          <select id="nudgeStep">
+            <option value="0.1">0.1</option>
+            <option value="0.5" selected>0.5</option>
+            <option value="1">1</option>
+          </select>
+        </div>
+      </div>
+
+      <hr />
+
+      <h2>輸出</h2>
+      <p class="status">寬高貼到 <code>app/styles.css</code> 的 <code>.museumIntroGif</code>；位移貼到 <code>content/site-content.json</code> 的 <code>homeIntro</code>。</p>
+      <pre class="output" id="cssOut"></pre>
+      <div class="copyRow">
+        <button type="button" id="btnCopyCss">複製 CSS</button>
+      </div>
+      <pre class="output" id="jsonOut"></pre>
+      <div class="copyRow">
+        <button type="button" id="btnCopyJson">複製 JSON</button>
+        <button type="button" class="primary" id="btnCopyBoth">複製全部</button>
+      </div>
+    </aside>
+  </main>
+
+  <script>
+    const REF_W = 1920;
+    const REF_H = 1080;
+    const DEFAULTS = {
+      base: "../assets/images/home/home-base.jpg",
+      gif: "../assets/images/home/home-intro.gif",
+      siteContent: "../content/site-content.json",
+      width: 70,
+      height: 110,
+      offsetX: -0.5,
+      offsetY: -2.5,
+      offsetUnit: "%",
+    };
+
+    const state = {
+      width: DEFAULTS.width,
+      height: DEFAULTS.height,
+      offsetX: DEFAULTS.offsetX,
+      offsetY: DEFAULTS.offsetY,
+      offsetUnit: DEFAULTS.offsetUnit,
+      opacity: 88,
+      whiteBg: true,
+      showBase: true,
+      showOverlay: true,
+      baseSrc: DEFAULTS.base,
+      gifSrc: DEFAULTS.gif,
+      lastFrameSrc: "",
+    };
+
+    const els = {
+      museumStage: document.getElementById("museumStage"),
+      museumStageInner: document.getElementById("museumStageInner"),
+      baseImg: document.getElementById("baseImg"),
+      introOverlay: document.getElementById("introOverlay"),
+      gifLayer: document.getElementById("gifLayer"),
+      status: document.getElementById("status"),
+      cssOut: document.getElementById("cssOut"),
+      jsonOut: document.getElementById("jsonOut"),
+      whiteBg: document.getElementById("whiteBg"),
+      showBase: document.getElementById("showBase"),
+      showOverlay: document.getElementById("showOverlay"),
+      opacity: document.getElementById("opacity"),
+      opacityVal: document.getElementById("opacityVal"),
+      width: document.getElementById("width"),
+      widthVal: document.getElementById("widthVal"),
+      height: document.getElementById("height"),
+      heightVal: document.getElementById("heightVal"),
+      offsetX: document.getElementById("offsetX"),
+      offsetXVal: document.getElementById("offsetXVal"),
+      offsetY: document.getElementById("offsetY"),
+      offsetYVal: document.getElementById("offsetYVal"),
+      offsetUnit: document.getElementById("offsetUnit"),
+      nudgeStep: document.getElementById("nudgeStep"),
+    };
+
+    function setStatus(text, kind = "") {
+      els.status.textContent = text;
+      els.status.className = "status" + (kind ? " " + kind : "");
+    }
+
+    function formatOffset(value, unit) {
+      if (unit === "px") return `${Math.round(value * 10) / 10}px`;
+      return `${Math.round(value * 10) / 10}%`;
+    }
+
+    function parseOffset(text, fallback = 0) {
+      const raw = String(text || "").trim();
+      if (!raw) return { value: fallback, unit: state.offsetUnit };
+      const m = raw.match(/^(-?\d+(?:\.\d+)?)(%|px)?$/);
+      if (!m) return { value: fallback, unit: state.offsetUnit };
+      return { value: parseFloat(m[1]), unit: m[2] || state.offsetUnit };
+    }
+
+    function applyStageFit() {
+      const rect = els.museumStage.getBoundingClientRect();
+      const scale = Math.min(rect.width / REF_W, rect.height / REF_H);
+      els.museumStageInner.style.setProperty("--home-scale", String(scale));
+    }
+
+    function applyGifStyles() {
+      const unit = state.offsetUnit;
+      els.gifLayer.style.width = `${state.width}%`;
+      els.gifLayer.style.height = `${state.height}%`;
+      els.gifLayer.style.transform = `translate(${formatOffset(state.offsetX, unit)}, ${formatOffset(state.offsetY, unit)})`;
+      els.gifLayer.style.opacity = String(state.opacity / 100);
+      els.baseImg.style.opacity = state.showBase ? "1" : "0";
+      els.gifLayer.classList.toggle("isHidden", !state.showOverlay);
+      els.introOverlay.classList.toggle("hasWhiteBg", state.whiteBg);
+
+      els.widthVal.textContent = `${state.width}%`;
+      els.heightVal.textContent = `${state.height}%`;
+      els.offsetXVal.textContent = formatOffset(state.offsetX, unit);
+      els.offsetYVal.textContent = formatOffset(state.offsetY, unit);
+      els.opacityVal.textContent = `${state.opacity}%`;
+
+      els.width.value = state.width;
+      els.height.value = state.height;
+      els.offsetX.value = state.offsetX;
+      els.offsetY.value = state.offsetY;
+      els.opacity.value = state.opacity;
+      els.whiteBg.checked = state.whiteBg;
+      els.showBase.checked = state.showBase;
+      els.showOverlay.checked = state.showOverlay;
+      els.offsetUnit.value = unit;
+
+      updateOutputs();
+    }
+
+    function updateOutputs() {
+      const unit = state.offsetUnit;
+      const css = `.museumIntroGif{
+  width: ${state.width}%;
+  height: ${state.height}%;
+  display: block;
+  object-fit: fill;
+  object-position: center center;
+  transform: translate(var(--home-intro-offset-x, 0), var(--home-intro-offset-y, 0));
+  user-select: none;
+  -webkit-user-drag: none;
+}`;
+
+      const json = `"offsetX": "${formatOffset(state.offsetX, unit)}",
+"offsetY": "${formatOffset(state.offsetY, unit)}"`;
+
+      els.cssOut.textContent = css;
+      els.jsonOut.textContent = json;
+    }
+
+    async function extractLastGifFrame(url) {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`GIF 載入失敗：HTTP ${res.status}`);
+      const buf = await res.arrayBuffer();
+
+      if (typeof ImageDecoder !== "undefined") {
+        const decoder = new ImageDecoder({ data: buf, type: "image/gif" });
+        await decoder.tracks.ready;
+        const track = decoder.tracks.selectedTrack;
+        const lastIndex = Math.max(0, track.frameCount - 1);
+        const { image } = await decoder.decode({ frameIndex: lastIndex });
+        const canvas = document.createElement("canvas");
+        canvas.width = image.displayWidth;
+        canvas.height = image.displayHeight;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(image, 0, 0);
+        const dataUrl = canvas.toDataURL("image/png");
+        image.close();
+        decoder.close();
+        return { dataUrl, frames: track.frameCount, w: canvas.width, h: canvas.height };
+      }
+
+      throw new Error("此瀏覽器不支援 ImageDecoder，請改用 Chrome／Edge，或上傳 GIF 檔案重試。");
+    }
+
+    async function loadGifLayer(src) {
+      setStatus("正在擷取 GIF 最後一幀…");
+      const info = await extractLastGifFrame(src);
+      state.lastFrameSrc = info.dataUrl;
+      state.gifSrc = src;
+      els.gifLayer.src = info.dataUrl;
+      setStatus(`已載入最後一幀（第 ${info.frames} 幀，${info.w}×${info.h}）`, "ok");
+    }
+
+    async function loadFromSiteContent() {
+      setStatus("讀取 site-content.json…");
+      const res = await fetch(DEFAULTS.siteContent, { cache: "no-store" });
+      if (!res.ok) throw new Error(`無法讀取 site-content.json（HTTP ${res.status}）`);
+      const data = await res.json();
+      const intro = data.homeIntro || {};
+      const base = data.homeLayers?.base || data.homeImage || DEFAULTS.base;
+      const gif = intro.gif || DEFAULTS.gif;
+
+      state.baseSrc = base;
+      state.width = DEFAULTS.width;
+      state.height = DEFAULTS.height;
+
+      const ox = parseOffset(intro.offsetX, DEFAULTS.offsetX);
+      const oy = parseOffset(intro.offsetY, DEFAULTS.offsetY);
+      state.offsetX = ox.value;
+      state.offsetY = oy.value;
+      state.offsetUnit = ox.unit === oy.unit ? ox.unit : "%";
+
+      els.baseImg.src = base;
+      await loadGifLayer(gif);
+      await loadCssDefaults();
+      applyGifStyles();
+    }
+
+    async function loadCssDefaults() {
+      try {
+        const res = await fetch("../app/styles.css", { cache: "no-store" });
+        if (!res.ok) return;
+        const css = await res.text();
+        const block = css.match(/\.museumIntroGif\s*\{([^}]+)\}/);
+        if (!block) return;
+        const body = block[1];
+        const w = body.match(/width:\s*([\d.]+)%/);
+        const h = body.match(/height:\s*([\d.]+)%/);
+        if (w) state.width = parseFloat(w[1]);
+        if (h) state.height = parseFloat(h[1]);
+      } catch {
+        /* ignore */
+      }
+    }
+
+    function bindSlider(input, key, parser = parseFloat) {
+      input.addEventListener("input", () => {
+        state[key] = parser(input.value);
+        applyGifStyles();
+      });
+    }
+
+    bindSlider(els.width, "width");
+    bindSlider(els.height, "height");
+    bindSlider(els.offsetX, "offsetX");
+    bindSlider(els.offsetY, "offsetY");
+    bindSlider(els.opacity, "opacity", (v) => parseInt(v, 10));
+
+    els.whiteBg.addEventListener("change", () => {
+      state.whiteBg = els.whiteBg.checked;
+      applyGifStyles();
+    });
+    els.showBase.addEventListener("change", () => {
+      state.showBase = els.showBase.checked;
+      applyGifStyles();
+    });
+    els.showOverlay.addEventListener("change", () => {
+      state.showOverlay = els.showOverlay.checked;
+      applyGifStyles();
+    });
+    els.offsetUnit.addEventListener("change", () => {
+      state.offsetUnit = els.offsetUnit.value;
+      applyGifStyles();
+    });
+
+    async function copyText(text, label) {
+      try {
+        await navigator.clipboard.writeText(text);
+        setStatus(`已複製：${label}`, "ok");
+      } catch {
+        setStatus("複製失敗，請手動選取文字複製", "err");
+      }
+    }
+
+    document.getElementById("btnCopyCss").addEventListener("click", () => copyText(els.cssOut.textContent, "CSS"));
+    document.getElementById("btnCopyJson").addEventListener("click", () => copyText(els.jsonOut.textContent, "JSON"));
+    document.getElementById("btnCopyBoth").addEventListener("click", () => {
+      copyText(`${els.cssOut.textContent}\n\n// site-content.json → homeIntro\n${els.jsonOut.textContent}`, "CSS + JSON");
+    });
+
+    document.getElementById("btnLoadSite").addEventListener("click", () => {
+      loadFromSiteContent().catch((err) => setStatus(String(err.message || err), "err"));
+    });
+
+    document.getElementById("gifFile").addEventListener("change", (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const url = URL.createObjectURL(file);
+      loadGifLayer(url).then(applyGifStyles).catch((err) => setStatus(String(err.message || err), "err"));
+    });
+
+    document.getElementById("bgFile").addEventListener("change", (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const url = URL.createObjectURL(file);
+      state.baseSrc = url;
+      els.baseImg.src = url;
+      setStatus("已載入自訂背景圖", "ok");
+    });
+
+    let drag = null;
+    els.gifLayer.addEventListener("pointerdown", (e) => {
+      drag = {
+        startX: e.clientX,
+        startY: e.clientY,
+        baseX: state.offsetX,
+        baseY: state.offsetY,
+      };
+      els.gifLayer.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+    els.gifLayer.addEventListener("pointermove", (e) => {
+      if (!drag) return;
+      const scale = parseFloat(getComputedStyle(els.museumStageInner).transform.split(",")[0].replace("matrix(", "")) || 1;
+      const dx = (e.clientX - drag.startX) / scale;
+      const dy = (e.clientY - drag.startY) / scale;
+      if (state.offsetUnit === "px") {
+        state.offsetX = drag.baseX + dx;
+        state.offsetY = drag.baseY + dy;
+      } else {
+        state.offsetX = drag.baseX + (dx / REF_W) * 100;
+        state.offsetY = drag.baseY + (dy / REF_H) * 100;
+      }
+      applyGifStyles();
+    });
+    function endDrag(e) {
+      if (!drag) return;
+      drag = null;
+      try { els.gifLayer.releasePointerCapture(e.pointerId); } catch { /* ignore */ }
+    }
+    els.gifLayer.addEventListener("pointerup", endDrag);
+    els.gifLayer.addEventListener("pointercancel", endDrag);
+
+    window.addEventListener("keydown", (e) => {
+      if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(e.key)) return;
+      if (e.target.matches("input, textarea, select")) return;
+      e.preventDefault();
+      const step = parseFloat(els.nudgeStep.value) * (e.shiftKey ? 10 : 1);
+      if (e.key === "ArrowLeft") state.offsetX -= step;
+      if (e.key === "ArrowRight") state.offsetX += step;
+      if (e.key === "ArrowUp") state.offsetY -= step;
+      if (e.key === "ArrowDown") state.offsetY += step;
+      applyGifStyles();
+    });
+
+    window.addEventListener("resize", applyStageFit);
+    new ResizeObserver(applyStageFit).observe(els.museumStage);
+
+    loadFromSiteContent()
+      .then(applyStageFit)
+      .catch((err) => {
+        setStatus(String(err.message || err), "warn");
+        els.baseImg.src = DEFAULTS.base;
+        loadGifLayer(DEFAULTS.gif).then(applyGifStyles).catch(() => {
+          setStatus("請用本機伺服器開啟此頁（Live Server 或 python -m http.server）", "err");
+        });
+      });
+  </script>
+</body>
+</html>
