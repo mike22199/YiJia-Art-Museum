@@ -149,12 +149,12 @@
     },
     {
       "id": "performances",
-      "label": "最新展演",
+      "label": "展演",
       "href": "#archive/performances"
     },
     {
       "id": "learning",
-      "label": "學習資源",
+      "label": "學習",
       "href": "#archive/learning"
     },
     {
