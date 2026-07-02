@@ -1,3 +1,62 @@
+/* ====== 全站字體：中文改用思源宋體（Noto Serif CJK TC） ======
+   用 unicode-range 限制只套用中日韓文字範圍，避免連英數也被換成襯線體。 */
+@font-face{
+  font-family: "FIFI CJK Serif";
+  src: url("../assets/fonts/思源宋體/NOTOSERIFCJKTC-EXTRALIGHT.OTF") format("opentype");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+2E80-2EFF, U+3000-303F, U+31C0-31EF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF, U+20000-2A6DF, U+2A700-2B73F, U+2B740-2B81F, U+2B820-2CEAF, U+2CEB0-2EBEF;
+}
+@font-face{
+  font-family: "FIFI CJK Serif";
+  src: url("../assets/fonts/思源宋體/NOTOSERIFCJKTC-LIGHT.OTF") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+2E80-2EFF, U+3000-303F, U+31C0-31EF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF, U+20000-2A6DF, U+2A700-2B73F, U+2B740-2B81F, U+2B820-2CEAF, U+2CEB0-2EBEF;
+}
+@font-face{
+  font-family: "FIFI CJK Serif";
+  src: url("../assets/fonts/思源宋體/NOTOSERIFCJKTC-REGULAR.OTF") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+2E80-2EFF, U+3000-303F, U+31C0-31EF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF, U+20000-2A6DF, U+2A700-2B73F, U+2B740-2B81F, U+2B820-2CEAF, U+2CEB0-2EBEF;
+}
+@font-face{
+  font-family: "FIFI CJK Serif";
+  src: url("../assets/fonts/思源宋體/NOTOSERIFCJKTC-MEDIUM.OTF") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+2E80-2EFF, U+3000-303F, U+31C0-31EF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF, U+20000-2A6DF, U+2A700-2B73F, U+2B740-2B81F, U+2B820-2CEAF, U+2CEB0-2EBEF;
+}
+@font-face{
+  font-family: "FIFI CJK Serif";
+  src: url("../assets/fonts/思源宋體/NOTOSERIFCJKTC-SEMIBOLD.OTF") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+2E80-2EFF, U+3000-303F, U+31C0-31EF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF, U+20000-2A6DF, U+2A700-2B73F, U+2B740-2B81F, U+2B820-2CEAF, U+2CEB0-2EBEF;
+}
+@font-face{
+  font-family: "FIFI CJK Serif";
+  src: url("../assets/fonts/思源宋體/NOTOSERIFCJKTC-BOLD.OTF") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+2E80-2EFF, U+3000-303F, U+31C0-31EF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF, U+20000-2A6DF, U+2A700-2B73F, U+2B740-2B81F, U+2B820-2CEAF, U+2CEB0-2EBEF;
+}
+@font-face{
+  font-family: "FIFI CJK Serif";
+  src: url("../assets/fonts/思源宋體/NOTOSERIFCJKTC-BLACK.OTF") format("opentype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+2E80-2EFF, U+3000-303F, U+31C0-31EF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF, U+20000-2A6DF, U+2A700-2B73F, U+2B740-2B81F, U+2B820-2CEAF, U+2CEB0-2EBEF;
+}
+
 :root{
   --bg: #5a5d62;
   --panel: #3a3c40;
@@ -10,8 +69,8 @@
   --shadow: rgba(0, 0, 0, 0.45);
   --radius: 14px;
   --radius-sm: 10px;
-  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans TC", "Microsoft JhengHei", Arial, sans-serif;
+  --mono: "FIFI CJK Serif", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --sans: "FIFI CJK Serif", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans TC", "Microsoft JhengHei", Arial, sans-serif;
   --content-width: 920px;
 }
 
@@ -1586,7 +1645,7 @@ body.isHomePage .mainHome{
 body.isInnerPage{
   background: #fff;
   color: #1a1a1a;
-  --inner-font: "DIN Pro Condensed", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  --inner-font: "DIN Pro Condensed", "FIFI CJK Serif", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
   --inner-accent: #8f1f1f;
   /* reference.jpg 全頁寬 2944px；header-bg 寬 1962px。UI 用較大比例係數對齊視覺 */
   --ref-w: 1962;
