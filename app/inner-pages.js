@@ -8,7 +8,6 @@ function layoutAssets() {
     footerBg: layout.footerBg || "./assets/images/layout/footer-bg.jpg",
     logoBuilding: layout.logoBuilding || "./assets/images/layout/logo-building.png",
     logoTitle: layout.logoTitle || "./assets/images/layout/logo-title.png",
-    iconSearch: layout.iconSearch || "./assets/images/layout/icon-search.png",
     partnerLogos: layout.partnerLogos || "./assets/images/layout/partner-logo.png",
     iconYoutube: layout.iconYoutube || "./assets/images/layout/icon-youtube.png",
     iconFacebook: layout.iconFacebook || "./assets/images/layout/icon-facebook.png",
@@ -34,6 +33,112 @@ function innerNavLinkClass(baseClass, isActive) {
   return `${baseClass}${isActive ? ` ${baseClass}Active` : ""}`;
 }
 
+let innerChromeFitObserver = null;
+
+function readUiScale() {
+  const raw = getComputedStyle(document.body).getPropertyValue("--ui-scale").trim();
+  const parsed = parseFloat(raw);
+  if (!Number.isNaN(parsed) && parsed > 0) return parsed;
+  return (window.innerWidth / 1962) * 1.55;
+}
+
+function syncInnerChromeFit() {
+  const page = document.querySelector(".innerPage");
+  if (!page) return;
+
+  const header = page.querySelector(".innerHeader");
+  const brand = page.querySelector(".innerBrand");
+  const aside = page.querySelector(".innerHeaderAside");
+  const nav = page.querySelector(".innerNav");
+  const footer = page.querySelector(".innerFooter");
+
+  page.classList.remove("isNavCompact");
+  page.style.setProperty("--chrome-nav-fit", "1");
+  page.style.setProperty("--chrome-footer-fit", "1");
+  aside?.style.removeProperty("max-width");
+
+  if (header && brand && aside && nav) {
+    const ui = readUiScale();
+    const sidePad = 40 * ui;
+    const designAsideW =
+      (parseFloat(getComputedStyle(document.body).getPropertyValue("--header-aside-design-w")) || 720) * ui;
+    const headerRect = header.getBoundingClientRect();
+    const brandRect = brand.getBoundingClientRect();
+    const brandRight = brandRect.right - headerRect.left;
+    const availableW = Math.max(140, headerRect.width - brandRight - sidePad - 12 * ui);
+    const targetAsideW = Math.min(designAsideW, availableW);
+
+    const measureNav = () => {
+      const prevWrap = nav.style.flexWrap;
+      nav.style.flexWrap = "nowrap";
+      const needed = nav.scrollWidth;
+      nav.style.flexWrap = prevWrap || "";
+      return needed;
+    };
+
+    const needed = measureNav();
+    const needsCompact = needed > targetAsideW || availableW < designAsideW - 4;
+
+    if (needsCompact) {
+      page.classList.add("isNavCompact");
+      aside.style.maxWidth = `${availableW}px`;
+
+      if (needed > availableW) {
+        const fit = Math.max(0.62, availableW / needed);
+        page.style.setProperty("--chrome-nav-fit", fit.toFixed(3));
+      }
+    }
+  }
+
+  if (footer) {
+    const partners = footer.querySelector(".innerFooterPartners");
+    const contact = footer.querySelector(".innerFooterContact");
+    const social = footer.querySelector(".innerFooterSocial");
+    if (partners && contact && social) {
+      const pRect = partners.getBoundingClientRect();
+      const cRect = contact.getBoundingClientRect();
+      const sRect = social.getBoundingClientRect();
+      if (cRect.left < pRect.right + 6 || cRect.right > sRect.left - 6) {
+        const overlap = Math.max(pRect.right + 6 - cRect.left, cRect.right + 6 - sRect.left, 0);
+        const fit = Math.max(0.72, 1 - overlap / Math.max(footer.clientWidth, 1));
+        page.style.setProperty("--chrome-footer-fit", fit.toFixed(3));
+      }
+    }
+  }
+}
+
+function scheduleInnerChromeFit() {
+  requestAnimationFrame(() => requestAnimationFrame(syncInnerChromeFit));
+}
+
+function bindInnerChromeFit(page) {
+  if (innerChromeFitObserver) {
+    innerChromeFitObserver.disconnect();
+    innerChromeFitObserver = null;
+  }
+
+  scheduleInnerChromeFit();
+
+  if (typeof ResizeObserver === "undefined" || !page) return;
+
+  innerChromeFitObserver = new ResizeObserver(() => scheduleInnerChromeFit());
+  innerChromeFitObserver.observe(page);
+  const header = page.querySelector(".innerHeader");
+  const footer = page.querySelector(".innerFooter");
+  if (header) innerChromeFitObserver.observe(header);
+  if (footer) innerChromeFitObserver.observe(footer);
+}
+
+function ensureInnerChromeFitListeners() {
+  if (ensureInnerChromeFitListeners.bound) return;
+  ensureInnerChromeFitListeners.bound = true;
+  const run = () => scheduleInnerChromeFit();
+  window.addEventListener("resize", run, { passive: true });
+  window.addEventListener("orientationchange", run, { passive: true });
+  const vv = window.visualViewport;
+  if (vv) vv.addEventListener("resize", run, { passive: true });
+}
+
 function renderSiteHeader(activeNavId) {
   const site = window.SITE_CONTENT?.site || {};
   const assets = layoutAssets();
@@ -56,14 +161,6 @@ function renderSiteHeader(activeNavId) {
       [item.label || item.id]
     )
   );
-
-  const searchInput = el("input", {
-    class: "innerSearchInput",
-    type: "search",
-    name: "q",
-    placeholder: "Search",
-    "aria-label": "搜尋網站內容",
-  });
 
   return el("header", { class: "innerHeader", "aria-label": "site header" }, [
     el("img", {
@@ -107,28 +204,6 @@ function renderSiteHeader(activeNavId) {
         ]
       ),
       el("div", { class: "innerHeaderAside" }, [
-        el(
-          "form",
-          {
-            class: "innerSearchForm",
-            role: "search",
-            onsubmit: (e) => {
-              e.preventDefault();
-              const q = searchInput.value.trim();
-              if (q) openSiteSearch(q);
-            },
-          },
-          [
-            el("img", {
-              class: "innerSearchIcon",
-              src: assets.iconSearch,
-              alt: "",
-              "aria-hidden": "true",
-            }),
-            searchInput,
-            el("button", { class: "innerSearchSubmit", type: "submit", text: "搜索" }),
-          ]
-        ),
         el("nav", {
           class: `innerNav${navItems.length >= 6 ? " innerNav--compact" : ""}`,
           "aria-label": "主選單",
@@ -231,89 +306,6 @@ function renderSiteFooter() {
   ]);
 }
 
-function collectSiteSearchEntries(node, path = "", out = []) {
-  if (node == null) return out;
-  if (typeof node === "string") {
-    const text = node.trim();
-    if (text.length >= 2) out.push({ path, text });
-    return out;
-  }
-  if (Array.isArray(node)) {
-    node.forEach((item, i) => collectSiteSearchEntries(item, `${path}[${i}]`, out));
-    return out;
-  }
-  if (typeof node === "object") {
-    Object.entries(node).forEach(([key, value]) => {
-      if (["src", "href", "id", "type", "image", "social"].includes(key)) return;
-      collectSiteSearchEntries(value, path ? `${path}.${key}` : key, out);
-    });
-  }
-  return out;
-}
-
-function runSiteSearch(query) {
-  const q = String(query || "").trim().toLowerCase();
-  if (!q) return [];
-  const entries = collectSiteSearchEntries(window.SITE_CONTENT || {});
-  const seen = new Set();
-  const results = [];
-  entries.forEach(({ path, text }) => {
-    if (!text.toLowerCase().includes(q)) return;
-    const snippet = text.length > 120 ? `${text.slice(0, 119)}…` : text;
-    const key = `${path}:${snippet}`;
-    if (seen.has(key)) return;
-    seen.add(key);
-    results.push({ path, snippet });
-  });
-  return results.slice(0, 40);
-}
-
-function ensureSiteSearchOverlay() {
-  let overlay = document.getElementById("siteSearchOverlay");
-  if (overlay) return overlay;
-
-  overlay = el("div", { id: "siteSearchOverlay", class: "siteSearchOverlay", hidden: true }, [
-    el("div", { class: "siteSearchBackdrop", onclick: () => closeSiteSearch() }),
-    el("div", { class: "siteSearchPanel", role: "dialog", "aria-modal": "true", "aria-label": "搜尋結果" }, [
-      el("div", { class: "siteSearchHead" }, [
-        el("h2", { class: "siteSearchTitle", text: "搜尋結果" }),
-        el("button", { class: "siteSearchClose", type: "button", text: "關閉", onclick: () => closeSiteSearch() }),
-      ]),
-      el("div", { id: "siteSearchResults", class: "siteSearchResults" }),
-    ]),
-  ]);
-  document.body.appendChild(overlay);
-  return overlay;
-}
-
-function closeSiteSearch() {
-  const overlay = document.getElementById("siteSearchOverlay");
-  if (overlay) overlay.hidden = true;
-}
-
-function openSiteSearch(query) {
-  const overlay = ensureSiteSearchOverlay();
-  const resultsEl = overlay.querySelector("#siteSearchResults");
-  const results = runSiteSearch(query);
-  resultsEl.innerHTML = "";
-
-  if (!results.length) {
-    resultsEl.appendChild(el("p", { class: "siteSearchEmpty", text: `找不到與「${query}」相關的內容。` }));
-  } else {
-    resultsEl.appendChild(
-      el(
-        "ul",
-        { class: "siteSearchList" },
-        results.map((item) =>
-          el("li", {}, [el("span", { class: "siteSearchPath", text: item.path }), el("p", { text: item.snippet })])
-        )
-      )
-    );
-  }
-
-  overlay.hidden = false;
-}
-
 function wrapInnerPage(contentEl, { activeNav = "", activeSubnav = "", showSubnav = false } = {}) {
   const shell = el("div", { class: "innerPage" }, [
     renderSiteHeader(activeNav),
@@ -321,6 +313,14 @@ function wrapInnerPage(contentEl, { activeNav = "", activeSubnav = "", showSubna
     el("div", { class: "innerContent" }, [contentEl]),
     renderSiteFooter(),
   ]);
+  ensureInnerChromeFitListeners();
+  queueMicrotask(() => {
+    const run = () => {
+      if (shell.isConnected) bindInnerChromeFit(shell);
+      else requestAnimationFrame(run);
+    };
+    run();
+  });
   return shell;
 }
 
@@ -354,7 +354,7 @@ function findClassicsTimelineEntry(year) {
 function pastWebsiteImageYears() {
   const past = pastExhibitionsData();
   if (Array.isArray(past.imageYears)) return past.imageYears.map(String);
-  return ["2027-2026", "2021", "2016"];
+  return ["2026", "2021", "2016"];
 }
 
 function buildPastWebsiteTimelineEntry(yearKey) {
@@ -775,40 +775,50 @@ function renderYearDetailPage(detail) {
   return root;
 }
 
-function renderExhibitionAboutPage(exhibition) {
+function renderExhibitionAboutPage(exhibition, exhibitionId = "exhibition-left") {
   const about = exhibition.about || {};
   const blocks = Array.isArray(about.blocks) ? about.blocks : [];
-  const site = window.SITE_CONTENT?.site || {};
-  const logo = site.logo || {};
+  const banner = about.banner || exhibition.banner || null;
+  const hasBanner = Boolean(banner?.src);
 
   const textCol = el("div", { class: "aboutTextCol" }, [
     el("h1", { class: "aboutHeading", text: about.heading || "關於展覽" }),
     ...blocks.map((b) => el("p", { class: "aboutParagraph", text: b.body || "" })),
+    el("div", { class: "aboutActions" }, [
+      el(
+        "a",
+        {
+          class: "fdAboutStartBtn",
+          href: `#${exhibitionId}/experience`,
+          onclick: (e) => {
+            e.preventDefault();
+            navigateFromHref(`#${exhibitionId}/experience`);
+          },
+        },
+        "開始體驗"
+      ),
+    ]),
   ]);
 
-  const doorLabel = exhibition.doorLabel || "開幕展";
-  const detailId = exhibition.yearDetailId || "";
-  const doorHref = detailId ? yearIntroHref(detailId) : "#home/index";
+  const layoutChildren = [textCol];
+  if (hasBanner) {
+    layoutChildren.push(
+      el("div", { class: "aboutBannerCol", "aria-label": "展覽 banner" }, [
+        el("img", {
+          class: "aboutBannerImg",
+          src: banner.src,
+          alt: banner.alt || exhibition.doorLabel || about.heading || "展覽 banner",
+          loading: "lazy",
+        }),
+      ])
+    );
+  }
 
   return el("div", { class: "aboutPage" }, [
-    el("div", { class: "aboutLayout" }, [
-      el("div", { class: "aboutLogoCol" }, [
-        logo.src ? el("img", { class: "aboutLogo", src: logo.src, alt: logo.alt || site.title || "" }) : null,
-        el("div", { class: "aboutLogoSub", text: site.subtitle || "" }),
-      ]),
-      textCol,
-    ]),
     el(
-      "a",
-      {
-        class: "aboutDoorLink",
-        href: doorHref,
-        onclick: (e) => {
-          e.preventDefault();
-          navigateFromHref(doorHref);
-        },
-      },
-      [el("span", { class: "aboutDoorIcon", "aria-hidden": "true" }), el("span", { text: doorLabel })]
+      "div",
+      { class: `aboutLayout${hasBanner ? " aboutLayout--withBanner" : ""}` },
+      layoutChildren
     ),
   ]);
 }
@@ -863,14 +873,24 @@ function renderExhibitionPage(main, route) {
   }
 
   let content;
-  if (section === "about") {
-    content = renderExhibitionAboutPage(exhibition);
+  if (section === "experience" && id === "exhibition-left" && typeof renderFreedomDoorExperience === "function") {
+    content = renderFreedomDoorExperience();
+  } else if (section === "experience" && id === "exhibition-right" && typeof renderFreedomPersonExperience === "function") {
+    content = renderFreedomPersonExperience();
+  } else if (section === "about") {
+    content = renderExhibitionAboutPage(exhibition, id);
   } else {
-    content = renderExhibitionAboutPage(exhibition);
+    content = renderExhibitionAboutPage(exhibition, id);
   }
 
+  const exhibitionChrome = {
+    activeNav: "collection",
+    showSubnav: true,
+    activeSubnav: "exhibitions",
+  };
+
   main.innerHTML = "";
-  main.appendChild(wrapInnerPage(content, { activeNav: "" }));
+  main.appendChild(wrapInnerPage(content, exhibitionChrome));
 }
 
 function renderCoCreatePage(main) {

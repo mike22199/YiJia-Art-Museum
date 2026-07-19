@@ -2248,9 +2248,17 @@ function renderArchiveTeacherPicker(teachers, selected, year, years, teachersDat
 
   window.requestAnimationFrame(() => {
     const active = track.querySelector(".archiveTeachersCarouselItem--active");
-    if (active) {
-      active.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
-    }
+    if (!active) return;
+    const trackRect = track.getBoundingClientRect();
+    const activeRect = active.getBoundingClientRect();
+    const nextLeft =
+      track.scrollLeft +
+      (activeRect.left - trackRect.left) -
+      (trackRect.width - activeRect.width) / 2;
+    track.scrollTo({
+      left: Math.max(0, nextLeft),
+      behavior: "smooth",
+    });
   });
 
   return section;
@@ -2282,12 +2290,48 @@ function renderArchiveTeacherTimeline(years, year, teacherId, teachersData, sect
 
 const JOURNAL_PAPER_COLOR = "#f4f0e6";
 const JOURNAL_COVER_COLOR = "#ffffff";
-// 翻書尺寸：JOURNAL_FRAME_FIT_SCALE 整體縮放（1 = 100%）
-// 跨頁比例：有掃描圖時自動偵測；無圖時用 JOURNAL_DEFAULT_SPREAD_ASPECT
+// 翻書尺寸預設（可被 journalFrame.bookFitScale / spreadAspect 覆寫）
+// bookFitScale：書本佔開口比例（1 = 填滿開口；0.85 = 約 85%）
+// spreadAspect：跨頁寬/高；未設定時優先用掃描圖偵測，失敗則用此值
 const JOURNAL_DEFAULT_SPREAD_ASPECT = 2.56;
 const JOURNAL_FRAME_FIT_SCALE = 1;
 const JOURNAL_ZOOM_MIN = 1;
 const JOURNAL_ZOOM_MAX = 1.5;
+
+function clampJournalFitScale(value) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return JOURNAL_FRAME_FIT_SCALE;
+  return Math.min(1.5, Math.max(0.4, n));
+}
+
+function resolveJournalSpreadAspect(value) {
+  const n = Number(value);
+  if (!Number.isFinite(n) || n <= 0.5) return null;
+  return n;
+}
+
+function resolveJournalBookChrome(frameCfg, expanded) {
+  const cfg = frameCfg || {};
+  const ex = (expanded && cfg.expanded) || null;
+  const pick = (key, fallback) => {
+    if (ex && ex[key] != null && ex[key] !== "") return ex[key];
+    if (cfg[key] != null && cfg[key] !== "") return cfg[key];
+    return fallback;
+  };
+  return {
+    bookFitScale: clampJournalFitScale(pick("bookFitScale", JOURNAL_FRAME_FIT_SCALE)),
+    shellPadding: String(pick("shellPadding", "0")),
+    bookShiftY: String(pick("bookShiftY", "0%")),
+    spreadAspect: resolveJournalSpreadAspect(pick("spreadAspect", null)),
+  };
+}
+
+function applyJournalBookChrome(bookShell, chrome) {
+  if (!bookShell || !chrome) return;
+  bookShell.style.padding = chrome.shellPadding || "0";
+  const shift = chrome.bookShiftY || "0%";
+  bookShell.style.marginTop = shift === "0%" || shift === "0" ? "" : shift;
+}
 
 function firstSpreadImageSrc(spreads) {
   const hit = (Array.isArray(spreads) ? spreads : []).find((spread) => spread?.image?.src);
@@ -2308,10 +2352,15 @@ function detectSpreadAspect(spreads) {
   });
 }
 
-function resolveStfPageSize(shellEl, spreadAspect = JOURNAL_DEFAULT_SPREAD_ASPECT) {
+function resolveStfPageSize(
+  shellEl,
+  spreadAspect = JOURNAL_DEFAULT_SPREAD_ASPECT,
+  fitScale = JOURNAL_FRAME_FIT_SCALE
+) {
   const rect = shellEl.getBoundingClientRect();
-  const maxW = Math.max(160, rect.width || shellEl.clientWidth || 480);
-  const maxH = Math.max(140, rect.height || shellEl.clientHeight || 280);
+  const scale = clampJournalFitScale(fitScale);
+  const maxW = Math.max(160, (rect.width || shellEl.clientWidth || 480) * scale);
+  const maxH = Math.max(140, (rect.height || shellEl.clientHeight || 280) * scale);
 
   let spreadW = maxW;
   let spreadH = spreadW / spreadAspect;
@@ -2646,6 +2695,14 @@ function applyJournalFrameLayout(frameEl, layout) {
   if (bookShell && layout.bookShiftY != null && layout.bookShiftY !== "" && layout.bookShiftY !== "0%") {
     bookShell.style.marginTop = String(layout.bookShiftY);
   }
+  if (bookShell && layout.shellPadding != null && layout.shellPadding !== "") {
+    bookShell.style.padding = String(layout.shellPadding);
+  }
+
+  const expanded = layout.expanded || {};
+  if (expanded.pad != null && expanded.pad !== "") {
+    frameEl.style.setProperty("--journal-expanded-pad", String(expanded.pad));
+  }
 
   if (isJournalFrameDebug()) frameEl.classList.add("archiveJournalFrame--debug");
 }
@@ -2682,9 +2739,6 @@ function wrapResearchJournalFrame(viewerContent, controls = {}, spreadCount = 1)
   nextArrow.appendChild(
     el("img", { src: JOURNAL_RIGHT_ARROW, alt: "", draggable: "false", "aria-hidden": "true" })
   );
-
-  stage.appendChild(prevArrow);
-  stage.appendChild(nextArrow);
 
   const bottomBar = el("div", { class: "archiveJournalBottomBar" });
   bottomBar.appendChild(
@@ -2735,6 +2789,16 @@ function wrapResearchJournalFrame(viewerContent, controls = {}, spreadCount = 1)
   bottomControls.appendChild(fullscreenBtn);
   bottomBar.appendChild(bottomControls);
   stage.appendChild(bottomBar);
+
+  // 箭頭放最後一層，避免被書頁 / StPageFlip 3D 層蓋住
+  const arrowLayer = el("div", {
+    class: "archiveJournalArrowLayer",
+    "aria-hidden": "false",
+  });
+  arrowLayer.appendChild(prevArrow);
+  arrowLayer.appendChild(nextArrow);
+  stage.appendChild(arrowLayer);
+
   frame.appendChild(stage);
   frame.appendChild(expandedCloseBtn);
 
@@ -2779,7 +2843,12 @@ function renderArchiveIssuuFlipbook(spreads, id, options = {}) {
   let resizeObserver = null;
   let flipLocked = false;
   let resizeTimer = null;
-  let spreadAspect = JOURNAL_DEFAULT_SPREAD_ASPECT;
+  const frameCfg = options.journalFrame || {};
+  let isFrameExpanded = false;
+  let bookChrome = resolveJournalBookChrome(frameCfg, false);
+  let bookFitScale = bookChrome.bookFitScale;
+  const forcedSpreadAspect = resolveJournalSpreadAspect(frameCfg.spreadAspect);
+  let spreadAspect = bookChrome.spreadAspect || forcedSpreadAspect || JOURNAL_DEFAULT_SPREAD_ASPECT;
   let zoomScale = JOURNAL_ZOOM_MIN;
   let panX = 0;
   let panY = 0;
@@ -2788,6 +2857,15 @@ function renderArchiveIssuuFlipbook(spreads, id, options = {}) {
   let lastLayoutKey = "";
   const isMobile = () => window.matchMedia("(max-width: 720px)").matches;
   const spreadMax = Math.max(0, list.length - 1);
+
+  const syncBookChrome = (expanded) => {
+    isFrameExpanded = !!expanded;
+    bookChrome = resolveJournalBookChrome(frameCfg, isFrameExpanded);
+    bookFitScale = bookChrome.bookFitScale;
+    if (bookChrome.spreadAspect) spreadAspect = bookChrome.spreadAspect;
+    applyJournalBookChrome(bookShell, bookChrome);
+  };
+  syncBookChrome(false);
 
   const applyBookTransform = (grabbing = false) => {
     applyJournalBookTransform(bookShell, zoomScale, panX, panY, grabbing);
@@ -2801,8 +2879,8 @@ function renderArchiveIssuuFlipbook(spreads, id, options = {}) {
 
   const relayoutBook = (force = false) => {
     if (!pageFlip) return;
-    const layout = resolveStfPageSize(bookShell, spreadAspect);
-    const layoutKey = `${layout.spreadW}x${layout.spreadH}`;
+    const layout = resolveStfPageSize(bookShell, spreadAspect, bookFitScale);
+    const layoutKey = `${layout.spreadW}x${layout.spreadH}@${bookFitScale}`;
     if (!force && layoutKey === lastLayoutKey) {
       applyBookTransform();
       return;
@@ -2902,11 +2980,14 @@ function renderArchiveIssuuFlipbook(spreads, id, options = {}) {
       return;
     }
 
-    spreadAspect = await detectSpreadAspect(list);
+    spreadAspect =
+      bookChrome.spreadAspect ||
+      forcedSpreadAspect ||
+      (await detectSpreadAspect(list));
     await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-    const layout = resolveStfPageSize(bookShell, spreadAspect);
+    const layout = resolveStfPageSize(bookShell, spreadAspect, bookFitScale);
     applyStfBookLayout(bookHost, layout);
-    lastLayoutKey = `${layout.spreadW}x${layout.spreadH}`;
+    lastLayoutKey = `${layout.spreadW}x${layout.spreadH}@${bookFitScale}`;
     applyBookTransform();
     const mobile = isMobile();
 
@@ -2939,11 +3020,49 @@ function renderArchiveIssuuFlipbook(spreads, id, options = {}) {
     });
 
     if (frameControls.prevArrow) {
-      frameControls.prevArrow.onclick = () => pageFlip.flipPrev();
+      frameControls.prevArrow.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!flipLocked) pageFlip.flipPrev();
+      };
     }
     if (frameControls.nextArrow) {
-      frameControls.nextArrow.onclick = () => pageFlip.flipNext();
+      frameControls.nextArrow.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!flipLocked) pageFlip.flipNext();
+      };
     }
+
+    // 全螢幕時書頁 3D 層可能蓋住按鈕：用座標熱區在 capture 階段攔截
+    const pointInEl = (x, y, node) => {
+      if (!node) return false;
+      const r = node.getBoundingClientRect();
+      const pad = 8;
+      return x >= r.left - pad && x <= r.right + pad && y >= r.top - pad && y <= r.bottom + pad;
+    };
+    const stageEl = frameControls.frame?.querySelector(".archiveJournalFrameStage");
+    if (stageEl) {
+      const onArrowHotspot = (e) => {
+        if (!pageFlip || flipLocked) return;
+        if (e.button != null && e.button !== 0) return;
+        if (pointInEl(e.clientX, e.clientY, frameControls.prevArrow)) {
+          if (frameControls.prevArrow.disabled) return;
+          e.preventDefault();
+          e.stopPropagation();
+          pageFlip.flipPrev();
+          return;
+        }
+        if (pointInEl(e.clientX, e.clientY, frameControls.nextArrow)) {
+          if (frameControls.nextArrow.disabled) return;
+          e.preventDefault();
+          e.stopPropagation();
+          pageFlip.flipNext();
+        }
+      };
+      stageEl.addEventListener("pointerdown", onArrowHotspot, true);
+    }
+
     if (frameControls.pageSlider) {
       frameControls.pageSlider.setOnChange((spreadIdx) => {
         if (sliderSyncing) return;
@@ -3007,6 +3126,7 @@ function renderArchiveIssuuFlipbook(spreads, id, options = {}) {
 
         frame.classList.toggle("archiveJournalFrame--expanded", expanded);
         document.body.classList.toggle("archiveJournalFrame-open", expanded);
+        syncBookChrome(expanded);
         if (frameControls.expandedCloseBtn) {
           frameControls.expandedCloseBtn.hidden = !expanded;
         }
@@ -3019,7 +3139,11 @@ function renderArchiveIssuuFlipbook(spreads, id, options = {}) {
         }
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
-            if (!flipLocked) relayoutBook(true);
+            flipLocked = false;
+            if (pageFlip) {
+              relayoutBook(true);
+              updateNav(pageFlip);
+            }
           });
         });
         const stageEl = frame.querySelector(".archiveJournalFrameStage");

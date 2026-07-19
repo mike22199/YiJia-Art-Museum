@@ -191,6 +191,10 @@
       "doorLabel": "開幕展",
       "about": {
         "heading": "關於展覽",
+        "banner": {
+          "src": "",
+          "alt": "推開自由門"
+        },
         "blocks": [
           {
             "body": "「家」對我們每個人來說，既熟悉又陌生。它既是庇護所，也是記憶的容器；既是日常的起點，也是情感投射的對象。在這個展覽中，我們試著把「家」當作一個可以被重新書寫、包覆與想像的空間。"
@@ -210,12 +214,22 @@
       "doorLabel": "開幕展",
       "about": {
         "heading": "關於展覽",
+        "banner": {
+          "src": "",
+          "alt": "成為自由人"
+        },
         "blocks": [
           {
-            "body": "此展覽以榮民之家田野經驗為主軸，透過創作、檔案與個人記憶的對話，呈現「家」的多重面貌。"
+            "body": "自由韌性：從歷史經驗看見自身特質"
           },
           {
-            "body": "展覽邀請觀者走入不同場域，思考自由、身體與歸屬在當代社會中的樣貌。"
+            "body": "「自由韌性」並非抽象的政治口號，而是民主社會面對不確定性（天災、認知作戰、地緣衝突）時的回應能力。維持基本運作與人權，仰賴每一位公民對自由、責任與公共參與的理解。"
+          },
+          {
+            "body": "本展覽邀請參與者從韓戰反共義士的歷史經驗出發，透過一連串情境提問與互動測驗，重新思考自己在面對壓力、資訊過載或價值衝突時，如何理解自由、做出判斷，並看見自己已具備哪些支撐民主社會的特質。"
+          },
+          {
+            "body": "自由韌性不是與生俱來的天賦，也不是專屬於特定人群的標籤；它存在於日常的判斷、選擇，以及願意理解他人、承擔責任的態度之中。"
           }
         ]
       },
@@ -1045,19 +1059,20 @@
     "pastExhibitions": {
       "heading": "歷屆網站",
       "imageYears": [
-        "2027-2026",
+        "2026",
         "2021",
         "2016"
       ],
       "rows": [
         [
-          "2027-2026",
+          "2027",
+          "2026",
           "2025",
           "2023",
-          "2022",
-          "2021"
+          "2022"
         ],
         [
+          "2021",
           "2020",
           "2019",
           "2018",
@@ -1097,15 +1112,15 @@
         "2025": {
           "href": ""
         },
-        "2027-2026": {
-          "yearLabel": "2027-2026",
+        "2026": {
+          "yearLabel": "2026",
           "banner": {
             "src": "./assets/images/layout/Building-2026.png",
-            "alt": "2027-2026 義家藝館"
+            "alt": "2026 義家藝館"
           },
           "href": "",
           "modal": {
-            "title": "2027-2026",
+            "title": "2026",
             "discourse": {
               "heading": "展覽論述",
               "body": "展覽論述正文。"
@@ -1115,6 +1130,9 @@
               "body": "製作團隊、協力單位與致謝名單。"
             }
           }
+        },
+        "2027": {
+          "href": ""
         }
       },
       "items": [
@@ -1159,12 +1177,16 @@
           "href": ""
         },
         {
-          "title": "2027-2026 歷屆展覽",
+          "title": "2026 歷屆展覽",
           "href": "",
           "image": {
             "src": "./assets/images/layout/Building-2026.png",
-            "alt": "2027-2026 歷屆展覽"
+            "alt": "2026 歷屆展覽"
           }
+        },
+        {
+          "title": "2027 歷屆展覽",
+          "href": ""
         }
       ]
     },
@@ -2800,7 +2822,7 @@
           "period": "展期",
           "href": "#exhibition-right/about",
           "image": {
-            "src": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%201200%20360'%3E%3Crect%20width%3D'1200'%20height%3D'360'%20fill%3D'%23b8b4b0'%2F%3E%3C%2Fsvg%3E",
+            "src": "./assets/images/performances/banner-become-free.png",
             "alt": "成為自由人"
           }
         },
@@ -2810,7 +2832,7 @@
           "period": "展期",
           "href": "#exhibition-left/about",
           "image": {
-            "src": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%201200%20360'%3E%3Crect%20width%3D'1200'%20height%3D'360'%20fill%3D'%23b8b4b0'%2F%3E%3C%2Fsvg%3E",
+            "src": "./assets/images/performances/banner-freedom-door.png",
             "alt": "推開自由門"
           }
         }

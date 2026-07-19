@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>義家藝館</title>
     <link rel="stylesheet" href="./app/styles.css">
+    <link rel="stylesheet" href="./app/freedom-door.css">
+    <link rel="stylesheet" href="./app/freedom-person.css">
 </head>
 <body>
 
@@ -25,13 +27,22 @@
 <script>
   window.SITE_CONTENT_URL = "./content/site-content.json";
   // 若使用 Sanity，填入 projectId 與 dataset（留空則使用本地 JSON）
-  window.SANITY_PROJECT_ID = "";
+  window.SANITY_PROJECT_ID = "nmwx8mr7";
   window.SANITY_DATASET = "production";
+  // 正式網域（Facebook 分享用，結尾不要斜線）。留空則自動使用目前網址。
+  window.SITE_PUBLIC_URL = "";
+  // 投稿用 write token：絕對不要寫進前端或 GitHub（任何人都能在原始碼看到）。
+  // 請改走後端／Serverless 代理；本機除錯可暫時貼上，上傳前務必清空。
+  window.SANITY_WRITE_TOKEN = "";
 </script>
 <script src="./app/vendor/page-flip.browser.js"></script>
 <script src="./app/sanity-normalize.js"></script>
 <script src="./app/archive-content-loader.js"></script>
 <script src="./app/research-content-loader.js"></script>
+<script src="./app/freedom-door-sanity.js"></script>
+<script src="./app/freedom-door.js"></script>
+<script src="./app/freedom-person-sanity.js"></script>
+<script src="./app/freedom-person.js"></script>
 <script src="./app/app.js"></script>
 <script src="./app/inner-pages.js"></script>
 <script src="./app/archive-pages.js"></script>

@@ -1,18 +1,41 @@
-# 內部教學與部署指南（不上傳 GitHub / 不會出現在 GitHub Pages）
+# ============================================================
+# GitHub Pages 正式網站不需要的東西（不上傳）
+# 網站實際會用到：index.html、app/、assets/、content/、share/
+# ============================================================
+
+# ---------- 內部文件 ----------
 docs/
+scripts/
 DEPLOY_AND_CMS_GUIDE.txt
+*.md
+!README.md
 
-# Sanity Studio 本機設定與依賴
-studio/.env
-studio/node_modules/
-node_modules/
+# ---------- 環境變數／金鑰（含範本）----------
+.env
+.env.*
+**/.env
+**/.env.*
+studio/.env.example
 
-# 系統檔
-.DS_Store
-Thumbs.db
+# ---------- Sanity Studio（另以 sanity deploy 部署，非 Pages）----------
+studio/
+sanity/
 
-# 本機開發工具（不需上傳）
+# ---------- Decap CMS／本機後台（Pages 訪客用不到）----------
+admin/
+
+# ---------- 本機開發伺服器與排版小工具 ----------
 serve.js
 serve.ps1
 serve.cmd
-admin/bookshelf-hotspots.html
+
+# ---------- 其他部署／建置產物 ----------
+netlify.toml
+node_modules/
+dist/
+.sanity/
+*.log
+
+# ---------- 系統檔 ----------
+.DS_Store
+Thumbs.db

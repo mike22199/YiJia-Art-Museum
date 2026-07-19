@@ -1,0 +1,505 @@
+/* 成為自由人特展 — 心理測驗體驗 */
+
+.fpExperience {
+  max-width: min(760px, 100%);
+  margin: 0 auto;
+  padding: calc(8 * var(--ui-scale, 1)) calc(16 * var(--ui-scale, 1)) calc(32 * var(--ui-scale, 1));
+  font-family: var(--inner-font, "Noto Serif TC", "Songti TC", serif);
+  color: #2a2420;
+}
+
+.fpStage {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.fpTitle {
+  margin: 0;
+  text-align: center;
+  font-size: clamp(28px, 4vw, 40px);
+  letter-spacing: 0.12em;
+  font-weight: 700;
+}
+
+.fpIntroBox,
+.fpHistoryBox,
+.fpQuestionBox,
+.fpResultCard,
+.fpSubmissionBox {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.2)),
+    #e6e2da;
+  border: 1px solid #d5cfc4;
+  border-radius: 4px;
+  padding: 24px 28px;
+  line-height: 1.9;
+  font-size: 15px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.fpIntroLead {
+  margin: 0;
+  text-align: center;
+}
+
+.fpHistoryBox p {
+  margin: 0 0 14px;
+}
+
+.fpHistoryBox p:last-child {
+  margin-bottom: 0;
+}
+
+.fpQuestionLabel {
+  margin: 0 0 12px;
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.fpQuestionContext {
+  margin: 0 0 16px;
+  color: #8c3a32;
+  font-size: 14px;
+  line-height: 1.85;
+}
+
+.fpQuestionText {
+  margin: 0;
+}
+
+.fpOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.fpOptionBtn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 6px;
+  background: #3e322b;
+  color: #fff;
+  font: inherit;
+  font-size: 15px;
+  line-height: 1.6;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.fpOptionBtn:hover {
+  background: #2f2620;
+}
+
+.fpOptionBtn:active {
+  transform: translateY(1px);
+}
+
+.fpOptionRow {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+}
+
+.fpOptionRow .fpOptionBtn {
+  flex: 1;
+}
+
+.fpPrimaryBtn,
+.fpSecondaryBtn,
+.fpNavBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 160px;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.fpPrimaryBtn {
+  background: #3e322b;
+  color: #fff;
+}
+
+.fpPrimaryBtn:hover {
+  background: #2f2620;
+}
+
+.fpSecondaryBtn {
+  background: #6b635a;
+  color: #fff;
+}
+
+.fpSecondaryBtn:hover {
+  background: #564f48;
+}
+
+.fpActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.fpActions--stack {
+  flex-direction: column;
+  align-items: center;
+}
+
+.fpQ1aTitle {
+  margin: 0 0 12px;
+  font-size: clamp(20px, 3vw, 26px);
+  color: #8c3a32;
+  font-weight: 700;
+}
+
+.fpDiscussNote {
+  margin: 16px 0;
+  padding: 12px 16px;
+  background: #f3d9dc;
+  color: #7a3038;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.fpBulletList {
+  margin: 0;
+  padding-left: 1.2em;
+  color: #8c3a32;
+}
+
+.fpBulletList li {
+  margin-bottom: 8px;
+}
+
+.fpSubmissionPrompt {
+  margin: 0 0 16px;
+}
+
+.fpTextarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 14px 16px;
+  border: 1px solid #ccc4b8;
+  border-radius: 6px;
+  background: #f5f2ec;
+  font: inherit;
+  font-size: 15px;
+  line-height: 1.7;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.fpTextarea:focus {
+  outline: 2px solid #8c3a32;
+  outline-offset: 1px;
+}
+
+.fpStatus {
+  min-height: 1.4em;
+  margin-top: 8px;
+  font-size: 13px;
+  color: #666;
+  text-align: center;
+}
+
+.fpGalleryTitle {
+  margin: 0;
+  text-align: center;
+  font-size: clamp(22px, 3vw, 30px);
+  letter-spacing: 0.06em;
+}
+
+.fpGalleryWall {
+  position: relative;
+  min-height: 280px;
+  margin: 12px 0 20px;
+  padding: 20px;
+  background: #ece8e0;
+  border: 1px solid #d5cfc4;
+  border-radius: 8px;
+}
+
+.fpBubble {
+  position: absolute;
+  max-width: 200px;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 18px 18px 18px 4px;
+  background: #5a6670;
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fpBubble:nth-child(3n + 1) {
+  background: #4a5560;
+}
+
+.fpBubble:nth-child(3n + 2) {
+  background: #6b5f58;
+}
+
+.fpBubble:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.16);
+  z-index: 2;
+}
+
+.fpGalleryEmpty {
+  margin: 0;
+  padding: 40px 16px;
+  text-align: center;
+  color: #777;
+}
+
+.fpResultCard {
+  position: relative;
+  padding-top: 28px;
+}
+
+.fpResultHeading {
+  margin: 0 0 6px;
+  font-size: clamp(24px, 3.5vw, 32px);
+  font-weight: 700;
+}
+
+.fpResultSub {
+  margin: 0 0 16px;
+  font-size: 17px;
+  color: #555;
+}
+
+.fpResultBody {
+  margin: 0 0 16px;
+  line-height: 1.9;
+}
+
+.fpResultStory {
+  margin: 0 0 18px;
+  padding: 14px 16px;
+  background: #f5efe2;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.85;
+}
+
+.fpTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.fpTag {
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: #ebe4f4;
+  color: #4a3d68;
+  font-size: 13px;
+}
+
+.fpBars {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fpBarRow {
+  display: grid;
+  grid-template-columns: 88px 1fr 44px;
+  gap: 10px;
+  align-items: center;
+  font-size: 13px;
+}
+
+.fpBarTrack {
+  height: 10px;
+  background: #ddd8d0;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.fpBarFill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.fpBarFill--ma {
+  background: #7b6b9e;
+}
+
+.fpBarFill--pan {
+  background: #4f8f6a;
+}
+
+.fpBarFill--jin {
+  background: #c47a3a;
+}
+
+.fpShare {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #ddd8d0;
+}
+
+.fpShareTitle {
+  margin: 0 0 10px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.fpShareBox {
+  padding: 14px 16px;
+  background: #fff;
+  border: 1px solid #ddd8d0;
+  border-radius: 4px;
+  font-size: 13px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  margin-bottom: 12px;
+}
+
+.fpShareActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.fpShareActions .fpSecondaryBtn {
+  min-width: auto;
+  padding: 8px 16px;
+  font-size: 13px;
+}
+
+.fpShareBtn--facebook {
+  background: #1877f2;
+}
+
+.fpShareBtn--facebook:hover {
+  background: #1467d3;
+}
+
+.fpShareStatus {
+  min-height: 1.2em;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #666;
+  text-align: center;
+}
+
+.fpNavRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.fpNavBtn {
+  background: #3e322b;
+  color: #fff;
+  text-decoration: none;
+  min-width: 140px;
+}
+
+.fpNavBtn:hover {
+  background: #2f2620;
+}
+
+.fpModalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.fpModal {
+  position: relative;
+  width: min(520px, 100%);
+  max-height: min(80vh, 560px);
+  overflow: auto;
+  padding: 24px 28px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+.fpModalClose {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  border: none;
+  background: transparent;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  color: #666;
+}
+
+.fpModalBody {
+  margin: 0;
+  line-height: 1.85;
+  font-size: 15px;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 700px) {
+  .fpExperience {
+    padding: 8px 12px 24px;
+  }
+
+  .fpIntroBox,
+  .fpHistoryBox,
+  .fpQuestionBox,
+  .fpResultCard,
+  .fpSubmissionBox {
+    padding: 18px 16px;
+  }
+
+  .fpOptionRow {
+    flex-direction: column;
+  }
+
+  .fpBarRow {
+    grid-template-columns: 72px 1fr 40px;
+    gap: 8px;
+  }
+
+  .fpBubble {
+    position: relative;
+    left: auto !important;
+    top: auto !important;
+    max-width: none;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .fpGalleryWall {
+    display: flex;
+    flex-direction: column;
+    min-height: auto;
+  }
+}

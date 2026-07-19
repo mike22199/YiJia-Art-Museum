@@ -7,19 +7,30 @@
   "journalTitle": "藝術家教師日誌",
   "journalFrame": {
     "frameMaxWidth": "1100px",
+    "bookFitScale": 0.9,
+    "spreadAspect": 2.56,
+    "shellPadding": "1%",
+    "bookShiftY": "0%",
+    "expanded": {
+      "pad": "24px",
+      "bookFitScale": 0.88,
+      "spreadAspect": 2.56,
+      "shellPadding": "1.5%",
+      "bookShiftY": "0%"
+    },
     "content": {
-      "top": "4.9%",
-      "left": "11.0%",
-      "right": "11.0%",
-      "bottom": "22.6%"
+      "top": "8.5%",
+      "left": "0.3%",
+      "right": "0.0%",
+      "bottom": "17.0%"
     },
     "prevArrow": {
-      "left": "3.4%",
-      "top": "42.0%"
+      "left": "2.1%",
+      "top": "45.3%"
     },
     "nextArrow": {
-      "right": "3.7%",
-      "top": "41.6%"
+      "right": "2.1%",
+      "top": "43.9%"
     },
     "bottomBar": {
       "left": "3.4%",
@@ -28,14 +39,14 @@
       "height": "13.9%"
     },
     "pageSlider": {
-      "left": "1.8%",
-      "right": "2.6%",
-      "top": "24.0%"
+      "left": "2.2%",
+      "right": "2.2%",
+      "top": "24.8%"
     },
     "zoomSlider": {
-      "left": "42.2%",
-      "right": "41.9%",
-      "top": "63.5%"
+      "left": "42.8%",
+      "right": "42.9%",
+      "top": "63.0%"
     },
     "pageLabel": {
       "left": "4.5%",
@@ -44,12 +55,11 @@
       "height": "22.0%"
     },
     "fullscreenBtn": {
-      "right": "2.3%",
-      "bottom": "19.3%",
+      "right": "2.5%",
+      "bottom": "22.1%",
       "width": "2.0%",
       "height": "28.0%"
-    },
-    "bookShiftY": "0%"
+    }
   },
   "bookshelf": {
     "image": {

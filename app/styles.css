@@ -2549,15 +2549,42 @@ body.isInnerPage .mainInner{
 }
 
 /* 關於展覽 */
+.innerContent:has(.aboutPage){
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 240px);
+}
 .aboutPage{
   position: relative;
-  min-height: 60vh;
+  flex: 1 1 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
 }
 .aboutLayout{
+  display: block;
+  width: 100%;
+  max-width: 52ch;
+  margin: 0 auto;
+  text-align: center;
+}
+.aboutLayout--withBanner{
   display: grid;
-  grid-template-columns: minmax(120px, 220px) 1fr;
-  gap: 32px;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 280px);
+  gap: clamp(28px, 4vw, 56px);
   align-items: start;
+  max-width: min(96vw, 960px);
+  text-align: left;
+}
+.aboutTextCol{
+  min-width: 0;
+  text-align: center;
+}
+.aboutLayout--withBanner .aboutTextCol{
+  text-align: left;
 }
 .aboutLogo{
   max-width: 140px;
@@ -2572,6 +2599,10 @@ body.isInnerPage .mainInner{
   font-size: 28px;
   color: #b82020;
   letter-spacing: .08em;
+  text-align: center;
+}
+.aboutLayout--withBanner .aboutHeading{
+  text-align: left;
 }
 .aboutParagraph{
   margin: 0 0 16px;
@@ -2579,6 +2610,29 @@ body.isInnerPage .mainInner{
   font-size: 15px;
   color: #222;
   max-width: 52ch;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+.aboutLayout--withBanner .aboutParagraph{
+  text-align: left;
+  margin-left: 0;
+  margin-right: 0;
+}
+.aboutBannerCol{
+  width: 100%;
+  max-width: 280px;
+  margin-left: auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+.aboutBannerImg{
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: min(70vh, 640px);
+  object-fit: contain;
 }
 .aboutDoorLink{
   position: absolute;
@@ -2611,9 +2665,13 @@ body.isInnerPage .mainInner{
   .yearHero,
   .yearBanner,
   .yearVideoInner,
-  .aboutLayout,
+  .aboutLayout--withBanner,
   .yearIntroSplit{
     grid-template-columns: 1fr;
+  }
+  .aboutBannerCol{
+    max-width: 240px;
+    margin: 0 auto;
   }
   .innerBrand{
     left: calc(16 * var(--ui-scale));
@@ -4378,6 +4436,7 @@ a.archiveBibliographyItem{
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  pointer-events: auto;
 }
 .archiveJournalFrameContent .archiveStfBookHost{
   width: auto;
@@ -4952,6 +5011,8 @@ a.archiveBibliographyItem{
   position: relative;
   width: 100%;
   aspect-ratio: 1624 / 848;
+  isolation: isolate;
+  transform-style: flat;
 }
 .archiveJournalFrameBg{
   position: absolute;
@@ -4963,25 +5024,33 @@ a.archiveBibliographyItem{
   user-select: none;
   pointer-events: none;
 }
+.archiveJournalArrowLayer{
+  position: absolute;
+  inset: 0;
+  z-index: 80;
+  pointer-events: none;
+}
 .archiveJournalArrow{
   position: absolute;
   top: 42%;
-  z-index: 6;
+  z-index: 81;
   transform: translateY(-50%);
   display: flex;
   align-items: center;
   justify-content: center;
-  width: clamp(12px, 1.4vw, 18px);
-  height: clamp(22px, 2.5vw, 30px);
+  /* 熱區加大：視覺箭頭仍靠 img 維持原尺寸 */
+  width: clamp(36px, 4vw, 56px);
+  height: clamp(48px, 6vw, 80px);
   padding: 0;
   border: 0;
   background: transparent;
   cursor: pointer;
+  pointer-events: auto;
   transition: opacity .2s ease;
 }
 .archiveJournalArrow img{
   display: block;
-  width: 100%;
+  width: clamp(12px, 1.4vw, 18px);
   height: auto;
   pointer-events: none;
   user-select: none;
@@ -4992,6 +5061,7 @@ a.archiveBibliographyItem{
 .archiveJournalArrow:disabled{
   opacity: .28;
   cursor: not-allowed;
+  pointer-events: none;
 }
 /* 翻書外框開口位置：調 top/left/right/bottom 對齊 Frame_bg.png */
 .archiveJournalFrameContent{
@@ -5006,6 +5076,8 @@ a.archiveBibliographyItem{
   min-height: 0;
   overflow: hidden;
   z-index: 2;
+  /* 開口空白不搶點擊，避免蓋住左右箭頭；實際書本再打開 pointer-events */
+  pointer-events: none;
 }
 .archiveJournalBottomBar{
   position: absolute;
@@ -5202,6 +5274,23 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
 .archiveJournalFrame--expanded .archiveStfBookHost{
   overflow: hidden;
 }
+.archiveJournalFrame--expanded .archiveJournalFrameContent{
+  pointer-events: none;
+}
+.archiveJournalFrame--expanded .archiveStfBookShell{
+  /* 左右讓出箭頭熱區，避免書頁殼層蓋住按鈕 */
+  width: calc(100% - clamp(72px, 8vw, 120px));
+  max-width: calc(100% - clamp(72px, 8vw, 120px));
+  margin-left: auto;
+  margin-right: auto;
+  pointer-events: auto;
+}
+.archiveJournalFrame--expanded .archiveJournalArrowLayer{
+  z-index: 120;
+}
+.archiveJournalFrame--expanded .archiveJournalArrow{
+  z-index: 121;
+}
 .archiveJournalFrame--expanded .archiveStfBookHost .stf__wrapper,
 .archiveJournalFrame--expanded .archiveStfBookHost .stf__block{
   overflow: hidden !important;
@@ -5350,7 +5439,7 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
   margin-bottom: 28px;
 }
 .archiveResearchPage--journal .archiveTeachersCarouselTrack{
-  justify-content: center;
+  justify-content: flex-start;
 }
 .archiveTeachersCarouselNotebook{
   width: 56px;
@@ -5693,15 +5782,13 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
 }
 .archivePerformanceCardMedia{
   width: 100%;
-  aspect-ratio: 10 / 3;
   background: #b8b4b0;
   overflow: hidden;
 }
 .archivePerformanceCardImg{
   display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
   transition: opacity .25s ease;
 }
 .archivePerformanceCardBody{
