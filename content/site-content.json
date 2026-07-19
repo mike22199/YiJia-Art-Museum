@@ -33,8 +33,8 @@
     "logoTitle": "./assets/images/layout/logo-title.png",
     "iconSearch": "./assets/images/layout/icon-search.png",
     "partnerLogos": "./assets/images/layout/partner-logo.png",
-    "iconYoutube": "./assets/images/layout/icon-youtube.png",
-    "iconFacebook": "./assets/images/layout/icon-facebook.png"
+    "iconYoutube": "./assets/images/logo/youtube.png",
+    "iconFacebook": "./assets/images/logo/facebook.png"
   },
   "collectionSubnav": [
     {

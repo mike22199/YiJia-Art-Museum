@@ -9,8 +9,8 @@ function layoutAssets() {
     logoBuilding: layout.logoBuilding || "./assets/images/layout/logo-building.png",
     logoTitle: layout.logoTitle || "./assets/images/layout/logo-title.png",
     partnerLogos: layout.partnerLogos || "./assets/images/layout/partner-logo.png",
-    iconYoutube: layout.iconYoutube || "./assets/images/layout/icon-youtube.png",
-    iconFacebook: layout.iconFacebook || "./assets/images/layout/icon-facebook.png",
+    iconYoutube: layout.iconYoutube || "./assets/images/logo/youtube.png",
+    iconFacebook: layout.iconFacebook || "./assets/images/logo/facebook.png",
   };
 }
 

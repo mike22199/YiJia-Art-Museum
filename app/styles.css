@@ -1682,9 +1682,9 @@ body.isInnerPage .mainInner{
   /* 背景圖橫向略放大，左右邊緣裁出視窗外以遮住素材瑕疵 */
   --layout-bg-bleed-x: 1.08;
   /* Footer 內容定位（可單獨調整，不影響背景圖等比高度） */
-  --footer-partners-top-ratio: 0.34;
-  --footer-partners-width: 180;
-  --footer-partners-max-h-ratio: 0.58;
+  --footer-partners-top-ratio: 0.36;
+  --footer-partners-width: 132;
+  --footer-partners-max-h-ratio: 0.50;
   --footer-contact-top-ratio: 0.40;
   --footer-social-top-ratio: 0.44;
 }
