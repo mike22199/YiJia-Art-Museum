@@ -48,8 +48,10 @@
   window.SANITY_DATASET = "production";
   // 正式網域（Facebook 分享用，結尾不要斜線）。留空則自動使用目前網址。
   window.SITE_PUBLIC_URL = "";
-  // 投稿用 write token：絕對不要寫進前端或 GitHub（任何人都能在原始碼看到）。
-  // 請改走後端／Serverless 代理；本機除錯可暫時貼上，上傳前務必清空。
+  // Cloudflare Worker 投稿 API（結尾不要斜線）
+  // 設定步驟見 workers/sanity-submit/SETUP.txt
+  window.SUBMISSION_API_URL = "https://fifi-sanity-submit.yijia-art-submit.workers.dev";
+  // 正式站務必留空；token 只存在 Cloudflare Worker secret
   window.SANITY_WRITE_TOKEN = "";
 </script>
 <script src="./app/vendor/page-flip.browser.js"></script>

@@ -1,4 +1,7 @@
-/* 成為自由人特展 — 自由徵稿 Sanity 讀寫 */
+/* 成為自由人特展 — 自由徵稿
+ * 正式投稿請走 Cloudflare Worker（window.SUBMISSION_API_URL）
+ * 本機除錯才可暫時設定 SANITY_WRITE_TOKEN（勿提交到 GitHub）
+ */
 
 (function () {
   const LOCAL_KEY = "FIFI_FREEDOM_PERSON_SUBMISSIONS";
@@ -15,8 +18,20 @@
     return String(window.SANITY_WRITE_TOKEN || "").trim();
   }
 
-  function canWrite() {
+  function submissionApiBase() {
+    return String(window.SUBMISSION_API_URL || "").trim().replace(/\/+$/, "");
+  }
+
+  function canWriteViaApi() {
+    return Boolean(submissionApiBase());
+  }
+
+  function canWriteDirect() {
     return Boolean(projectId() && writeToken());
+  }
+
+  function canWrite() {
+    return canWriteViaApi() || canWriteDirect();
   }
 
   function canRead() {
@@ -62,6 +77,23 @@
     return res.json();
   }
 
+  async function createSubmissionViaApi({ answer }) {
+    const res = await fetch(`${submissionApiBase()}/submit/freedom-person`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ answer: String(answer || "").trim() }),
+    });
+    const payload = await res.json().catch(() => ({}));
+    if (!res.ok || !payload.ok) {
+      throw new Error(payload.error || `投稿失敗：HTTP ${res.status}`);
+    }
+    return {
+      ok: true,
+      mode: "sanity",
+      message: payload.message || "已送出，待後台審核後會顯示於徵稿牆。",
+    };
+  }
+
   function loadLocalSubmissions() {
     try {
       const raw = localStorage.getItem(LOCAL_KEY);
@@ -84,7 +116,11 @@
 
     const base = { answer: text, status: "pending" };
 
-    if (canWrite()) {
+    if (canWriteViaApi()) {
+      return createSubmissionViaApi({ answer: text });
+    }
+
+    if (canWriteDirect()) {
       await mutateSanity([{ create: { _type: "freedomPersonSubmission", ...base } }]);
       return { ok: true, mode: "sanity", message: "已送出，待後台審核後會顯示於徵稿牆。" };
     }
@@ -97,7 +133,7 @@
     return {
       ok: true,
       mode: "local",
-      message: "已儲存於本機（尚未連線 Sanity 後台）。",
+      message: "已儲存於本機（尚未連線投稿 API，請設定 SUBMISSION_API_URL）。",
     };
   }
 

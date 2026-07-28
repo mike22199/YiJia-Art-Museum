@@ -1,4 +1,7 @@
-/* 推開自由門特展 — Sanity 讀寫（需設定 SANITY_PROJECT_ID 與 SANITY_WRITE_TOKEN） */
+/* 推開自由門特展 — Sanity 讀寫
+ * 正式投稿請走 Cloudflare Worker（window.SUBMISSION_API_URL）
+ * 本機除錯才可暫時設定 SANITY_WRITE_TOKEN（勿提交到 GitHub）
+ */
 
 (function () {
   const LOCAL_KEY = "FIFI_FREEDOM_DOOR_SUBMISSIONS";
@@ -15,8 +18,20 @@
     return String(window.SANITY_WRITE_TOKEN || "").trim();
   }
 
-  function canWrite() {
+  function submissionApiBase() {
+    return String(window.SUBMISSION_API_URL || "").trim().replace(/\/+$/, "");
+  }
+
+  function canWriteViaApi() {
+    return Boolean(submissionApiBase());
+  }
+
+  function canWriteDirect() {
     return Boolean(projectId() && writeToken());
+  }
+
+  function canWrite() {
+    return canWriteViaApi() || canWriteDirect();
   }
 
   function canRead() {
@@ -84,6 +99,31 @@
     };
   }
 
+  async function createSubmissionViaApi({ title, authorName, concept, imageBlob, outfitData }) {
+    const form = new FormData();
+    form.append("title", String(title || "").trim());
+    form.append("authorName", String(authorName || "").trim());
+    form.append("concept", String(concept || "").trim());
+    form.append("outfitData", JSON.stringify(outfitData || {}));
+    if (imageBlob) {
+      form.append("image", imageBlob, "freedom-door.png");
+    }
+
+    const res = await fetch(`${submissionApiBase()}/submit/freedom-door`, {
+      method: "POST",
+      body: form,
+    });
+    const payload = await res.json().catch(() => ({}));
+    if (!res.ok || !payload.ok) {
+      throw new Error(payload.error || `投稿失敗：HTTP ${res.status}`);
+    }
+    return {
+      ok: true,
+      mode: "sanity",
+      message: payload.message || "已上傳，待後台審核後會顯示於作品牆。",
+    };
+  }
+
   function loadLocalSubmissions() {
     try {
       const raw = localStorage.getItem(LOCAL_KEY);
@@ -123,7 +163,11 @@
       status: "pending",
     };
 
-    if (canWrite()) {
+    if (canWriteViaApi()) {
+      return createSubmissionViaApi({ title, authorName, concept, imageBlob, outfitData });
+    }
+
+    if (canWriteDirect()) {
       const imageField = imageBlob ? await uploadImageBlob(imageBlob) : undefined;
       const doc = {
         _type: "freedomDoorSubmission",
@@ -149,7 +193,7 @@
     return {
       ok: true,
       mode: "local",
-      message: "已儲存於本機（尚未連線 Sanity 後台，審核功能需設定 SANITY_WRITE_TOKEN）。",
+      message: "已儲存於本機（尚未連線投稿 API，請設定 SUBMISSION_API_URL）。",
     };
   }
 

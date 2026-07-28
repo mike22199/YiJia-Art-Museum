@@ -1,0 +1,167 @@
+============================================================
+義家藝館｜Cloudflare Workers 投稿 API 從頭設定（GitHub Pages 版）
+============================================================
+目標：訪客投稿 → Cloudflare Worker（藏 Sanity token）→ Sanity 待審核
+網站繼續放在 GitHub Pages，不必搬站。
+
+你需要準備：
+  - 電腦已安裝 Node.js（https://nodejs.org 選 LTS）
+  - 一個免費 Cloudflare 帳號
+  - Sanity 專案（你已有 projectId：nmwx8mr7）
+  - 你的 GitHub Pages 網址（例如 https://使用者名稱.github.io/倉庫名）
+
+------------------------------------------------------------
+第 0 步：確認本機有 Node.js
+------------------------------------------------------------
+1) 打開 PowerShell
+2) 輸入：
+     node -v
+     npm -v
+3) 若顯示版本號（例如 v22.x）即可；若找不到指令，先安裝 Node.js LTS 後重開終端機。
+
+------------------------------------------------------------
+第 1 步：在 Sanity 建立「只給 Worker 用」的 Token
+------------------------------------------------------------
+1) 開啟 https://www.sanity.io/manage
+2) 選你的專案（nmwx8mr7）
+3) 左側 API → Tokens → Add API token
+4) 建議：
+     Name：fifi-cloudflare-submit
+     Permissions：Editor（若之後要更嚴，可再改成只允許建立投稿文件）
+5) 建立後「立刻複製」token（只顯示一次），先貼到記事本，等一下要用。
+   ※ 不要把這個 token 貼進 index.html 或推上 GitHub。
+
+------------------------------------------------------------
+第 2 步：註冊／登入 Cloudflare
+------------------------------------------------------------
+1) 開啟 https://dash.cloudflare.com 註冊或登入（免費即可）
+2) 不需要把網域轉到 Cloudflare；用 workers.dev 子網域就夠。
+
+------------------------------------------------------------
+第 3 步：安裝依賴並登入 Wrangler（Cloudflare 指令工具）
+------------------------------------------------------------
+在 PowerShell 執行（路徑依你的實際位置）：
+
+  cd "C:\Users\micha\OneDrive\桌面\FIFI_Web_Decap\workers\sanity-submit"
+  npm install
+  npx wrangler login
+
+瀏覽器會跳出 Cloudflare 授權頁，按允許即可。
+
+------------------------------------------------------------
+第 4 步：設定允許的網站網域（CORS）
+------------------------------------------------------------
+用記事本打開同資料夾的 wrangler.toml，找到：
+
+  ALLOWED_ORIGINS = "http://127.0.0.1:5500,..."
+
+改成包含你的 GitHub Pages 網址，例如：
+
+  ALLOWED_ORIGINS = "https://你的帳號.github.io,http://127.0.0.1:5500,http://localhost:5500,http://127.0.0.1:8080,http://localhost:8080"
+
+注意：
+  - 若 Pages 網址是 https://xxx.github.io/FIFI_Web_Decap/ ，Origin 仍是 https://xxx.github.io
+    （不要加路徑 /FIFI_Web_Decap）
+  - 多個網址用英文逗號分隔，不要有空白結尾問題即可
+  - 改完要重新 deploy 才會生效
+
+------------------------------------------------------------
+第 5 步：把 Sanity Token 存成 Worker 密鑰
+------------------------------------------------------------
+仍在 workers\sanity-submit 資料夾執行：
+
+  npm run secret:token
+
+（等同：npx wrangler secret put SANITY_WRITE_TOKEN）
+
+終端機會請你貼上 token → 貼上後按 Enter。
+此密鑰只存在 Cloudflare，不會寫進程式碼。
+
+------------------------------------------------------------
+第 6 步：部署 Worker
+------------------------------------------------------------
+  npm run deploy
+
+成功後終端機會顯示類似：
+
+  https://fifi-sanity-submit.你的子網域.workers.dev
+
+把整段 URL 複製下來（結尾不要斜線）。
+
+可先測健康檢查（瀏覽器打開）：
+  https://fifi-sanity-submit.你的子網域.workers.dev/health
+
+應看到類似：
+  {"ok":true,"hasProjectId":true,"hasToken":true}
+
+若 hasToken 是 false，回到第 5 步重設 secret。
+
+------------------------------------------------------------
+第 7 步：把 API 網址填進網站
+------------------------------------------------------------
+打開專案根目錄的 index.html，找到：
+
+  window.SUBMISSION_API_URL = "";
+
+改成：
+
+  window.SUBMISSION_API_URL = "https://fifi-sanity-submit.你的子網域.workers.dev";
+
+確認：
+  window.SANITY_WRITE_TOKEN = "";
+  （正式站務必留空）
+
+存檔後，把變更推上 GitHub，等 GitHub Pages 更新。
+
+------------------------------------------------------------
+第 8 步：Sanity CORS（讀取作品牆用）
+------------------------------------------------------------
+投稿走 Worker，但「讀取已審核作品」仍由瀏覽器直接打 Sanity。
+請到 sanity.io/manage → API → CORS origins：
+  - 加入你的 GitHub Pages Origin（https://xxx.github.io）
+  - 本機測試可加 http://127.0.0.1:5500
+  - 可勾選 Allow credentials（依你現有設定）
+
+------------------------------------------------------------
+第 9 步：實際測試
+------------------------------------------------------------
+1) 打開 GitHub Pages 網站（或本機伺服器）
+2) 走「推開自由門」或「成為自由人」投稿一次
+3) 應出現「已上傳／已送出，待後台審核…」
+4) 打開 Sanity Studio，應看到新文件，status = pending
+5) 在 Studio 改成 approved 後，前台作品牆／徵稿牆才會公開顯示
+
+------------------------------------------------------------
+之後若要修改 Worker 程式
+------------------------------------------------------------
+  cd workers\sanity-submit
+  （改 src\index.js 或 wrangler.toml）
+  npm run deploy
+
+改 secret：
+  npm run secret:token
+
+------------------------------------------------------------
+常見問題
+------------------------------------------------------------
+Q：投稿失敗，訊息含 Origin 未允許
+A：把瀏覽器網址列的「協定+網域」（不含路徑）加入 ALLOWED_ORIGINS，再 deploy。
+
+Q：health 顯示 hasToken:false
+A：重新執行 npm run secret:token，再測 /health。
+
+Q：Sanity 沒有新文件
+A：檢查 token 權限是否為 Editor；到 Cloudflare Dashboard → Workers → 該 Worker → Logs 看錯誤。
+
+Q：我還可以暫時在本機貼 SANITY_WRITE_TOKEN 嗎？
+A：可以，但僅本機除錯。有設 SUBMISSION_API_URL 時會優先走 Worker，不會用前端 token。
+
+Q：要付費嗎？
+A：Cloudflare Workers 免費方案對藝館投稿流量通常足夠；Sanity Free 亦同。詳見先前評估。
+
+------------------------------------------------------------
+API 路徑一覽（供除錯）
+------------------------------------------------------------
+GET  /health
+POST /submit/freedom-door     multipart: title, authorName, concept, outfitData, image
+POST /submit/freedom-person   JSON: { "answer": "..." }

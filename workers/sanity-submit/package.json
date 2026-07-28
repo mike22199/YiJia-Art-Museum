@@ -1,0 +1,14 @@
+{
+  "name": "fifi-sanity-submit",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Cloudflare Worker proxy for FIFI Sanity submissions",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "secret:token": "wrangler secret put SANITY_WRITE_TOKEN"
+  },
+  "devDependencies": {
+    "wrangler": "^4.20.0"
+  }
+}
