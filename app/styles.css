@@ -1,11 +1,12 @@
 /* ====== 全站字體：中文改用思源宋體（Noto Serif CJK TC） ======
-   用 unicode-range 限制只套用中日韓文字範圍，避免連英數也被換成襯線體。 */
+   用 unicode-range 限制只套用中日韓文字範圍，避免連英數也被換成襯線體。
+   font-display: block — 等自訂字體就緒再顯示，避免先閃系統舊字體再跳換。 */
 @font-face{
   font-family: "FIFI CJK Serif";
   src: url("../assets/fonts/思源宋體/NOTOSERIFCJKTC-EXTRALIGHT.OTF") format("opentype");
   font-weight: 200;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
   unicode-range: U+2E80-2EFF, U+3000-303F, U+31C0-31EF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF, U+20000-2A6DF, U+2A700-2B73F, U+2B740-2B81F, U+2B820-2CEAF, U+2CEB0-2EBEF;
 }
 @font-face{
@@ -13,7 +14,7 @@
   src: url("../assets/fonts/思源宋體/NOTOSERIFCJKTC-LIGHT.OTF") format("opentype");
   font-weight: 300;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
   unicode-range: U+2E80-2EFF, U+3000-303F, U+31C0-31EF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF, U+20000-2A6DF, U+2A700-2B73F, U+2B740-2B81F, U+2B820-2CEAF, U+2CEB0-2EBEF;
 }
 @font-face{
@@ -21,7 +22,7 @@
   src: url("../assets/fonts/思源宋體/NOTOSERIFCJKTC-REGULAR.OTF") format("opentype");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
   unicode-range: U+2E80-2EFF, U+3000-303F, U+31C0-31EF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF, U+20000-2A6DF, U+2A700-2B73F, U+2B740-2B81F, U+2B820-2CEAF, U+2CEB0-2EBEF;
 }
 @font-face{
@@ -29,7 +30,7 @@
   src: url("../assets/fonts/思源宋體/NOTOSERIFCJKTC-MEDIUM.OTF") format("opentype");
   font-weight: 500;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
   unicode-range: U+2E80-2EFF, U+3000-303F, U+31C0-31EF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF, U+20000-2A6DF, U+2A700-2B73F, U+2B740-2B81F, U+2B820-2CEAF, U+2CEB0-2EBEF;
 }
 @font-face{
@@ -37,7 +38,7 @@
   src: url("../assets/fonts/思源宋體/NOTOSERIFCJKTC-SEMIBOLD.OTF") format("opentype");
   font-weight: 600;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
   unicode-range: U+2E80-2EFF, U+3000-303F, U+31C0-31EF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF, U+20000-2A6DF, U+2A700-2B73F, U+2B740-2B81F, U+2B820-2CEAF, U+2CEB0-2EBEF;
 }
 @font-face{
@@ -45,7 +46,7 @@
   src: url("../assets/fonts/思源宋體/NOTOSERIFCJKTC-BOLD.OTF") format("opentype");
   font-weight: 700;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
   unicode-range: U+2E80-2EFF, U+3000-303F, U+31C0-31EF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF, U+20000-2A6DF, U+2A700-2B73F, U+2B740-2B81F, U+2B820-2CEAF, U+2CEB0-2EBEF;
 }
 @font-face{
@@ -53,7 +54,7 @@
   src: url("../assets/fonts/思源宋體/NOTOSERIFCJKTC-BLACK.OTF") format("opentype");
   font-weight: 900;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
   unicode-range: U+2E80-2EFF, U+3000-303F, U+31C0-31EF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF, U+20000-2A6DF, U+2A700-2B73F, U+2B740-2B81F, U+2B820-2CEAF, U+2CEB0-2EBEF;
 }
 
@@ -1632,14 +1633,14 @@ body.isHomePage .mainHome{
   src: url("../assets/fonts/DINPro-CondensedRegular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 @font-face{
   font-family: "DIN Pro Condensed";
   src: url("../assets/fonts/DINPro-CondensedBlack.ttf") format("truetype");
   font-weight: 900;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 body.isInnerPage{

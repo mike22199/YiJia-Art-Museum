@@ -1280,10 +1280,6 @@ function resolveArchiveRecordSection(sectionKey) {
   return normalizeLegacyMediaSection(archive.media || {}, sectionKey);
 }
 
-function archiveMediaItemSearchText(item) {
-  return `${item.title || ""} ${item.caption || ""} ${item.keywords || ""}`.toLowerCase();
-}
-
 function openArchivePhotoLightbox(item, index = 0) {
   const src = archiveMediaImageSrc(item, index);
   const img = el("img", {
@@ -1458,7 +1454,6 @@ function renderArchiveMediaPage(options = {}) {
   const perPage = section.perPage || archiveMediaPerPage(sectionKey);
   const params = getHashQuery();
   const year = params.get("year") || years[0] || "2025";
-  const query = (params.get("q") || "").trim().toLowerCase();
   const yearPack = resolveArchiveRecordYearPack(section, year);
   const typeItems = yearPack.items;
   const featured =
@@ -1468,22 +1463,16 @@ function renderArchiveMediaPage(options = {}) {
 
   const buildHref = (pageNum) => {
     const q = new URLSearchParams({ year });
-    if (query) q.set("q", params.get("q") || "");
     if (pageNum > 1) q.set("page", String(pageNum));
     const qs = q.toString();
     return qs ? `${baseHref}?${qs}` : baseHref;
   };
 
-  const filtered = typeItems.filter((item) => {
-    if (!query) return true;
-    return archiveMediaItemSearchText(item).includes(query);
-  });
-
-  const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
+  const totalPages = Math.max(1, Math.ceil(typeItems.length / perPage));
   const requestedPage = Math.max(1, parseInt(params.get("page") || "1", 10) || 1);
   const currentPage = Math.min(requestedPage, totalPages);
   const pageOffset = (currentPage - 1) * perPage;
-  const pageItems = filtered.slice(pageOffset, pageOffset + perPage);
+  const pageItems = typeItems.slice(pageOffset, pageOffset + perPage);
 
   const root = el("div", { class: `archivePage archiveMediaPage archiveMediaPage--${sectionKey}` });
   root.appendChild(renderArchiveFeaturedCarousel(featured));
@@ -1494,41 +1483,14 @@ function renderArchiveMediaPage(options = {}) {
   years.forEach((y) => yearSel.appendChild(el("option", { value: y, text: y })));
   yearSel.value = year;
 
-  const searchInput = el("input", {
-    class: "archiveSearchInput archiveSearchInput--media",
-    type: "search",
-    placeholder: "關鍵字",
-    "aria-label": "關鍵字",
-    value: params.get("q") || "",
+  yearSel.addEventListener("change", () => {
+    navigateFromHref(`${baseHref}?${new URLSearchParams({ year: yearSel.value }).toString()}`);
   });
-
-  const applyFilters = () => {
-    const q = new URLSearchParams({ year });
-    if (searchInput.value.trim()) q.set("q", searchInput.value.trim());
-    navigateFromHref(`${baseHref}?${q.toString()}`);
-  };
-
-  searchInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") applyFilters();
-  });
-  yearSel.addEventListener("change", applyFilters);
 
   filters.appendChild(
     el("div", { class: "archiveFiltersMediaField" }, [
       el("span", { class: "archiveFilterLabel", text: "年份" }),
       yearSel,
-    ])
-  );
-  filters.appendChild(
-    el("div", { class: "archiveFiltersMediaField archiveFiltersMediaField--search" }, [
-      el("span", { class: "archiveFilterLabel", text: "關鍵字" }),
-      searchInput,
-      el("button", {
-        class: "archiveFilterSearchBtn",
-        type: "button",
-        text: "搜索",
-        onclick: applyFilters,
-      }),
     ])
   );
   root.appendChild(filters);
@@ -1541,9 +1503,7 @@ function renderArchiveMediaPage(options = {}) {
 
   const grid = el("div", { class: `archiveMediaGallery archiveMediaGallery--${sectionKey}` });
   if (!pageItems.length) {
-    grid.appendChild(
-      el("p", { class: "archiveMediaGalleryEmpty", text: query ? "找不到符合關鍵字的項目。" : "此年份尚無內容。" })
-    );
+    grid.appendChild(el("p", { class: "archiveMediaGalleryEmpty", text: "此年份尚無內容。" }));
   } else {
     pageItems.forEach((item, i) => {
       grid.appendChild(renderArchiveMediaGalleryItem(item, pageOffset + i));
