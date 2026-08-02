@@ -8,7 +8,7 @@ function layoutAssets() {
     footerBg: layout.footerBg || "./assets/images/layout/footer-bg.jpg",
     logoBuilding: layout.logoBuilding || "./assets/images/layout/logo-building.png",
     logoTitle: layout.logoTitle || "./assets/images/layout/logo-title.png",
-    partnerLogos: layout.partnerLogos || "./assets/images/layout/partner-logo.png",
+    partnerLogos: layout.partnerLogos || "./assets/images/home/Support.png",
     iconYoutube: layout.iconYoutube || "./assets/images/logo/youtube.png",
     iconFacebook: layout.iconFacebook || "./assets/images/logo/facebook.png",
   };
@@ -278,9 +278,9 @@ function renderSiteFooter() {
       el("div", { class: "innerFooterContact" }, [
         addressZh ? el("div", { text: addressZh }) : null,
         addressEn ? el("div", { text: addressEn }) : null,
-        footer.phone ? el("div", { text: `電話 ${footer.phone}` }) : null,
-        footer.fax ? el("div", { text: `傳真 ${footer.fax}` }) : null,
-        footer.email ? el("div", { text: footer.email }) : null,
+        footer.phone ? el("div", { text: `電話:${footer.phone}` }) : null,
+        footer.fax ? el("div", { text: `傳真:${footer.fax}` }) : null,
+        footer.email ? el("div", { text: `E-mail:${footer.email}` }) : null,
       ]),
       el("div", { class: "innerFooterSocial" }, [
         social.youtube

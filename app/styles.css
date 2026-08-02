@@ -1909,15 +1909,18 @@ body.isInnerPage .mainInner{
   /* Header 約原圖 58% 高：對齊參考圖紙紋區／灰帶子選單比例 */
   --header-src-height: calc(100vw * 424 / var(--layout-bg-width));
   --header-bg-height: calc(var(--header-src-height) * 0.58);
-  --footer-bg-height: calc(100vw * 418 / var(--layout-bg-width));
+  /* Footer 視覺高度砍半（整張紙紋／撕邊一起壓扁） */
+  --footer-src-height: calc(100vw * 418 / var(--layout-bg-width));
+  --footer-bg-height: calc(var(--footer-src-height) * 0.5);
   --header-overlap: calc(var(--header-bg-height) * 0.20);
-  --footer-overlap: calc(var(--footer-bg-height) * 0.11);
+  --footer-overlap: calc(var(--footer-bg-height) * 0.14);
   --layout-bg-bleed-x: 1.08;
-  --footer-partners-top-ratio: 0.36;
-  --footer-partners-width: 132;
-  --footer-partners-max-h-ratio: 0.50;
-  --footer-contact-top-ratio: 0.40;
-  --footer-social-top-ratio: 0.44;
+  --footer-partners-top-ratio: 0.30;
+  --footer-partners-width: 88;
+  --footer-partners-max-h-ratio: 0.58;
+  --footer-contact-top-ratio: 0.32;
+  --footer-social-top-ratio: 0.38;
+  --footer-contact-size: 10px;
 }
 
 /* Header：整張素材壓入目標高度；Logo／選單落在上方紙紋區（避開底部撕邊黑區） */
@@ -2221,23 +2224,27 @@ h3.typeTitle{
   line-height: 1.7;
 }
 
-/* Footer：紙張圖直接貼底；背景橫向裁邊與內容分層，避免 Logo 被裁切 */
+/* Footer：紙張圖貼齊頁面底部（勿用 transform，會露出白縫） */
 .innerFooter{
   position: relative;
-  margin-top: auto;
   flex: 0 0 auto;
-  overflow: visible;
+  overflow: hidden;
   color: #222;
   z-index: 30;
   pointer-events: none;
-  transform: translateY(calc(-1 * var(--footer-overlap)));
-  margin-bottom: calc(-1 * var(--footer-overlap));
-  background: transparent;
+  /* 負 margin 往上疊內容；內容區 flex:1 仍把 footer 頂到頁底 */
+  margin-top: calc(-1 * var(--footer-overlap));
+  margin-bottom: 0;
+  padding-bottom: 0;
+  background: #eeeeee;
   min-height: var(--footer-bg-height);
+  height: var(--footer-bg-height);
 }
 .innerFooterBgWrap{
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   pointer-events: none;
 }
@@ -2246,12 +2253,12 @@ h3.typeTitle{
   width: 100%;
   height: 100%;
   max-width: none;
-  object-fit: cover;
+  object-fit: fill;
   object-position: center bottom;
   pointer-events: none;
   user-select: none;
   transform: scaleX(var(--layout-bg-bleed-x));
-  transform-origin: center center;
+  transform-origin: center bottom;
 }
 .innerFooterInner{
   position: relative;
@@ -2263,16 +2270,13 @@ h3.typeTitle{
   margin: 0;
   padding: 0;
   display: block;
+  height: 100%;
   min-height: var(--footer-bg-height);
-  font-family: var(--font-body);
-  font-size: var(--type-body);
-  font-weight: 500;
-  line-height: 1.65;
   box-sizing: border-box;
 }
 .innerFooterPartners{
   position: absolute;
-  left: calc(68 * var(--ui-scale));
+  left: calc(56 * var(--ui-scale));
   top: calc(var(--footer-bg-height) * var(--footer-partners-top-ratio));
   width: calc(var(--footer-partners-width) * var(--ui-scale));
   max-height: calc(var(--footer-bg-height) * var(--footer-partners-max-h-ratio));
@@ -2287,20 +2291,32 @@ h3.typeTitle{
   object-position: left top;
   display: block;
   image-rendering: auto;
+  /* Support.png 為黑底：讓黑透明、白字顯在紙紋上 */
+  mix-blend-mode: screen;
 }
 .innerFooterContact{
   position: absolute;
-  left: calc(430 * var(--ui-scale));
+  left: calc(360 * var(--ui-scale));
   top: calc(var(--footer-bg-height) * var(--footer-contact-top-ratio));
-  right: calc(280 * var(--ui-scale));
+  right: calc(220 * var(--ui-scale));
   min-width: 0;
+  text-align: left;
+  font-family: var(--font-body);
+  font-size: var(--footer-contact-size);
+  font-weight: 500;
+  letter-spacing: var(--font-tracking);
+  line-height: 1.5;
+  color: #222;
+}
+.innerFooterContact > div{
+  text-align: left;
 }
 .innerFooterSocial{
   position: absolute;
-  right: calc(52 * var(--ui-scale));
+  right: calc(48 * var(--ui-scale));
   top: calc(var(--footer-bg-height) * var(--footer-social-top-ratio));
   display: flex;
-  gap: calc(12 * var(--ui-scale));
+  gap: calc(10 * var(--ui-scale));
   align-items: center;
 }
 .innerSocialLink{
@@ -3313,13 +3329,14 @@ h3.typeTitle{
   .innerFooterPartners{
     left: calc(16 * var(--ui-scale));
     top: calc(var(--footer-bg-height) * var(--footer-partners-top-ratio));
-    width: calc(130 * var(--ui-scale));
+    width: calc(96 * var(--ui-scale));
     max-height: calc(var(--footer-bg-height) * var(--footer-partners-max-h-ratio));
   }
   .innerFooterContact{
     left: calc(16 * var(--ui-scale));
     right: calc(16 * var(--ui-scale));
-    top: calc(var(--footer-bg-height) * 0.58);
+    top: calc(var(--footer-bg-height) * 0.52);
+    font-size: var(--footer-contact-size);
   }
   .innerFooterSocial{
     right: calc(16 * var(--ui-scale));
