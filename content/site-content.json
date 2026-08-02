@@ -56,7 +56,7 @@
   "homeImage": "./assets/images/home/BG_new.png",
   "homeIntro": {
     "enabled": true,
-    "gif": "./assets/images/home/home-intro_Final.gif",
+    "gif": "./assets/images/home/Home-intro_Final.gif",
     "durationMs": 3000,
     "gifFadeOutMs": 500,
     "contentFadeInMs": 1400,
