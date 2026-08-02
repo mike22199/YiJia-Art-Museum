@@ -37,7 +37,7 @@
       content.archive = content.archive || {};
       content.archive.research = {
         ...(content.archive.research || {}),
-        heading: config.heading || content.archive.research?.heading || "研究",
+        heading: config.heading || content.archive.research?.heading || "藝術家教師日誌",
         journalTitle: config.journalTitle || content.archive.research?.journalTitle || "藝術家教師日誌",
         journalFrame: {
           ...(content.archive.research?.journalFrame || {}),

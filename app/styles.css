@@ -2236,7 +2236,8 @@ h3.typeTitle{
   margin-top: calc(-1 * var(--footer-overlap));
   margin-bottom: 0;
   padding-bottom: 0;
-  background: #eeeeee;
+  /* 透明：讓撕邊上方不要出現矩形灰底突出 */
+  background: transparent;
   min-height: var(--footer-bg-height);
   height: var(--footer-bg-height);
 }
@@ -4609,11 +4610,55 @@ h3.typeTitle{
 }
 .archiveMediaGallery--videos{
   grid-template-columns: minmax(0, 1fr);
-  gap: 20px;
+  gap: 32px;
 }
 .archiveMediaGallery--videos .archiveMediaGalleryThumb img{
   aspect-ratio: 16 / 9;
   max-height: min(52vh, 420px);
+}
+.archiveMediaGalleryItem--video{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.archiveMediaGalleryItem--video:hover{
+  transform: none;
+  box-shadow: none;
+}
+.archiveMediaGalleryMediaLink{
+  display: block;
+  border: none;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+  border-radius: 2px;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.archiveMediaGalleryMediaLink:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,.12);
+}
+.archiveMediaGalleryMeta{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+}
+.archiveMediaGalleryTitle{
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1.33px;
+  color: #222;
+}
+.archiveMediaGalleryCaption{
+  margin: 0;
+  font-size: 17.33px;
+  line-height: 1.7;
+  color: #555;
 }
 .archiveMediaGalleryEmpty{
   grid-column: 1 / -1;
@@ -4626,14 +4671,15 @@ h3.typeTitle{
   border-radius: 2px;
   padding: 0;
   background: transparent;
-  cursor: pointer;
-  overflow: hidden;
+  overflow: visible;
   text-decoration: none;
   color: inherit;
   display: block;
+}
+.archiveMediaGalleryItem:not(.archiveMediaGalleryItem--video) .archiveMediaGalleryMediaLink{
   transition: transform .15s ease, box-shadow .15s ease;
 }
-.archiveMediaGalleryItem:hover{
+.archiveMediaGalleryItem:not(.archiveMediaGalleryItem--video) .archiveMediaGalleryMediaLink:hover{
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(0,0,0,.12);
 }
@@ -5644,10 +5690,16 @@ a.archiveBibliographyItem{
   width: 100%;
   text-align: center;
 }
+.archiveResearchPageHeading.archivePageTitle{
+  margin: 0 0 24px;
+  color: #111;
+  font-size: var(--type-display);
+  font-weight: 900;
+}
 .archiveResearchJournal{
   width: 100%;
   max-width: min(1100px, 100%);
-  margin-bottom: 28px;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -6064,16 +6116,43 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
   outline: 2px dashed rgba(255, 255, 255, 0.35);
 }
 .archiveResearchJournalTeacherName{
+  width: 100%;
+  margin: 16px 0 0;
+  text-align: left;
+  font-family: var(--font-display);
+  font-size: var(--type-title);
+  font-weight: 700;
+  letter-spacing: var(--font-tracking);
+  color: #222;
+}
+.archiveResearchSectionDivider{
+  width: 100%;
+  max-width: min(1100px, 100%);
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, .22);
+  margin: 28px auto;
+}
+.archiveResearchJournalIntro{
+  width: 100%;
+  max-width: min(900px, 100%);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 16px;
+}
+.archiveResearchJournalIntroTitle{
   margin: 0;
-  text-align: center;
-  font-size: 24px;
+  text-align: left;
+  font-size: 22px;
+  font-weight: 700;
   letter-spacing: 1.33px;
   color: #222;
 }
 .archiveResearchJournalVideo{
   width: 100%;
-  max-width: min(900px, 100%);
-  margin: 0 auto 28px;
+  max-width: none;
+  margin: 0;
 }
 .archiveResearchJournalVideoFrame{
   width: 100%;
@@ -6444,13 +6523,16 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
 }
 .archivePerformanceCardMedia{
   width: 100%;
+  aspect-ratio: 16 / 9;
   background: #b8b4b0;
   overflow: hidden;
 }
 .archivePerformanceCardImg{
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
   transition: opacity .25s ease;
 }
 .archivePerformanceCardBody{
@@ -6473,7 +6555,7 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
   color: #333;
 }
 
-/* ── 藝術家教師：四欄網格 ── */
+/* ── 藝術家教師：三欄網格（固定不隨寬度改欄數） ── */
 .archiveTeachersPage--grid .archiveTeachersYearSection{
   margin-top: 8px;
 }
@@ -6487,8 +6569,9 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
 }
 .archiveTeachersGrid{
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 32px 24px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 36px 28px;
+  align-items: start;
 }
 .archiveTeachersGridCard{
   display: flex;
@@ -6498,69 +6581,35 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
   padding: 8px 6px 12px;
   border: none;
   background: transparent;
-  cursor: pointer;
   text-align: center;
-  transition: transform .2s ease;
-}
-.archiveTeachersGridCard:hover{
-  transform: translateY(-3px);
-}
-.archiveTeachersGridCard:focus-visible{
-  outline: 2px solid #b82020;
-  outline-offset: 4px;
-  border-radius: 6px;
+  min-width: 0;
 }
 .archiveTeachersGridAvatar{
-  width: 88px;
-  height: 88px;
+  width: 112px;
+  height: 112px;
   border-radius: 50%;
   object-fit: cover;
+  object-position: center top;
   border: 3px solid rgba(255,255,255,.9);
   box-shadow: 0 6px 20px rgba(0,0,0,.12);
-  background: #c8c4bc;
+  background: #f5e6b8;
+  flex-shrink: 0;
 }
 .archiveTeachersGridName{
   margin: 0;
-  font-size: 21.33px;
+  font-size: 22px;
   letter-spacing: 1.33px;
   color: #222;
+  font-weight: 700;
 }
 .archiveTeachersGridSummary{
   margin: 0;
-  font-size: 17.33px;
-  line-height: 1.65;
-  color: #555;
-  max-width: 220px;
-}
-.archiveTeacherDetailDialog{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 14px;
-  padding: 4px 8px 0;
-}
-.archiveTeacherDetailAvatar{
-  width: 96px;
-  height: 96px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid rgba(255,255,255,.9);
-  box-shadow: 0 8px 22px rgba(0,0,0,.12);
-}
-.archiveTeacherDetailName{
-  margin: 0;
-  font-size: 26.67px;
-  letter-spacing: 1.33px;
-  color: #b82020;
-}
-.archiveTeacherDetailBio{
-  margin: 0;
-  font-size: 20px;
-  line-height: 1.85;
-  color: #333;
-  text-align: left;
-  max-width: 420px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #444;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 .archivePastWebsiteModalDialog{
   display: flex;
@@ -6594,17 +6643,44 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
 
 @media (max-width: 900px){
   .archiveTeachersGrid{
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 28px 20px;
+    gap: 28px 14px;
+  }
+  .archiveTeachersGridAvatar{
+    width: 96px;
+    height: 96px;
+  }
+  .archiveTeachersGridName{
+    font-size: 18px;
+  }
+  .archiveTeachersGridSummary{
+    font-size: 14px;
+    line-height: 1.65;
   }
 }
 @media (max-width: 560px){
-  .archiveTeachersGridAvatar{
-    width: 72px;
-    height: 72px;
+  .archiveTeachersYearHeading{
+    font-size: 28px;
+    margin-bottom: 18px;
   }
-  .archivePerformanceCardMedia{
-    aspect-ratio: 16 / 9;
+  .archiveTeachersGrid{
+    gap: 22px 10px;
+  }
+  .archiveTeachersGridCard{
+    gap: 8px;
+    padding: 4px 2px 8px;
+  }
+  .archiveTeachersGridAvatar{
+    width: 78px;
+    height: 78px;
+    border-width: 2px;
+  }
+  .archiveTeachersGridName{
+    font-size: 15px;
+    letter-spacing: 0.5px;
+  }
+  .archiveTeachersGridSummary{
+    font-size: 12.5px;
+    line-height: 1.55;
   }
   .archivePerformanceCardBody{
     padding-top: 16px;

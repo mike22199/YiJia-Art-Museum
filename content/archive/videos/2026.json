@@ -1,0 +1,42 @@
+{
+  "overview": "此為 2026 年田野踏查動態影音紀錄的示範介紹文字。正式內容請在此撰寫，或透過 Sanity CMS 編輯。",
+  "items": [
+    {
+      "title": "踏查影片一",
+      "caption": "田野踏查紀錄影片一",
+      "keywords": "踏查 2026",
+      "image": {
+        "src": "./assets/images/placeholder-photo.svg",
+        "alt": "踏查影片一"
+      },
+      "youtubeUrl": "https://www.youtube.com/"
+    },
+    {
+      "title": "踏查影片二",
+      "caption": "田野踏查紀錄影片二",
+      "image": {
+        "src": "./assets/images/placeholder-photo.svg",
+        "alt": "踏查影片二"
+      },
+      "youtubeUrl": "https://www.youtube.com/"
+    },
+    {
+      "title": "踏查影片三",
+      "caption": "田野踏查紀錄影片三",
+      "image": {
+        "src": "./assets/images/placeholder-photo.svg",
+        "alt": "踏查影片三"
+      },
+      "youtubeUrl": "https://www.youtube.com/"
+    },
+    {
+      "title": "踏查影片四",
+      "caption": "田野踏查紀錄影片四",
+      "image": {
+        "src": "./assets/images/placeholder-photo.svg",
+        "alt": "踏查影片四"
+      },
+      "youtubeUrl": "https://www.youtube.com/"
+    }
+  ]
+}

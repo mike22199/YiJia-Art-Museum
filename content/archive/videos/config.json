@@ -1,7 +1,7 @@
 {
   "override": true,
-  "years": ["2025"],
-  "perPage": 4,
+  "years": ["2026", "2025"],
+  "perPage": 2,
   "featuredCarousel": [
     {
       "title": "精選影片一",
