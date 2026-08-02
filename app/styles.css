@@ -1,25 +1,11 @@
-/* ====== 全站字體：中文改用思源宋體（Noto Serif CJK TC） ======
-   用 unicode-range 限制只套用中日韓文字範圍，避免連英數也被換成襯線體。
+/* ====== 全站字體 ======
+   中文：思源宋體（Noto Serif CJK TC）— 大標 Black(900)、副標 Bold(700)、內文 Medium(500)
+   英數：DIN Pro Condensed — Black / Bold / Medium
+   unicode-range 限制中文字型只套用 CJK，英數走 DIN。
    font-display: block — 等自訂字體就緒再顯示，避免先閃系統舊字體再跳換。 */
 @font-face{
   font-family: "FIFI CJK Serif";
-  src: url("../assets/fonts/思源宋體/NOTOSERIFCJKTC-EXTRALIGHT.OTF") format("opentype");
-  font-weight: 200;
-  font-style: normal;
-  font-display: block;
-  unicode-range: U+2E80-2EFF, U+3000-303F, U+31C0-31EF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF, U+20000-2A6DF, U+2A700-2B73F, U+2B740-2B81F, U+2B820-2CEAF, U+2CEB0-2EBEF;
-}
-@font-face{
-  font-family: "FIFI CJK Serif";
-  src: url("../assets/fonts/思源宋體/NOTOSERIFCJKTC-LIGHT.OTF") format("opentype");
-  font-weight: 300;
-  font-style: normal;
-  font-display: block;
-  unicode-range: U+2E80-2EFF, U+3000-303F, U+31C0-31EF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF, U+20000-2A6DF, U+2A700-2B73F, U+2B740-2B81F, U+2B820-2CEAF, U+2CEB0-2EBEF;
-}
-@font-face{
-  font-family: "FIFI CJK Serif";
-  src: url("../assets/fonts/思源宋體/NOTOSERIFCJKTC-REGULAR.OTF") format("opentype");
+  src: url("../assets/fonts/思源宋體/NOTOSERIFCJKTC-MEDIUM.OTF") format("opentype");
   font-weight: 400;
   font-style: normal;
   font-display: block;
@@ -35,7 +21,7 @@
 }
 @font-face{
   font-family: "FIFI CJK Serif";
-  src: url("../assets/fonts/思源宋體/NOTOSERIFCJKTC-SEMIBOLD.OTF") format("opentype");
+  src: url("../assets/fonts/思源宋體/NOTOSERIFCJKTC-BOLD.OTF") format("opentype");
   font-weight: 600;
   font-style: normal;
   font-display: block;
@@ -52,10 +38,79 @@
 @font-face{
   font-family: "FIFI CJK Serif";
   src: url("../assets/fonts/思源宋體/NOTOSERIFCJKTC-BLACK.OTF") format("opentype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+2E80-2EFF, U+3000-303F, U+31C0-31EF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF, U+20000-2A6DF, U+2A700-2B73F, U+2B740-2B81F, U+2B820-2CEAF, U+2CEB0-2EBEF;
+}
+@font-face{
+  font-family: "FIFI CJK Serif";
+  src: url("../assets/fonts/思源宋體/NOTOSERIFCJKTC-BLACK.OTF") format("opentype");
   font-weight: 900;
   font-style: normal;
   font-display: block;
   unicode-range: U+2E80-2EFF, U+3000-303F, U+31C0-31EF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF, U+20000-2A6DF, U+2A700-2B73F, U+2B740-2B81F, U+2B820-2CEAF, U+2CEB0-2EBEF;
+}
+
+/* 內文中文：思源黑體（Noto Sans CJK TC / GenJyuu）Medium */
+@font-face{
+  font-family: "FIFI CJK Sans";
+  src: url("../assets/fonts/思源柔黑體/GenJyuuGothic-Medium.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+2E80-2EFF, U+3000-303F, U+31C0-31EF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF, U+20000-2A6DF, U+2A700-2B73F, U+2B740-2B81F, U+2B820-2CEAF, U+2CEB0-2EBEF;
+}
+@font-face{
+  font-family: "FIFI CJK Sans";
+  src: url("../assets/fonts/思源柔黑體/GenJyuuGothic-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+2E80-2EFF, U+3000-303F, U+31C0-31EF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF, U+20000-2A6DF, U+2A700-2B73F, U+2B740-2B81F, U+2B820-2CEAF, U+2CEB0-2EBEF;
+}
+
+@font-face{
+  font-family: "DIN Pro Condensed";
+  src: url("../assets/fonts/din-pro-cond-cufonfonts/DINPro-CondMedium.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+@font-face{
+  font-family: "DIN Pro Condensed";
+  src: url("../assets/fonts/din-pro-cond-cufonfonts/DINPro-CondMedium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: block;
+}
+@font-face{
+  font-family: "DIN Pro Condensed";
+  src: url("../assets/fonts/din-pro-cond-cufonfonts/DINPro-CondBold.otf") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: block;
+}
+@font-face{
+  font-family: "DIN Pro Condensed";
+  src: url("../assets/fonts/din-pro-cond-cufonfonts/DINPro-CondBold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: block;
+}
+@font-face{
+  font-family: "DIN Pro Condensed";
+  src: url("../assets/fonts/din-pro-cond-cufonfonts/DINPro-CondBlack.otf") format("opentype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: block;
+}
+@font-face{
+  font-family: "DIN Pro Condensed";
+  src: url("../assets/fonts/din-pro-cond-cufonfonts/DINPro-CondBlack.otf") format("opentype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: block;
 }
 
 :root{
@@ -70,8 +125,9 @@
   --shadow: rgba(0, 0, 0, 0.45);
   --radius: 14px;
   --radius-sm: 10px;
-  --mono: "FIFI CJK Serif", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --sans: "FIFI CJK Serif", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans TC", "Microsoft JhengHei", Arial, sans-serif;
+  --font-tracking: 1.33px;
+  --mono: "DIN Pro Condensed", "FIFI CJK Serif", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --sans: "DIN Pro Condensed", "FIFI CJK Serif", "Noto Serif TC", "Microsoft JhengHei", Arial, sans-serif;
   --content-width: 920px;
 }
 
@@ -85,6 +141,8 @@ body{
     linear-gradient(180deg, #0b0d0f 0%, var(--bg) 40%, #0b0d0f 100%);
   color:var(--text);
   font-family:var(--sans);
+  font-weight: 500;
+  letter-spacing: var(--font-tracking);
   overflow:auto;
 }
 
@@ -135,16 +193,16 @@ button, input, textarea{ font-family:inherit; }
 .topbarTitle{
   /* mono 字體在部分環境可能缺少中文字形，改用 sans 確保「典藏庫」完整顯示 */
   font-family: var(--sans);
-  letter-spacing: .06em;
+  letter-spacing: 1.33px;
   text-transform: none;
-  font-size: 14px;
+  font-size: 18.67px;
   color: var(--warm-2);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .topbarSubtitle{
-  font-size: 12.5px;
+  font-size: 16.67px;
   color: var(--muted);
   line-height: 1.45;
 }
@@ -155,8 +213,8 @@ button, input, textarea{ font-family:inherit; }
   padding: 8px 10px;
   border-radius: 999px;
   font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: .08em;
+  font-size: 16px;
+  letter-spacing: 1.33px;
   text-transform: uppercase;
   cursor: pointer;
   transition: 160ms ease;
@@ -183,13 +241,13 @@ button, input, textarea{ font-family:inherit; }
 }
 .brandTitle{
   font-family:var(--mono);
-  letter-spacing:.08em;
+  letter-spacing: 1.33px;
   text-transform:uppercase;
-  font-size:14px;
+  font-size: 18.67px;
   color:var(--warm-2);
 }
 .brandSubtitle{
-  font-size:13px;
+  font-size: 17.33px;
   color:var(--muted);
   line-height:1.5;
 }
@@ -203,8 +261,8 @@ button, input, textarea{ font-family:inherit; }
 .navGroupHeader{
   padding:10px 12px;
   font-family:var(--mono);
-  font-size:12px;
-  letter-spacing:.08em;
+  font-size: 16px;
+  letter-spacing: 1.33px;
   text-transform:uppercase;
   color:var(--muted);
   background: rgba(201,162,122,.06);
@@ -240,7 +298,7 @@ button, input, textarea{ font-family:inherit; }
 .navNodeChevron{
   color: var(--muted);
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: 16px;
 }
 .navChildren{
   margin: 4px 0 6px 10px;
@@ -270,15 +328,15 @@ button, input, textarea{ font-family:inherit; }
 }
 .navChildLabel{
   font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing:.02em;
+  font-size: 16px;
+  letter-spacing: 1.33px;
   color: var(--text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .navChildHint{
-  font-size:12px;
+  font-size: 16px;
   color:var(--muted);
 }
 .navItem{
@@ -301,18 +359,18 @@ button, input, textarea{ font-family:inherit; }
 }
 .navItemLabel{
   font-family:var(--mono);
-  font-size:12.5px;
-  letter-spacing:.02em;
+  font-size: 16.67px;
+  letter-spacing: 1.33px;
 }
 .navItemHint{
-  font-size:12px;
+  font-size: 16px;
   color:var(--muted);
 }
 
 
 .navFooter{
   color:var(--muted);
-  font-size:12px;
+  font-size: 16px;
   line-height:1.5;
   padding: 0 2px;
 }
@@ -336,9 +394,9 @@ button, input, textarea{ font-family:inherit; }
 .homeHoverTitle{
   margin:0;
   font-family: var(--mono);
-  letter-spacing: .08em;
+  letter-spacing: 1.33px;
   text-transform: uppercase;
-  font-size: 13px;
+  font-size: 17.33px;
   color: var(--warm-2);
 }
 .homeHoverSub{
@@ -358,9 +416,9 @@ button, input, textarea{ font-family:inherit; }
 .homeIntroTitle{
   margin:0;
   font-family: var(--mono);
-  letter-spacing: .08em;
+  letter-spacing: 1.33px;
   text-transform: uppercase;
-  font-size: 13px;
+  font-size: 17.33px;
   color: var(--warm-2);
 }
 .homeIntroText{
@@ -391,8 +449,8 @@ button, input, textarea{ font-family:inherit; }
 }
 .indexLabel{
   font-family: var(--mono);
-  letter-spacing: .02em;
-  font-size: 13px;
+  letter-spacing: 1.33px;
+  font-size: 17.33px;
   color: var(--text);
   padding: 2px 0;
   border-bottom: 1px solid rgba(236,233,228,.16);
@@ -406,8 +464,8 @@ button, input, textarea{ font-family:inherit; }
 }
 .indexHint{
   font-family: var(--mono);
-  font-size: 11.5px;
-  letter-spacing: .08em;
+  font-size: 15.33px;
+  letter-spacing: 1.33px;
   text-transform: uppercase;
   color: var(--muted);
   white-space: nowrap;
@@ -432,8 +490,8 @@ button, input, textarea{ font-family:inherit; }
   padding: 8px 10px 6px;
   color: var(--muted);
   font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .08em;
+  font-size: 14.67px;
+  letter-spacing: 1.33px;
   text-transform: uppercase;
   border-bottom: 1px solid rgba(236,233,228,.10);
   margin-bottom: 6px;
@@ -456,14 +514,14 @@ button, input, textarea{ font-family:inherit; }
 }
 .flyoutLabel{
   font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing:.02em;
+  font-size: 16px;
+  letter-spacing: 1.33px;
   color: var(--text);
 }
 .flyoutArrow{
   color: var(--muted);
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: 16px;
 }
 
 .backRow{
@@ -480,8 +538,8 @@ button, input, textarea{ font-family:inherit; }
   padding: 8px 10px;
   border-radius: 999px;
   font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: .08em;
+  font-size: 16px;
+  letter-spacing: 1.33px;
   text-transform: uppercase;
   cursor:pointer;
   transition: 160ms ease;
@@ -535,14 +593,14 @@ button, input, textarea{ font-family:inherit; }
 }
 .heroTitle{
   font-family:var(--mono);
-  letter-spacing:.06em;
+  letter-spacing: 1.33px;
   text-transform:uppercase;
   color:var(--warm-2);
-  font-size:14px;
+  font-size: 18.67px;
 }
 .heroCaption{
   color:var(--muted);
-  font-size:12.5px;
+  font-size: 16.67px;
   line-height:1.45;
   max-width: 70ch;
   margin: 0 auto;
@@ -560,8 +618,8 @@ button, input, textarea{ font-family:inherit; }
   padding:9px 12px;
   border-radius: 999px;
   font-family:var(--mono);
-  font-size:12px;
-  letter-spacing:.06em;
+  font-size: 16px;
+  letter-spacing: 1.33px;
   text-transform:uppercase;
   cursor:pointer;
   transition: 160ms ease;
@@ -593,8 +651,8 @@ button, input, textarea{ font-family:inherit; }
 .textBlock h3{
   margin:0;
   font-family:var(--mono);
-  letter-spacing:.04em;
-  font-size:13px;
+  letter-spacing: 1.33px;
+  font-size: 17.33px;
   color: var(--warm-2);
   text-transform:uppercase;
 }
@@ -632,7 +690,7 @@ button, input, textarea{ font-family:inherit; }
 }
 .cardBody .note{
   color: var(--muted);
-  font-size:12.5px;
+  font-size: 16.67px;
   line-height:1.5;
 }
 
@@ -657,12 +715,12 @@ button, input, textarea{ font-family:inherit; }
 .entryTitle{
   font-family:var(--mono);
   text-transform:uppercase;
-  letter-spacing:.05em;
-  font-size:12.5px;
+  letter-spacing: 1.33px;
+  font-size: 16.67px;
   color: var(--warm-2);
 }
 .entryMeta{
-  font-size:12px;
+  font-size: 16px;
   color: var(--muted);
 }
 .entryBody{
@@ -684,8 +742,8 @@ button, input, textarea{ font-family:inherit; }
   padding:4px 8px;
   border-radius: 999px;
   font-family:var(--mono);
-  font-size:11px;
-  letter-spacing:.06em;
+  font-size: 14.67px;
+  letter-spacing: 1.33px;
   text-transform:uppercase;
 }
 
@@ -701,8 +759,8 @@ button, input, textarea{ font-family:inherit; }
 }
 .field label{
   font-family:var(--mono);
-  font-size:11px;
-  letter-spacing:.08em;
+  font-size: 14.67px;
+  letter-spacing: 1.33px;
   text-transform:uppercase;
   color: var(--muted);
 }
@@ -735,8 +793,8 @@ button, input, textarea{ font-family:inherit; }
   border-radius: 12px;
   cursor:pointer;
   font-family:var(--mono);
-  font-size:12px;
-  letter-spacing:.06em;
+  font-size: 16px;
+  letter-spacing: 1.33px;
   text-transform:uppercase;
   transition: 160ms ease;
 }
@@ -848,8 +906,8 @@ button, input, textarea{ font-family:inherit; }
   left: 12px;
   bottom: 10px;
   font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: .06em;
+  font-size: 16px;
+  letter-spacing: 1.33px;
   text-transform: uppercase;
   color: var(--text);
   text-shadow: 0 2px 14px rgba(0,0,0,.55);
@@ -953,14 +1011,14 @@ button, input, textarea{ font-family:inherit; }
 
 .houseBannerTitle{
   font-family: var(--mono);
-  letter-spacing: .06em;
+  letter-spacing: 1.33px;
   text-transform: uppercase;
-  font-size: 12.5px;
+  font-size: 16.67px;
   color: var(--warm-2);
 }
 .houseBannerSub{
   color: var(--muted);
-  font-size: 12px;
+  font-size: 16px;
   line-height: 1.55;
   max-width: 20ch;
 }
@@ -999,22 +1057,22 @@ button, input, textarea{ font-family:inherit; }
 
 .bannerTitle{
   font-family: var(--mono);
-  letter-spacing: .06em;
+  letter-spacing: 1.33px;
   text-transform: uppercase;
-  font-size: 13px;
+  font-size: 17.33px;
   color: var(--warm-2);
 }
 .bannerSub{
   color: var(--muted);
-  font-size: 12.5px;
+  font-size: 16.67px;
   line-height: 1.55;
   max-width: 36ch;
 }
 .bannerHint{
   margin-top: 4px;
   font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: .08em;
+  font-size: 16px;
+  letter-spacing: 1.33px;
   text-transform: uppercase;
   color: var(--text);
   opacity: .9;
@@ -1045,8 +1103,8 @@ button, input, textarea{ font-family:inherit; }
 }
 .linkTitle{
   font-family: var(--mono);
-  font-size: 12.5px;
-  letter-spacing: .03em;
+  font-size: 16.67px;
+  letter-spacing: 1.33px;
   color: var(--text);
   overflow:hidden;
   text-overflow: ellipsis;
@@ -1054,8 +1112,8 @@ button, input, textarea{ font-family:inherit; }
 }
 .linkHint{
   font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: .08em;
+  font-size: 16px;
+  letter-spacing: 1.33px;
   text-transform: uppercase;
   color: var(--muted);
   flex: 0 0 auto;
@@ -1087,8 +1145,8 @@ button, input, textarea{ font-family:inherit; }
 .detailRow:last-child{ border-bottom:0; }
 .detailKey{
   font-family: var(--mono);
-  font-size: 11.5px;
-  letter-spacing: .08em;
+  font-size: 15.33px;
+  letter-spacing: 1.33px;
   text-transform: uppercase;
   color: var(--muted);
 }
@@ -1111,8 +1169,8 @@ button, input, textarea{ font-family:inherit; }
   padding: 10px 12px;
   border-bottom: 1px solid var(--line);
   font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: .06em;
+  font-size: 16px;
+  letter-spacing: 1.33px;
   text-transform: uppercase;
   color: var(--muted);
   background: rgba(201,162,122,.06);
@@ -1152,19 +1210,19 @@ button, input, textarea{ font-family:inherit; }
 }
 .perfTitle{
   font-family: var(--mono);
-  letter-spacing: .04em;
+  letter-spacing: 1.33px;
   text-transform: uppercase;
   color: var(--warm-2);
-  font-size: 12.5px;
+  font-size: 16.67px;
 }
 .perfMeta{
   margin-top: 6px;
-  font-size: 12px;
+  font-size: 16px;
   color: var(--muted);
 }
 .perfDesc{
   margin-top: 8px;
-  font-size: 12.5px;
+  font-size: 16.67px;
   line-height: 1.6;
   color: var(--text);
   opacity: .95;
@@ -1181,8 +1239,8 @@ button, input, textarea{ font-family:inherit; }
 .bookSide{ text-align:left; }
 .readingGroupTitle{
   font-family: var(--mono);
-  font-size: 11.5px;
-  letter-spacing: .08em;
+  font-size: 15.33px;
+  letter-spacing: 1.33px;
   text-transform: uppercase;
   color: var(--muted);
   margin: 0 0 6px;
@@ -1208,13 +1266,13 @@ button, input, textarea{ font-family:inherit; }
 }
 .readingItemTitle{
   font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: .03em;
+  font-size: 16px;
+  letter-spacing: 1.33px;
   color: var(--text);
 }
 .readingItemMeta{
   margin-top: 6px;
-  font-size: 12px;
+  font-size: 16px;
   color: var(--muted);
 }
 .readingDetail{
@@ -1274,17 +1332,17 @@ button, input, textarea{ font-family:inherit; }
   justify-content:space-between;
   gap: 12px;
   font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .08em;
+  font-size: 14.67px;
+  letter-spacing: 1.33px;
   text-transform: uppercase;
   color: #6b7280;
 }
 .bookTitle{
   margin-top: 10px;
   font-family: var(--mono);
-  letter-spacing: .05em;
+  letter-spacing: 1.33px;
   text-transform: uppercase;
-  font-size: 13px;
+  font-size: 17.33px;
   color: #1f2937;
 }
 .bookBody{
@@ -1301,8 +1359,8 @@ button, input, textarea{ font-family:inherit; }
   right: 14px;
   bottom: 12px;
   font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .08em;
+  font-size: 14.67px;
+  letter-spacing: 1.33px;
   text-transform: uppercase;
   color: #9ca3af;
 }
@@ -1416,6 +1474,40 @@ body.isHomePage .mainHome{
   user-select: none;
   -webkit-user-drag: none;
 }
+.museumSideLogos,
+.museumBrandLogo,
+.museumSupportLogos{
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+  line-height: 0;
+}
+.museumSideLogosCover{
+  position: absolute;
+  inset: -4%;
+  background: #e8e4dc;
+  border-radius: 2px;
+}
+.museumSideLogosImg,
+.museumBrandLogoImg,
+.museumSupportLogosImg{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+  /* 黑底素材：讓黑色透明、白／灰字顯在紙紋上 */
+  mix-blend-mode: screen;
+}
+.museumBrandLogoImg{
+  object-position: top left;
+}
+.museumSupportLogosImg,
+.museumSideLogosImg{
+  object-position: top right;
+}
 
 .museumIntroOverlay{
   position: absolute;
@@ -1479,6 +1571,18 @@ body.isHomePage .mainHome{
   text-decoration: none;
   outline: none;
   line-height: 0;
+  /* 固定聯集點擊框，不因 hover 縮放（避免閃爍） */
+  left: var(--hit-l, 0%);
+  width: var(--hit-w, 10%);
+  height: var(--hit-h, 10%);
+  overflow: visible;
+}
+.museumProp{
+  top: var(--hit-t, 0%);
+}
+.museumNavItem{
+  top: auto;
+  bottom: var(--hit-b, 0%);
 }
 .museumProp:focus-visible,
 .museumNavItem:focus-visible{
@@ -1486,28 +1590,49 @@ body.isHomePage .mainHome{
 }
 
 .museumSwapArt{
-  width: 100%;
-  height: 100%;
+  position: absolute;
   display: block;
   object-fit: fill;
   user-select: none;
   -webkit-user-drag: none;
-  transition: opacity 160ms ease;
+  transition: opacity 120ms ease;
+  pointer-events: none;
+}
+.museumSwapArt--default{
+  left: var(--art-d-l, 0%);
+  top: var(--art-d-t, 0%);
+  width: var(--art-d-w, 100%);
+  height: var(--art-d-h, 100%);
+  opacity: 1;
+}
+.museumSwapArt--shine{
+  left: var(--art-s-l, 0%);
+  top: var(--art-s-t, 0%);
+  width: var(--art-s-w, 100%);
+  height: var(--art-s-h, 100%);
+  opacity: 0;
 }
 .museumSwapArt--hover{
-  position: absolute;
-  inset: 0;
+  left: var(--art-h-l, 0%);
+  top: var(--art-h-t, 0%);
+  width: var(--art-h-w, 100%);
+  height: var(--art-h-h, 100%);
   opacity: 0;
-  pointer-events: none;
 }
 @keyframes museumPropGlowBlink{
   0%, 100%{ opacity: .18; }
   50%{ opacity: .95; }
 }
-/* 底圖已有灰色 banner 框；預設不疊 Banner 圖，hover 才顯示光效 */
+/* 海報：預設圖可見；Shining 待機閃爍；Open 為 hover */
 .museumProp--banner-left .museumSwapArt--default,
 .museumProp--banner-right .museumSwapArt--default{
-  opacity: 0;
+  opacity: 1;
+  mix-blend-mode: normal;
+}
+.museumProp--banner-left .museumSwapArt--shine,
+.museumProp--banner-right .museumSwapArt--shine{
+  mix-blend-mode: screen;
+  animation: museumPropGlowBlink 2.2s ease-in-out infinite;
 }
 .museumProp--banner-left .museumSwapArt--hover,
 .museumProp--banner-right .museumSwapArt--hover,
@@ -1515,20 +1640,36 @@ body.isHomePage .mainHome{
 .museumProp--door .museumSwapArt--hover{
   mix-blend-mode: screen;
 }
-.museumProp--banner-left .museumSwapArt--hover,
-.museumProp--banner-right .museumSwapArt--hover,
+/* 門：待機用 hover 圖在 shine 座標閃爍；打開時改到 hover 座標並停閃 */
 .museumProp--door .museumSwapArt--hover{
+  left: var(--art-s-l, var(--art-h-l, 0%));
+  top: var(--art-s-t, var(--art-h-t, 0%));
+  width: var(--art-s-w, var(--art-h-w, 100%));
+  height: var(--art-s-h, var(--art-h-h, 100%));
   animation: museumPropGlowBlink 2.2s ease-in-out infinite;
+}
+.museumProp--door:hover .museumSwapArt--hover,
+.museumProp--door:focus-visible .museumSwapArt--hover,
+.museumStageInner:has(.museumNavItem--center:hover) .museumProp--door .museumSwapArt--hover,
+.museumStageInner:has(.museumNavItem--center:focus-visible) .museumProp--door .museumSwapArt--hover{
+  left: var(--art-h-l, 0%);
+  top: var(--art-h-t, 0%);
+  width: var(--art-h-w, 100%);
+  height: var(--art-h-h, 100%);
+  animation: none;
+  opacity: 1;
 }
 .museumNavItem .museumSwapArt--default,
 .museumNavItem .museumSwapArt--hover{
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
   object-fit: contain;
   object-position: bottom center;
   mix-blend-mode: normal;
+}
+.museumNavItem .museumSwapArt--default{
+  opacity: 1;
+}
+.museumNavItem .museumSwapArt--hover{
+  opacity: 0;
 }
 .museumProp:hover .museumSwapArt--default,
 .museumProp:focus-visible .museumSwapArt--default,
@@ -1536,11 +1677,17 @@ body.isHomePage .mainHome{
 .museumNavItem:focus-visible .museumSwapArt--default{
   opacity: 0;
 }
+.museumProp:hover .museumSwapArt--shine,
+.museumProp:focus-visible .museumSwapArt--shine{
+  opacity: 0 !important;
+  animation: none !important;
+}
 .museumProp:hover .museumSwapArt--hover,
 .museumProp:focus-visible .museumSwapArt--hover,
 .museumNavItem:hover .museumSwapArt--hover,
 .museumNavItem:focus-visible .museumSwapArt--hover{
   opacity: 1;
+  animation: none;
 }
 .museumProp--banner-left:hover .museumSwapArt--hover,
 .museumProp--banner-left:focus-visible .museumSwapArt--hover,
@@ -1550,6 +1697,51 @@ body.isHomePage .mainHome{
 .museumProp--door:focus-visible .museumSwapArt--hover{
   animation: none;
   opacity: 1;
+}
+
+/* 海報／門 ↔ 下方標題選單：雙向連動 hover */
+.museumStageInner:has(.museumProp--banner-left:hover) .museumNavItem--left .museumSwapArt--default,
+.museumStageInner:has(.museumProp--banner-left:focus-visible) .museumNavItem--left .museumSwapArt--default,
+.museumStageInner:has(.museumNavItem--left:hover) .museumProp--banner-left .museumSwapArt--default,
+.museumStageInner:has(.museumNavItem--left:focus-visible) .museumProp--banner-left .museumSwapArt--default,
+.museumStageInner:has(.museumProp--door:hover) .museumNavItem--center .museumSwapArt--default,
+.museumStageInner:has(.museumProp--door:focus-visible) .museumNavItem--center .museumSwapArt--default,
+.museumStageInner:has(.museumNavItem--center:hover) .museumProp--door .museumSwapArt--default,
+.museumStageInner:has(.museumNavItem--center:focus-visible) .museumProp--door .museumSwapArt--default,
+.museumStageInner:has(.museumProp--banner-right:hover) .museumNavItem--right .museumSwapArt--default,
+.museumStageInner:has(.museumProp--banner-right:focus-visible) .museumNavItem--right .museumSwapArt--default,
+.museumStageInner:has(.museumNavItem--right:hover) .museumProp--banner-right .museumSwapArt--default,
+.museumStageInner:has(.museumNavItem--right:focus-visible) .museumProp--banner-right .museumSwapArt--default{
+  opacity: 0;
+}
+.museumStageInner:has(.museumNavItem--left:hover) .museumProp--banner-left .museumSwapArt--shine,
+.museumStageInner:has(.museumNavItem--left:focus-visible) .museumProp--banner-left .museumSwapArt--shine,
+.museumStageInner:has(.museumNavItem--right:hover) .museumProp--banner-right .museumSwapArt--shine,
+.museumStageInner:has(.museumNavItem--right:focus-visible) .museumProp--banner-right .museumSwapArt--shine{
+  opacity: 0 !important;
+  animation: none !important;
+}
+.museumStageInner:has(.museumProp--banner-left:hover) .museumNavItem--left .museumSwapArt--hover,
+.museumStageInner:has(.museumProp--banner-left:focus-visible) .museumNavItem--left .museumSwapArt--hover,
+.museumStageInner:has(.museumNavItem--left:hover) .museumProp--banner-left .museumSwapArt--hover,
+.museumStageInner:has(.museumNavItem--left:focus-visible) .museumProp--banner-left .museumSwapArt--hover,
+.museumStageInner:has(.museumProp--door:hover) .museumNavItem--center .museumSwapArt--hover,
+.museumStageInner:has(.museumProp--door:focus-visible) .museumNavItem--center .museumSwapArt--hover,
+.museumStageInner:has(.museumNavItem--center:hover) .museumProp--door .museumSwapArt--hover,
+.museumStageInner:has(.museumNavItem--center:focus-visible) .museumProp--door .museumSwapArt--hover,
+.museumStageInner:has(.museumProp--banner-right:hover) .museumNavItem--right .museumSwapArt--hover,
+.museumStageInner:has(.museumProp--banner-right:focus-visible) .museumNavItem--right .museumSwapArt--hover,
+.museumStageInner:has(.museumNavItem--right:hover) .museumProp--banner-right .museumSwapArt--hover,
+.museumStageInner:has(.museumNavItem--right:focus-visible) .museumProp--banner-right .museumSwapArt--hover{
+  opacity: 1;
+}
+.museumStageInner:has(.museumNavItem--left:hover) .museumProp--banner-left .museumSwapArt--hover,
+.museumStageInner:has(.museumNavItem--left:focus-visible) .museumProp--banner-left .museumSwapArt--hover,
+.museumStageInner:has(.museumNavItem--center:hover) .museumProp--door .museumSwapArt--hover,
+.museumStageInner:has(.museumNavItem--center:focus-visible) .museumProp--door .museumSwapArt--hover,
+.museumStageInner:has(.museumNavItem--right:hover) .museumProp--banner-right .museumSwapArt--hover,
+.museumStageInner:has(.museumNavItem--right:focus-visible) .museumProp--banner-right .museumSwapArt--hover{
+  animation: none;
 }
 
 .museumNav{
@@ -1584,13 +1776,50 @@ body.isHomePage .mainHome{
   .museumNavItem:active .museumSwapArt--default{
     opacity: 0;
   }
+  .museumProp:active .museumSwapArt--shine{
+    opacity: 0 !important;
+    animation: none !important;
+  }
   .museumProp:active .museumSwapArt--hover,
   .museumNavItem:active .museumSwapArt--hover{
     opacity: 1;
+    animation: none;
   }
   .museumProp--banner-left:active .museumSwapArt--hover,
   .museumProp--banner-right:active .museumSwapArt--hover,
   .museumProp--door:active .museumSwapArt--hover{
+    animation: none;
+  }
+  .museumProp--door:active .museumSwapArt--hover,
+  .museumStageInner:has(.museumNavItem--center:active) .museumProp--door .museumSwapArt--hover{
+    left: var(--art-h-l, 0%);
+    top: var(--art-h-t, 0%);
+    width: var(--art-h-w, 100%);
+    height: var(--art-h-h, 100%);
+    animation: none;
+    opacity: 1;
+  }
+  /* 觸控：上方／下方也雙向連動 */
+  .museumStageInner:has(.museumProp--banner-left:active) .museumNavItem--left .museumSwapArt--default,
+  .museumStageInner:has(.museumNavItem--left:active) .museumProp--banner-left .museumSwapArt--default,
+  .museumStageInner:has(.museumProp--door:active) .museumNavItem--center .museumSwapArt--default,
+  .museumStageInner:has(.museumNavItem--center:active) .museumProp--door .museumSwapArt--default,
+  .museumStageInner:has(.museumProp--banner-right:active) .museumNavItem--right .museumSwapArt--default,
+  .museumStageInner:has(.museumNavItem--right:active) .museumProp--banner-right .museumSwapArt--default{
+    opacity: 0;
+  }
+  .museumStageInner:has(.museumNavItem--left:active) .museumProp--banner-left .museumSwapArt--shine,
+  .museumStageInner:has(.museumNavItem--right:active) .museumProp--banner-right .museumSwapArt--shine{
+    opacity: 0 !important;
+    animation: none !important;
+  }
+  .museumStageInner:has(.museumProp--banner-left:active) .museumNavItem--left .museumSwapArt--hover,
+  .museumStageInner:has(.museumNavItem--left:active) .museumProp--banner-left .museumSwapArt--hover,
+  .museumStageInner:has(.museumProp--door:active) .museumNavItem--center .museumSwapArt--hover,
+  .museumStageInner:has(.museumNavItem--center:active) .museumProp--door .museumSwapArt--hover,
+  .museumStageInner:has(.museumProp--banner-right:active) .museumNavItem--right .museumSwapArt--hover,
+  .museumStageInner:has(.museumNavItem--right:active) .museumProp--banner-right .museumSwapArt--hover{
+    opacity: 1;
     animation: none;
   }
 }
@@ -1604,8 +1833,8 @@ body.isHomePage .mainHome{
     opacity: 1;
     pointer-events: auto;
   }
-  .museumProp--banner-left .museumSwapArt--hover,
-  .museumProp--banner-right .museumSwapArt--hover,
+  .museumProp--banner-left .museumSwapArt--shine,
+  .museumProp--banner-right .museumSwapArt--shine,
   .museumProp--door .museumSwapArt--hover{
     animation: none;
     opacity: .55;
@@ -1618,6 +1847,10 @@ body.isHomePage .mainHome{
   .museumProp--door:focus-visible .museumSwapArt--hover{
     opacity: 1;
   }
+  .museumProp--banner-left:hover .museumSwapArt--shine,
+  .museumProp--banner-right:hover .museumSwapArt--shine{
+    opacity: 0;
+  }
 }
 
 @media (max-width: 720px){
@@ -1628,32 +1861,29 @@ body.isHomePage .mainHome{
 
 /* ====== 內頁（義家藝館） ====== */
 
-@font-face{
-  font-family: "DIN Pro Condensed";
-  src: url("../assets/fonts/DINPro-CondensedRegular.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: block;
-}
-@font-face{
-  font-family: "DIN Pro Condensed";
-  src: url("../assets/fonts/DINPro-CondensedBlack.ttf") format("truetype");
-  font-weight: 900;
-  font-style: normal;
-  font-display: block;
-}
-
 body.isInnerPage{
   background: #fff;
   color: #1a1a1a;
-  --inner-font: "DIN Pro Condensed", "FIFI CJK Serif", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
-  --inner-accent: #8f1f1f;
+  font-weight: 500;
+  letter-spacing: var(--font-tracking);
+  /* 選單／大標／副標：中文宋體 + 英數 DIN */
+  --inner-font: "DIN Pro Condensed", "FIFI CJK Serif", "Noto Serif TC", "Microsoft JhengHei", sans-serif;
+  --inner-menu-font: "FIFI CJK Serif", "Noto Serif TC", "Microsoft JhengHei", serif;
+  --font-display: "DIN Pro Condensed", "FIFI CJK Serif", "Noto Serif TC", "Microsoft JhengHei", serif;
+  /* 內文：中文黑體 + 英數 DIN */
+  --font-body: "DIN Pro Condensed", "FIFI CJK Sans", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  --inner-accent: #a00003;
+  /* 字級標準（對齊最新展演頁）：大標／副標／內文 */
+  --type-display: clamp(37.33px, 3.5vw, 58.67px);
+  --type-title: clamp(26.67px, 2.4vw, 37.33px);
+  --type-body: 21.33px;
   /* reference.jpg 全頁寬 2944px；header-bg 寬 1962px。UI 用較大比例係數對齊視覺 */
   --ref-w: 1962;
   --ref-scale: calc(100vw / var(--ref-w));
   --ui-scale: calc(var(--ref-scale) * 1.55);
-  --inner-nav-size: max(15px, calc(20 * var(--ui-scale)));
-  --inner-subnav-size: max(14px, calc(20 * var(--ui-scale)));
+  /* 主選單字級；子選單固定小 3px */
+  --inner-nav-size: max(15px, calc(18 * var(--ui-scale)));
+  --inner-subnav-size: calc(var(--inner-nav-size) - 3px);
 }
 body.isInnerPage .topbar{
   display: none;
@@ -1676,13 +1906,13 @@ body.isInnerPage .mainInner{
   overflow-x: clip;
   background: #fff;
   --layout-bg-width: 1962;
-  --header-bg-height: calc(100vw * 424 / var(--layout-bg-width));
+  /* Header 約原圖 58% 高：對齊參考圖紙紋區／灰帶子選單比例 */
+  --header-src-height: calc(100vw * 424 / var(--layout-bg-width));
+  --header-bg-height: calc(var(--header-src-height) * 0.58);
   --footer-bg-height: calc(100vw * 418 / var(--layout-bg-width));
-  --header-overlap: calc(var(--header-bg-height) * 0.17);
+  --header-overlap: calc(var(--header-bg-height) * 0.20);
   --footer-overlap: calc(var(--footer-bg-height) * 0.11);
-  /* 背景圖橫向略放大，左右邊緣裁出視窗外以遮住素材瑕疵 */
   --layout-bg-bleed-x: 1.08;
-  /* Footer 內容定位（可單獨調整，不影響背景圖等比高度） */
   --footer-partners-top-ratio: 0.36;
   --footer-partners-width: 132;
   --footer-partners-max-h-ratio: 0.50;
@@ -1690,10 +1920,11 @@ body.isInnerPage .mainInner{
   --footer-social-top-ratio: 0.44;
 }
 
-/* Header：header-bg.png 原圖等比，橫向略放大裁邊 */
+/* Header：整張素材壓入目標高度；Logo／選單落在上方紙紋區（避開底部撕邊黑區） */
 .innerHeader{
   position: relative;
   width: 100%;
+  height: var(--header-bg-height);
   flex: 0 0 auto;
   z-index: 30;
   margin-bottom: calc(-1 * var(--header-overlap));
@@ -1704,14 +1935,15 @@ body.isInnerPage .mainInner{
 .innerHeaderBgImg{
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
   max-width: none;
+  object-fit: fill;
+  object-position: center center;
   pointer-events: none;
   user-select: none;
   vertical-align: top;
   transform: scaleX(var(--layout-bg-bleed-x));
   transform-origin: center center;
-  /* 素材底部黑區以 screen 視為透明，露出下層 subnav；未裁切圖檔 */
   mix-blend-mode: screen;
 }
 .innerHeaderInner{
@@ -1726,66 +1958,76 @@ body.isInnerPage .mainInner{
   padding: 0;
   box-sizing: border-box;
 }
+/* Logo：佔紙紋區大部分高度，約 Header 左側 1/4 寬 */
 .innerBrand{
   position: absolute;
-  left: calc(20 * var(--ui-scale));
-  top: calc(var(--header-bg-height) * 0.10);
+  left: calc(24 * var(--ui-scale));
+  top: 8%;
+  bottom: 28%;
   display: flex;
   align-items: center;
-  gap: calc(12 * var(--ui-scale));
+  gap: calc(10 * var(--ui-scale));
   text-decoration: none;
   color: inherit;
   pointer-events: auto;
+  max-width: min(34vw, calc(420 * var(--ui-scale)));
 }
 .innerBrandBuilding{
-  width: calc(190 * var(--ui-scale));
-  height: auto;
+  height: 100%;
+  width: auto;
+  max-width: calc(160 * var(--ui-scale));
   object-fit: contain;
+  object-position: left center;
   flex: 0 0 auto;
   mix-blend-mode: multiply;
   filter: contrast(1.05);
 }
 .innerBrandTitleImg{
-  height: calc(80 * var(--ui-scale));
+  height: 52%;
   width: auto;
-  max-width: calc(320 * var(--ui-scale));
+  max-height: calc(64 * var(--ui-scale));
+  max-width: calc(240 * var(--ui-scale));
   object-fit: contain;
-  flex: 0 0 auto;
+  object-position: left center;
+  flex: 0 1 auto;
   display: block;
-  /* 黑底 PNG 去背，保留字樣 */
   mix-blend-mode: screen;
 }
 .innerBrandText{
   display: flex;
   flex-direction: column;
-  gap: calc(4 * var(--ui-scale));
+  gap: calc(2 * var(--ui-scale));
   min-width: 0;
 }
 .innerBrandTitle{
-  font-family: var(--inner-font);
-  font-size: max(22px, calc(36 * var(--ui-scale)));
+  font-family: var(--inner-menu-font);
+  font-size: max(20px, calc(28 * var(--ui-scale)));
   font-weight: 900;
-  letter-spacing: .14em;
+  letter-spacing: 1.33px;
   line-height: 1.1;
   color: #111;
 }
 .innerBrandSub{
   font-family: var(--inner-font);
-  font-size: max(10px, calc(14 * var(--ui-scale)));
-  letter-spacing: .05em;
+  font-size: max(11px, calc(13 * var(--ui-scale)));
+  letter-spacing: 1.33px;
   color: #333;
-  line-height: 1.3;
-  max-width: calc(280 * var(--ui-scale));
+  line-height: 1.25;
+  max-width: calc(240 * var(--ui-scale));
 }
+/* 主選單：落在紙紋區垂直中央，橫向均分剩餘寬度 */
 .innerHeaderAside{
   position: absolute;
-  right: calc(40 * var(--ui-scale));
-  top: calc(var(--header-bg-height) * 0.07);
-  width: calc(620 * var(--ui-scale));
+  left: min(36vw, calc(440 * var(--ui-scale)));
+  right: calc(36 * var(--ui-scale));
+  top: 14%;
+  bottom: 30%;
+  width: auto;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  gap: calc(10 * var(--ui-scale));
+  align-items: stretch;
+  justify-content: center;
+  gap: 0;
   pointer-events: auto;
 }
 .innerSearchForm{
@@ -1811,7 +2053,7 @@ body.isInnerPage .mainInner{
   background: transparent;
   padding: 0 calc(12 * var(--ui-scale));
   font-family: var(--inner-font);
-  font-size: max(13px, calc(16 * var(--ui-scale)));
+  font-size: max(17.33px, calc(21.33 * var(--ui-scale)));
   color: #222;
   min-width: 0;
 }
@@ -1824,8 +2066,8 @@ body.isInnerPage .mainInner{
   background: #d8d4cd;
   color: #222;
   font-family: var(--inner-font);
-  font-size: max(13px, calc(16 * var(--ui-scale)));
-  letter-spacing: .14em;
+  font-size: max(17.33px, calc(21.33 * var(--ui-scale)));
+  letter-spacing: 1.33px;
   padding: 0 calc(22 * var(--ui-scale));
   cursor: pointer;
   flex: 0 0 calc(84 * var(--ui-scale));
@@ -1833,39 +2075,39 @@ body.isInnerPage .mainInner{
 .innerNav{
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   flex-wrap: nowrap;
-  gap: calc(60 * var(--ui-scale));
-  width: 100%;
-  margin-top: calc(8 * var(--ui-scale));
+  gap: calc(12 * var(--ui-scale));
+  /* 6 項約 5 個間距：先前各縮 5px，再各縮 10px → 共 75px */
+  width: calc(100% - 75px);
+  margin: 0 0 0 auto;
 }
 .innerNav--compact{
   justify-content: space-between;
-  gap: calc(10 * var(--ui-scale));
+  gap: calc(8 * var(--ui-scale));
+  width: calc(100% - 75px);
+  max-width: none;
+  margin-left: auto;
 }
 .innerNav--compact .innerNavItem{
-  font-size: max(12px, calc(15.5 * var(--ui-scale)));
-  letter-spacing: .06em;
-  padding-bottom: calc(2 * var(--ui-scale));
-  border-bottom-width: max(2px, calc(2.5 * var(--ui-scale)));
+  font-size: var(--inner-nav-size);
+  letter-spacing: 1.33px;
+  padding-bottom: 2px;
 }
-.innerNavItem,
-.innerSubnavItem{
+.innerNavItem{
   color: #111;
   text-decoration: none;
-  font-family: var(--inner-font);
+  font-family: var(--inner-menu-font);
   font-size: var(--inner-nav-size);
   font-weight: 900;
-  letter-spacing: .1em;
-  padding: 0 0 calc(4 * var(--ui-scale));
-  border-bottom: max(3px, calc(3.5 * var(--ui-scale))) solid transparent;
+  letter-spacing: 1.33px;
+  padding: 0 0 2px;
+  border-bottom: 3px solid transparent;
   transition: color .15s ease, border-color .15s ease;
   white-space: nowrap;
 }
 .innerNavItem:hover,
-.innerNavItem.innerNavItemActive,
-.innerSubnavItem:hover,
-.innerSubnavItem.innerSubnavItemActive{
+.innerNavItem.innerNavItemActive{
   color: var(--inner-accent);
   border-bottom-color: var(--inner-accent);
 }
@@ -1875,8 +2117,13 @@ body.isInnerPage .mainInner{
   overflow: visible;
   z-index: 12;
   margin-top: 0;
-  min-height: max(52px, calc(56 * var(--ui-scale)));
-  padding-top: calc(var(--header-overlap) * 0.58);
+  /* 上方留出與 Header 撕邊重疊區，文字置中於下方可見灰帶 */
+  padding-top: var(--header-overlap);
+  min-height: calc(var(--header-overlap) + max(49px, calc(53 * var(--ui-scale))));
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   background-color: #c5c2bc;
 }
 .innerSubnavBg{
@@ -1899,20 +2146,34 @@ body.isInnerPage .mainInner{
   align-items: center;
   justify-content: center;
   flex-wrap: nowrap;
-  gap: calc(120 * var(--ui-scale));
-  min-height: max(52px, calc(56 * var(--ui-scale)));
-  padding: calc(10 * var(--ui-scale)) calc(16 * var(--ui-scale));
+  gap: calc(100 * var(--ui-scale));
+  flex: 0 0 auto;
+  width: 100%;
+  min-height: max(49px, calc(53 * var(--ui-scale)));
+  padding: 0 calc(16 * var(--ui-scale));
   box-sizing: border-box;
 }
 .innerSubnavItem{
+  color: #111;
+  text-decoration: none;
+  font-family: var(--inner-menu-font);
   font-size: var(--inner-subnav-size);
-  letter-spacing: .12em;
-  padding-bottom: calc(3 * var(--ui-scale));
-  border-bottom-width: max(2.5px, calc(3 * var(--ui-scale)));
+  font-weight: 700;
+  letter-spacing: 1.33px;
+  padding: 0 0 2px;
+  border-bottom: 3px solid transparent;
+  transition: color .15s ease, border-color .15s ease, font-weight .15s ease;
+  white-space: nowrap;
+}
+.innerSubnavItem:hover,
+.innerSubnavItem.innerSubnavItemActive{
+  color: var(--inner-accent);
+  border-bottom-color: var(--inner-accent);
+  font-weight: 900;
 }
 .innerSubnavSep{
   color: #222;
-  font-family: var(--inner-font);
+  font-family: var(--inner-menu-font);
   font-size: var(--inner-subnav-size);
   line-height: 1;
   opacity: .85;
@@ -1927,6 +2188,37 @@ body.isInnerPage .mainInner{
   background: #fff;
   position: relative;
   z-index: 5;
+  font-family: var(--font-body);
+  font-size: var(--type-body);
+  font-weight: 500;
+  letter-spacing: var(--font-tracking);
+  line-height: 1.7;
+}
+
+/* 字級標準（對齊最新展演）：大標 Black／副標 Bold／內文 Sans Medium */
+.typeDisplay,
+h1.typeDisplay{
+  font-family: var(--font-display);
+  font-size: var(--type-display);
+  font-weight: 900;
+  letter-spacing: var(--font-tracking);
+  line-height: 1.25;
+}
+.typeTitle,
+h2.typeTitle,
+h3.typeTitle{
+  font-family: var(--font-display);
+  font-size: var(--type-title);
+  font-weight: 700;
+  letter-spacing: var(--font-tracking);
+  line-height: 1.35;
+}
+.typeBody{
+  font-family: var(--font-body);
+  font-size: var(--type-body);
+  font-weight: 500;
+  letter-spacing: var(--font-tracking);
+  line-height: 1.7;
 }
 
 /* Footer：紙張圖直接貼底；背景橫向裁邊與內容分層，避免 Logo 被裁切 */
@@ -1972,8 +2264,9 @@ body.isInnerPage .mainInner{
   padding: 0;
   display: block;
   min-height: var(--footer-bg-height);
-  font-family: var(--inner-font);
-  font-size: max(11px, calc(13 * var(--ui-scale)));
+  font-family: var(--font-body);
+  font-size: var(--type-body);
+  font-weight: 500;
   line-height: 1.65;
   box-sizing: border-box;
 }
@@ -2062,7 +2355,7 @@ body.isInnerPage .mainInner{
 .siteSearchTitle{
   margin: 0;
   font-family: var(--inner-font);
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 900;
 }
 .siteSearchClose{
@@ -2087,7 +2380,7 @@ body.isInnerPage .mainInner{
 }
 .siteSearchPath{
   display: block;
-  font-size: 11px;
+  font-size: 14.67px;
   color: #888;
   margin-bottom: 4px;
 }
@@ -2101,129 +2394,418 @@ body.isInnerPage .mainInner{
   width: 100%;
   max-width: none;
   margin: 0;
-  padding: max(44px, calc(56 * var(--ui-scale))) max(32px, calc(40 * var(--ui-scale))) max(80px, calc(96 * var(--ui-scale)));
+  padding: max(44px, calc(56 * var(--ui-scale))) max(24px, calc(32 * var(--ui-scale))) max(80px, calc(96 * var(--ui-scale)));
   background: #fff;
 }
 
 .archivePastWebsitesTitle{
-  margin: 0 0 max(30px, calc(100 * var(--ui-scale)));
+  margin: 0 0 max(28px, calc(40 * var(--ui-scale)));
   text-align: center;
-  font-family: var(--inner-font);
-  font-size: max(28px, calc(44 * var(--ui-scale)));
+  font-family: var(--font-display);
+  font-size: var(--type-display);
   font-weight: 900;
-  letter-spacing: .12em;
+  letter-spacing: var(--font-tracking);
   color: #111;
 }
-.archivePastWebsitesPage .timelinePage{
-  gap: max(52px, calc(68 * var(--ui-scale)));
-  max-width: min(96vw, calc(1320 * var(--ui-scale)));
+
+.pastWebsitesTimeline{
+  --past-spine-width: 168px;
+  --past-spine-color: #b82020;
+  --past-gap: 11px;
+  --past-col-gap: 20px;
+  --past-art-max-w: 264px;
+  --past-art-max-h: 216px;
+  --past-title-max-w: 284px;
+  --past-title-zh: 26px;
+  --past-title-sub: 16px;
+  --past-title-en: 15px;
+  --past-year-size: 76px;
+  --past-year-range-size: 32px;
+  --past-marker-size: 16px;
+  --past-year-pad: 2px;
+  --past-year-pad-right: 0px;
+  --past-year-tracking: 0.1em;
+  position: relative;
+  width: min(100%, calc(1040 * var(--ui-scale, 1)));
+  max-width: 100%;
   margin: 0 auto;
-}
-.archivePastWebsitesPage .timelinePage--pastWebsites{
-  --timeline-art-min: max(150px, calc(200 * var(--ui-scale)));
-  --timeline-marker-h: max(14px, calc(16 * var(--ui-scale)));
-  --timeline-axis-y: calc(var(--timeline-art-min) + var(--timeline-marker-h) / 2);
-}
-.archivePastWebsitesPage .timelinePage--pastWebsites .timelineRow{
-  padding: 0 0 max(10px, calc(14 * var(--ui-scale)));
-}
-.archivePastWebsitesPage .timelinePage--pastWebsites .timelineLine{
-  top: var(--timeline-axis-y);
-  transform: translateY(-50%);
-  height: max(2px, calc(2.5 * var(--ui-scale)));
-  background: var(--inner-accent);
-  left: max(24px, calc(32 * var(--ui-scale)));
-  right: max(24px, calc(32 * var(--ui-scale)));
-}
-.archivePastWebsitesPage .timelinePage--pastWebsites .timelineEntry--pastWebsites{
-  display: grid;
-  grid-template-rows: var(--timeline-art-min) var(--timeline-marker-h) auto;
-  align-items: stretch;
-  text-align: center;
-}
-.archivePastWebsitesPage .timelinePage--pastWebsites .timelineEntryArt{
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  min-height: var(--timeline-art-min);
-  padding: 0 max(4px, calc(6 * var(--ui-scale))) max(8px, calc(10 * var(--ui-scale)));
+  flex-direction: column;
+  gap: var(--past-gap);
+  padding: max(12px, calc(16 * var(--ui-scale, 1))) 0 max(24px, calc(32 * var(--ui-scale, 1)));
   box-sizing: border-box;
 }
-.archivePastWebsitesPage .timelinePage--pastWebsites .timelineEntryMarker{
+.pastWebsitesSpine{
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: var(--past-spine-width);
+  transform: translateX(-50%);
+  background: linear-gradient(
+    to bottom,
+    rgba(184, 32, 32, 0) 0%,
+    var(--past-spine-color) 5%,
+    var(--past-spine-color) 95%,
+    rgba(184, 32, 32, 0) 100%
+  );
+  z-index: 0;
+  pointer-events: none;
+}
+.pastWebsitesEntry{
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--past-spine-width) minmax(0, 1fr);
+  align-items: center;
+  column-gap: var(--past-col-gap);
+  min-height: max(88px, calc(110 * var(--ui-scale, 1)));
+  --pw-art-scale: 1;
+  --pw-art-x: 0px;
+  --pw-art-y: 0px;
+  --pw-title-scale: 1;
+  --pw-title-x: 0px;
+  --pw-title-y: 0px;
+}
+.pastWebsitesEntry--marker{
+  min-height: 36px;
+}
+.pastWebsitesSide{
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+.pastWebsitesSide--left{
+  justify-content: flex-end;
+  text-align: right;
+}
+.pastWebsitesSide--right{
+  justify-content: flex-start;
+  text-align: left;
+}
+.pastWebsitesSide--markerLabel{
+  padding-left: 12px;
+}
+.pastWebsitesYearCol{
   display: flex;
   align-items: center;
   justify-content: center;
-  height: var(--timeline-marker-h);
-  z-index: 1;
+  width: var(--past-spine-width);
+  box-sizing: border-box;
 }
-.archivePastWebsitesPage .timelinePage--pastWebsites .timelineEntryYear{
-  padding-top: max(10px, calc(14 * var(--ui-scale)));
-  z-index: 1;
+.pastWebsitesYearCol--alignLeft{
+  justify-content: flex-start;
+  padding-left: var(--past-year-pad);
+  padding-right: 0;
 }
-.archivePastWebsitesPage .timelineRow{
-  padding: max(10px, calc(14 * var(--ui-scale))) 0 max(6px, calc(10 * var(--ui-scale)));
+.pastWebsitesYearCol--alignRight{
+  justify-content: flex-end;
+  padding-right: var(--past-year-pad-right, 0px);
+  padding-left: 0;
 }
-.archivePastWebsitesPage .timelineLine{
-  height: max(2px, calc(2.5 * var(--ui-scale)));
-  background: var(--inner-accent);
-  left: max(24px, calc(32 * var(--ui-scale)));
-  right: max(24px, calc(32 * var(--ui-scale)));
+.pastWebsitesYearCol--marker{
+  position: relative;
+  justify-content: flex-end;
+  padding-right: 16px;
 }
-.archivePastWebsitesPage .timelineYear,
-.archivePastWebsitesPage .timelineYearLink,
-.archivePastWebsitesPage .timelineYearButton{
-  font-family: var(--inner-font);
-  font-size: max(28px, calc(46 * var(--ui-scale)));
+.pastWebsitesYearStack{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin: 0;
+  padding: 6px 0;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-family: "DIN Pro Condensed", var(--inner-font);
   font-weight: 900;
-  color: var(--inner-accent);
+  line-height: 0.95;
+  letter-spacing: var(--past-year-tracking);
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+.pastWebsitesYearStack--alignLeft{
+  align-items: flex-start;
+  text-align: left;
+  padding-left: 0;
+  margin-left: 0;
+}
+.pastWebsitesYearStack--alignRight{
+  align-items: flex-end;
+  text-align: right;
+  padding-right: 0;
+  margin-right: 0;
+}
+.pastWebsitesYearStack--alignRight .pastWebsitesYearLine{
+  margin-right: calc(var(--past-year-tracking) * -1);
+}
+.pastWebsitesYearLine{
+  display: block;
+  color: inherit;
+  font: inherit;
+  letter-spacing: var(--past-year-tracking);
+}
+.pastWebsitesYearLine--century,
+.pastWebsitesYearLine--short{
+  font-size: var(--past-year-size);
+  line-height: 0.95;
+}
+.pastWebsitesYearLine--range{
+  margin-top: 4px;
+  font-size: var(--past-year-range-size);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+.pastWebsitesMarkerDash{
+  display: block;
+  width: 7.5px;
+  height: 1px;
+  background: #fff;
+  flex: 0 0 auto;
+  box-shadow: 0 0 0 0.5px rgba(255, 255, 255, 0.35);
+}
+.pastWebsitesMarkerYear{
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--past-spine-color);
+  font-family: "DIN Pro Condensed", var(--inner-font);
+  font-size: var(--past-marker-size);
+  font-weight: 800;
+  letter-spacing: 0.06em;
   line-height: 1;
 }
-.archivePastWebsitesPage .timelineDot{
-  width: max(12px, calc(14 * var(--ui-scale)));
-  height: max(12px, calc(14 * var(--ui-scale)));
-  background: var(--inner-accent);
-  border-radius: 999px;
-  flex: 0 0 auto;
+
+.pastWebsitesEntry[data-year="2027-2026"]{
+  --pw-art-scale: 1.10;
+  --pw-art-x: 53px;
 }
-.archivePastWebsitesPage .timelineArt img{
-  max-width: max(120px, calc(180 * var(--ui-scale)));
-  max-height: max(140px, calc(190 * var(--ui-scale)));
-  width: auto;
-  height: auto;
-  object-fit: contain;
+.pastWebsitesEntry[data-year="2023"]{
+  --pw-art-x: -85px;
+}
+.pastWebsitesEntry[data-year="2022"]{
+  --pw-art-x: 72px;
+}
+.pastWebsitesEntry[data-year="2021"]{
+  --pw-art-x: -53px;
+}
+.pastWebsitesEntry[data-year="2020"]{
+  --pw-art-x: 69px;
+}
+.pastWebsitesEntry[data-year="2019"]{
+  --pw-art-x: -79px;
+}
+.pastWebsitesEntry[data-year="2018"]{
+  --pw-art-x: 63px;
+}
+.pastWebsitesEntry[data-year="2016"]{
+  --pw-art-x: -66px;
+}
+.pastWebsitesYearButton{
+  cursor: pointer;
+}
+.pastWebsitesYearButton:hover{
+  opacity: 0.82;
+}
+.pastWebsitesYearStack.pastWebsitesYearButton:focus-visible{
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+.pastWebsitesMarkerYear.pastWebsitesYearButton:focus-visible{
+  outline: 2px solid var(--past-spine-color);
+  outline-offset: 3px;
+}
+.pastWebsitesArt,
+.pastWebsitesArtButton{
   display: block;
-  mix-blend-mode: screen;
+  max-width: min(100%, var(--past-art-max-w));
+  transform: translate(var(--pw-art-x), var(--pw-art-y)) scale(var(--pw-art-scale));
+  transform-origin: center center;
 }
-.archivePastWebsitesPage .timelineArtButton{
+.pastWebsitesArtButton{
   border: none;
   background: transparent;
   padding: 0;
   cursor: pointer;
-  font: inherit;
+}
+.pastWebsitesArtButton:focus-visible,
+.pastWebsitesTitleButton:focus-visible{
+  outline: 2px solid var(--past-spine-color);
+  outline-offset: 4px;
+}
+.pastWebsitesArtImg{
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: var(--past-art-max-h);
+  object-fit: contain;
+}
+.pastWebsitesTitleButton{
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  text-align: inherit;
   color: inherit;
+  font: inherit;
+  max-width: min(100%, var(--past-title-max-w));
+  transform: translate(var(--pw-title-x), var(--pw-title-y)) scale(var(--pw-title-scale));
+  transform-origin: center center;
 }
-.archivePastWebsitesPage .timelineArtButton:focus-visible{
-  outline: 2px solid var(--inner-accent);
-  outline-offset: 4px;
+.pastWebsitesTitleButton:hover .pastWebsitesTitleZh,
+.pastWebsitesTitleButton:hover .pastWebsitesTitleSub,
+.pastWebsitesTitleButton:hover .pastWebsitesTitleEn{
+  opacity: 0.78;
 }
-.archivePastWebsitesPage .timelineYearButton{
-  border: none;
-  background: transparent;
-  padding: 0;
-  cursor: pointer;
+.pastWebsitesTitleBlock{
+  display: flex;
+  flex-direction: column;
+  gap: max(4px, calc(6 * var(--ui-scale, 1)));
+  max-width: min(100%, var(--past-title-max-w));
+  transform: translate(var(--pw-title-x), var(--pw-title-y)) scale(var(--pw-title-scale));
+  transform-origin: center center;
 }
-.archivePastWebsitesPage .timelineYearButton:hover{
-  opacity: .75;
+.pastWebsitesTitleButton .pastWebsitesTitleBlock{
+  transform: none;
+  max-width: 100%;
 }
-.archivePastWebsitesPage .timelineYearButton:focus-visible{
-  outline: 2px solid var(--inner-accent);
-  outline-offset: 4px;
+.pastWebsitesTitleZh,
+.pastWebsitesTitleSub,
+.pastWebsitesTitleEn{
+  margin: 0;
+  font-family: var(--inner-font);
+  color: #1a1a1a;
+  line-height: 1.35;
 }
-.archivePastWebsitesPage .timelineGrid{
-  gap: max(12px, calc(18 * var(--ui-scale)));
+.pastWebsitesTitleZh{
+  font-size: var(--past-title-zh);
+  font-weight: 700;
+  letter-spacing: 0.04em;
 }
-.archivePastWebsitesPage .timelineLinks{
-  display: none;
+.pastWebsitesTitleSub{
+  font-size: var(--past-title-sub);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+.pastWebsitesTitleEn{
+  font-size: var(--past-title-en);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #333;
+}
+
+.archiveModalPanel--brief{
+  width: min(380px, 100%);
+  padding: 24px 22px 22px;
+}
+.archivePastWebsiteBriefModal{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 4px;
+}
+.archivePastWebsiteBriefIntro{
+  margin: 0;
+  font-family: var(--inner-font);
+  font-size: 18.67px;
+  line-height: 1.75;
+  color: #333;
+  text-align: left;
+}
+.archivePastWebsiteBriefLink{
+  display: inline-flex;
+  align-self: flex-start;
+  margin-top: 4px;
+  padding: 8px 14px;
+  border: 1px solid #b82020;
+  color: #b82020;
+  text-decoration: none;
+  font-family: var(--inner-font);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.archivePastWebsiteBriefLink:hover{
+  background: #b82020;
+  color: #fff;
+}
+.archivePastWebsiteBriefLinkPending{
+  margin: 0;
+  font-family: var(--inner-font);
+  font-size: 15px;
+  color: #888;
+}
+
+@media (max-width: 820px){
+  .pastWebsitesTimeline{
+    --past-spine-width: 100px;
+    --past-gap: 10px;
+    --past-col-gap: 12px;
+    --past-art-max-w: 150px;
+    --past-art-max-h: 140px;
+    --past-title-max-w: 180px;
+    --past-title-zh: 16px;
+    --past-title-sub: 13px;
+    --past-title-en: 12px;
+    --past-year-size: 42px;
+    --past-year-range-size: 18px;
+    --past-year-pad: 4px;
+    --past-marker-size: 14px;
+    --past-year-tracking: 0.08em;
+    width: 100%;
+  }
+  .pastWebsitesEntry[data-year="2027-2026"],
+  .pastWebsitesEntry[data-year="2023"],
+  .pastWebsitesEntry[data-year="2022"],
+  .pastWebsitesEntry[data-year="2021"],
+  .pastWebsitesEntry[data-year="2020"],
+  .pastWebsitesEntry[data-year="2019"],
+  .pastWebsitesEntry[data-year="2018"],
+  .pastWebsitesEntry[data-year="2016"]{
+    --pw-art-x: 0px;
+  }
+  .pastWebsitesMarkerDash{
+    width: 5.5px;
+    height: 1px;
+  }
+}
+
+@media (max-width: 520px){
+  .innerContent--pastWebsites{
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .pastWebsitesTimeline{
+    --past-spine-width: 72px;
+    --past-year-size: 30px;
+    --past-year-range-size: 13px;
+    --past-art-max-w: 110px;
+    --past-art-max-h: 100px;
+    --past-title-zh: 13px;
+    --past-title-sub: 11px;
+    --past-title-en: 11px;
+    --past-marker-size: 12px;
+  }
+  .pastWebsitesEntry{
+    min-height: 72px;
+  }
+  .pastWebsitesYearCol--marker{
+    padding-right: 10px;
+  }
+  .pastWebsitesSide--markerLabel{
+    padding-left: 8px;
+  }
+  .pastWebsitesMarkerDash{
+    width: 4px;
+    height: 1px;
+  }
 }
 
 .innerPanel{
@@ -2232,8 +2814,8 @@ body.isInnerPage .mainInner{
 }
 .innerPageTitle{
   margin: 0 0 8px;
-  font-size: 28px;
-  letter-spacing: .08em;
+  font-size: 37.33px;
+  letter-spacing: 1.33px;
   color: #b82020;
 }
 
@@ -2276,7 +2858,7 @@ body.isInnerPage .mainInner{
   gap: 8px;
 }
 .timelineYear{
-  font-size: clamp(28px, 4vw, 42px);
+  font-size: clamp(37.33px, 4vw, 56px);
   font-weight: 700;
   color: #b82020;
   line-height: 1;
@@ -2298,8 +2880,8 @@ body.isInnerPage .mainInner{
 .timelineLinks a{
   color: #222;
   text-decoration: none;
-  font-size: 13px;
-  letter-spacing: .06em;
+  font-size: 17.33px;
+  letter-spacing: 1.33px;
 }
 .timelineLinks a:hover{
   color: #b82020;
@@ -2334,8 +2916,8 @@ body.isInnerPage .mainInner{
   border: 0;
   background: transparent;
   color: #555;
-  font-size: 13px;
-  letter-spacing: .06em;
+  font-size: 17.33px;
+  letter-spacing: 1.33px;
   cursor: pointer;
   padding: 0;
 }
@@ -2353,8 +2935,8 @@ body.isInnerPage .mainInner{
 .yearIntroNavItem{
   color: #333;
   text-decoration: none;
-  font-size: 14px;
-  letter-spacing: .1em;
+  font-size: 18.67px;
+  letter-spacing: 1.33px;
   padding-bottom: 2px;
   border-bottom: 2px solid transparent;
 }
@@ -2378,11 +2960,17 @@ body.isInnerPage .mainInner{
 }
 .yearIntroHeading{
   margin: 0 0 10px;
-  font-size: 22px;
+  font-family: var(--font-display);
+  font-size: var(--type-title);
+  font-weight: 700;
+  letter-spacing: var(--font-tracking);
   color: #222;
 }
 .yearIntroBody{
   margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--type-body);
+  font-weight: 500;
   line-height: 1.85;
   color: #333;
   white-space: pre-wrap;
@@ -2430,7 +3018,7 @@ body.isInnerPage .mainInner{
 .bookCarouselLabel{
   display: block;
   margin-top: 8px;
-  font-size: 12px;
+  font-size: 16px;
   line-height: 1.45;
   color: #444;
 }
@@ -2441,7 +3029,7 @@ body.isInnerPage .mainInner{
   height: 32px;
   border-radius: 999px;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 26.67px;
   line-height: 1;
   color: #444;
 }
@@ -2467,19 +3055,26 @@ body.isInnerPage .mainInner{
 }
 .yearHeroTitle{
   margin: 0;
-  font-size: clamp(32px, 5vw, 48px);
+  font-family: var(--font-display);
+  font-size: var(--type-display);
+  font-weight: 900;
   color: #b82020;
-  letter-spacing: .06em;
+  letter-spacing: var(--font-tracking);
 }
 .yearHeroSub{
   margin: 12px 0 0;
-  font-size: 18px;
+  font-family: var(--font-display);
+  font-size: var(--type-title);
+  font-weight: 700;
+  letter-spacing: var(--font-tracking);
   line-height: 1.6;
 }
 .yearSectionTitle{
   margin: 0 0 14px;
-  font-size: 16px;
-  letter-spacing: .08em;
+  font-family: var(--font-display);
+  font-size: var(--type-title);
+  font-weight: 700;
+  letter-spacing: var(--font-tracking);
 }
 .yearBanner{
   display: grid;
@@ -2490,18 +3085,23 @@ body.isInnerPage .mainInner{
   align-items: center;
 }
 .yearBannerTitle{
-  font-size: 28px;
+  font-family: var(--font-display);
+  font-size: var(--type-display);
   color: #6b4f3a;
   font-weight: 700;
+  letter-spacing: var(--font-tracking);
 }
 .yearBannerSub{
   margin-top: 8px;
-  font-size: 14px;
+  font-family: var(--font-body);
+  font-size: var(--type-body);
+  font-weight: 500;
+  letter-spacing: var(--font-tracking);
   line-height: 1.6;
 }
 .yearBannerSubEn{
   margin-top: 6px;
-  font-size: 12px;
+  font-size: 16px;
   opacity: .85;
 }
 .yearBannerImg img{
@@ -2526,11 +3126,11 @@ body.isInnerPage .mainInner{
 .yearVideoBody{
   white-space: pre-wrap;
   line-height: 1.8;
-  font-size: 14px;
+  font-size: 18.67px;
 }
 .yearVideoCaption{
   margin-top: 8px;
-  font-size: 12px;
+  font-size: 16px;
   color: #555;
 }
 .journalCarousel{
@@ -2592,14 +3192,14 @@ body.isInnerPage .mainInner{
 }
 .aboutLogoSub{
   margin-top: 8px;
-  font-size: 12px;
+  font-size: 16px;
   color: #444;
 }
 .aboutHeading{
   margin: 0 0 20px;
-  font-size: 28px;
+  font-size: 37.33px;
   color: #b82020;
-  letter-spacing: .08em;
+  letter-spacing: 1.33px;
   text-align: center;
 }
 .aboutLayout--withBanner .aboutHeading{
@@ -2608,7 +3208,7 @@ body.isInnerPage .mainInner{
 .aboutParagraph{
   margin: 0 0 16px;
   line-height: 1.9;
-  font-size: 15px;
+  font-size: 20px;
   color: #222;
   max-width: 52ch;
   text-align: center;
@@ -2644,8 +3244,8 @@ body.isInnerPage .mainInner{
   gap: 8px;
   color: #b82020;
   text-decoration: none;
-  font-size: 15px;
-  letter-spacing: .12em;
+  font-size: 20px;
+  letter-spacing: 1.33px;
 }
 .aboutDoorIcon{
   width: 18px;
@@ -2675,27 +3275,36 @@ body.isInnerPage .mainInner{
     margin: 0 auto;
   }
   .innerBrand{
-    left: calc(16 * var(--ui-scale));
-    top: calc(var(--header-bg-height) * 0.08);
-    max-width: calc(100% - 32 * var(--ui-scale));
+    left: calc(12 * var(--ui-scale));
+    top: 6%;
+    bottom: 26%;
+    max-width: 40%;
+    gap: calc(6 * var(--ui-scale));
+  }
+  .innerBrandBuilding{
+    max-width: calc(100 * var(--ui-scale));
+  }
+  .innerBrandTitleImg{
+    max-height: calc(40 * var(--ui-scale));
+    max-width: calc(140 * var(--ui-scale));
   }
   .innerHeaderAside{
-    right: calc(16 * var(--ui-scale));
-    left: calc(16 * var(--ui-scale));
-    width: auto;
-    top: calc(var(--header-bg-height) * 0.42);
+    left: 42%;
+    right: calc(12 * var(--ui-scale));
+    top: 10%;
+    bottom: 28%;
   }
   .innerNav{
     flex-wrap: wrap;
     justify-content: flex-end;
-    gap: calc(14 * var(--ui-scale));
+    gap: calc(8 * var(--ui-scale)) calc(10 * var(--ui-scale));
   }
   .innerNav--compact{
-    justify-content: space-between;
-    gap: calc(8 * var(--ui-scale)) calc(12 * var(--ui-scale));
+    justify-content: flex-end;
+    gap: calc(6 * var(--ui-scale)) calc(8 * var(--ui-scale));
   }
   .innerNav--compact .innerNavItem{
-    font-size: max(11px, calc(13.5 * var(--ui-scale)));
+    font-size: max(13px, calc(var(--inner-nav-size) * 0.88));
   }
   .innerSubnavInner{
     flex-wrap: wrap;
@@ -2793,13 +3402,13 @@ body.isInnerPage .mainInner{
 }
 .archiveBannerTitle{
   margin: 0;
-  font-size: clamp(28px, 5vw, 48px);
-  letter-spacing: .12em;
+  font-size: clamp(37.33px, 5vw, 64px);
+  letter-spacing: 1.33px;
 }
 .archiveBannerSub{
   margin: 10px 0 0;
-  font-size: clamp(12px, 2vw, 16px);
-  letter-spacing: .18em;
+  font-size: clamp(16px, 2vw, 21.33px);
+  letter-spacing: 1.33px;
   opacity: .9;
 }
 
@@ -2815,15 +3424,17 @@ body.isInnerPage .mainInner{
 }
 .archiveSectionTitle{
   margin: 0;
-  font-size: 22px;
-  letter-spacing: .1em;
+  font-family: var(--font-display);
+  font-size: var(--type-title);
+  font-weight: 700;
+  letter-spacing: var(--font-tracking);
   color: #b82020;
 }
 .archiveMoreLink{
   color: #333;
   text-decoration: none;
-  font-size: 14px;
-  letter-spacing: .08em;
+  font-size: 18.67px;
+  letter-spacing: 1.33px;
   white-space: nowrap;
 }
 .archiveMoreLink:hover{
@@ -2832,21 +3443,30 @@ body.isInnerPage .mainInner{
 
 .archivePageTitle{
   margin: 0 0 20px;
-  font-size: 28px;
-  letter-spacing: .08em;
+  font-family: var(--font-display);
+  font-size: var(--type-display);
+  font-weight: 900;
+  letter-spacing: var(--font-tracking);
   color: #b82020;
 }
 .archiveSubTitle{
   margin: 28px 0 14px;
-  font-size: 18px;
-  letter-spacing: .08em;
+  font-family: var(--font-display);
+  font-size: var(--type-title);
+  font-weight: 700;
+  letter-spacing: var(--font-tracking);
 }
 .archivePageHint{
   margin: 0 0 16px;
-  font-size: 13px;
+  font-family: var(--font-body);
+  font-size: var(--type-body);
+  font-weight: 500;
 }
 .archiveIntroBody{
   margin: 0 0 20px;
+  font-family: var(--font-body);
+  font-size: var(--type-body);
+  font-weight: 500;
   line-height: 1.85;
   max-width: 72ch;
   color: #333;
@@ -2868,7 +3488,7 @@ body.isInnerPage .mainInner{
   background: rgba(255,255,255,.55);
   color: #222;
   text-decoration: none;
-  letter-spacing: .1em;
+  letter-spacing: 1.33px;
   transition: border-color .2s, color .2s, background .2s;
 }
 .archiveIntroNavLink:hover{
@@ -2877,10 +3497,10 @@ body.isInnerPage .mainInner{
   background: rgba(255,255,255,.85);
 }
 .archiveIntroNavLabel{
-  font-size: 16px;
+  font-size: 21.33px;
 }
 .archiveIntroNavArrow{
-  font-size: 22px;
+  font-size: 29.33px;
   line-height: 1;
   opacity: .65;
 }
@@ -2925,12 +3545,18 @@ body.isInnerPage .mainInner{
 }
 .archiveExhibitionOverviewTitle{
   margin: 0 0 14px;
-  font-size: 18px;
-  letter-spacing: .1em;
+  font-family: var(--font-display);
+  font-size: var(--type-title);
+  font-weight: 700;
+  letter-spacing: var(--font-tracking);
   color: #b82020;
 }
 .archiveExhibitionOverviewBody{
   margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--type-body);
+  font-weight: 500;
+  letter-spacing: var(--font-tracking);
   line-height: 1.85;
   color: #333;
 }
@@ -3034,9 +3660,10 @@ body.isInnerPage .mainInner{
   box-shadow: 0 0 0 3px rgba(255,255,255,.9);
 }
 .archiveExhibitionTimelineYear{
-  font-size: 18px;
+  font-family: var(--font-display);
+  font-size: var(--type-title);
   font-weight: 700;
-  letter-spacing: .08em;
+  letter-spacing: var(--font-tracking);
   color: #222;
   line-height: 1;
 }
@@ -3047,8 +3674,8 @@ body.isInnerPage .mainInner{
   width: 100%;
 }
 .archiveExhibitionTimelineLink{
-  font-size: 14px;
-  letter-spacing: .12em;
+  font-size: 18.67px;
+  letter-spacing: 1.33px;
   color: #333;
   text-decoration: none;
   line-height: 1.6;
@@ -3066,10 +3693,10 @@ body.isInnerPage .mainInner{
     --timeline-banner-height: 90px;
   }
   .archiveExhibitionTimelineYear{
-    font-size: 16px;
+    font-size: 21.33px;
   }
   .archiveExhibitionTimelineLink{
-    font-size: 13px;
+    font-size: 17.33px;
   }
 }
 @media (max-width: 560px){
@@ -3147,13 +3774,19 @@ body.isInnerPage .mainInner{
 }
 .archiveWorkCard--exhibitions .archiveWorkTitle{
   margin: 0 0 6px;
-  font-size: 14px;
+  font-family: var(--font-display);
+  font-size: var(--type-title);
+  font-weight: 700;
+  letter-spacing: var(--font-tracking);
   line-height: 1.45;
   color: #222;
 }
 .archiveWorkCard--exhibitions .archiveWorkAuthor{
   margin: 0;
-  font-size: 12px;
+  font-family: var(--font-body);
+  font-size: var(--type-body);
+  font-weight: 500;
+  letter-spacing: var(--font-tracking);
   color: #555;
 }
 @media (max-width: 640px){
@@ -3177,9 +3810,9 @@ body.isInnerPage .mainInner{
 .archiveTeacherName--exhibitions{
   display: block;
   width: 100%;
-  font-size: 13px;
+  font-size: 17.33px;
   line-height: 1.45;
-  letter-spacing: .08em;
+  letter-spacing: 1.33px;
   color: #333;
   word-break: keep-all;
 }
@@ -3223,11 +3856,11 @@ body.isInnerPage .mainInner{
 }
 .archiveCardTitle{
   margin: 12px 14px 4px;
-  font-size: 15px;
+  font-size: 20px;
 }
 .archiveCardCaption{
   margin: 0 14px;
-  font-size: 12px;
+  font-size: 16px;
   color: #555;
   line-height: 1.5;
 }
@@ -3306,13 +3939,13 @@ body.isInnerPage .mainInner{
 .archiveHomeCarouselTitle{
   display: block;
   margin: 0;
-  font-size: clamp(16px, 2.4vw, 20px);
-  letter-spacing: .1em;
+  font-size: clamp(21.33px, 2.4vw, 26.67px);
+  letter-spacing: 1.33px;
   line-height: 1.4;
 }
 .archiveHomeCarouselCaption{
   margin: 6px 0 0;
-  font-size: 13px;
+  font-size: 17.33px;
   line-height: 1.55;
   opacity: .92;
 }
@@ -3320,7 +3953,7 @@ body.isInnerPage .mainInner{
   flex-shrink: 0;
   width: 40px;
   height: 40px;
-  font-size: 22px;
+  font-size: 29.33px;
   z-index: 2;
 }
 .archiveHomeCarousel .archiveCarouselDots{
@@ -3345,7 +3978,7 @@ body.isInnerPage .mainInner{
   transform: none;
   width: 32px;
   height: 32px;
-  font-size: 20px;
+  font-size: 26.67px;
   box-shadow: none;
 }
 .archivePastCarouselStage,
@@ -3392,11 +4025,16 @@ body.isInnerPage .mainInner{
 .archivePastCarouselItem--5 .archiveWorkImg{ background: #6b4f8c; }
 .archivePastCarouselItem--6 .archiveWorkImg{ background: #c45c7a; }
 .archivePastCarousel .archiveWorkTitle{
-  font-weight: 400;
-  font-size: 14px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--type-title);
+  letter-spacing: var(--font-tracking);
 }
 .archivePastCarousel .archiveWorkAuthor{
-  font-size: 12px;
+  font-family: var(--font-body);
+  font-size: var(--type-body);
+  font-weight: 500;
+  letter-spacing: var(--font-tracking);
 }
 @media (max-width: 900px){
   .archivePastCarouselItem{
@@ -3446,8 +4084,8 @@ body.isInnerPage .mainInner{
   padding: 12px 14px;
   background: linear-gradient(transparent, rgba(0,0,0,.65));
   color: #fff;
-  font-size: 15px;
-  letter-spacing: .1em;
+  font-size: 20px;
+  letter-spacing: 1.33px;
 }
 
 .archiveWorkGrid{
@@ -3470,11 +4108,17 @@ body.isInnerPage .mainInner{
 }
 .archiveWorkTitle{
   margin: 10px 0 4px;
-  font-size: 14px;
+  font-family: var(--font-display);
+  font-size: var(--type-title);
+  font-weight: 700;
+  letter-spacing: var(--font-tracking);
 }
 .archiveWorkAuthor{
   margin: 0;
-  font-size: 12px;
+  font-family: var(--font-body);
+  font-size: var(--type-body);
+  font-weight: 500;
+  letter-spacing: var(--font-tracking);
   color: #555;
 }
 
@@ -3505,8 +4149,8 @@ body.isInnerPage .mainInner{
   display: inline-block;
   margin-bottom: 16px;
   color: #555;
-  font-size: 13px;
-  letter-spacing: .06em;
+  font-size: 17.33px;
+  letter-spacing: 1.33px;
   text-decoration: none;
 }
 .archiveCollectionBack:hover{
@@ -3525,14 +4169,14 @@ body.isInnerPage .mainInner{
 }
 .archiveCollectionDetailTitle{
   margin: 0 0 8px;
-  font-size: 22px;
-  letter-spacing: .08em;
+  font-size: 29.33px;
+  letter-spacing: 1.33px;
   text-align: center;
 }
 .archiveCollectionMeta,
 .archiveCollectionAccession{
   margin: 0 0 8px;
-  font-size: 13px;
+  font-size: 17.33px;
   color: #555;
   text-align: center;
 }
@@ -3601,8 +4245,8 @@ body.isInnerPage .mainInner{
   background: #c8c4bc;
 }
 .archiveTeacherName{
-  font-size: 12px;
-  letter-spacing: .06em;
+  font-size: 16px;
+  letter-spacing: 1.33px;
   text-align: center;
 }
 .archiveTeacherGrid{
@@ -3631,7 +4275,7 @@ body.isInnerPage .mainInner{
 }
 .archiveTeacherDetailName{
   margin: 0 0 10px;
-  font-size: 24px;
+  font-size: 32px;
   color: #222;
 }
 .archiveTeacherDetailBio{
@@ -3649,7 +4293,7 @@ body.isInnerPage .mainInner{
 .archiveYearTab{
   color: #444;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 600;
   padding-bottom: 4px;
   border-bottom: 3px solid transparent;
@@ -3755,7 +4399,7 @@ body.isInnerPage .mainInner{
   margin-top: -8px;
 }
 .archiveFilterLabel{
-  font-size: 13px;
+  font-size: 17.33px;
   color: #555;
 }
 .archiveSelect,
@@ -3764,7 +4408,7 @@ body.isInnerPage .mainInner{
   background: rgba(255,255,255,.7);
   padding: 8px 10px;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 18.67px;
 }
 .archiveSearchInput{
   min-width: 180px;
@@ -3782,7 +4426,7 @@ body.isInnerPage .mainInner{
   padding: 6px 14px;
   border: 1px solid rgba(0,0,0,.12);
   border-radius: 999px;
-  font-size: 13px;
+  font-size: 17.33px;
   background: rgba(255,255,255,.5);
 }
 
@@ -3830,9 +4474,9 @@ body.isInnerPage .mainInner{
   padding-bottom: 18px;
   border-bottom: 1px solid rgba(0,0,0,.18);
   text-align: center;
-  font-size: 32px;
+  font-size: 42.67px;
   font-weight: 700;
-  letter-spacing: .12em;
+  letter-spacing: 1.33px;
   color: #111;
 }
 .archiveMediaPage > .archiveFilters{
@@ -3878,7 +4522,7 @@ body.isInnerPage .mainInner{
   justify-content: flex-end;
 }
 .archiveFilters--media .archiveFilterLabel{
-  font-size: 14px;
+  font-size: 18.67px;
   color: #333;
   white-space: nowrap;
 }
@@ -3888,7 +4532,7 @@ body.isInnerPage .mainInner{
   border: 1px solid rgba(0,0,0,.15);
   border-radius: 999px;
   background: #fff;
-  font-size: 14px;
+  font-size: 18.67px;
 }
 .archiveFilters--media .archiveSearchInput--media{
   flex: 1 1 200px;
@@ -3898,7 +4542,7 @@ body.isInnerPage .mainInner{
   border: 1px solid rgba(0,0,0,.15);
   border-radius: 999px;
   background: #fff;
-  font-size: 14px;
+  font-size: 18.67px;
 }
 .archiveFilterSearchBtn{
   border: none;
@@ -3906,8 +4550,8 @@ body.isInnerPage .mainInner{
   padding: 10px 22px;
   background: #8a8a8a;
   color: #fff;
-  font-size: 14px;
-  letter-spacing: .08em;
+  font-size: 18.67px;
+  letter-spacing: 1.33px;
   cursor: pointer;
   transition: background .15s ease;
 }
@@ -3916,21 +4560,21 @@ body.isInnerPage .mainInner{
 }
 .archiveMediaYearHeading{
   margin: 0 0 8px;
-  font-size: 22px;
+  font-size: 29.33px;
   font-weight: 700;
-  letter-spacing: .06em;
+  letter-spacing: 1.33px;
   color: #111;
 }
 .archiveMediaYearOverview{
   margin: 0 0 20px;
-  font-size: 14px;
+  font-size: 18.67px;
   line-height: 1.85;
   color: #444;
 }
 .archiveMediaRecordTitle{
   margin: 0 0 20px;
-  font-size: 22px;
-  letter-spacing: .08em;
+  font-size: 29.33px;
+  letter-spacing: 1.33px;
   color: #b82020;
 }
 .archiveMediaRecordLayout{
@@ -3958,7 +4602,7 @@ body.isInnerPage .mainInner{
   grid-column: 1 / -1;
   margin: 0;
   color: #666;
-  font-size: 14px;
+  font-size: 18.67px;
 }
 .archiveMediaGalleryItem{
   border: none;
@@ -4008,7 +4652,7 @@ body.isInnerPage .mainInner{
   border-radius: 6px;
   background: #e8e8e8;
   color: #222;
-  font-size: 14px;
+  font-size: 18.67px;
   text-decoration: none;
   cursor: pointer;
   transition: background .15s ease, color .15s ease;
@@ -4039,7 +4683,7 @@ body.isInnerPage .mainInner{
 }
 .archivePhotoLightboxCaption{
   margin: 12px 0 0;
-  font-size: 14px;
+  font-size: 18.67px;
   line-height: 1.7;
   color: #444;
   text-align: center;
@@ -4058,7 +4702,7 @@ body.isInnerPage .mainInner{
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 28px;
+  font-size: 37.33px;
   color: #fff;
   background: rgba(0,0,0,.28);
   pointer-events: none;
@@ -4074,8 +4718,8 @@ body.isInnerPage .mainInner{
 .archiveMediaYoutubeLink{
   display: inline-block;
   color: #b82020;
-  font-size: 13px;
-  letter-spacing: .06em;
+  font-size: 17.33px;
+  letter-spacing: 1.33px;
   text-decoration: none;
 }
 .archiveMediaYoutubeLink:hover{
@@ -4101,19 +4745,19 @@ body.isInnerPage .mainInner{
 }
 .archiveMediaSidebarLabel{
   margin: 0 0 10px;
-  font-size: 14px;
-  letter-spacing: .08em;
+  font-size: 18.67px;
+  letter-spacing: 1.33px;
   color: #333;
 }
 .archiveMediaSidebarText{
   margin: 0;
-  font-size: 14px;
+  font-size: 18.67px;
   color: #333;
 }
 .archiveMediaYoutubeNote{
   margin: 16px 0 0;
   text-align: right;
-  font-size: 12px;
+  font-size: 16px;
 }
 .archiveBibliographyPage .archivePageTitle{
   margin-bottom: 28px;
@@ -4149,9 +4793,9 @@ body.isInnerPage .mainInner{
   margin: 0 0 28px;
   text-align: center;
   font-family: var(--inner-font);
-  font-size: clamp(22px, 3vw, 32px);
+  font-size: clamp(29.33px, 3vw, 42.67px);
   font-weight: 700;
-  letter-spacing: .1em;
+  letter-spacing: 1.33px;
   color: #111;
 }
 .archiveBibliographyList{
@@ -4178,14 +4822,14 @@ body.isInnerPage .mainInner{
 .archiveBibliographyItemTitle,
 .archiveBibliographyItem h3{
   margin: 0 0 8px;
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 700;
-  letter-spacing: .04em;
+  letter-spacing: 1.33px;
   color: #111;
 }
 .archiveBibliographyItemDesc{
   margin: 0;
-  font-size: 15px;
+  font-size: 20px;
   line-height: 1.75;
   color: #333;
 }
@@ -4200,7 +4844,7 @@ body.isInnerPage .mainInner{
   border-radius: 50%;
   background: #2f3134;
   color: #fff;
-  font-size: 18px;
+  font-size: 24px;
   line-height: 1;
   cursor: pointer;
   box-shadow: 0 8px 20px rgba(0,0,0,.18);
@@ -4240,7 +4884,7 @@ body.isInnerPage .mainInner{
     max-height: none;
   }
   .archiveMediaPage > .archivePageTitle--media{
-    font-size: 24px;
+    font-size: 32px;
   }
 }
 
@@ -4266,7 +4910,7 @@ body.isInnerPage .mainInner{
 }
 .archiveCarouselSlide figcaption{
   margin-top: 8px;
-  font-size: 12px;
+  font-size: 16px;
   color: #555;
 }
 .archiveCarouselBtn{
@@ -4276,7 +4920,7 @@ body.isInnerPage .mainInner{
   height: 32px;
   border-radius: 999px;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 26.67px;
 }
 .archiveRecommendedText{
   padding: 20px;
@@ -4286,7 +4930,7 @@ body.isInnerPage .mainInner{
 }
 .archiveRecommendedText h3{
   margin: 0 0 10px;
-  font-size: 18px;
+  font-size: 24px;
 }
 
 
@@ -4328,7 +4972,7 @@ a.archiveBibliographyItem{
   background: #f4f1ea;
 }
 .archiveBibliographyPreviewDownload{
-  font-size: 14px;
+  font-size: 18.67px;
   color: #b82020;
   text-decoration: none;
 }
@@ -4337,7 +4981,7 @@ a.archiveBibliographyItem{
 }
 .archiveBibliographyPreviewNote{
   margin: 0;
-  font-size: 14px;
+  font-size: 18.67px;
   line-height: 1.75;
   color: #444;
 }
@@ -4481,7 +5125,7 @@ a.archiveBibliographyItem{
   padding: 24px 16px;
   text-align: center;
   color: #6b7280;
-  font-size: 14px;
+  font-size: 18.67px;
 }
 .archiveFlipBook{
   margin: 0 auto;
@@ -4698,15 +5342,15 @@ a.archiveBibliographyItem{
   flex-wrap: wrap;
 }
 .archiveIssuuHint{
-  font-size: 12px;
+  font-size: 16px;
   color: #666;
-  letter-spacing: .04em;
+  letter-spacing: 1.33px;
   flex: 1 1 180px;
 }
 .archiveIssuuPageNo{
   font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: .08em;
+  font-size: 16px;
+  letter-spacing: 1.33px;
   color: #444;
   white-space: nowrap;
 }
@@ -4747,8 +5391,8 @@ a.archiveBibliographyItem{
 }
 .archiveTeachersJournalTitle{
   margin: 0 0 20px;
-  font-size: 22px;
-  letter-spacing: .1em;
+  font-size: 29.33px;
+  letter-spacing: 1.33px;
   color: #b82020;
 }
 .archiveTeachersJournalLayout{
@@ -4771,14 +5415,14 @@ a.archiveBibliographyItem{
 }
 .archiveTeachersProfileName{
   margin: 0 0 12px;
-  font-size: 18px;
-  letter-spacing: .08em;
+  font-size: 24px;
+  letter-spacing: 1.33px;
   text-align: center;
   color: #222;
 }
 .archiveTeachersProfileBio{
   margin: 0;
-  font-size: 14px;
+  font-size: 18.67px;
   line-height: 1.85;
   color: #444;
   text-align: left;
@@ -4791,15 +5435,15 @@ a.archiveBibliographyItem{
 }
 .archiveTeachersPickerTitle{
   margin: 0 0 16px;
-  font-size: 20px;
-  letter-spacing: .1em;
+  font-size: 26.67px;
+  letter-spacing: 1.33px;
   color: #b82020;
   text-align: center;
 }
 .archiveTeachersPickerComingSoon{
   margin: 30px 0 8px;
-  font-size: 22px;
-  letter-spacing: .12em;
+  font-size: 29.33px;
+  letter-spacing: 1.33px;
   color: #222;
   text-align: center;
 }
@@ -4816,7 +5460,7 @@ a.archiveBibliographyItem{
   border-radius: 999px;
   background: #222;
   color: #fff;
-  font-size: 22px;
+  font-size: 29.33px;
   line-height: 1;
   cursor: pointer;
   flex-shrink: 0;
@@ -4867,8 +5511,8 @@ a.archiveBibliographyItem{
   height: 72px;
 }
 .archiveTeachersCarouselName{
-  font-size: 12px;
-  letter-spacing: .06em;
+  font-size: 16px;
+  letter-spacing: 1.33px;
   white-space: nowrap;
 }
 .archiveTeachersTimeline{
@@ -4895,8 +5539,8 @@ a.archiveBibliographyItem{
   position: relative;
   z-index: 1;
   padding: 4px 6px;
-  font-size: 13px;
-  letter-spacing: .06em;
+  font-size: 17.33px;
+  letter-spacing: 1.33px;
   color: #444;
   text-decoration: none;
 }
@@ -4994,8 +5638,8 @@ a.archiveBibliographyItem{
 .archiveResearchJournalTitle{
   width: 100%;
   margin: 0 0 20px;
-  font-size: 22px;
-  letter-spacing: .1em;
+  font-size: 29.33px;
+  letter-spacing: 1.33px;
   color: #b82020;
   text-align: center;
 }
@@ -5167,8 +5811,8 @@ a.archiveBibliographyItem{
   height: 22%;
   z-index: 5;
   font-family: var(--mono);
-  font-size: clamp(11px, 1.05vw, 14px);
-  letter-spacing: .08em;
+  font-size: clamp(14.67px, 1.05vw, 18.67px);
+  letter-spacing: 1.33px;
   color: #c9a96a;
   white-space: nowrap;
   user-select: none;
@@ -5199,7 +5843,7 @@ a.archiveBibliographyItem{
   border-radius: 999px;
   background: rgba(20, 20, 22, 0.82);
   color: #e8d2a5;
-  font-size: 20px;
+  font-size: 26.67px;
   line-height: 1;
   cursor: pointer;
 }
@@ -5346,16 +5990,16 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
   padding: 0;
 }
 .archiveJournalFrameContent .bookPageNo{
-  font-size: 9px;
+  font-size: 12px;
   padding: 1px 5px;
   right: 6px;
   bottom: 6px;
 }
 .archiveJournalFrameContent .bookTitle{
-  font-size: 13px;
+  font-size: 17.33px;
 }
 .archiveJournalFrameContent .bookBody{
-  font-size: 11px;
+  font-size: 14.67px;
   line-height: 1.55;
 }
 .archiveJournalFrameContent .bookControls.archiveIssuuControls{
@@ -5405,8 +6049,8 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
 .archiveResearchJournalTeacherName{
   margin: 0;
   text-align: center;
-  font-size: 18px;
-  letter-spacing: .1em;
+  font-size: 24px;
+  letter-spacing: 1.33px;
   color: #222;
 }
 .archiveResearchJournalVideo{
@@ -5507,9 +6151,9 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
   display: block;
 }
 .archiveResearchBookTitle{
-  font-size: 14px;
+  font-size: 18.67px;
   line-height: 1.5;
-  letter-spacing: .06em;
+  letter-spacing: 1.33px;
   color: #333;
 }
 .archiveResearchBookshelf{
@@ -5521,13 +6165,13 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
 }
 .archiveResearchBookshelfTitle{
   margin: 0 0 8px;
-  font-size: 20px;
-  letter-spacing: .12em;
+  font-size: 26.67px;
+  letter-spacing: 1.33px;
   color: #b82020;
 }
 .archiveResearchBookshelfCaption{
   margin: 0 0 20px;
-  font-size: 14px;
+  font-size: 18.67px;
   line-height: 1.7;
   color: #555;
 }
@@ -5563,9 +6207,9 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
   border: none;
   background: #d2d2d2;
   color: #333;
-  font-size: clamp(11px, 1.25vw, 14px);
+  font-size: clamp(14.67px, 1.25vw, 18.67px);
   font-weight: 700;
-  letter-spacing: .04em;
+  letter-spacing: 1.33px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -5626,7 +6270,7 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
   background: #fff4f4;
   border: 1px solid rgba(184,32,32,.35);
   color: #8a2020;
-  font-size: 13px;
+  font-size: 17.33px;
   text-align: center;
 }
 
@@ -5683,7 +6327,7 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
   border-radius: 50%;
   background: rgba(0,0,0,.06);
   color: #333;
-  font-size: 24px;
+  font-size: 32px;
   line-height: 1;
   cursor: pointer;
   transition: background .15s ease;
@@ -5694,8 +6338,8 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
 }
 .archiveModalTitle{
   margin: 0 36px 16px 0;
-  font-size: 20px;
-  letter-spacing: .1em;
+  font-size: 26.67px;
+  letter-spacing: 1.33px;
   color: #b82020;
 }
 .archiveModalBody{
@@ -5716,7 +6360,7 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
 }
 .archiveResearchAccessText{
   margin: 0;
-  font-size: 16px;
+  font-size: 21.33px;
   line-height: 1.85;
   color: #333;
 }
@@ -5754,10 +6398,10 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
   padding-bottom: 18px;
   border-bottom: 1px solid rgba(0,0,0,.18);
   text-align: center;
-  font-family: var(--inner-font);
-  font-size: clamp(28px, 3.5vw, 44px);
+  font-family: var(--font-display);
+  font-size: var(--type-display);
   font-weight: 900;
-  letter-spacing: .12em;
+  letter-spacing: var(--font-tracking);
   color: #111;
 }
 .archivePerformancesList{
@@ -5797,16 +6441,17 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
 }
 .archivePerformanceCardTitle{
   margin: 0 0 12px;
-  font-family: var(--inner-font);
-  font-size: clamp(20px, 2.4vw, 28px);
+  font-family: var(--font-display);
+  font-size: var(--type-title);
   font-weight: 700;
-  letter-spacing: .06em;
+  letter-spacing: var(--font-tracking);
   color: #111;
 }
 .archivePerformanceCardMeta{
   margin: 0 0 4px;
-  font-family: var(--inner-font);
-  font-size: 16px;
+  font-family: var(--font-body);
+  font-size: var(--type-body);
+  font-weight: 500;
   line-height: 1.6;
   color: #333;
 }
@@ -5817,9 +6462,9 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
 }
 .archiveTeachersYearHeading{
   margin: 0 0 24px;
-  font-size: 28px;
+  font-size: 37.33px;
   font-weight: 700;
-  letter-spacing: .14em;
+  letter-spacing: 1.33px;
   color: #222;
   text-align: center;
 }
@@ -5859,13 +6504,13 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
 }
 .archiveTeachersGridName{
   margin: 0;
-  font-size: 16px;
-  letter-spacing: .08em;
+  font-size: 21.33px;
+  letter-spacing: 1.33px;
   color: #222;
 }
 .archiveTeachersGridSummary{
   margin: 0;
-  font-size: 13px;
+  font-size: 17.33px;
   line-height: 1.65;
   color: #555;
   max-width: 220px;
@@ -5888,13 +6533,13 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
 }
 .archiveTeacherDetailName{
   margin: 0;
-  font-size: 20px;
-  letter-spacing: .1em;
+  font-size: 26.67px;
+  letter-spacing: 1.33px;
   color: #b82020;
 }
 .archiveTeacherDetailBio{
   margin: 0;
-  font-size: 15px;
+  font-size: 20px;
   line-height: 1.85;
   color: #333;
   text-align: left;
@@ -5912,14 +6557,14 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
 }
 .archivePastWebsiteModalHeading{
   margin: 0 0 10px;
-  font-size: 16px;
-  letter-spacing: .12em;
+  font-size: 21.33px;
+  letter-spacing: 1.33px;
   color: #b82020;
   font-weight: 700;
 }
 .archivePastWebsiteModalBody{
   margin: 0;
-  font-size: 15px;
+  font-size: 20px;
   line-height: 1.85;
   color: #333;
 }

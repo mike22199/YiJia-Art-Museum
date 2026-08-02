@@ -153,8 +153,8 @@
   border: 1px solid #b82020;
   background: #fff;
   color: #b82020;
-  font-size: 14px;
-  letter-spacing: 0.1em;
+  font-size: 18.67px;
+  letter-spacing: 1.33px;
   cursor: pointer;
 }
 
@@ -172,8 +172,8 @@
   border: 0;
   background: rgba(255, 255, 255, 0.72);
   color: #b82020;
-  font-size: 12px;
-  letter-spacing: 0.04em;
+  font-size: 16px;
+  letter-spacing: 1.33px;
   cursor: pointer;
   padding: 6px 8px;
   border-radius: 2px;
@@ -194,7 +194,7 @@
   top: 2%;
   transform: translateX(-50%);
   color: #555;
-  font-size: 11px;
+  font-size: 14.67px;
   background: transparent;
 }
 
@@ -222,14 +222,14 @@
 .fdModalTitle {
   margin: 0 0 12px;
   text-align: center;
-  font-size: 17px;
-  letter-spacing: 0.06em;
+  font-size: 22.67px;
+  letter-spacing: 1.33px;
 }
 
 .fdModalText {
   margin: 0 0 10px;
   line-height: 1.75;
-  font-size: 13px;
+  font-size: 17.33px;
   color: #333;
 }
 
@@ -239,7 +239,7 @@
   top: 6px;
   border: 0;
   background: transparent;
-  font-size: 22px;
+  font-size: 29.33px;
   line-height: 1;
   cursor: pointer;
 }
@@ -290,7 +290,7 @@
   border: 0;
   background: rgba(255, 255, 255, 0.72);
   color: #444;
-  font-size: 28px;
+  font-size: 37.33px;
   line-height: 1;
   cursor: pointer;
 }
@@ -333,26 +333,26 @@
   top: 8px;
   border: 0;
   background: transparent;
-  font-size: 22px;
+  font-size: 29.33px;
   cursor: pointer;
 }
 
 .fdInfoLabel {
   margin: 0 0 4px;
-  font-size: 12px;
+  font-size: 16px;
   color: #888;
 }
 
 .fdInfoTitle {
   margin: 0 0 14px;
-  font-size: 18px;
+  font-size: 24px;
   color: #222;
 }
 
 .fdInfoBody {
   margin: 0 0 16px;
   line-height: 1.8;
-  font-size: 13px;
+  font-size: 17.33px;
 }
 
 .fdInfoPhotoPlaceholder {
@@ -361,7 +361,7 @@
   place-items: center;
   background: #e8e4dc;
   color: #888;
-  font-size: 12px;
+  font-size: 16px;
   margin-bottom: 12px;
 }
 
@@ -372,7 +372,7 @@
   background: transparent;
   color: #b82020;
   text-align: right;
-  font-size: 13px;
+  font-size: 17.33px;
   cursor: pointer;
 }
 
@@ -425,7 +425,7 @@
   margin: 0;
   text-align: center;
   color: #666;
-  font-size: 12px;
+  font-size: 16px;
 }
 
 .fdStyleRow,
@@ -442,7 +442,7 @@
   border: 1px solid #ccc;
   background: #fff;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 16px;
 }
 
 .fdStyleBtn.isActive,
@@ -452,7 +452,7 @@
 }
 
 .fdColorTargetLabel {
-  font-size: 12px;
+  font-size: 16px;
   color: #666;
 }
 
@@ -499,13 +499,13 @@
 }
 
 .fdCounter {
-  font-size: 12px;
+  font-size: 16px;
   color: #777;
   text-align: right;
 }
 
 .fdUploadStatus {
-  font-size: 13px;
+  font-size: 17.33px;
   color: #555;
   line-height: 1.6;
 }
@@ -518,12 +518,12 @@
 
 .fdGalleryHeader h2 {
   margin: 0 0 6px;
-  font-size: 18px;
+  font-size: 24px;
 }
 
 .fdGalleryNote {
   margin: 0 0 12px;
-  font-size: 12px;
+  font-size: 16px;
   color: #777;
 }
 
@@ -551,18 +551,18 @@
   display: grid;
   place-items: center;
   color: #999;
-  font-size: 12px;
+  font-size: 16px;
 }
 
 .fdGalleryTitle {
   margin: 8px 0 4px;
-  font-size: 14px;
+  font-size: 18.67px;
 }
 
 .fdGalleryAuthor,
 .fdGalleryConcept {
   margin: 0;
-  font-size: 12px;
+  font-size: 16px;
   color: #555;
   line-height: 1.5;
 }
@@ -581,7 +581,7 @@
 
 .fdGalleryOwn h3 {
   margin: 0 0 10px;
-  font-size: 16px;
+  font-size: 21.33px;
   color: #b82020;
 }
 
@@ -591,7 +591,7 @@
 
 .fdGalleryPendingNote {
   margin: 8px 0 0;
-  font-size: 12px;
+  font-size: 16px;
   color: #888;
   line-height: 1.5;
 }
@@ -618,8 +618,8 @@
   background: #b82020;
   color: #fff;
   text-decoration: none;
-  letter-spacing: 0.1em;
-  font-size: 15px;
+  letter-spacing: 1.33px;
+  font-size: 20px;
 }
 
 .fdAboutStartBtn:hover {
@@ -696,7 +696,7 @@
   }
 
   .fdNavBtn {
-    font-size: 11px;
+    font-size: 14.67px;
     padding: 6px;
   }
 
@@ -707,7 +707,7 @@
   .fdArrow {
     width: 36px;
     height: 52px;
-    font-size: 28px;
+    font-size: 37.33px;
   }
 }
 

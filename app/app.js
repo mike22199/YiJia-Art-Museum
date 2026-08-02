@@ -187,37 +187,167 @@ function homeBoxStyle(box) {
     .join(";");
 }
 
-function renderSwapImages(defaultSrc, hoverSrc) {
-  return [
+function parseHomePct(value, fallback = 0) {
+  if (value === undefined || value === null || value === "") return fallback;
+  const n = parseFloat(String(value).replace("%", ""));
+  return Number.isFinite(n) ? n : fallback;
+}
+
+/** 預設／閃爍／打開可各有一套 left/top|bottom/width/height；缺省則沿用頂層座標 */
+function resolveHomeStateBoxes(raw, isNav = false) {
+  const src = raw && typeof raw === "object" ? raw : {};
+  const base = isNav
+    ? {
+        left: parseHomePct(src.left, 0),
+        bottom: parseHomePct(src.bottom, 0),
+        width: parseHomePct(src.width, 10),
+        height: parseHomePct(src.height, 10),
+      }
+    : {
+        left: parseHomePct(src.left, 0),
+        top: parseHomePct(src.top, 0),
+        width: parseHomePct(src.width, 10),
+        height: parseHomePct(src.height, 10),
+      };
+  const states = src.states && typeof src.states === "object" ? src.states : {};
+  const pick = (key) => {
+    const s = states[key];
+    if (!s || typeof s !== "object") return { ...base };
+    if (isNav) {
+      return {
+        left: parseHomePct(s.left, base.left),
+        bottom: parseHomePct(s.bottom, base.bottom),
+        width: parseHomePct(s.width, base.width),
+        height: parseHomePct(s.height, base.height),
+      };
+    }
+    return {
+      left: parseHomePct(s.left, base.left),
+      top: parseHomePct(s.top, base.top),
+      width: parseHomePct(s.width, base.width),
+      height: parseHomePct(s.height, base.height),
+    };
+  };
+  return { default: pick("default"), shine: pick("shine"), hover: pick("hover") };
+}
+
+function homeStateBoxStyle(boxes, isNav = false) {
+  if (!boxes?.default) return "";
+  const d = boxes.default;
+  const s = boxes.shine || d;
+  const h = boxes.hover || d;
+  const list = [d, s, h];
+
+  // 點擊框取三態聯集，避免 hover 時框體縮放導致游標進出反覆閃爍
+  let hit;
+  if (isNav) {
+    const left = Math.min(...list.map((b) => b.left));
+    const right = Math.max(...list.map((b) => b.left + b.width));
+    const bottom = Math.min(...list.map((b) => b.bottom ?? 0));
+    const topEdge = Math.max(...list.map((b) => (b.bottom ?? 0) + b.height));
+    hit = { left, bottom, width: Math.max(0.01, right - left), height: Math.max(0.01, topEdge - bottom) };
+  } else {
+    const left = Math.min(...list.map((b) => b.left));
+    const top = Math.min(...list.map((b) => b.top));
+    const right = Math.max(...list.map((b) => b.left + b.width));
+    const bottomEdge = Math.max(...list.map((b) => b.top + b.height));
+    hit = { left, top, width: Math.max(0.01, right - left), height: Math.max(0.01, bottomEdge - top) };
+  }
+
+  const rel = (box) => {
+    if (isNav) {
+      const boxBottom = box.bottom ?? 0;
+      return {
+        left: ((box.left - hit.left) / hit.width) * 100,
+        top: ((hit.height - (boxBottom - hit.bottom) - box.height) / hit.height) * 100,
+        width: (box.width / hit.width) * 100,
+        height: (box.height / hit.height) * 100,
+      };
+    }
+    return {
+      left: ((box.left - hit.left) / hit.width) * 100,
+      top: ((box.top - hit.top) / hit.height) * 100,
+      width: (box.width / hit.width) * 100,
+      height: (box.height / hit.height) * 100,
+    };
+  };
+
+  const rd = rel(d);
+  const rs = rel(s);
+  const rh = rel(h);
+  const parts = [
+    `--hit-l:${hit.left}%`,
+    `--hit-w:${hit.width}%`,
+    `--hit-h:${hit.height}%`,
+    `--art-d-l:${rd.left}%`,
+    `--art-d-t:${rd.top}%`,
+    `--art-d-w:${rd.width}%`,
+    `--art-d-h:${rd.height}%`,
+    `--art-s-l:${rs.left}%`,
+    `--art-s-t:${rs.top}%`,
+    `--art-s-w:${rs.width}%`,
+    `--art-s-h:${rs.height}%`,
+    `--art-h-l:${rh.left}%`,
+    `--art-h-t:${rh.top}%`,
+    `--art-h-w:${rh.width}%`,
+    `--art-h-h:${rh.height}%`,
+  ];
+  if (isNav) parts.push(`--hit-b:${hit.bottom}%`);
+  else parts.push(`--hit-t:${hit.top}%`);
+  return parts.join(";");
+}
+
+function renderSwapImages(defaultSrc, hoverSrc, shineSrc) {
+  const bust = (src) => {
+    if (!src) return src;
+    const join = src.includes("?") ? "&" : "?";
+    return `${src}${join}v=home-nav-20260802`;
+  };
+  const images = [
     el("img", {
       class: "museumSwapArt museumSwapArt--default",
-      src: defaultSrc,
-      alt: "",
-      loading: "eager",
-    }),
-    el("img", {
-      class: "museumSwapArt museumSwapArt--hover",
-      src: hoverSrc,
+      src: bust(defaultSrc),
       alt: "",
       loading: "eager",
     }),
   ];
+  if (shineSrc) {
+    images.push(
+      el("img", {
+        class: "museumSwapArt museumSwapArt--shine",
+        src: bust(shineSrc),
+        alt: "",
+        loading: "eager",
+      })
+    );
+  }
+  images.push(
+    el("img", {
+      class: "museumSwapArt museumSwapArt--hover",
+      src: bust(hoverSrc),
+      alt: "",
+      loading: "eager",
+    })
+  );
+  return images;
 }
 
-function renderSwapLink(className, href, label, box, defaultSrc, hoverSrc) {
+function renderSwapLink(className, href, label, box, defaultSrc, hoverSrc, shineSrc) {
+  const isNav = /\bmuseumNavItem\b/.test(className || "");
+  const stateBoxes = box?._stateBoxes || resolveHomeStateBoxes(box, isNav);
   return el(
     "a",
     {
       class: className,
       href: href || "#home/index",
-      style: homeBoxStyle(box),
+      style: homeStateBoxStyle(stateBoxes, isNav),
       "aria-label": label || "入口",
       onclick: (e) => {
         e.preventDefault();
         navigateFromHref(href);
       },
     },
-    renderSwapImages(defaultSrc, hoverSrc)
+    renderSwapImages(defaultSrc, hoverSrc, shineSrc)
   );
 }
 
@@ -264,12 +394,12 @@ function bindMuseumStageFit(stage) {
 
 /** 1920×1080 畫布座標（對照 home-reference.jpg）→ 百分比 */
 const HOME_LAYOUT_REF = {
-  bannerLeft: { x: 316, y: 404, w: 179, h: 461 },
-  bannerRight: { x: 1425, y: 404, w: 179, h: 461 },
+  bannerLeft: { x: 414.528, y: 419.256, w: 110.016, h: 420.444 },
+  bannerRight: { x: 1397.76, y: 420.228, w: 114.048, h: 428.544 },
   door: { x: 853, y: 578, w: 215, h: 243 },
-  navLeft: { x: 358, y: 969, w: 178, h: 111 },
-  navCenter: { x: 856, y: 969, w: 209, h: 111 },
-  navRight: { x: 1384, y: 969, w: 178, h: 111 },
+  navLeft: { x: 322.56, y: 969, w: 282.24, h: 111 },
+  navCenter: { x: 855.936, y: 969, w: 209.088, h: 111 },
+  navRight: { x: 1353.6, y: 969, w: 278.4, h: 111 },
 };
 
 function layoutBoxToPercent(box) {
@@ -287,9 +417,10 @@ function layoutBoxToPercent(box) {
 function layoutNavBox(box) {
   const W = 1920;
   const H = 1080;
+  const bottomPx = H - box.y - box.h;
   return {
     left: `${(box.x / W) * 100}%`,
-    bottom: "0",
+    bottom: `${(bottomPx / H) * 100}%`,
     width: `${(box.w / W) * 100}%`,
     height: `${(box.h / H) * 100}%`,
   };
@@ -304,11 +435,13 @@ const HOME_ASSET_DEFAULTS = {
   bannerLeft: {
     default: "./assets/images/home/Banner-Left.png",
     hover: "./assets/images/home/Banner-Left-Open.png",
+    shine: "./assets/images/home/Banner-Left-Shining.png",
     ...layoutBoxToPercent(HOME_LAYOUT_REF.bannerLeft),
   },
   bannerRight: {
-    default: "./assets/images/home/Banner-Left.png",
-    hover: "./assets/images/home/Banner-Left-Open.png",
+    default: "./assets/images/home/Banner-Right.png",
+    hover: "./assets/images/home/Banner-Right-Open.png",
+    shine: "./assets/images/home/Banner-Right-Shining.png",
     left: `${(HOME_LAYOUT_REF.bannerRight.x / 1920) * 100}%`,
     top: `${(HOME_LAYOUT_REF.bannerRight.y / 1080) * 100}%`,
     width: `${(HOME_LAYOUT_REF.bannerRight.w / 1920) * 100}%`,
@@ -316,8 +449,8 @@ const HOME_ASSET_DEFAULTS = {
   },
   nav: {
     left: {
-      image: "./assets/images/home/exhibition-right.png",
-      imageHover: "./assets/images/home/exhibition-right-Open.png",
+      image: "./assets/images/home/nav-title-person.png",
+      imageHover: "./assets/images/home/nav-title-person-Open.png",
       ...layoutNavBox(HOME_LAYOUT_REF.navLeft),
     },
     center: {
@@ -326,8 +459,8 @@ const HOME_ASSET_DEFAULTS = {
       ...layoutNavBox(HOME_LAYOUT_REF.navCenter),
     },
     right: {
-      image: "./assets/images/home/exhibition-right.png",
-      imageHover: "./assets/images/home/exhibition-right-Open.png",
+      image: "./assets/images/home/nav-title-door.png",
+      imageHover: "./assets/images/home/nav-title-door-Open.png",
       ...layoutNavBox(HOME_LAYOUT_REF.navRight),
     },
   },
@@ -335,11 +468,16 @@ const HOME_ASSET_DEFAULTS = {
 
 function homeAssetBox(layers, key) {
   const raw = layers?.[key];
+  let merged;
   if (typeof raw === "string" && raw.trim()) {
-    return { ...HOME_ASSET_DEFAULTS[key], default: raw.trim() };
+    merged = { ...HOME_ASSET_DEFAULTS[key], default: raw.trim() };
+  } else if (!raw || typeof raw !== "object") {
+    merged = { ...HOME_ASSET_DEFAULTS[key] };
+  } else {
+    merged = { ...HOME_ASSET_DEFAULTS[key], ...raw };
   }
-  if (!raw || typeof raw !== "object") return { ...HOME_ASSET_DEFAULTS[key] };
-  return { ...HOME_ASSET_DEFAULTS[key], ...raw };
+  merged._stateBoxes = resolveHomeStateBoxes(merged, false);
+  return merged;
 }
 
 function homeNavAsset(zone, layers) {
@@ -347,19 +485,22 @@ function homeNavAsset(zone, layers) {
   const defaults = HOME_ASSET_DEFAULTS.nav[navKey];
   const layerNav = layers?.nav?.[navKey] || {};
   const zoneNav = zone.nav || {};
-  return {
+  const merged = {
     left: zoneNav.left ?? layerNav.left ?? defaults.left,
     right: zoneNav.right ?? layerNav.right ?? defaults.right,
     bottom: zoneNav.bottom ?? layerNav.bottom ?? defaults.bottom,
     top: zoneNav.top ?? layerNav.top ?? defaults.top,
     width: zoneNav.width ?? layerNav.width ?? defaults.width,
     height: zoneNav.height ?? layerNav.height ?? defaults.height,
+    states: zoneNav.states || layerNav.states || defaults.states,
     image: homeLayerSrc(zoneNav, "image", null) || homeLayerSrc(layerNav, "image", null) || defaults.image,
     imageHover:
       homeLayerSrc(zoneNav, "imageHover", null) ||
       homeLayerSrc(layerNav, "imageHover", null) ||
       defaults.imageHover,
   };
+  merged._stateBoxes = resolveHomeStateBoxes(merged, true);
+  return merged;
 }
 
 function defaultHomeZones() {
@@ -499,6 +640,11 @@ function renderHome(main) {
   const door = homeAssetBox(layers, "door");
   const bannerLeft = homeAssetBox(layers, "bannerLeft");
   const bannerRight = homeAssetBox(layers, "bannerRight");
+  const brandLogo = layers.brandLogo && typeof layers.brandLogo === "object" ? layers.brandLogo : null;
+  const supportLogos =
+    (layers.supportLogos && typeof layers.supportLogos === "object" && layers.supportLogos) ||
+    (layers.sideLogos && typeof layers.sideLogos === "object" && layers.sideLogos) ||
+    null;
   const zones = Array.isArray(content.homeZones) ? content.homeZones : defaultHomeZones();
   const introConfig = getHomeIntroConfig(content);
   const playIntro = introConfig && shouldPlayHomeIntro(introConfig) && !prefersReducedMotion();
@@ -509,6 +655,38 @@ function renderHome(main) {
 
   const root = el("div", { class: "home homeMuseum" });
 
+  const renderStaticOverlay = (cfg, className) => {
+    if (!cfg || !homeLayerSrc(cfg, "src", null)) return null;
+    return el(
+      "div",
+      {
+        class: className,
+        style: [
+          cfg.left != null ? `left:${cfg.left}` : "",
+          cfg.top != null ? `top:${cfg.top}` : "",
+          cfg.right != null ? `right:${cfg.right}` : "",
+          cfg.bottom != null ? `bottom:${cfg.bottom}` : "",
+          cfg.width ? `width:${cfg.width}` : "",
+          cfg.height ? `height:${cfg.height}` : "",
+        ]
+          .filter(Boolean)
+          .join(";"),
+        "aria-hidden": "true",
+      },
+      [
+        el("img", {
+          class: `${className}Img`,
+          src: homeLayerSrc(cfg, "src", ""),
+          alt: cfg.alt || "",
+          loading: "eager",
+        }),
+      ]
+    );
+  };
+
+  const brandLogoEl = renderStaticOverlay(brandLogo, "museumBrandLogo");
+  const supportLogosEl = renderStaticOverlay(supportLogos, "museumSupportLogos");
+
   const stageInnerChildren = [
     el("img", {
       class: "museumPhoto museumPhoto--base",
@@ -516,6 +694,8 @@ function renderHome(main) {
       alt: "義家藝館首頁",
       loading: "eager",
     }),
+    brandLogoEl,
+    supportLogosEl,
     playIntro
       ? el("div", {
           class: "museumIntroOverlay",
@@ -537,7 +717,8 @@ function renderHome(main) {
       zones.find((z) => z.id === "left")?.title || "特展（左）",
       bannerLeft,
       bannerLeft.default,
-      bannerLeft.hover
+      bannerLeft.hover,
+      bannerLeft.shine
     ),
     renderSwapLink(
       "museumProp museumProp--banner-right",
@@ -545,7 +726,8 @@ function renderHome(main) {
       zones.find((z) => z.id === "right")?.title || "特展（右）",
       bannerRight,
       bannerRight.default,
-      bannerRight.hover
+      bannerRight.hover,
+      bannerRight.shine
     ),
     renderSwapLink(
       "museumProp museumProp--door",
@@ -1108,6 +1290,13 @@ async function loadSiteContent() {
       console.warn("Sanity 讀取失敗，改使用本地 JSON：", err);
     }
   }
+
+  // 首頁底圖／圖層／下方標題以本機 site-content.json 為準
+  //（Sanity technicalJson 常帶舊版 homeZones，會蓋掉本機調整）
+  if (fallback.homeLayers) content.homeLayers = fallback.homeLayers;
+  if (fallback.homeZones) content.homeZones = fallback.homeZones;
+  if (fallback.homeIntro) content.homeIntro = fallback.homeIntro;
+  if (fallback.homeImage) content.homeImage = fallback.homeImage;
 
   if (typeof window.mergeArchiveFolderContent === "function") {
     content = await window.mergeArchiveFolderContent(content);

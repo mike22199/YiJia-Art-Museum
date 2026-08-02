@@ -354,12 +354,45 @@ function findClassicsTimelineEntry(year) {
 function pastWebsiteImageYears() {
   const past = pastExhibitionsData();
   if (Array.isArray(past.imageYears)) return past.imageYears.map(String);
-  return ["2026", "2021", "2016"];
+  return ["2027-2026", "2023", "2022", "2021", "2020", "2019", "2018", "2016"];
 }
 
-function buildPastWebsiteTimelineEntry(yearKey) {
+function pastWebsiteTimelineKeys() {
   const past = pastExhibitionsData();
-  const configured = past.byYear?.[yearKey];
+  if (Array.isArray(past.timeline) && past.timeline.length) {
+    return past.timeline.map((y) => String(y).trim()).filter(Boolean);
+  }
+  if (Array.isArray(past.rows) && past.rows.length) {
+    return past.rows.flatMap((row) => (Array.isArray(row) ? row : [])).map((y) => String(y).trim()).filter(Boolean);
+  }
+  return ["2027-2026", "2025", "2024", "2023", "2022", "2021", "2020", "2019", "2018", "2017", "2016", "2015"];
+}
+
+function resolvePastWebsiteBanner(yearKey, configured, legacyItem) {
+  const shouldShowImage = pastWebsiteImageYears().includes(String(yearKey));
+  if (!shouldShowImage && !(configured?.banner?.src || configured?.image?.src)) return null;
+
+  const configuredBanner = configured?.banner || configured?.image;
+  const classicsEntry =
+    findClassicsTimelineEntry(yearKey) ||
+    findClassicsTimelineEntry(String(yearKey).split("-")[0]);
+
+  return (
+    (configuredBanner?.src && !String(configuredBanner.src).includes("placeholder")
+      ? configuredBanner
+      : null) ||
+    (legacyItem?.image?.src && !String(legacyItem.image.src).includes("placeholder")
+      ? legacyItem.image
+      : null) ||
+    classicsEntry?.image ||
+    configuredBanner ||
+    null
+  );
+}
+
+function buildPastWebsiteVerticalEntry(yearKey) {
+  const past = pastExhibitionsData();
+  const configured = past.byYear?.[yearKey] || {};
   const legacyItem = Array.isArray(past.items)
     ? past.items.find((item) => {
         const itemYear = String(item.year || "").trim();
@@ -368,34 +401,29 @@ function buildPastWebsiteTimelineEntry(yearKey) {
       })
     : null;
   const href = resolvePastWebsiteHref(yearKey);
-  const yearLabel = configured?.yearLabel || configured?.label || yearKey;
-  const shouldShowImage = pastWebsiteImageYears().includes(String(yearKey));
-  const configuredBanner = configured?.banner || configured?.image;
-  const classicsEntry =
-    findClassicsTimelineEntry(yearKey) ||
-    findClassicsTimelineEntry(String(yearKey).split("-")[0]);
-  let image = null;
-
-  if (shouldShowImage) {
-    image =
-      (configuredBanner?.src && !String(configuredBanner.src).includes("placeholder")
-        ? configuredBanner
-        : null) ||
-      (legacyItem?.image?.src && !String(legacyItem.image.src).includes("placeholder")
-        ? legacyItem.image
-        : null) ||
-      classicsEntry?.image ||
-      configuredBanner ||
-      null;
-  }
+  const yearLabel = configured.yearLabel || configured.label || yearKey;
+  const empty = configured.empty === true;
+  const markerOnly = configured.markerOnly === true || empty;
+  const modal = configured.modal || null;
+  const title = String(configured.title || "").trim();
+  const subtitle = String(configured.subtitle || "").trim();
+  const subtitleEn = String(configured.subtitleEn || "").trim();
+  const image = empty || markerOnly ? null : resolvePastWebsiteBanner(yearKey, configured, legacyItem);
+  const hasCopy = Boolean(title || subtitle || subtitleEn);
+  const hasFeature = !empty && !markerOnly && Boolean(image || hasCopy || modal);
 
   return {
     year: String(yearKey),
     yearLabel,
+    empty,
+    markerOnly,
+    hasFeature,
     image,
-    modal: configured?.modal || null,
-    imagePosition: classicsEntry?.imagePosition || "above",
-    links: href ? [{ label: "網站", href }] : [],
+    title,
+    subtitle,
+    subtitleEn,
+    modal,
+    href,
   };
 }
 
@@ -414,72 +442,272 @@ function timelineExternalLinkAttrs(href) {
   };
 }
 
-function openPastWebsiteModalFromEntry(modalData, yearLabel) {
+function openPastWebsiteModalFromEntry(modalData) {
   if (typeof openPastWebsiteModal === "function") openPastWebsiteModal(modalData);
 }
 
-function pastWebsiteModalButtonAttrs(modalData, yearLabel) {
-  return {
-    class: "timelineYear timelineYearLink timelineYearButton",
-    type: "button",
-    text: yearLabel,
-    "aria-label": `${yearLabel} 展覽論述`,
-    onclick: () => openPastWebsiteModalFromEntry(modalData, yearLabel),
-  };
+function pastWebsiteActivateEntry(entry) {
+  if (entry?.modal) {
+    openPastWebsiteModalFromEntry(entry.modal);
+    return;
+  }
+  if (entry?.href) {
+    const attrs = timelineExternalLinkAttrs(entry.href);
+    if (attrs.target === "_blank") {
+      window.open(entry.href, "_blank", "noopener,noreferrer");
+    } else {
+      navigateFromHref(entry.href);
+    }
+  }
 }
 
-function renderTimelineEntry(entry, options = {}) {
-  const pastWebsites = options.pastWebsites === true;
+function renderPastWebsiteTitleBlock(entry) {
+  if (!entry.title && !entry.subtitle && !entry.subtitleEn) return null;
+  return el("div", { class: "pastWebsitesTitleBlock" }, [
+    entry.title ? el("p", { class: "pastWebsitesTitleZh", text: entry.title }) : null,
+    entry.subtitle ? el("p", { class: "pastWebsitesTitleSub", text: entry.subtitle }) : null,
+    entry.subtitleEn ? el("p", { class: "pastWebsitesTitleEn", text: entry.subtitleEn }) : null,
+  ]);
+}
+
+function renderPastWebsiteArt(entry) {
+  if (!entry.image?.src) return null;
+  const img = el("img", {
+    class: "pastWebsitesArtImg",
+    src: entry.image.src,
+    alt: entry.image.alt || entry.yearLabel || "歷屆網站",
+    loading: "lazy",
+  });
+
+  if (entry.modal || entry.href) {
+    return el(
+      "button",
+      {
+        class: "pastWebsitesArtButton",
+        type: "button",
+        "aria-label": `${entry.yearLabel} 歷屆網站`,
+        onclick: () => pastWebsiteActivateEntry(entry),
+      },
+      [img]
+    );
+  }
+
+  return el("div", { class: "pastWebsitesArt" }, [img]);
+}
+
+function renderPastWebsiteSideContent(entry, kind) {
+  if (kind === "art") return renderPastWebsiteArt(entry);
+  if (kind === "title") {
+    const block = renderPastWebsiteTitleBlock(entry);
+    if (!block) return null;
+    if (entry.modal || entry.href) {
+      return el(
+        "button",
+        {
+          class: "pastWebsitesTitleButton",
+          type: "button",
+          "aria-label": `${entry.yearLabel} ${entry.title || "歷屆網站"}`,
+          onclick: () => pastWebsiteActivateEntry(entry),
+        },
+        [block]
+      );
+    }
+    return block;
+  }
+  return null;
+}
+
+function parsePastWebsiteYearParts(yearLabel) {
+  const raw = String(yearLabel || "").trim();
+  const rangeMatch = raw.match(/^(\d{4})\s*[-–]\s*(\d{4})$/);
+  if (rangeMatch) {
+    const primary = rangeMatch[1];
+    const secondary = rangeMatch[2];
+    return {
+      type: "range",
+      century: primary.slice(0, 2),
+      yearShort: primary.slice(2),
+      rangeSuffix: `- ${secondary}`,
+    };
+  }
+  const singleMatch = raw.match(/^(\d{4})$/);
+  if (singleMatch) {
+    const year = singleMatch[1];
+    return {
+      type: "single",
+      century: year.slice(0, 2),
+      yearShort: year.slice(2),
+    };
+  }
+  return { type: "plain", label: raw };
+}
+
+function renderPastWebsiteYearStackLines(entry) {
+  const parts = parsePastWebsiteYearParts(entry.yearLabel || entry.year);
+  if (parts.type === "plain") {
+    return [el("span", { class: "pastWebsitesYearLine", text: parts.label })];
+  }
+  const lines = [
+    el("span", { class: "pastWebsitesYearLine pastWebsitesYearLine--century", text: parts.century }),
+    el("span", { class: "pastWebsitesYearLine pastWebsitesYearLine--short", text: parts.yearShort }),
+  ];
+  if (parts.rangeSuffix) {
+    lines.push(
+      el("span", { class: "pastWebsitesYearLine pastWebsitesYearLine--range", text: parts.rangeSuffix })
+    );
+  }
+  return lines;
+}
+
+function renderPastWebsiteYearControl(entry, variant, yearAlign = "center") {
+  const label = entry.yearLabel || entry.year;
+  const interactive = Boolean(entry.modal || entry.href);
+
+  if (variant === "marker") {
+    const markerClass = `pastWebsitesMarkerYear${interactive ? " pastWebsitesYearButton" : ""}`;
+    const markerAttrs = {
+      class: markerClass,
+      text: label,
+      "aria-label": entry.modal ? `${label} 網站簡介` : `${label}`,
+    };
+    if (interactive) {
+      return el("button", {
+        ...markerAttrs,
+        type: "button",
+        onclick: () => pastWebsiteActivateEntry(entry),
+      });
+    }
+    return el("span", markerAttrs);
+  }
+
+  const alignClass =
+    yearAlign === "left"
+      ? " pastWebsitesYearStack--alignLeft"
+      : yearAlign === "right"
+        ? " pastWebsitesYearStack--alignRight"
+        : "";
+  const stackClass = `pastWebsitesYearStack${alignClass}${interactive ? " pastWebsitesYearButton" : ""}`;
+  const stackChildren = renderPastWebsiteYearStackLines(entry);
+  if (interactive) {
+    return el(
+      "button",
+      {
+        class: stackClass,
+        type: "button",
+        "aria-label": entry.modal ? `${label} 網站簡介` : `${label} 歷屆網站`,
+        onclick: () => pastWebsiteActivateEntry(entry),
+      },
+      stackChildren
+    );
+  }
+  return el("div", { class: stackClass, "aria-label": label }, stackChildren);
+}
+
+function renderPastWebsiteVerticalEntry(entry, imageOnLeft) {
+  if (entry.empty || entry.markerOnly || !entry.hasFeature) {
+    return el("div", {
+      class: "pastWebsitesEntry pastWebsitesEntry--marker",
+      "data-year": entry.year,
+    }, [
+      el("div", { class: "pastWebsitesSide pastWebsitesSide--left", "aria-hidden": "true" }),
+      el("div", { class: "pastWebsitesYearCol pastWebsitesYearCol--marker" }, [
+        el("span", { class: "pastWebsitesMarkerDash", "aria-hidden": "true" }),
+      ]),
+      el("div", { class: "pastWebsitesSide pastWebsitesSide--right pastWebsitesSide--markerLabel" }, [
+        renderPastWebsiteYearControl(entry, "marker"),
+      ]),
+    ]);
+  }
+
+  const art = renderPastWebsiteSideContent(entry, "art");
+  const title = renderPastWebsiteSideContent(entry, "title");
+  // 圖片在左 → 紅軸年份靠右；圖片在右 → 紅軸年份靠左
+  const yearAlign = imageOnLeft ? "right" : "left";
+  const leftKind = imageOnLeft ? "art" : "title";
+  const rightKind = imageOnLeft ? "title" : "art";
+
+  return el(
+    "div",
+    {
+      class: `pastWebsitesEntry pastWebsitesEntry--feature pastWebsitesEntry--${
+        imageOnLeft ? "imageLeft" : "imageRight"
+      } pastWebsitesEntry--yearAlign${yearAlign === "left" ? "Left" : "Right"}`,
+      "data-year": entry.year,
+    },
+    [
+      el(
+        "div",
+        { class: "pastWebsitesSide pastWebsitesSide--left" },
+        leftKind === "art" ? (art ? [art] : []) : title ? [title] : []
+      ),
+      el(
+        "div",
+        {
+          class: `pastWebsitesYearCol pastWebsitesYearCol--align${
+            yearAlign === "left" ? "Left" : "Right"
+          }`,
+        },
+        [renderPastWebsiteYearControl(entry, "large", yearAlign)]
+      ),
+      el(
+        "div",
+        { class: "pastWebsitesSide pastWebsitesSide--right" },
+        rightKind === "art" ? (art ? [art] : []) : title ? [title] : []
+      ),
+    ]
+  );
+}
+
+function renderPastWebsitesVerticalTimeline() {
+  const keys = pastWebsiteTimelineKeys();
+  const root = el("div", {
+    class: "pastWebsitesTimeline",
+    "aria-label": "歷屆網站時間軸",
+  });
+  root.appendChild(el("div", { class: "pastWebsitesSpine", "aria-hidden": "true" }));
+
+  let featureIndex = 0;
+  for (const key of keys) {
+    const entry = buildPastWebsiteVerticalEntry(key);
+    if (!entry.year) continue;
+    const imageOnLeft = featureIndex % 2 === 0;
+    if (entry.hasFeature) featureIndex += 1;
+    root.appendChild(renderPastWebsiteVerticalEntry(entry, imageOnLeft));
+  }
+
+  return root;
+}
+
+function renderTimelineEntry(entry) {
   const links = Array.isArray(entry.links) ? entry.links : [];
   const image = entry.image;
   const imagePosition = entry.imagePosition === "above" ? "above" : "below";
   const year = entry.year || "";
   const yearLabel = entry.yearLabel || year;
   const detailHref = yearIntroHref(year);
-  const websiteHref = pastWebsites ? resolvePastWebsiteHref(year) || links.find((l) => l.label === "網站")?.href || "" : "";
-  const pageHref = pastWebsites && websiteHref ? websiteHref : detailHref;
+  const pageHref = detailHref;
 
   const imageInner = image?.src
     ? el("img", { src: image.src, alt: image.alt || yearLabel || "artwork", loading: "lazy" })
     : null;
 
-  const modalData = entry.modal;
-  let imageEl = null;
-  if (imageInner) {
-    if (pastWebsites && modalData) {
-      imageEl = el(
-        "button",
-        {
-          class: "timelineArt timelineArtLink timelineArtButton",
-          type: "button",
-          "aria-label": `${yearLabel} 展覽論述`,
-          onclick: () => openPastWebsiteModalFromEntry(modalData, yearLabel),
-        },
-        [imageInner]
-      );
-    } else {
-      imageEl = el(
+  const imageEl = imageInner
+    ? el(
         "a",
         {
           class: "timelineArt timelineArtLink",
-          "aria-label": pastWebsites ? `${yearLabel} 歷屆網站` : `${yearLabel} 年度介紹`,
+          "aria-label": `${yearLabel} 年度介紹`,
           ...timelineExternalLinkAttrs(pageHref),
         },
         [imageInner]
-      );
-    }
-  }
+      )
+    : null;
 
-  const yearEl =
-    pastWebsites && modalData && !websiteHref
-      ? el("button", pastWebsiteModalButtonAttrs(modalData, yearLabel))
-      : pastWebsites && !websiteHref
-        ? el("span", { class: "timelineYear", text: yearLabel })
-        : el("a", {
-            class: "timelineYear timelineYearLink",
-            text: yearLabel,
-            ...timelineExternalLinkAttrs(pageHref),
-          });
+  const yearEl = el("a", {
+    class: "timelineYear timelineYearLink",
+    text: yearLabel,
+    ...timelineExternalLinkAttrs(pageHref),
+  });
   const dotEl = el("div", { class: "timelineDot", "aria-hidden": "true" });
   const linksEl = el(
     "ul",
@@ -497,14 +725,6 @@ function renderTimelineEntry(entry, options = {}) {
     )
   );
 
-  if (pastWebsites) {
-    return el("div", { class: "timelineEntry timelineEntry--pastWebsites" }, [
-      el("div", { class: "timelineEntryArt" }, imageEl ? [imageEl] : []),
-      el("div", { class: "timelineEntryMarker" }, [dotEl]),
-      el("div", { class: "timelineEntryYear" }, [yearEl]),
-    ]);
-  }
-
   const stack = el("div", { class: `timelineStack timelineStack--${imagePosition}` }, [
     imagePosition === "above" ? imageEl : null,
     dotEl,
@@ -516,26 +736,11 @@ function renderTimelineEntry(entry, options = {}) {
   return el("div", { class: "timelineEntry" }, [stack]);
 }
 
-function renderClassicsTimeline(options = {}) {
-  const pastWebsites = options.pastWebsites === true;
-  let rows;
+function renderClassicsTimeline() {
+  const data = window.SITE_CONTENT?.classics || {};
+  const rows = Array.isArray(data.timelineRows) ? data.timelineRows : [];
 
-  if (pastWebsites) {
-    const past = pastExhibitionsData();
-    const configuredRows = Array.isArray(past.rows) ? past.rows : [];
-    rows = configuredRows.slice(0, 2).map((rowYears) => ({
-      entries: (Array.isArray(rowYears) ? rowYears : [])
-        .map((y) => buildPastWebsiteTimelineEntry(String(y).trim()))
-        .filter((entry) => entry.year),
-    }));
-  } else {
-    const data = window.SITE_CONTENT?.classics || {};
-    rows = Array.isArray(data.timelineRows) ? data.timelineRows : [];
-  }
-
-  const content = el("div", {
-    class: `timelinePage${pastWebsites ? " timelinePage--pastWebsites" : ""}`,
-  });
+  const content = el("div", { class: "timelinePage" });
   for (const row of rows) {
     const entries = Array.isArray(row.entries) ? row.entries : [];
     const rowEl = el("div", { class: "timelineRow" }, [
@@ -543,7 +748,7 @@ function renderClassicsTimeline(options = {}) {
       el(
         "div",
         { class: `timelineGrid timelineGrid--${Math.min(5, Math.max(1, entries.length))}` },
-        entries.map((entry) => renderTimelineEntry(entry, { pastWebsites }))
+        entries.map((entry) => renderTimelineEntry(entry))
       ),
     ]);
     content.appendChild(rowEl);

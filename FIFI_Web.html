@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>義家藝館</title>
-    <link rel="preload" href="./assets/fonts/%E6%80%9D%E6%BA%90%E5%AE%8B%E9%AB%94/NOTOSERIFCJKTC-REGULAR.OTF" as="font" type="font/otf" crossorigin>
+    <link rel="preload" href="./assets/fonts/%E6%80%9D%E6%BA%90%E5%AE%8B%E9%AB%94/NOTOSERIFCJKTC-MEDIUM.OTF" as="font" type="font/otf" crossorigin>
     <link rel="preload" href="./assets/fonts/%E6%80%9D%E6%BA%90%E5%AE%8B%E9%AB%94/NOTOSERIFCJKTC-BOLD.OTF" as="font" type="font/otf" crossorigin>
-    <link rel="preload" href="./assets/fonts/DINPro-CondensedRegular.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="./assets/fonts/%E6%80%9D%E6%BA%90%E5%AE%8B%E9%AB%94/NOTOSERIFCJKTC-BLACK.OTF" as="font" type="font/otf" crossorigin>
+    <link rel="preload" href="./assets/fonts/%E6%80%9D%E6%BA%90%E6%9F%94%E9%BB%91%E9%AB%94/GenJyuuGothic-Medium.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="./assets/fonts/din-pro-cond-cufonfonts/DINPro-CondMedium.otf" as="font" type="font/otf" crossorigin>
+    <link rel="preload" href="./assets/fonts/din-pro-cond-cufonfonts/DINPro-CondBold.otf" as="font" type="font/otf" crossorigin>
+    <link rel="preload" href="./assets/fonts/din-pro-cond-cufonfonts/DINPro-CondBlack.otf" as="font" type="font/otf" crossorigin>
     <link rel="stylesheet" href="./app/styles.css" id="mainStyles">
     <link rel="stylesheet" href="./app/freedom-door.css">
     <link rel="stylesheet" href="./app/freedom-person.css">
@@ -14,8 +18,13 @@
       (function () {
         function loadFifiFonts() {
           if (!document.fonts || !document.fonts.load) return;
-          document.fonts.load('400 16px "FIFI CJK Serif"', "義家藝館");
+          document.fonts.load('500 16px "FIFI CJK Serif"', "義家藝館");
           document.fonts.load('700 16px "FIFI CJK Serif"', "義家藝館");
+          document.fonts.load('900 16px "FIFI CJK Serif"', "義家藝館");
+          document.fonts.load('500 16px "FIFI CJK Sans"', "義家藝館");
+          document.fonts.load('500 16px "DIN Pro Condensed"', "FIFI");
+          document.fonts.load('700 16px "DIN Pro Condensed"', "FIFI");
+          document.fonts.load('900 16px "DIN Pro Condensed"', "FIFI");
         }
         var sheet = document.getElementById("mainStyles");
         if (!sheet) return;

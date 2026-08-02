@@ -1124,8 +1124,10 @@ function renderArchiveExhibitions() {
   const root = el("div", { class: "archivePage archivePastWebsitesPage" });
   root.appendChild(el("h1", { class: "archivePastWebsitesTitle", text: heading }));
 
-  if (typeof renderClassicsTimeline === "function") {
-    root.appendChild(renderClassicsTimeline({ pastWebsites: true }));
+  if (typeof renderPastWebsitesVerticalTimeline === "function") {
+    root.appendChild(renderPastWebsitesVerticalTimeline());
+  } else if (typeof renderClassicsTimeline === "function") {
+    root.appendChild(renderClassicsTimeline());
   }
 
   return root;
@@ -1994,7 +1996,48 @@ function renderPastWebsiteModalSection(section, fallbackHeading) {
   ]);
 }
 
+function openPastWebsiteBriefModal(modalData = {}) {
+  const link = modalData.link && typeof modalData.link === "object" ? modalData.link : {};
+  const href = String(link.href || modalData.href || "").trim();
+  const linkLabel = String(link.label || "前往網站").trim() || "前往網站";
+  const intro = String(modalData.intro || modalData.body || "").trim();
+
+  const children = [];
+  if (intro) {
+    children.push(el("p", { class: "archivePastWebsiteBriefIntro", text: intro }));
+  }
+  if (href) {
+    children.push(
+      el("a", {
+        class: "archivePastWebsiteBriefLink",
+        href,
+        target: "_blank",
+        rel: "noopener noreferrer",
+        text: linkLabel,
+      })
+    );
+  } else {
+    children.push(
+      el("p", {
+        class: "archivePastWebsiteBriefLinkPending",
+        text: "網站連結（待補）",
+      })
+    );
+  }
+
+  openArchiveModal({
+    title: modalData.title || "",
+    content: el("div", { class: "archivePastWebsiteBriefModal" }, children),
+    brief: true,
+  });
+}
+
 function openPastWebsiteModal(modalData = {}) {
+  if (modalData?.type === "brief") {
+    openPastWebsiteBriefModal(modalData);
+    return;
+  }
+
   const discourse = renderPastWebsiteModalSection(modalData.discourse, "展覽論述");
   const credit = renderPastWebsiteModalSection(modalData.credit, "Credit");
   const content = el("div", { class: "archivePastWebsiteModalDialog" }, [discourse, credit].filter(Boolean));
@@ -3333,7 +3376,7 @@ function openArchiveModal(options = {}) {
     options.flipbook ? " archiveModalPanel--flipbook" : ""
   }${options.preview ? " archiveModalPanel--preview" : ""}${
     options.lightbox ? " archiveModalPanel--lightbox" : ""
-  }`;
+  }${options.brief ? " archiveModalPanel--brief" : ""}`;
   const panel = el("div", { class: panelClass });
   const closeBtn = el("button", {
     class: "archiveModalClose",

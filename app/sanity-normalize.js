@@ -242,10 +242,18 @@
   window.normalizeSanitySiteContent = function normalizeSanitySiteContent(doc, fallback) {
     const base = fallback && typeof fallback === "object" ? structuredClone(fallback) : {};
 
-    if (doc.technicalJson) {
+  // 首頁底圖／圖層／熱區：若 technicalJson 有帶也不覆寫本機 fallback（由 loadSiteContent 再保險一次）
+  if (doc.technicalJson) {
       try {
         const tech = JSON.parse(doc.technicalJson);
-        Object.assign(base, tech);
+        const {
+          homeLayers: _hl,
+          homeZones: _hz,
+          homeIntro: _hi,
+          homeImage: _hm,
+          ...rest
+        } = tech;
+        Object.assign(base, rest);
       } catch (e) {
         console.warn("technicalJson 解析失敗", e);
       }

@@ -4,19 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>義家藝館</title>
-    <!-- 提早下載常用字重，減少進站時先閃系統舊字體再換成思源宋體 -->
-    <link rel="preload" href="./assets/fonts/%E6%80%9D%E6%BA%90%E5%AE%8B%E9%AB%94/NOTOSERIFCJKTC-REGULAR.OTF" as="font" type="font/otf" crossorigin>
+    <!-- 提早下載常用字重，減少進站時先閃系統舊字體再換成思源宋／黑／DIN -->
+    <link rel="preload" href="./assets/fonts/%E6%80%9D%E6%BA%90%E5%AE%8B%E9%AB%94/NOTOSERIFCJKTC-MEDIUM.OTF" as="font" type="font/otf" crossorigin>
     <link rel="preload" href="./assets/fonts/%E6%80%9D%E6%BA%90%E5%AE%8B%E9%AB%94/NOTOSERIFCJKTC-BOLD.OTF" as="font" type="font/otf" crossorigin>
-    <link rel="preload" href="./assets/fonts/DINPro-CondensedRegular.ttf" as="font" type="font/ttf" crossorigin>
-    <link rel="stylesheet" href="./app/styles.css" id="mainStyles">
-    <link rel="stylesheet" href="./app/freedom-door.css">
-    <link rel="stylesheet" href="./app/freedom-person.css">
+    <link rel="preload" href="./assets/fonts/%E6%80%9D%E6%BA%90%E5%AE%8B%E9%AB%94/NOTOSERIFCJKTC-BLACK.OTF" as="font" type="font/otf" crossorigin>
+    <link rel="preload" href="./assets/fonts/%E6%80%9D%E6%BA%90%E6%9F%94%E9%BB%91%E9%AB%94/GenJyuuGothic-Medium.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="./assets/fonts/din-pro-cond-cufonfonts/DINPro-CondMedium.otf" as="font" type="font/otf" crossorigin>
+    <link rel="preload" href="./assets/fonts/din-pro-cond-cufonfonts/DINPro-CondBold.otf" as="font" type="font/otf" crossorigin>
+    <link rel="preload" href="./assets/fonts/din-pro-cond-cufonfonts/DINPro-CondBlack.otf" as="font" type="font/otf" crossorigin>
+    <link rel="stylesheet" href="./app/styles.css?v=20260802c" id="mainStyles">
+    <link rel="stylesheet" href="./app/freedom-door.css?v=20260802c">
+    <link rel="stylesheet" href="./app/freedom-person.css?v=20260802c">
     <script>
       (function () {
         function loadFifiFonts() {
           if (!document.fonts || !document.fonts.load) return;
-          document.fonts.load('400 16px "FIFI CJK Serif"', "義家藝館");
+          document.fonts.load('500 16px "FIFI CJK Serif"', "義家藝館");
           document.fonts.load('700 16px "FIFI CJK Serif"', "義家藝館");
+          document.fonts.load('900 16px "FIFI CJK Serif"', "義家藝館");
+          document.fonts.load('500 16px "FIFI CJK Sans"', "義家藝館");
+          document.fonts.load('500 16px "DIN Pro Condensed"', "FIFI");
+          document.fonts.load('700 16px "DIN Pro Condensed"', "FIFI");
+          document.fonts.load('900 16px "DIN Pro Condensed"', "FIFI");
         }
         var sheet = document.getElementById("mainStyles");
         if (!sheet) return;
@@ -55,16 +64,16 @@
   window.SANITY_WRITE_TOKEN = "";
 </script>
 <script src="./app/vendor/page-flip.browser.js"></script>
-<script src="./app/sanity-normalize.js"></script>
-<script src="./app/archive-content-loader.js"></script>
-<script src="./app/research-content-loader.js"></script>
-<script src="./app/freedom-door-sanity.js"></script>
-<script src="./app/freedom-door.js"></script>
-<script src="./app/freedom-person-sanity.js"></script>
-<script src="./app/freedom-person.js"></script>
-<script src="./app/app.js"></script>
-<script src="./app/inner-pages.js"></script>
-<script src="./app/archive-pages.js"></script>
+<script src="./app/sanity-normalize.js?v=20260802c"></script>
+<script src="./app/archive-content-loader.js?v=20260802c"></script>
+<script src="./app/research-content-loader.js?v=20260802c"></script>
+<script src="./app/freedom-door-sanity.js?v=20260802c"></script>
+<script src="./app/freedom-door.js?v=20260802c"></script>
+<script src="./app/freedom-person-sanity.js?v=20260802c"></script>
+<script src="./app/freedom-person.js?v=20260802c"></script>
+<script src="./app/app.js?v=20260802c"></script>
+<script src="./app/inner-pages.js?v=20260802c"></script>
+<script src="./app/archive-pages.js?v=20260802c"></script>
 
 </body>
 </html>

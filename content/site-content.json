@@ -53,10 +53,10 @@
       "href": "#archive/videos"
     }
   ],
-  "homeImage": "./assets/images/home/home-base.jpg",
+  "homeImage": "./assets/images/home/BG_new.png",
   "homeIntro": {
     "enabled": true,
-    "gif": "./assets/images/home/home-intro.gif",
+    "gif": "./assets/images/home/home-intro_Final.gif",
     "durationMs": 3000,
     "gifFadeOutMs": 500,
     "contentFadeInMs": 1400,
@@ -65,30 +65,108 @@
     "offsetY": "-2.3%"
   },
   "homeLayers": {
-    "base": "./assets/images/home/home-base.jpg",
+    "base": "./assets/images/home/BG_new.png",
     "door": {
       "default": "./assets/images/home/door.png",
       "hover": "./assets/images/home/Door-Open.png",
-      "left": "44.70%",
+      "left": "44.7%",
       "top": "63.9%",
       "width": "11.1%",
-      "height": "22.4%"
+      "height": "22.4%",
+      "states": {
+        "default": {
+          "left": "44.7%",
+          "top": "63.9%",
+          "width": "11.1%",
+          "height": "22.4%"
+        },
+        "shine": {
+          "left": "44.7%",
+          "top": "63.9%",
+          "width": "11.1%",
+          "height": "22.4%"
+        },
+        "hover": {
+          "left": "44.7%",
+          "top": "63.9%",
+          "width": "11.1%",
+          "height": "22.4%"
+        }
+      }
     },
     "bannerLeft": {
       "default": "./assets/images/home/Banner-Left.png",
       "hover": "./assets/images/home/Banner-Left-Open.png",
-      "left": "20%",
-      "top": "37.41%",
-      "width": "9.32%",
-      "height": "42.69%"
+      "left": "21.59%",
+      "top": "38.82%",
+      "width": "5.73%",
+      "height": "38.93%",
+      "states": {
+        "default": {
+          "left": "21.59%",
+          "top": "38.82%",
+          "width": "5.73%",
+          "height": "38.93%"
+        },
+        "shine": {
+          "left": "19.26%",
+          "top": "34.55%",
+          "width": "10.59%",
+          "height": "46.70%"
+        },
+        "hover": {
+          "left": "18.42%",
+          "top": "34.69%",
+          "width": "12.13%",
+          "height": "47.58%"
+        }
+      },
+      "shine": "./assets/images/home/Banner-Left-Shining.png"
     },
     "bannerRight": {
-      "default": "./assets/images/home/Banner-Left.png",
-      "hover": "./assets/images/home/Banner-Left-Open.png",
-      "left": "71%",
-      "top": "37.41%",
-      "width": "9.32%",
-      "height": "42.69%"
+      "default": "./assets/images/home/Banner-Right.png",
+      "hover": "./assets/images/home/Banner-Right-Open.png",
+      "left": "72.8%",
+      "top": "38.91%",
+      "width": "5.94%",
+      "height": "39.68%",
+      "states": {
+        "default": {
+          "left": "72.8%",
+          "top": "38.91%",
+          "width": "5.94%",
+          "height": "39.68%"
+        },
+        "shine": {
+          "left": "70.37%",
+          "top": "34.37%",
+          "width": "10.75%",
+          "height": "48.57%"
+        },
+        "hover": {
+          "left": "69.99%",
+          "top": "35.71%",
+          "width": "15.3%",
+          "height": "47.2%"
+        }
+      },
+      "shine": "./assets/images/home/Banner-Right-Shining.png"
+    },
+    "brandLogo": {
+      "src": "./assets/images/home/LOGO.png",
+      "alt": "義家藝館",
+      "left": "3.2%",
+      "top": "3.8%",
+      "width": "18.5%",
+      "height": "20%"
+    },
+    "supportLogos": {
+      "src": "./assets/images/home/Support.png",
+      "alt": "協助單位",
+      "left": "84.5%",
+      "top": "58%",
+      "width": "9%",
+      "height": "28%"
     }
   },
   "homeZones": [
@@ -98,12 +176,32 @@
       "title": "特展（左）",
       "href": "#exhibition-left/about",
       "nav": {
-        "image": "./assets/images/home/exhibition-right.png",
-        "imageHover": "./assets/images/home/exhibition-right-Open.png",
-        "left": "18.65%",
-        "bottom": "0",
-        "width": "9.27%",
-        "height": "10.28%"
+        "image": "./assets/images/home/nav-title-person.png",
+        "imageHover": "./assets/images/home/nav-title-person-Open.png",
+        "left": "16.8%",
+        "bottom": "0%",
+        "width": "14.7%",
+        "height": "10.28%",
+        "states": {
+          "default": {
+            "left": "16.8%",
+            "bottom": "0%",
+            "width": "14.7%",
+            "height": "10.28%"
+          },
+          "shine": {
+            "left": "16.8%",
+            "bottom": "0%",
+            "width": "14.7%",
+            "height": "10.28%"
+          },
+          "hover": {
+            "left": "16.8%",
+            "bottom": "0%",
+            "width": "14.7%",
+            "height": "10.28%"
+          }
+        }
       }
     },
     {
@@ -116,9 +214,29 @@
         "image": "./assets/images/home/archive.png",
         "imageHover": "./assets/images/home/archive-Open.png",
         "left": "44.58%",
-        "bottom": "0",
+        "bottom": "0%",
         "width": "10.89%",
-        "height": "10.28%"
+        "height": "10.28%",
+        "states": {
+          "default": {
+            "left": "44.58%",
+            "bottom": "0%",
+            "width": "10.89%",
+            "height": "10.28%"
+          },
+          "shine": {
+            "left": "44.58%",
+            "bottom": "0%",
+            "width": "10.89%",
+            "height": "10.28%"
+          },
+          "hover": {
+            "left": "44.58%",
+            "bottom": "0%",
+            "width": "10.89%",
+            "height": "10.28%"
+          }
+        }
       }
     },
     {
@@ -127,12 +245,32 @@
       "title": "特展（右）",
       "href": "#exhibition-right/about",
       "nav": {
-        "image": "./assets/images/home/exhibition-right.png",
-        "imageHover": "./assets/images/home/exhibition-right-Open.png",
-        "left": "72.08%",
-        "bottom": "0",
-        "width": "9.27%",
-        "height": "10.28%"
+        "image": "./assets/images/home/nav-title-door.png",
+        "imageHover": "./assets/images/home/nav-title-door-Open.png",
+        "left": "70.5%",
+        "bottom": "0%",
+        "width": "14.5%",
+        "height": "10.28%",
+        "states": {
+          "default": {
+            "left": "70.5%",
+            "bottom": "0%",
+            "width": "14.5%",
+            "height": "10.28%"
+          },
+          "shine": {
+            "left": "70.5%",
+            "bottom": "0%",
+            "width": "14.5%",
+            "height": "10.28%"
+          },
+          "hover": {
+            "left": "70.5%",
+            "bottom": "0%",
+            "width": "14.5%",
+            "height": "10.28%"
+          }
+        }
       }
     }
   ],
@@ -1058,135 +1196,211 @@
     },
     "pastExhibitions": {
       "heading": "歷屆網站",
-      "imageYears": [
-        "2026",
+      "timeline": [
+        "2027-2026",
+        "2025",
+        "2024",
+        "2023",
+        "2022",
         "2021",
+        "2020",
+        "2019",
+        "2018",
+        "2017",
+        "2016",
+        "2015"
+      ],
+      "imageYears": [
+        "2027-2026",
+        "2023",
+        "2022",
+        "2021",
+        "2020",
+        "2019",
+        "2018",
         "2016"
       ],
-      "rows": [
-        [
-          "2027",
-          "2026",
-          "2025",
-          "2023",
-          "2022"
-        ],
-        [
-          "2021",
-          "2020",
-          "2019",
-          "2018",
-          "2016"
-        ]
-      ],
       "byYear": {
-        "2016": {
+        "2027-2026": {
+          "yearLabel": "2027-2026",
           "banner": {
-            "src": "./assets/images/layout/Building-2016.png",
-            "alt": "2016 義家藝館"
+            "src": "./assets/images/logo/2026.png",
+            "alt": "2027-2026 義家藝館"
           },
-          "href": "https://vm3vm06tjp6.wixsite.com/tnuaedu"
+          "modal": {
+            "type": "brief",
+            "title": "2027-2026",
+            "intro": "網頁簡介（待補）。",
+            "link": {
+              "label": "前往網站",
+              "href": ""
+            }
+          }
         },
-        "2018": {
-          "href": "https://vartmuseum.wixsite.com/vartmuseum"
+        "2025": {
+          "yearLabel": "2025",
+          "markerOnly": true,
+          "modal": {
+            "type": "brief",
+            "title": "2025",
+            "intro": "網頁簡介（待補）。",
+            "link": {
+              "label": "前往網站",
+              "href": ""
+            }
+          }
         },
-        "2019": {
-          "href": "https://2019824.webnode.tw/"
+        "2024": {
+          "yearLabel": "2024",
+          "empty": true
         },
-        "2020": {
-          "href": "https://4-00.webnode.tw/"
+        "2023": {
+          "title": "成為一個人",
+          "subtitle": "On Becoming a Person",
+          "banner": {
+            "src": "./assets/images/logo/2023.png",
+            "alt": "2023 成為一個人"
+          },
+          "href": "https://yijiayiguan7-0.webnode.tw"
+        },
+        "2022": {
+          "title": "以藝代戰",
+          "subtitle": "關於戰爭的五則寓言",
+          "banner": {
+            "src": "./assets/images/logo/2022.png",
+            "alt": "2022 以藝代戰"
+          },
+          "href": "https://yijiayiguan6-02.webnode.tw/"
         },
         "2021": {
+          "title": "家X書",
+          "subtitle": "關於家的重新書寫、包覆與想像",
+          "subtitleEn": "Rewriting, Recovering and Reimagining Home",
           "banner": {
-            "src": "./assets/images/layout/Building-2021.png",
+            "src": "./assets/images/logo/2021.png",
             "alt": "2021 家X書"
           },
           "href": "https://yijiayiguan-507.webnode.tw/"
         },
-        "2022": {
-          "href": "https://yijiayiguan6-02.webnode.tw/"
-        },
-        "2023": {
-          "href": "https://yijiayiguan7-0.webnode.tw"
-        },
-        "2025": {
-          "href": ""
-        },
-        "2026": {
-          "yearLabel": "2026",
+        "2020": {
+          "title": "隔離的隱喻",
           "banner": {
-            "src": "./assets/images/layout/Building-2026.png",
-            "alt": "2026 義家藝館"
+            "src": "./assets/images/logo/2020.png",
+            "alt": "2020 隔離的隱喻"
           },
-          "href": "",
-          "modal": {
-            "title": "2026",
-            "discourse": {
-              "heading": "展覽論述",
-              "body": "展覽論述正文。"
-            },
-            "credit": {
-              "heading": "Credit",
-              "body": "製作團隊、協力單位與致謝名單。"
-            }
-          }
+          "href": "https://4-00.webnode.tw/"
         },
-        "2027": {
-          "href": ""
+        "2019": {
+          "title": "怎麼在一百八十天內",
+          "subtitle": "成為一個完全的自由人",
+          "banner": {
+            "src": "./assets/images/logo/2019.png",
+            "alt": "2019 怎麼在一百八十天內成為一個完全的自由人"
+          },
+          "href": "https://2019824.webnode.tw/"
+        },
+        "2018": {
+          "title": "藝炊",
+          "subtitle": "藝士篇",
+          "banner": {
+            "src": "./assets/images/logo/2018.png",
+            "alt": "2018 藝炊"
+          },
+          "href": "https://vartmuseum.wixsite.com/vartmuseum"
+        },
+        "2017": {
+          "yearLabel": "2017",
+          "empty": true
+        },
+        "2016": {
+          "banner": {
+            "src": "./assets/images/logo/2016.png",
+            "alt": "2016 義家藝館"
+          },
+          "href": "https://vm3vm06tjp6.wixsite.com/tnuaedu"
+        },
+        "2015": {
+          "yearLabel": "2015",
+          "empty": true
         }
       },
       "items": [
         {
-          "title": "2016 歷屆展覽",
-          "href": "https://vm3vm06tjp6.wixsite.com/tnuaedu",
+          "year": "2027-2026",
+          "title": "2027-2026 歷屆展覽",
+          "href": "",
           "image": {
-            "src": "./assets/images/layout/Building-2016.png",
-            "alt": "2016 歷屆展覽"
+            "src": "./assets/images/logo/2026.png",
+            "alt": "2027-2026 歷屆展覽"
           }
         },
         {
-          "title": "2018 歷屆展覽",
-          "href": "https://vartmuseum.wixsite.com/vartmuseum"
-        },
-        {
-          "title": "2019 歷屆展覽",
-          "href": "https://2019824.webnode.tw/"
-        },
-        {
-          "title": "2020 歷屆展覽",
-          "href": "https://4-00.webnode.tw/"
-        },
-        {
-          "title": "2021 歷屆展覽",
-          "href": "https://yijiayiguan-507.webnode.tw/",
-          "image": {
-            "src": "./assets/images/layout/Building-2021.png",
-            "alt": "2021 歷屆展覽"
-          }
-        },
-        {
-          "title": "2022 歷屆展覽",
-          "href": "https://yijiayiguan6-02.webnode.tw/"
-        },
-        {
-          "title": "2023 歷屆展覽",
-          "href": "https://yijiayiguan7-0.webnode.tw"
-        },
-        {
+          "year": "2025",
           "title": "2025 歷屆展覽",
           "href": ""
         },
         {
-          "title": "2026 歷屆展覽",
-          "href": "",
+          "year": "2023",
+          "title": "成為一個人",
+          "href": "https://yijiayiguan7-0.webnode.tw",
           "image": {
-            "src": "./assets/images/layout/Building-2026.png",
-            "alt": "2026 歷屆展覽"
+            "src": "./assets/images/logo/2023.png",
+            "alt": "2023 成為一個人"
           }
         },
         {
-          "title": "2027 歷屆展覽",
-          "href": ""
+          "year": "2022",
+          "title": "以藝代戰",
+          "href": "https://yijiayiguan6-02.webnode.tw/",
+          "image": {
+            "src": "./assets/images/logo/2022.png",
+            "alt": "2022 以藝代戰"
+          }
+        },
+        {
+          "year": "2021",
+          "title": "家X書",
+          "href": "https://yijiayiguan-507.webnode.tw/",
+          "image": {
+            "src": "./assets/images/logo/2021.png",
+            "alt": "2021 歷屆展覽"
+          }
+        },
+        {
+          "year": "2020",
+          "title": "隔離的隱喻",
+          "href": "https://4-00.webnode.tw/",
+          "image": {
+            "src": "./assets/images/logo/2020.png",
+            "alt": "2020 隔離的隱喻"
+          }
+        },
+        {
+          "year": "2019",
+          "title": "怎麼在一百八十天內",
+          "href": "https://2019824.webnode.tw/",
+          "image": {
+            "src": "./assets/images/logo/2019.png",
+            "alt": "2019"
+          }
+        },
+        {
+          "year": "2018",
+          "title": "藝炊",
+          "href": "https://vartmuseum.wixsite.com/vartmuseum",
+          "image": {
+            "src": "./assets/images/logo/2018.png",
+            "alt": "2018 藝炊"
+          }
+        },
+        {
+          "year": "2016",
+          "title": "2016 歷屆展覽",
+          "href": "https://vm3vm06tjp6.wixsite.com/tnuaedu",
+          "image": {
+            "src": "./assets/images/logo/2016.png",
+            "alt": "2016 歷屆展覽"
+          }
         }
       ]
     },
