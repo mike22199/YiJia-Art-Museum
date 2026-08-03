@@ -10,7 +10,7 @@
     },
     "headerLogo": {
       "building": "./assets/images/layout/logo-building.png",
-      "title": "./assets/images/layout/logo-title.png",
+      "title": "./assets/images/home/LOGO.png",
       "alt": "義家藝館"
     },
     "footer": {
@@ -30,7 +30,7 @@
     "subnavBg": "./assets/images/layout/subnav-bg.jpg",
     "footerBg": "./assets/images/layout/footer-bg.png",
     "logoBuilding": "./assets/images/layout/logo-building.png",
-    "logoTitle": "./assets/images/layout/logo-title.png",
+    "logoTitle": "./assets/images/home/LOGO.png",
     "iconSearch": "./assets/images/layout/icon-search.png",
     "partnerLogos": "./assets/images/home/Support.png",
     "iconYoutube": "./assets/images/logo/youtube.png",
@@ -174,7 +174,7 @@
       "id": "left",
       "label": "特展",
       "title": "特展（左）",
-      "href": "#exhibition-left/about",
+      "href": "#exhibition-right/about",
       "nav": {
         "image": "./assets/images/home/nav-title-person.png",
         "imageHover": "./assets/images/home/nav-title-person-Open.png",
@@ -243,7 +243,7 @@
       "id": "right",
       "label": "特展",
       "title": "特展（右）",
-      "href": "#exhibition-right/about",
+      "href": "#exhibition-left/about",
       "nav": {
         "image": "./assets/images/home/nav-title-door.png",
         "imageHover": "./assets/images/home/nav-title-door-Open.png",

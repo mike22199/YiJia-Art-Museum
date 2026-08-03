@@ -1755,7 +1755,7 @@ body.isHomePage .mainHome{
 }
 
 /* 觸控裝置：加大點擊區、點按時顯示 hover 圖 */
-@media (pointer: coarse){
+@media (pointer: coarse), (hover: none){
   .museumProp::before,
   .museumNavItem::before{
     content: "";
@@ -1856,6 +1856,12 @@ body.isHomePage .mainHome{
 @media (max-width: 720px){
   body.isHomePage{
     overflow: hidden;
+  }
+  /* 手機首頁：右側協助單位 Logo 略放大，較易辨識 */
+  .museumSupportLogos,
+  .museumSideLogos{
+    transform: scale(1.45);
+    transform-origin: top right;
   }
 }
 
@@ -1967,6 +1973,7 @@ body.isInnerPage .mainInner{
   left: calc(24 * var(--ui-scale));
   top: 8%;
   bottom: 28%;
+  z-index: 1;
   display: flex;
   align-items: center;
   gap: calc(10 * var(--ui-scale));
@@ -1986,10 +1993,11 @@ body.isInnerPage .mainInner{
   filter: contrast(1.05);
 }
 .innerBrandTitleImg{
-  height: 52%;
+  /* home/LOGO.png：中英合併標誌，黑底 + screen 混合 */
+  height: 78%;
   width: auto;
-  max-height: calc(64 * var(--ui-scale));
-  max-width: calc(240 * var(--ui-scale));
+  max-height: calc(72 * var(--ui-scale));
+  max-width: calc(220 * var(--ui-scale));
   object-fit: contain;
   object-position: left center;
   flex: 0 1 auto;
@@ -2025,6 +2033,7 @@ body.isInnerPage .mainInner{
   right: calc(36 * var(--ui-scale));
   top: 14%;
   bottom: 30%;
+  z-index: 2;
   width: auto;
   display: flex;
   flex-direction: column;
@@ -2084,6 +2093,7 @@ body.isInnerPage .mainInner{
   /* 6 項約 5 個間距：先前各縮 5px，再各縮 10px → 共 75px */
   width: calc(100% - 75px);
   margin: 0 0 0 auto;
+  overflow: visible;
 }
 .innerNav--compact{
   justify-content: space-between;
@@ -2091,6 +2101,7 @@ body.isInnerPage .mainInner{
   width: calc(100% - 75px);
   max-width: none;
   margin-left: auto;
+  overflow: visible;
 }
 .innerNav--compact .innerNavItem{
   font-size: var(--inner-nav-size);
@@ -2104,7 +2115,8 @@ body.isInnerPage .mainInner{
   font-size: var(--inner-nav-size);
   font-weight: 900;
   letter-spacing: 1.33px;
-  padding: 0 0 2px;
+  line-height: 1.25;
+  padding: 2px 0 3px;
   border-bottom: 3px solid transparent;
   transition: color .15s ease, border-color .15s ease;
   white-space: nowrap;
@@ -3274,6 +3286,13 @@ h3.typeTitle{
 }
 
 @media (max-width: 900px){
+  .innerPage{
+    /* 手機 Header／Footer 加高，避免選單與頁尾被裁切 */
+    --header-bg-height: max(88px, calc(var(--header-src-height) * 1.08));
+    --header-overlap: calc(var(--header-bg-height) * 0.16);
+    --footer-bg-height: max(168px, calc(var(--footer-src-height) * 1.15));
+    --footer-overlap: calc(var(--footer-bg-height) * 0.08);
+  }
   .timelineGrid{
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -3291,57 +3310,122 @@ h3.typeTitle{
     max-width: 240px;
     margin: 0 auto;
   }
+  /* 手機 Logo：使用 LOGO.png，尺寸收斂，不擠壓右側選單 */
   .innerBrand{
-    left: calc(12 * var(--ui-scale));
-    top: 6%;
+    left: 8px;
+    top: 14%;
     bottom: 26%;
-    max-width: 40%;
-    gap: calc(6 * var(--ui-scale));
+    z-index: 1;
+    width: max-content;
+    max-width: 34%;
+    gap: 6px;
+    overflow: hidden;
   }
   .innerBrandBuilding{
-    max-width: calc(100 * var(--ui-scale));
+    max-width: 44px;
+    height: 88%;
   }
   .innerBrandTitleImg{
-    max-height: calc(40 * var(--ui-scale));
-    max-width: calc(140 * var(--ui-scale));
+    height: 88%;
+    max-height: 34px;
+    max-width: 108px;
+    transform: none;
   }
+  /* 選單靠右完整顯示 */
   .innerHeaderAside{
-    left: 42%;
-    right: calc(12 * var(--ui-scale));
-    top: 10%;
+    left: 38%;
+    right: 6px;
+    top: 16%;
     bottom: 28%;
+    z-index: 3;
+    overflow: visible;
   }
   .innerNav{
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: flex-end;
-    gap: calc(8 * var(--ui-scale)) calc(10 * var(--ui-scale));
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 4px 2px 6px 0;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .innerNav::-webkit-scrollbar{
+    display: none;
   }
   .innerNav--compact{
     justify-content: flex-end;
-    gap: calc(6 * var(--ui-scale)) calc(8 * var(--ui-scale));
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    margin: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 4px 2px 6px 0;
   }
+  .innerNavItem,
   .innerNav--compact .innerNavItem{
-    font-size: max(13px, calc(var(--inner-nav-size) * 0.88));
+    font-size: max(11px, calc(var(--inner-nav-size) * 0.72));
+    letter-spacing: 0.2px;
+    flex: 0 0 auto;
+    line-height: 1.25;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+  .innerSubnav{
+    min-height: calc(var(--header-overlap) + 52px);
   }
   .innerSubnavInner{
-    flex-wrap: wrap;
-    gap: calc(12 * var(--ui-scale));
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: calc(28 * var(--ui-scale));
+    min-height: 52px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .innerSubnavInner::-webkit-scrollbar{
+    display: none;
+  }
+  .innerSubnavItem{
+    flex: 0 0 auto;
+    font-size: max(12px, calc(var(--inner-subnav-size) * 0.9));
+    line-height: 1.3;
+    padding-top: 4px;
+    padding-bottom: 4px;
   }
   .innerFooterPartners{
-    left: calc(16 * var(--ui-scale));
-    top: calc(var(--footer-bg-height) * var(--footer-partners-top-ratio));
-    width: calc(96 * var(--ui-scale));
-    max-height: calc(var(--footer-bg-height) * var(--footer-partners-max-h-ratio));
+    left: 10px;
+    top: 28%;
+    width: min(24%, 84px);
+    max-height: 32%;
   }
   .innerFooterContact{
-    left: calc(16 * var(--ui-scale));
-    right: calc(16 * var(--ui-scale));
-    top: calc(var(--footer-bg-height) * 0.52);
-    font-size: var(--footer-contact-size);
+    left: calc(10px + min(26%, 92px));
+    right: 64px;
+    top: 28%;
+    font-size: 9px;
+    line-height: 1.35;
   }
   .innerFooterSocial{
-    right: calc(16 * var(--ui-scale));
-    top: calc(var(--footer-bg-height) * 0.78);
+    right: 10px;
+    top: 28%;
+    bottom: auto;
+    gap: 8px;
+    flex-direction: column;
+  }
+  .innerFooterSocial .innerSocialLink{
+    width: 28px;
+    height: 28px;
   }
 }
 
@@ -6076,23 +6160,94 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
 }
 @media (max-width: 720px){
   .archiveJournalBottomBar{
-    display: none;
+    display: block;
+    left: 2%;
+    bottom: 1.5%;
+    width: 96%;
+    height: 15%;
+    overflow: hidden;
   }
   .archiveJournalFrameContent{
-    top: 6%;
-    left: 10%;
-    right: 10%;
-    bottom: 6%;
+    top: 5%;
+    left: 9%;
+    right: 9%;
+    bottom: 18%;
+  }
+  .archiveJournalArrow{
+    width: 28px;
+    height: 40px;
+  }
+  .archiveJournalArrow img{
+    width: 11px;
   }
   .archiveJournalArrow--prev{ left: 1.5%; }
   .archiveJournalArrow--next{ right: 1.5%; }
+  .archiveJournalPageLabel{
+    left: 3.5%;
+    bottom: 28%;
+    width: auto;
+    max-width: 30%;
+    height: auto;
+    font-size: 11px;
+    letter-spacing: 0.4px;
+    line-height: 1;
+  }
+  .archiveJournalFullscreenBtn{
+    right: 2.5%;
+    bottom: 22%;
+    width: 5%;
+    height: 36%;
+    min-width: 22px;
+    min-height: 22px;
+  }
+  .archiveJournalSliderThumb{
+    width: 20px;
+    height: 20px;
+  }
+  .archiveTeachersCarouselBtn{
+    width: 26px;
+    height: 26px;
+    font-size: 18px;
+  }
   .archiveTeachersCarouselNotebook{
-    width: 44px;
-    height: 56px;
+    width: 36px;
+    height: 46px;
   }
   .archiveTeachersCarouselItem--active .archiveTeachersCarouselNotebook{
-    width: 56px;
-    height: 70px;
+    width: 46px;
+    height: 58px;
+  }
+  .archiveTeachersCarouselItem{
+    transform: scale(0.88);
+    transition: transform 120ms ease, opacity 120ms ease;
+  }
+  .archiveTeachersCarouselItem--active{
+    transform: scale(1.06);
+  }
+  .archiveTeachersCarouselAvatar{
+    transition: none;
+  }
+  .archiveTeachersPickerTitle,
+  .archiveTeachersJournalTitle,
+  .archiveResearchJournalTitle{
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  .archiveResearchPageHeading.archivePageTitle,
+  .archiveResearchPage--journal .archivePageTitle,
+  .archiveTeachersPage .archivePageTitle{
+    font-size: clamp(22px, 6vw, 28px);
+    margin-bottom: 12px;
+  }
+  .archiveResearchJournalTeacherName{
+    font-size: 16px;
+    margin-top: 10px;
+  }
+  .archiveResearchJournalIntroTitle{
+    font-size: 16px;
+  }
+  .archiveYearTab{
+    font-size: 16px;
   }
 }
 .archiveJournalFrame--debug .archiveJournalFrameContent{
@@ -6124,6 +6279,14 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
   font-weight: 700;
   letter-spacing: var(--font-tracking);
   color: #222;
+}
+@media (max-width: 900px){
+  .archiveResearchJournalTeacherName{
+    /* 比標題字級約小 8px，避免壓過翻書工具 */
+    font-size: max(14px, calc(var(--type-title) - 8px));
+    margin-top: 10px;
+    font-weight: 600;
+  }
 }
 .archiveResearchSectionDivider{
   width: 100%;
@@ -6653,14 +6816,37 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
     font-size: 18px;
   }
   .archiveTeachersGridSummary{
-    font-size: 14px;
-    line-height: 1.65;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .archiveTeachersProfileBio{
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .archiveBibliographyItemTitle,
+  .archiveBibliographyItem h3{
+    font-size: 18px;
+  }
+  .archiveBibliographyItemDesc{
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .archiveIntroBody{
+    font-size: 16px;
+  }
+  .archiveYearTabs{
+    gap: 6px 10px;
+    margin-bottom: 16px;
+    justify-content: center;
+  }
+  .archiveYearTab{
+    font-size: 17px;
   }
 }
 @media (max-width: 560px){
   .archiveTeachersYearHeading{
-    font-size: 28px;
-    margin-bottom: 18px;
+    font-size: 22px;
+    margin-bottom: 14px;
   }
   .archiveTeachersGrid{
     gap: 22px 10px;
@@ -6679,8 +6865,18 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
     letter-spacing: 0.5px;
   }
   .archiveTeachersGridSummary{
-    font-size: 12.5px;
-    line-height: 1.55;
+    font-size: 11.5px;
+    line-height: 1.5;
+  }
+  .archiveTeachersProfileBio{
+    font-size: 14px;
+  }
+  .archiveBibliographyItemTitle,
+  .archiveBibliographyItem h3{
+    font-size: 16px;
+  }
+  .archiveBibliographyItemDesc{
+    font-size: 14px;
   }
   .archivePerformanceCardBody{
     padding-top: 16px;

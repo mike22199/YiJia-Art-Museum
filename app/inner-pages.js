@@ -7,7 +7,7 @@ function layoutAssets() {
     subnavBg: layout.subnavBg || "./assets/images/layout/subnav-bg.jpg",
     footerBg: layout.footerBg || "./assets/images/layout/footer-bg.jpg",
     logoBuilding: layout.logoBuilding || "./assets/images/layout/logo-building.png",
-    logoTitle: layout.logoTitle || "./assets/images/layout/logo-title.png",
+    logoTitle: layout.logoTitle || "./assets/images/home/LOGO.png",
     partnerLogos: layout.partnerLogos || "./assets/images/home/Support.png",
     iconYoutube: layout.iconYoutube || "./assets/images/logo/youtube.png",
     iconFacebook: layout.iconFacebook || "./assets/images/logo/facebook.png",

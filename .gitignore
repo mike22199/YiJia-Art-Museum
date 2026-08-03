@@ -28,6 +28,7 @@ admin/
 serve.js
 serve.ps1
 serve.cmd
+tools/
 
 # ---------- 其他部署／建置產物 ----------
 netlify.toml

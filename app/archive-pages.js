@@ -2266,7 +2266,7 @@ function renderArchiveTeacherPicker(teachers, selected, year, years, teachersDat
       (trackRect.width - activeRect.width) / 2;
     track.scrollTo({
       left: Math.max(0, nextLeft),
-      behavior: "smooth",
+      behavior: "auto",
     });
   });
 

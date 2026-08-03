@@ -509,7 +509,7 @@ function defaultHomeZones() {
       id: "left",
       label: "特展",
       title: "特展（左）",
-      href: "#exhibition-left/about",
+      href: "#exhibition-right/about",
       nav: { ...HOME_ASSET_DEFAULTS.nav.left },
     },
     {
@@ -526,7 +526,7 @@ function defaultHomeZones() {
       id: "right",
       label: "特展",
       title: "特展（右）",
-      href: "#exhibition-right/about",
+      href: "#exhibition-left/about",
       nav: { ...HOME_ASSET_DEFAULTS.nav.right },
     },
   ];
@@ -713,7 +713,7 @@ function renderHome(main) {
       : null,
     renderSwapLink(
       "museumProp museumProp--banner-left",
-      zones.find((z) => z.id === "left")?.href || "#exhibition-left/about",
+      zones.find((z) => z.id === "left")?.href || "#exhibition-right/about",
       zones.find((z) => z.id === "left")?.title || "特展（左）",
       bannerLeft,
       bannerLeft.default,
@@ -722,7 +722,7 @@ function renderHome(main) {
     ),
     renderSwapLink(
       "museumProp museumProp--banner-right",
-      zones.find((z) => z.id === "right")?.href || "#exhibition-right/about",
+      zones.find((z) => z.id === "right")?.href || "#exhibition-left/about",
       zones.find((z) => z.id === "right")?.title || "特展（右）",
       bannerRight,
       bannerRight.default,
