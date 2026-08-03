@@ -236,16 +236,26 @@
   }
 
   function showModal(root, text) {
-    const overlay = el("div", { class: "fpModalOverlay" });
-    const box = el("div", { class: "fpModal" });
+    const overlay = el("div", { class: "fpModalOverlay sitePopupOverlay" });
+    const box = el("div", { class: "fpModal sitePopupPanel" });
     box.appendChild(
-      el("button", {
-        class: "fpModalClose",
-        type: "button",
-        text: "×",
-        "aria-label": "關閉",
-        onclick: () => overlay.remove(),
-      })
+      el(
+        "button",
+        {
+          class: "fpModalClose sitePopupClose",
+          type: "button",
+          "aria-label": "關閉",
+          onclick: () => overlay.remove(),
+        },
+        [
+          el("img", {
+            class: "sitePopupCloseIcon",
+            src: "./assets/images/PopUp_Cross.png",
+            alt: "",
+            "aria-hidden": "true",
+          }),
+        ]
+      )
     );
     box.appendChild(el("p", { class: "fpModalBody", text: String(text || "") }));
     overlay.appendChild(box);

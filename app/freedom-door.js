@@ -3,6 +3,19 @@
 (function () {
   const ASSET_BASE = "./assets/images/Freedom Door";
   const WARDROBE_BASE = `${ASSET_BASE}/wardrobe`;
+  const ROOM_BASE = `${ASSET_BASE}/房間物件`;
+  const ROOM_LAYERS = [
+    "背景.png",
+    "窗戶.png",
+    "日曆.png",
+    "年曆1.png",
+    "年曆2.png",
+    "獎狀.png",
+    "南海觀音像.png",
+    "藤椅.png",
+    "衣服.png",
+    "前景.png",
+  ];
 
   /** 調色盤色塊參考色（對應 PNG 編號 1–10） */
   const PALETTE_SWATCHES = [
@@ -73,23 +86,34 @@
     p4: "一進門就看到了吧！",
     p5Title: "【操作說明】",
     p5Body: [
-      "1. 本間房間有 3 個物件可供點擊，點擊後會呈現該物件的簡介。",
+      "1. 本間房間有3個物件可供點擊，點擊後會呈現該物件的簡介。",
       "2. 簡介視窗下方為「進入共創空間」，邀請您留下自由的足跡。",
       "3. 頁面左上方為「返回走廊」，可選擇參觀其他房間。",
       "4. 頁面右上方為「結束參觀」，點擊後回到首頁。",
     ],
+    doorComingSoonTitle: "【房間籌備中】",
+    doorComingSoonBody: [
+      "這扇門後的房間還在製作中。",
+      "請先推開中間那扇門，進入目前開放參觀的房間。",
+    ],
     hotspots: {
       wall: {
         name: "黃色牆壁",
-        body: "這面牆的色彩，被人們稱為「金伯伯黃」。它承載著金伯伯的人生歷程——從韓戰到選擇來台灣，在漫長歲月中，這間房間是他真正能行使自由意志的空間。牆面的顏色，是他為自己生命留下的印記。",
+        body: "在金伯伯的房間中，牆壁漆滿了專屬於他的「金伯伯黃色」，對於一個歷經韓戰、反共、選擇來臺的人，他的一生有多少選擇是真正屬於自己的？當一個人身處無法掌控自身命運的時代中，戰爭決定了他何去何從，歷史決定了他的身份定位，而這個小小的房間，或許是少數完全屬於自己，能真正實踐自由意志的空間。",
+        photo: `${ASSET_BASE}/Yellow_Wall.png`,
+        photoAlt: "金伯伯房間黃色牆壁",
       },
       guanyin: {
         name: "南海觀音",
-        body: "在金伯伯的房間裡，一尊南海觀音被安放在普通冰箱上方的粉紅桌布上，旁邊擺著插著粉紅花朵的花瓶與神獸小塑像。信仰與日常起居交織在一起，成為生活裡安定的力量。",
+        body: "金伯伯房間的冰箱上有兩尊南海觀音，半透明的祂被安置在粉紅色的桌巾上，左右各放了一個花瓶，插著鮮艷的粉紅色花朵，前方還有兩隻神獸。這不是特別用來祭拜的神壇，而是一個普通的冰箱上方，後方還掛著年曆，在最平凡的日常中安放了精神上的寄託。",
+        photo: `${ASSET_BASE}/GuanIn.png`,
+        photoAlt: "冰箱上的南海觀音",
       },
       clothes: {
         name: "自由的衣櫃",
-        body: "金伯伯的衣櫃裡裝著各色服飾——橙色西裝、格子襯衫……選擇穿什麼，也是選擇如何面對世界、呈現自己的方式。每一次穿搭，都是他實踐自由的一種姿態。",
+        body: "金伯伯的衣櫃裡有各式各樣的衣服，亮橘色的西裝內搭、格紋狀的素色襯衫、繽紛長襪、畫家帽……，金伯伯總是對自己的穿搭很有想法。人們每天都需要穿衣服，選擇穿什麼，就是選擇以什麼樣的姿態面對這世界，同時也是透過衣著選擇，告訴大家自己是誰。",
+        photo: `${ASSET_BASE}/Closet.png`,
+        photoAlt: "金伯伯的穿搭",
         cta: "進入「自由的衣櫃」",
       },
     },
@@ -99,20 +123,77 @@
       "他總是用獨特的配色與穿搭，展現出鮮明的個性。",
       "如果金伯伯活在現在的 21 世紀，他會如何展現獨特的時尚呢？",
       "請試著用你獨特的眼光，為金伯伯搭配出一套適合的穿搭吧！",
+      "小提示：西裝外套與背心可再次點選同一件外衣，即可脫下、改為不穿外套。",
     ],
   };
 
   const HOTSPOTS = {
-    wall: { left: "6%", top: "18%", width: "22%", height: "42%" },
-    guanyin: { left: "38%", top: "28%", width: "14%", height: "24%" },
-    clothes: { left: "62%", top: "14%", width: "16%", height: "38%" },
+    // 牆壁改以「背景黃牆 + 未被上層遮擋」像素判斷；以下為矩形熱區
+    guanyin: { left: "51.8%", top: "36.6%", width: "4.2%", height: "13.9%" },
+    clothes: { left: "62.3%", top: "0.0%", width: "37.7%", height: "56.8%" },
   };
 
   const DOOR_POSITIONS = [
-    { left: "14%", top: "24%", width: "10%", height: "58%" },
-    { left: "42%", top: "24%", width: "10%", height: "58%" },
-    { left: "70%", top: "24%", width: "10%", height: "58%" },
+    { left: "0.0%", top: "11.1%", width: "12.5%", height: "73.2%" },
+    { left: "36.5%", top: "11.2%", width: "19.3%", height: "73.0%" },
+    { left: "77.0%", top: "11.1%", width: "19.2%", height: "73.2%" },
   ];
+
+  let roomWallHitDataPromise = null;
+
+  function isBackgroundWallPixel(r, g, b, a) {
+    if (a < 180) return false;
+    // 灰階水磨石地板：RGB 接近
+    const span = Math.max(r, g, b) - Math.min(r, g, b);
+    if (span < 18) return false;
+    // 奶油黃牆：R/G 高、B 明顯較低
+    return r > 165 && g > 145 && b < 205 && r >= g - 8 && g > b + 12;
+  }
+
+  function prepareRoomWallHitData() {
+    if (roomWallHitDataPromise) return roomWallHitDataPromise;
+    roomWallHitDataPromise = (async () => {
+      const bgImg = await loadImage(`${ROOM_BASE}/背景.png`);
+      const width = bgImg.naturalWidth;
+      const height = bgImg.naturalHeight;
+      const bgCanvas = document.createElement("canvas");
+      bgCanvas.width = width;
+      bgCanvas.height = height;
+      const bgCtx = bgCanvas.getContext("2d", { willReadFrequently: true });
+      bgCtx.drawImage(bgImg, 0, 0);
+
+      const occCanvas = document.createElement("canvas");
+      occCanvas.width = width;
+      occCanvas.height = height;
+      const occCtx = occCanvas.getContext("2d", { willReadFrequently: true });
+      for (let i = 1; i < ROOM_LAYERS.length; i += 1) {
+        const layerImg = await loadImage(`${ROOM_BASE}/${ROOM_LAYERS[i]}`);
+        occCtx.drawImage(layerImg, 0, 0);
+      }
+
+      return { width, height, bgCtx, occCtx };
+    })().catch((err) => {
+      roomWallHitDataPromise = null;
+      throw err;
+    });
+    return roomWallHitDataPromise;
+  }
+
+  function clientToRoomImagePoint(frame, clientX, clientY, naturalW, naturalH) {
+    const rect = frame.getBoundingClientRect();
+    if (!rect.width || !rect.height) return null;
+    const x = Math.floor(((clientX - rect.left) / rect.width) * naturalW);
+    const y = Math.floor(((clientY - rect.top) / rect.height) * naturalH);
+    if (x < 0 || y < 0 || x >= naturalW || y >= naturalH) return null;
+    return { x, y };
+  }
+
+  function isExposedWallAt(hitData, x, y) {
+    const bg = hitData.bgCtx.getImageData(x, y, 1, 1).data;
+    if (!isBackgroundWallPixel(bg[0], bg[1], bg[2], bg[3])) return false;
+    const occ = hitData.occCtx.getImageData(x, y, 1, 1).data;
+    return occ[3] <= 28;
+  }
 
   function defaultOutfit() {
     return {
@@ -299,6 +380,31 @@
     return { scene, frame, img, overlay };
   }
 
+  function createRoomScene({ blur = false } = {}) {
+    const scene = el("div", {
+      class: `fdScene fdScene--room${blur ? " fdScene--blur" : ""}`,
+    });
+    const frame = el("div", { class: "fdSceneFrame fdSceneFrame--room" });
+    const overlay = el("div", { class: "fdSceneOverlay" });
+
+    ROOM_LAYERS.forEach((fileName, index) => {
+      frame.appendChild(
+        el("img", {
+          class: `fdRoomLayer${index === 0 ? " fdRoomLayer--base" : ""}`,
+          src: `${ROOM_BASE}/${fileName}`,
+          alt: "",
+          draggable: "false",
+          "aria-hidden": "true",
+          style: `z-index:${index + 1}`,
+        })
+      );
+    });
+
+    frame.appendChild(overlay);
+    scene.appendChild(frame);
+    return { scene, frame, overlay };
+  }
+
   function hotspotStyle(rect) {
     return `left:${rect.left}; top:${rect.top}; width:${rect.width}; height:${rect.height}`;
   }
@@ -322,6 +428,21 @@
       el("p", { class: "fdInfoBody", text: info.body }),
     ]);
 
+    if (info.photo) {
+      panel.appendChild(
+        el("figure", { class: "fdInfoPhoto" }, [
+          el("img", {
+            class: "fdInfoPhotoImg",
+            src: info.photo,
+            alt: info.photoAlt || info.name || "參考照片",
+            loading: "lazy",
+          }),
+        ])
+      );
+    } else {
+      panel.appendChild(el("div", { class: "fdInfoPhotoPlaceholder", text: "參考照片（待提供）" }));
+    }
+
     if (key === "clothes") {
       panel.appendChild(
         el("button", {
@@ -335,8 +456,6 @@
         })
       );
     }
-
-    panel.appendChild(el("div", { class: "fdInfoPhotoPlaceholder", text: "參考照片（待提供）" }));
 
     return panel;
   }
@@ -375,20 +494,30 @@
   }
 
   function showModal(stage, { title, paragraphs, buttonLabel, onClose, showClose = true }) {
-    const overlay = el("div", { class: "fdModalOverlay" });
-    const box = el("div", { class: "fdModal" });
+    const overlay = el("div", { class: "fdModalOverlay sitePopupOverlay" });
+    const box = el("div", { class: "fdModal sitePopupPanel" });
     if (showClose) {
       box.appendChild(
-        el("button", {
-          class: "fdModalClose",
-          type: "button",
-          text: "×",
-          "aria-label": "關閉",
-          onclick: () => {
-            overlay.remove();
-            onClose?.();
+        el(
+          "button",
+          {
+            class: "fdModalClose sitePopupClose",
+            type: "button",
+            "aria-label": "關閉",
+            onclick: () => {
+              overlay.remove();
+              onClose?.();
+            },
           },
-        })
+          [
+            el("img", {
+              class: "sitePopupCloseIcon",
+              src: "./assets/images/PopUp_Cross.png",
+              alt: "",
+              "aria-hidden": "true",
+            }),
+          ]
+        )
       );
     }
     if (title) box.appendChild(el("h2", { class: "fdModalTitle", text: title }));
@@ -683,18 +812,26 @@
   function renderP3(stage, state, setScene) {
     const corridor = el("div", { class: "fdCorridor" });
     const track = el("div", { class: "fdCorridorTrack" });
-    const { scene, overlay, img } = createFitScene(`${ASSET_BASE}/p3.png`, { corridor: true });
+    const { scene, overlay, img } = createFitScene(`${ASSET_BASE}/走廊.PNG`, { corridor: true });
 
-    DOOR_POSITIONS.forEach((door) => {
+    DOOR_POSITIONS.forEach((door, index) => {
+      const isMainDoor = index === 1;
       overlay.appendChild(
         el("button", {
           class: "fdDoorHotspot",
           type: "button",
-          "aria-label": "進入房間",
+          "aria-label": isMainDoor ? "進入房間" : "房間籌備中",
           style: hotspotStyle(door),
           onclick: (e) => {
             e.stopPropagation();
-            setScene("p4");
+            if (isMainDoor) {
+              setScene("p4");
+              return;
+            }
+            showModal(stage, {
+              title: COPY.doorComingSoonTitle,
+              paragraphs: COPY.doorComingSoonBody,
+            });
           },
         })
       );
@@ -717,36 +854,41 @@
     };
 
     stage.appendChild(
-      el("button", {
-        class: "fdArrow fdArrow--left",
-        type: "button",
-        text: "‹",
-        "aria-label": "向左",
-        onclick: () => {
-          state.corridorScroll = Math.max(0, state.corridorScroll - scrollBy());
-          applyCorridorScroll(stage, state);
+      el(
+        "button",
+        {
+          class: "fdArrow fdArrow--left",
+          type: "button",
+          "aria-label": "向左",
+          onclick: () => {
+            state.corridorScroll = Math.max(0, state.corridorScroll - scrollBy());
+            applyCorridorScroll(stage, state);
+          },
         },
-      })
+        [el("span", { class: "fdArrowIcon", "aria-hidden": "true" })]
+      )
     );
     stage.appendChild(
-      el("button", {
-        class: "fdArrow fdArrow--right",
-        type: "button",
-        text: "›",
-        "aria-label": "向右",
-        onclick: () => {
-          state.corridorScroll = Math.min(getCorridorMaxScroll(stage), state.corridorScroll + scrollBy());
-          applyCorridorScroll(stage, state);
+      el(
+        "button",
+        {
+          class: "fdArrow fdArrow--right",
+          type: "button",
+          "aria-label": "向右",
+          onclick: () => {
+            state.corridorScroll = Math.min(getCorridorMaxScroll(stage), state.corridorScroll + scrollBy());
+            applyCorridorScroll(stage, state);
+          },
         },
-      })
+        [el("span", { class: "fdArrowIcon", "aria-hidden": "true" })]
+      )
     );
 
     requestAnimationFrame(() => applyCorridorScroll(stage, state));
   }
 
   function renderP4(stage, state, setScene) {
-    const { scene } = createFitScene(`${ASSET_BASE}/p6.png`);
-    scene.classList.add("fdScene--blur");
+    const { scene } = createRoomScene({ blur: true });
     stage.appendChild(scene);
     showModal(stage, {
       paragraphs: [COPY.p4],
@@ -757,8 +899,7 @@
   }
 
   function renderP5(stage, state, setScene) {
-    const { scene } = createFitScene(`${ASSET_BASE}/p6.png`);
-    scene.classList.add("fdScene--blur");
+    const { scene } = createRoomScene({ blur: true });
     stage.appendChild(scene);
     showModal(stage, {
       title: COPY.p5Title,
@@ -770,8 +911,9 @@
 
   function renderP6(stage, state, setScene, redraw) {
     const room = el("div", { class: "fdRoomWrap" });
-    const { scene, overlay } = createFitScene(`${ASSET_BASE}/p6.png`);
+    const { scene, frame, overlay } = createRoomScene();
     const panelSlot = el("div", { class: "fdPanelSlot" });
+    prepareRoomWallHitData().catch(() => {});
 
     function syncPanel() {
       panelSlot.innerHTML = "";
@@ -799,6 +941,40 @@
       );
     }
 
+    function toggleHotspot(key) {
+      state.activeHotspot = state.activeHotspot === key ? null : key;
+      syncPanel();
+    }
+
+    const wallCatch = el("button", {
+      class: "fdHotspot fdHotspot--wallCatch",
+      type: "button",
+      "aria-label": COPY.hotspots.wall.name,
+      onclick: async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        try {
+          const hitData = await prepareRoomWallHitData();
+          const point = clientToRoomImagePoint(frame, e.clientX, e.clientY, hitData.width, hitData.height);
+          if (!point || !isExposedWallAt(hitData, point.x, point.y)) return;
+          toggleHotspot("wall");
+        } catch (err) {
+          console.warn("牆壁熱區判斷失敗：", err);
+        }
+      },
+      onmousemove: async (e) => {
+        try {
+          const hitData = await prepareRoomWallHitData();
+          const point = clientToRoomImagePoint(frame, e.clientX, e.clientY, hitData.width, hitData.height);
+          wallCatch.style.cursor =
+            point && isExposedWallAt(hitData, point.x, point.y) ? "pointer" : "default";
+        } catch {
+          wallCatch.style.cursor = "default";
+        }
+      },
+    });
+    overlay.appendChild(wallCatch);
+
     Object.entries(HOTSPOTS).forEach(([key, rect]) => {
       overlay.appendChild(
         el("button", {
@@ -809,8 +985,7 @@
           onclick: (e) => {
             e.preventDefault();
             e.stopPropagation();
-            state.activeHotspot = state.activeHotspot === key ? null : key;
-            syncPanel();
+            toggleHotspot(key);
           },
         })
       );
@@ -1001,7 +1176,8 @@
         );
       });
       palette.setHint(`調色：${colorTargetLabel(state.colorTarget)}`);
-      targetNote.textContent = `點衣櫃選衣物，再點房屋調色盤換色（目前：${colorTargetLabel(state.colorTarget)}）`;
+      targetNote.innerHTML =
+        `點衣櫃選衣物，再點房屋調色盤換色<br>（目前：${colorTargetLabel(state.colorTarget)}）。<br>西裝外套／背心可再次點選以脫下外衣。`;
       Object.keys(hitButtons).forEach((key) => {
         syncHangButtonState(hitButtons[key], key, state.outfit, state.colorTarget);
       });
@@ -1295,7 +1471,7 @@
           }
 
           function stepOuter() {
-            api.setTitle("選擇外搭", "可選擇不要外搭");
+            api.setTitle("選擇外搭", "可選西裝外套或背心；若要改為不穿外衣，請選「不要外搭」");
             api.body.innerHTML = "";
             const row = el("div", { class: "fdMobileHangRow fdMobileHangRow--outer" });
             [

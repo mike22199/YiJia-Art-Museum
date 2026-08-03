@@ -3378,19 +3378,29 @@ function openArchiveModal(options = {}) {
     "aria-label": "關閉",
     onclick: () => closeArchiveModal(overlay),
   });
-  const panelClass = `archiveModalPanel${options.wide ? " archiveModalPanel--wide" : ""}${
+  const panelClass = `archiveModalPanel sitePopupPanel${options.wide ? " archiveModalPanel--wide" : ""}${
     options.flipbook ? " archiveModalPanel--flipbook" : ""
   }${options.preview ? " archiveModalPanel--preview" : ""}${
     options.lightbox ? " archiveModalPanel--lightbox" : ""
   }${options.brief ? " archiveModalPanel--brief" : ""}`;
   const panel = el("div", { class: panelClass });
-  const closeBtn = el("button", {
-    class: "archiveModalClose",
-    type: "button",
-    text: "×",
-    "aria-label": "關閉",
-    onclick: () => closeArchiveModal(overlay),
-  });
+  const closeBtn = el(
+    "button",
+    {
+      class: "archiveModalClose sitePopupClose",
+      type: "button",
+      "aria-label": "關閉",
+      onclick: () => closeArchiveModal(overlay),
+    },
+    [
+      el("img", {
+        class: "sitePopupCloseIcon",
+        src: "./assets/images/PopUp_Cross.png",
+        alt: "",
+        "aria-hidden": "true",
+      }),
+    ]
+  );
 
   panel.appendChild(closeBtn);
   if (options.title) {

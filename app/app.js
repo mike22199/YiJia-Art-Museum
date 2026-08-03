@@ -1297,6 +1297,8 @@ async function loadSiteContent() {
   if (fallback.homeZones) content.homeZones = fallback.homeZones;
   if (fallback.homeIntro) content.homeIntro = fallback.homeIntro;
   if (fallback.homeImage) content.homeImage = fallback.homeImage;
+  // 展覽關於頁文案以本機為準（Sanity exhibitionLeft 常為舊稿）
+  if (fallback.exhibitions) content.exhibitions = fallback.exhibitions;
 
   if (typeof window.mergeArchiveFolderContent === "function") {
     content = await window.mergeArchiveFolderContent(content);

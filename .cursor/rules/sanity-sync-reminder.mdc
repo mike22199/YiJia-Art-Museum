@@ -1,0 +1,27 @@
+---
+description: 本機內容改完後提醒同步到 Sanity
+alwaysApply: true
+---
+
+# Sanity 同步提醒
+
+本站會從 Sanity 讀取內容；部分欄位（首頁圖層、展覽關於頁等）目前以本機 `content/site-content.json` 覆寫顯示。
+
+## 規則
+
+1. 只要改了會進站的文案／圖片／展覽資料（尤其 `content/site-content.json`），**回覆結尾必須提醒使用者**：之後要把對應內容更新到 Sanity 後台，否則正式環境／未覆寫欄位仍會是舊稿。
+2. 提醒要具體：寫出改了哪些區塊（例如「推開自由門 → 關於展覽」）。
+3. 不要自動幫使用者寫入 Sanity（除非使用者明確要求）。
+
+## 目前待同步（持續更新此清單）
+
+- [ ] 推開自由門（`exhibition-left`）「關於展覽」全文、`leadTitle`、橫式 banner、理念頁 LOGO／Start
+- [ ] 成為自由人（`exhibition-right`）「關於展覽」結構同上，banner：`banner-become-free.png`
+- [ ] 理念頁／特展視窗素材：裁切後的 `理念頁LOGO.png`、`Start.png`、各展覽橫式 banner
+- [ ] 全站公版彈窗素材：`assets/images/PopUp.png`、`PopUp_Cross.png`
+- [ ] 房間物件說明圖：`Yellow_Wall.png`、`GuanIn.png`、`Closet.png`
+
+## 專案用語
+
+- **特展視窗**：理念頁中央那個固定 **16:9** 的內容框（class：`exhibitionWindow`）
+- **公版彈窗**：`PopUp.png` 外框 + 左上 `PopUp_Cross.png` 關閉，背景半透明暗底

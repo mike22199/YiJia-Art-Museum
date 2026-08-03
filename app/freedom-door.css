@@ -67,6 +67,14 @@
   max-width: none;
 }
 
+.fdSceneFrame--room {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  max-height: 100%;
+  line-height: 0;
+}
+
 .fdSceneImg {
   display: block;
   max-width: 100%;
@@ -85,9 +93,35 @@
   max-width: none;
 }
 
+.fdRoomLayer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  user-select: none;
+  pointer-events: none;
+}
+
+.fdRoomLayer--base {
+  position: relative;
+  inset: auto;
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.fdScene--blur .fdRoomLayer {
+  filter: blur(6px) brightness(0.92);
+}
+
 .fdSceneOverlay {
   position: absolute;
   inset: 0;
+  z-index: 20;
   pointer-events: none;
 }
 
@@ -110,26 +144,20 @@
   min-width: 0;
   max-width: 100%;
   max-height: 100%;
-  transition: max-width 0.25s ease;
-}
-
-.fdRoomWrap--panelOpen .fdScene {
-  max-width: 66%;
 }
 
 .fdPanelSlot {
-  position: relative;
-  flex: 0 0 min(34%, 320px);
-  height: 100%;
-  z-index: 25;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(34%, 340px);
+  z-index: 46;
   pointer-events: none;
 }
 
 .fdPanelSlot:empty {
-  flex-basis: 0;
-  width: 0;
-  min-width: 0;
-  overflow: hidden;
+  display: none;
 }
 
 .fdPanelSlot > * {
@@ -148,8 +176,8 @@
 
 .fdStartBtn {
   position: absolute;
-  left: 5%;
-  bottom: 8%;
+  left: 7%;
+  bottom: 10%;
   z-index: 5;
   padding: 6px 16px;
   border: 1px solid #b82020;
@@ -248,56 +276,71 @@
 .fdModalOverlay {
   position: absolute;
   inset: 0;
-  z-index: 30;
+  z-index: 50;
   display: grid;
   place-items: center;
-  background: rgba(255, 255, 255, 0.35);
+  background: rgba(0, 0, 0, 0.55);
   padding: 20px;
 }
 
 .fdModal {
   position: relative;
-  width: min(90%, 520px);
-  max-height: 80%;
+  width: min(92%, 560px);
+  max-height: 82%;
   overflow: auto;
-  background: rgba(255, 255, 255, 0.94);
-  border: 1px solid #ddd;
-  padding: 22px 20px 18px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  padding: 36px 32px 28px;
+  background: transparent url("../assets/images/PopUp.png") center / 100% 100% no-repeat;
+  border: 0;
+  box-shadow: none;
+  color: #f3f3f3;
 }
 
 .fdModalTitle {
   margin: 0 0 12px;
   text-align: center;
-  font-size: 22.67px;
+  font-size: 18.67px;
   letter-spacing: 1.33px;
+  color: #fff;
 }
 
 .fdModalText {
   margin: 0 0 10px;
   line-height: 1.75;
-  font-size: 17.33px;
-  color: #333;
+  font-size: 13.33px;
+  color: #f0f0f0;
+  text-align: center;
 }
 
 .fdModalClose {
   position: absolute;
-  right: 10px;
-  top: 6px;
+  left: 14px;
+  top: 12px;
+  right: auto;
+  width: 28px;
+  height: 28px;
+  padding: 0;
   border: 0;
   background: transparent;
-  font-size: 29.33px;
-  line-height: 1;
   cursor: pointer;
+  line-height: 0;
+}
+
+.fdModalClose .sitePopupCloseIcon,
+.fdModalClose img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .fdModalAction {
   display: block;
   margin: 18px auto 0;
   padding: 8px 22px;
-  border: 1px solid #b82020;
-  background: #fff;
-  color: #b82020;
+  border: 1px solid #e8b421;
+  background: transparent;
+  color: #e8b421;
   cursor: pointer;
 }
 
@@ -317,14 +360,19 @@
 
 .fdDoorHotspot {
   position: absolute;
-  border: 2px dashed rgba(184, 32, 32, 0.35);
-  background: rgba(255, 255, 255, 0.08);
+  border: 0;
+  background: transparent;
   cursor: pointer;
   z-index: 2;
 }
 
 .fdDoorHotspot:hover {
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.fdDoorHotspot:focus-visible {
+  outline: 2px solid rgba(232, 180, 33, 0.85);
+  outline-offset: 2px;
 }
 
 .fdArrow {
@@ -332,35 +380,72 @@
   top: 50%;
   transform: translateY(-50%);
   z-index: 15;
-  width: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
   height: 52px;
+  padding: 0;
   border: 0;
   background: rgba(255, 255, 255, 0.72);
   color: #444;
-  font-size: 37.33px;
-  line-height: 1;
   cursor: pointer;
+}
+
+.fdArrowIcon {
+  display: block;
+  width: 11px;
+  height: 11px;
+  border-right: 2.5px solid currentColor;
+  border-bottom: 2.5px solid currentColor;
+  box-sizing: border-box;
 }
 
 .fdArrow--left {
   left: 8px;
 }
 
+.fdArrow--left .fdArrowIcon {
+  transform: translateX(2px) rotate(135deg);
+}
+
 .fdArrow--right {
   right: 8px;
+}
+
+.fdArrow--right .fdArrowIcon {
+  transform: translateX(-2px) rotate(-45deg);
 }
 
 .fdHotspot {
   position: absolute;
   z-index: 3;
-  border: 2px dashed rgba(184, 32, 32, 0.45);
-  background: rgba(255, 255, 255, 0.06);
+  border: 0;
+  background: transparent;
   cursor: pointer;
+}
+
+.fdHotspot--wallCatch {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  cursor: default;
 }
 
 .fdHotspot.isActive,
 .fdHotspot:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.fdHotspot--wallCatch:hover,
+.fdHotspot--wallCatch.isActive {
+  background: transparent;
+}
+
+.fdHotspot:focus-visible {
+  outline: 2px solid rgba(232, 180, 33, 0.85);
+  outline-offset: 2px;
 }
 
 .fdInfoPanel {
@@ -368,10 +453,13 @@
   inset: 0;
   z-index: 1;
   padding: 40px 14px 14px;
-  background: rgba(248, 244, 236, 0.96);
-  border-left: 1px solid #ddd;
+  /* 牆面奶油黃再淺一點，透明度 75% */
+  background: rgba(255, 248, 225, 0.75);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-left: 1px solid rgba(255, 255, 255, 0.4);
   overflow: auto;
-  box-shadow: -4px 0 16px rgba(0, 0, 0, 0.08);
+  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.14);
   display: flex;
   flex-direction: column;
   -webkit-overflow-scrolling: touch;
@@ -389,21 +477,38 @@
 }
 
 .fdInfoLabel {
-  margin: 0 0 4px;
-  font-size: 16px;
-  color: #888;
+  margin: 0 0 2px;
+  font-size: 11px;
+  color: #666;
 }
 
 .fdInfoTitle {
-  margin: 0 0 14px;
-  font-size: 24px;
+  margin: 0 0 10px;
+  font-size: 14px;
   color: #222;
 }
 
 .fdInfoBody {
-  margin: 0 0 16px;
-  line-height: 1.8;
-  font-size: 17.33px;
+  margin: 0 0 12px;
+  line-height: 1.7;
+  font-size: 11.5px;
+}
+
+.fdInfoPhoto {
+  margin: 0 0 12px;
+  flex: 0 0 auto;
+  line-height: 0;
+  text-align: center;
+}
+
+.fdInfoPhotoImg {
+  display: inline-block;
+  width: 60%;
+  height: auto;
+  max-width: 60%;
+  max-height: none;
+  object-fit: contain;
+  object-position: center;
 }
 
 .fdInfoPhotoPlaceholder {
@@ -412,7 +517,7 @@
   place-items: center;
   background: #e8e4dc;
   color: #888;
-  font-size: 16px;
+  font-size: 11px;
   margin-bottom: 12px;
   flex: 0 0 auto;
 }
@@ -420,18 +525,19 @@
 .fdInfoCta {
   width: 100%;
   margin: 4px 0 12px;
-  padding: 12px 14px;
+  padding: 10px 12px;
   border: 1.5px solid #b82020;
   background: #b82020;
   color: #fff;
   text-align: center;
-  font-size: 17.33px;
+  font-size: 12px;
   letter-spacing: 0.06em;
   cursor: pointer;
   flex: 0 0 auto;
   order: 5;
 }
 
+.fdInfoPanel--wardrobe .fdInfoPhoto,
 .fdInfoPanel--wardrobe .fdInfoPhotoPlaceholder {
   order: 6;
 }
@@ -578,7 +684,7 @@
   z-index: 9;
   width: 26%;
   max-width: none;
-  font-size: clamp(11px, 1.2vw, 14px);
+  font-size: clamp(9px, 0.95vw, 11px);
   line-height: 1.4;
   text-align: center;
   color: #4a3728;
@@ -1359,31 +1465,28 @@
   }
 
   .fdRoomWrap {
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: flex-end;
+    align-items: center;
+    justify-content: center;
   }
 
   .fdRoomWrap .fdScene {
     max-width: 100%;
-    max-height: 42%;
+    max-height: 100%;
     flex: 1 1 auto;
   }
 
-  .fdRoomWrap--panelOpen .fdScene {
-    max-width: 100%;
-    max-height: 36%;
-  }
-
   .fdPanelSlot {
-    flex: 0 0 auto;
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
     width: 100%;
-    max-height: 58%;
-    min-height: 220px;
+    max-height: min(52%, 360px);
+    min-height: 200px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    z-index: 45;
+    z-index: 46;
   }
 
   .fdPanelSlot > * {
@@ -1398,15 +1501,16 @@
     height: 100%;
     max-height: 100%;
     border-left: 0;
-    border-top: 1px solid #ddd;
-    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    background: rgba(255, 248, 225, 0.75);
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.16);
     padding: 36px 14px 12px;
     overflow-x: hidden;
     overflow-y: auto;
   }
 
   .fdInfoBody {
-    font-size: 15px;
+    font-size: 11px;
     line-height: 1.65;
     margin-bottom: 10px;
   }
@@ -1415,14 +1519,27 @@
     display: none;
   }
 
+  .fdInfoPhoto {
+    display: block;
+    text-align: center;
+  }
+
+  .fdInfoPhotoImg {
+    display: inline-block;
+    width: 60%;
+    max-width: 60%;
+    height: auto;
+    object-fit: contain;
+  }
+
   .fdInfoPanel--wardrobe .fdInfoCta {
     position: sticky;
     bottom: 0;
     z-index: 3;
     margin: 8px 0 0;
-    padding: 14px 12px;
-    font-size: 16px;
-    box-shadow: 0 -8px 12px rgba(248, 244, 236, 0.95);
+    padding: 12px 10px;
+    font-size: 12px;
+    box-shadow: 0 -8px 12px rgba(255, 248, 225, 0.9);
   }
 
   .fdNavBtn {
@@ -1444,7 +1561,7 @@
   }
 
   .fdDressTargetNote {
-    font-size: 11px;
+    font-size: 9px;
     left: 22%;
     width: 30%;
     top: 14%;
@@ -1457,9 +1574,8 @@
   }
 
   .fdArrow {
-    width: 36px;
+    width: 40px;
     height: 52px;
-    font-size: 37.33px;
   }
 }
 
