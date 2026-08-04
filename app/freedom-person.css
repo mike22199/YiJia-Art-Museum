@@ -10,6 +10,621 @@
   color: #2a2420;
 }
 
+.fpExperience--concept {
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  color: inherit;
+}
+
+.innerContent:has(.fpExperience--concept) {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 240px);
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.fpExperience--concept .aboutConceptStage {
+  container-type: size;
+}
+
+.fpExperience--concept .aboutConceptLead {
+  font-size: calc(3.1cqh * var(--fp-fit, 1));
+}
+
+.fpExperience--concept .aboutConceptHeading {
+  font-size: calc(2.4cqh * var(--fp-fit, 1));
+}
+
+.fpExperience--concept .aboutConceptParagraph {
+  font-size: calc(2cqh * var(--fp-fit, 1));
+  line-height: 1.75;
+}
+
+/* Q1–Q9：與 intro/history 同尺寸特展視窗，底圖 BG_Ques */
+.fpQuesStage {
+  --about-accent: #e8b421;
+  container-type: size;
+  container-name: fp-ques;
+}
+
+.fpQuesArt {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* LOGO 蓋在 PNG 圖層之上 */
+.fpQuesStage .fpQuesLogo,
+.fpQuesStage .aboutConceptLogo {
+  z-index: 8;
+}
+
+.fpQuesUi {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.fpQuesUi > * {
+  pointer-events: auto;
+}
+
+/* 題目文字落在右側紙張框內（對齊 Q1.png 紙區）
+   字級用 cqh（特展視窗高度），縮窗時跟著紙框縮；--fp-fit 再自動微調 */
+.fpQuesPaper {
+  position: absolute;
+  left: 41.5%;
+  top: 27.5%;
+  width: 48.5%;
+  height: 21%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2.2% 2.8%;
+  overflow: hidden;
+  color: #1a1a1a;
+  --fp-fit: 1;
+}
+
+.fpQuesPaper--tall {
+  top: 22%;
+  height: 32%;
+  justify-content: flex-start;
+  overflow: hidden;
+  padding-top: 2.4%;
+}
+
+.fpQuesPaperContext {
+  margin: 0 0 0.45em;
+  font-size: calc(2.15cqh * var(--fp-fit, 1));
+  line-height: 1.55;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.fpQuesPaperText {
+  margin: 0;
+  font-size: calc(2.55cqh * var(--fp-fit, 1));
+  line-height: 1.55;
+  letter-spacing: 0.02em;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.fpQuesPaper--tall .fpQuesPaperContext,
+.fpQuesPaper--tall .fpQuesPaperText {
+  font-size: calc(2.15cqh * var(--fp-fit, 1));
+  line-height: 1.5;
+}
+
+.fpQuesLabel {
+  position: absolute;
+  left: 58%;
+  top: 10%;
+  transform: translateX(-50%);
+  color: var(--about-accent);
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+}
+
+/* 選項：紙框下方左側 */
+.fpQuesChoices {
+  position: absolute;
+  left: 41.5%;
+  top: 63%;
+  width: 48%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(8px, 1.2vw, 14px);
+}
+
+/* Q1 選否：說明頁 */
+.fpQ1NoCopy {
+  position: absolute;
+  left: 42%;
+  top: 14%;
+  width: 50%;
+  max-height: 68%;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding-right: 1%;
+  text-align: left;
+  --fp-fit: 1;
+}
+
+.fpQ1NoLead {
+  margin: 0 0 1.1em;
+  color: var(--about-accent);
+  font-size: calc(3.2cqh * var(--fp-fit, 1));
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.45;
+}
+
+.fpQ1NoBody {
+  margin: 0 0 1em;
+  color: #f5f5f5;
+  font-size: calc(2.15cqh * var(--fp-fit, 1));
+  font-weight: 700;
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+}
+
+.fpQ1NoBody:last-child {
+  margin-bottom: 0;
+}
+
+.aboutConceptNext--wide {
+  max-width: 46%;
+  white-space: nowrap;
+  font-size: clamp(13px, 1.45vw, 18px);
+}
+
+/* —— 徵稿頁 Text.png —— */
+.fpSubmitCopy {
+  position: absolute;
+  left: 28%;
+  top: 12%;
+  width: 56%;
+  max-height: 26%;
+  overflow: hidden;
+  text-align: center;
+  --fp-fit: 1;
+}
+
+.fpSubmitPrompt {
+  margin: 0 0 0.7em;
+  color: #f5f5f5;
+  font-size: calc(2.35cqh * var(--fp-fit, 1));
+  font-weight: 700;
+  line-height: 1.65;
+  letter-spacing: 0.03em;
+}
+
+.fpSubmitPrompt:last-child {
+  margin-bottom: 0;
+}
+
+.fpSubmitBox {
+  position: absolute;
+  left: 18%;
+  top: 42%;
+  width: 64%;
+  height: 28%;
+  box-sizing: border-box;
+  padding: 2.2% 2.4% 2.8%;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.96);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+}
+
+.fpSubmitInput {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  border: 0;
+  outline: none;
+  resize: none;
+  background: transparent;
+  color: #1a1a1a;
+  font: inherit;
+  font-size: clamp(15px, 1.6vw, 20px);
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.fpSubmitInput::placeholder {
+  color: #9a9a9a;
+  font-weight: 600;
+}
+
+.fpSubmitCount {
+  flex: 0 0 auto;
+  margin-top: 6px;
+  color: #666;
+  font-size: clamp(12px, 1.2vw, 15px);
+  font-weight: 700;
+  text-align: left;
+}
+
+.fpSubmitStatus {
+  position: absolute;
+  right: 18%;
+  bottom: 18%;
+  color: #f0d27a;
+  font-size: clamp(12px, 1.2vw, 14px);
+  font-weight: 700;
+}
+
+.fpSubmitActions {
+  position: absolute;
+  right: 6%;
+  bottom: 5%;
+  display: flex;
+  gap: 12px;
+  z-index: 4;
+}
+
+.fpSubmitBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 108px;
+  padding: 10px 28px;
+  border: 0;
+  border-radius: 999px;
+  background: #e8b421;
+  color: #1a1a1a;
+  font: inherit;
+  font-size: clamp(15px, 1.5vw, 19px);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.1s ease;
+}
+
+.fpSubmitBtn:hover {
+  filter: brightness(1.06);
+}
+
+.fpSubmitBtn:active {
+  transform: translateY(1px);
+}
+
+/* —— 作品牆 —— */
+.fpWallTitle {
+  position: absolute;
+  left: 54%;
+  top: 6%;
+  transform: translateX(-50%);
+  margin: 0;
+  color: #e8b421;
+  font-size: clamp(20px, 2.4vw, 32px);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.4);
+}
+
+.fpWallBoard {
+  position: absolute;
+  inset: 14% 4% 16%;
+  overflow: hidden;
+}
+
+.fpWallEmpty {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  width: 70%;
+  color: #f2f2f2;
+  font-size: clamp(14px, 1.5vw, 18px);
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.7;
+}
+
+.fpWallCard {
+  position: absolute;
+  box-sizing: border-box;
+  min-height: 18%;
+  padding: 14px 16px;
+  border: 1px solid rgba(232, 180, 33, 0.7);
+  border-radius: 4px 12px 4px 10px;
+  background:
+    linear-gradient(135deg, rgba(255, 252, 245, 0.96), rgba(240, 230, 210, 0.92));
+  color: #1a1a1a;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fpWallCard:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.45);
+  filter: brightness(1.03);
+}
+
+.fpWallCardText {
+  display: block;
+  font-size: clamp(12px, 1.25vw, 15px);
+  font-weight: 700;
+  line-height: 1.55;
+  letter-spacing: 0.02em;
+}
+
+.fpWallNext {
+  position: absolute;
+  right: 4%;
+  bottom: 4%;
+  min-width: auto;
+  z-index: 4;
+}
+
+/* ==========================================================================
+   結果頁：底圖已含文案／人像／標籤；這裡只疊「長條＋％」與底部分享鈕
+   調位置：改 left / top（％相對特展視窗）
+   長條寬度由 JS 依得分動態設定；100% 全長見 freedom-person.js CHART_BAR_FULL_WIDTH
+   ========================================================================== */
+.fpResultUi {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  container-type: size;
+  --fp-gold: #e8b421;
+}
+
+.fpResultUi > * {
+  pointer-events: auto;
+}
+
+.fpChartLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* 長條：left/top/height 對齊底圖右側三列標籤 */
+.fpChartBar {
+  position: absolute;
+  height: 2.6%;
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.35), transparent 45%),
+    linear-gradient(90deg, #b88714 0%, #e8b421 45%, #f3d56a 100%);
+  box-shadow:
+    0 0 0 1px rgba(255, 220, 120, 0.28),
+    0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+.fpChartBar--ma { left: 72%; top: 31.8%; }
+.fpChartBar--pan { left: 72%; top: 38.1%; }
+.fpChartBar--jin { left: 72%; top: 44%; }
+
+/* 低分／0%：小圓點 */
+.fpChartOrb {
+  position: absolute;
+  width: 1.4%;
+  aspect-ratio: 1;
+  height: auto;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 28%, #fff3c2 0%, #e8b421 42%, #9a6f10 100%);
+  box-shadow:
+    0 0 0 1px rgba(255, 220, 120, 0.35),
+    0 2px 5px rgba(0, 0, 0, 0.35);
+}
+
+.fpChartOrb--empty {
+  opacity: 0.4;
+  background: radial-gradient(circle at 32% 28%, #888 0%, #555 70%);
+  box-shadow: none;
+}
+
+.fpChartOrb--ma { left: 72%; top: 31.8%; }
+.fpChartOrb--pan { left: 72%; top: 38.1%; }
+.fpChartOrb--jin { left: 72%; top: 44%; }
+
+/* 百分比數字 */
+.fpChartPct {
+  position: absolute;
+  width: 7%;
+  height: 4.5%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: #f5f5f5;
+  font-weight: 800;
+  font-size: calc(2.35 * 1cqh);
+  letter-spacing: 0.02em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.65);
+}
+
+.fpChartPct--ma { left: 84.5%; top: 30.8%; }
+.fpChartPct--pan { left: 84.5%; top: 37.1%; }
+.fpChartPct--jin { left: 84.5%; top: 43%; }
+
+/* 底部分享鈕 */
+.fpResultShareBtn {
+  position: absolute;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--fp-gold);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  color: var(--fp-gold);
+  font: inherit;
+  font-size: calc(1.7 * 1cqh);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+  padding: 0;
+}
+
+.fpResultShareBtn--fb { left: 12%; top: 92%; width: 12%; height: 5.5%; }
+.fpResultShareBtn--copy { left: 26%; top: 92%; width: 12%; height: 5.5%; }
+.fpResultShareBtn--retry { left: 40%; top: 92%; width: 12%; height: 5.5%; }
+
+.fpResultShareBtn:hover {
+  background: var(--fp-gold);
+  color: #1a1a1a;
+}
+
+.fpResultShareStatus {
+  position: absolute;
+  left: 12%;
+  top: 97.5%;
+  z-index: 4;
+  color: #f0d27a;
+  font-size: calc(1.3 * 1cqh);
+  font-weight: 700;
+}
+
+.fpQuesChoice {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #f2f2f2;
+  font: inherit;
+  font-size: clamp(15px, 1.7vw, 21px);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.15s ease, opacity 0.15s ease;
+}
+
+.fpQuesChoice::before {
+  content: "";
+  display: inline-block;
+  width: 0.7em;
+  flex: 0 0 0.7em;
+}
+
+.fpQuesChoice--selected {
+  color: var(--about-accent);
+}
+
+.fpQuesChoice--selected::before {
+  content: "▶";
+  color: var(--about-accent);
+  font-size: 0.85em;
+  line-height: 1;
+}
+
+.fpQuesChoice:hover {
+  color: var(--about-accent);
+}
+
+.aboutConceptNext--disabled {
+  opacity: 0.35;
+  cursor: default;
+  pointer-events: none;
+}
+
+.fpQuesStage .aboutConceptNext {
+  pointer-events: auto;
+}
+
+/* 尚無 art 圖層時的置中暫用版 */
+.fpQuesInner {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  transform: translate(-50%, -50%);
+  width: min(72%, 720px);
+  max-height: 72%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 1.6vw, 16px);
+  color: #f2f2f2;
+  scrollbar-width: thin;
+}
+
+.fpQuesStage .fpQuestionLabel {
+  margin: 0;
+  color: var(--about-accent);
+  font-size: clamp(18px, 2.4vw, 28px);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+
+.fpQuesStage .fpQuestionBox {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  line-height: 1.85;
+  font-size: clamp(13px, 1.35vw, 16px);
+  color: #f2f2f2;
+  max-height: none;
+  overflow: visible;
+}
+
+.fpQuesStage .fpQuestionContext {
+  color: #d8c4a0;
+  font-size: clamp(12px, 1.2vw, 14.5px);
+  line-height: 1.8;
+}
+
+.fpQuesStage .fpQuestionText {
+  color: #f5f5f5;
+}
+
+.fpQuesStage .fpOptions {
+  margin-top: 4px;
+  gap: 10px;
+}
+
+.fpQuesStage .fpOptionBtn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(232, 180, 33, 0.45);
+  color: #f5f5f5;
+  font-size: clamp(13px, 1.3vw, 16px);
+  padding: 12px 16px;
+  text-align: center;
+}
+
+.fpQuesStage .fpOptionBtn:hover,
+.fpQuesStage .fpOptionBtn--selected {
+  background: rgba(232, 180, 33, 0.18);
+  border-color: var(--about-accent);
+  color: var(--about-accent);
+}
+
 .fpStage {
   display: flex;
   flex-direction: column;
@@ -277,24 +892,24 @@
   padding-top: 28px;
 }
 
-.fpResultHeading {
+.fpResultCard .fpResultHeading {
   margin: 0 0 6px;
   font-size: clamp(32px, 3.5vw, 42.67px);
   font-weight: 700;
 }
 
-.fpResultSub {
+.fpResultCard .fpResultSub {
   margin: 0 0 16px;
   font-size: 22.67px;
   color: #555;
 }
 
-.fpResultBody {
+.fpResultCard .fpResultBody {
   margin: 0 0 16px;
   line-height: 1.9;
 }
 
-.fpResultStory {
+.fpResultCard .fpResultStory {
   margin: 0 0 18px;
   padding: 14px 16px;
   background: #f5efe2;
@@ -486,6 +1101,38 @@
 @media (max-width: 700px) {
   .fpExperience {
     padding: 8px 12px 24px;
+  }
+
+  .fpExperience--concept {
+    padding: 0;
+  }
+
+  .fpQuesPaper {
+    left: 38%;
+    top: 26%;
+    width: 56%;
+    height: 22%;
+    padding: 2% 2.5%;
+  }
+
+  .fpQuesPaperText {
+    font-size: calc(2.4cqh * var(--fp-fit, 1));
+    line-height: 1.5;
+  }
+
+  .fpQuesPaperContext {
+    font-size: calc(2.05cqh * var(--fp-fit, 1));
+  }
+
+  .fpQuesChoices {
+    left: 38%;
+    top: 63%;
+    width: 56%;
+    gap: 8px;
+  }
+
+  .fpQuesChoice {
+    font-size: clamp(13px, 3.4vw, 16px);
   }
 
   .fpIntroBox,

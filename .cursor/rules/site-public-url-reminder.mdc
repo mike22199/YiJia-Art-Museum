@@ -1,0 +1,18 @@
+---
+description: 提醒填寫 SITE_PUBLIC_URL（Facebook 分享預覽用）
+alwaysApply: true
+---
+
+# 正式網址（Facebook 分享）提醒
+
+成為自由人結果頁的 Facebook 分享會帶 `/share/ma|pan|jin.html` 預覽圖與文案。
+
+## 規則
+
+1. 只要談到 **上線、部署、GitHub Pages、Facebook 分享、分享預覽圖**，或改到 `SITE_PUBLIC_URL`／`share/*.html`，**回覆結尾必須提醒使用者**：到 `index.html` 把 `window.SITE_PUBLIC_URL` 改成正式站網址（結尾不要斜線），例如 `https://帳號.github.io/FIFI_Web_Decap`，否則 Facebook 抓不到正確預覽。
+2. 本機／localhost 測分享時預覽圖出不來是正常的，不必當成 bug。
+3. 上線後可用 Facebook Sharing Debugger 刷新快取：https://developers.facebook.com/tools/debug/
+
+## 待辦
+
+- [ ] 正式上線前填入 `index.html` → `window.SITE_PUBLIC_URL`

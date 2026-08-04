@@ -3197,7 +3197,7 @@ h3.typeTitle{
   min-height: 50vh;
   --about-accent: #e8b421;
 }
-/* 特展視窗（理念頁 16:9） */
+/* 特展視窗（理念頁 16:9）— 與推開自由門 fdViewport 同尺寸 */
 .aboutPage--concept{
   justify-content: flex-start;
   padding: 0 0 24px;
@@ -3205,12 +3205,12 @@ h3.typeTitle{
 .exhibitionWindow,
 .aboutConceptStage{
   position: relative;
-  width: min(96vw, 1120px);
+  width: 100%;
+  max-width: min(1800px, 90vw, calc(86vh * 16 / 9));
   margin: 0 auto;
   overflow: hidden;
   background: #111;
   isolation: isolate;
-  /* 特展視窗固定 16:9（參考 1024×576） */
   aspect-ratio: 16 / 9;
   min-height: 0;
   height: auto;
@@ -3233,7 +3233,7 @@ h3.typeTitle{
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: rgba(0, 0, 0, 0.62);
+  background: rgba(0, 0, 0, 0.58);
 }
 .aboutConceptLogo{
   position: absolute;
@@ -3259,56 +3259,77 @@ h3.typeTitle{
   transform: translate(-50%, -50%);
   z-index: 2;
   box-sizing: border-box;
-  width: 70%;
-  max-width: 700px;
+  width: 72%;
+  max-width: 720px;
   max-height: 68%;
   margin: 0;
   padding: 0 12px;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
   text-align: center;
   color: #fff;
-  scrollbar-width: thin;
+  --fp-fit: 1;
+}
+.aboutConceptContent--compact{
+  max-width: 560px;
+  max-height: 58%;
 }
 .aboutConceptLead{
-  margin: 0 0 6px;
+  margin: 0 0 8px;
   color: var(--about-accent);
-  font-size: clamp(15px, 1.95vw, 21px);
+  font-family: var(--inner-font, "FIFI CJK Serif", "Noto Serif TC", "Microsoft JhengHei", serif);
+  font-size: calc(clamp(16px, 2.1vw, 24px) * var(--fp-fit, 1));
   font-weight: 700;
-  letter-spacing: 0.04em;
-  line-height: 1.45;
+  letter-spacing: 0.06em;
+  line-height: 1.5;
 }
 .aboutConceptHeading{
-  margin: 0 0 16px;
+  margin: 0 0 18px;
   color: var(--about-accent);
-  font-size: clamp(13px, 1.35vw, 16px);
+  font-family: var(--inner-font, "FIFI CJK Serif", "Noto Serif TC", "Microsoft JhengHei", serif);
+  font-size: calc(clamp(14px, 1.5vw, 18px) * var(--fp-fit, 1));
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   line-height: 1.35;
 }
 .aboutConceptParagraph{
-  margin: 0 0 10px;
+  margin: 0 0 14px;
   color: #fff;
-  font-size: clamp(11px, 1.05vw, 13px);
-  line-height: 1.8;
-  letter-spacing: 0.02em;
+  font-size: calc(clamp(12px, 1.15vw, 14.5px) * var(--fp-fit, 1));
+  line-height: 1.9;
+  letter-spacing: 0.03em;
   font-weight: 400;
 }
 .aboutConceptParagraph:last-child{
   margin-bottom: 0;
 }
-.aboutConceptStart{
+.aboutConceptStart,
+.aboutConceptNext{
   position: absolute;
   right: 3.2%;
   bottom: 4.5%;
   z-index: 4;
   display: inline-flex;
   align-items: center;
-  line-height: 0;
   text-decoration: none;
   transition: opacity 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font: inherit;
 }
-.aboutConceptStart:hover{
+.aboutConceptStart{
+  line-height: 0;
+}
+.aboutConceptNext{
+  color: var(--about-accent);
+  font-size: clamp(15px, 1.6vw, 20px);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+}
+.aboutConceptStart:hover,
+.aboutConceptNext:hover{
   opacity: 0.88;
   transform: translateX(2px);
 }
@@ -3363,7 +3384,8 @@ h3.typeTitle{
   }
   .aboutConceptStage,
   .exhibitionWindow{
-    width: min(96vw, 1120px);
+    width: 100%;
+    max-width: min(1800px, 94vw, calc(78vh * 16 / 9));
     aspect-ratio: 16 / 9;
     min-height: 0;
   }
@@ -3384,20 +3406,24 @@ h3.typeTitle{
     text-align: center;
   }
   .aboutConceptLead{
-    font-size: clamp(13px, 3.4vw, 16px);
+    font-size: clamp(14px, 3.6vw, 17px);
   }
   .aboutConceptHeading{
-    margin-bottom: 10px;
-    font-size: clamp(11px, 2.8vw, 13px);
+    margin-bottom: 12px;
+    font-size: clamp(12px, 3vw, 14px);
   }
   .aboutConceptParagraph{
-    font-size: clamp(10px, 2.6vw, 11.5px);
-    line-height: 1.65;
-    margin-bottom: 8px;
+    font-size: clamp(11px, 2.8vw, 12.5px);
+    line-height: 1.7;
+    margin-bottom: 10px;
   }
-  .aboutConceptStart{
+  .aboutConceptStart,
+  .aboutConceptNext{
     right: 3%;
     bottom: 3.5%;
+  }
+  .aboutConceptNext{
+    font-size: clamp(14px, 3.4vw, 17px);
   }
   .aboutConceptStartImg{
     width: clamp(88px, 28vw, 120px);

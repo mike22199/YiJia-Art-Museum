@@ -10,8 +10,13 @@
   <meta property="og:locale" content="zh_TW">
   <meta property="og:title" content="沉默裡的堅守｜成為自由人">
   <meta property="og:description" content="我完成了「成為自由人」心理測驗，結果是沉默裡的堅守——你有馬伯伯的韌性。一起來測測你的自由韌性。">
-  <!-- 之後可改為 share-ma.png（建議 1200×630） -->
-  <meta property="og:image" content="/assets/images/%E6%88%90%E7%82%BA%E8%87%AA%E7%94%B1%E4%BA%BA/share-ma.png">
+  <!-- 相對路徑會依本頁網址解析；正式站請確認可被 Facebook 抓取 -->
+  <meta property="og:image" content="../assets/images/%E6%88%90%E7%82%BA%E8%87%AA%E7%94%B1%E4%BA%BA/MA_new.png">
+  <meta property="og:image:type" content="image/png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="沉默裡的堅守｜成為自由人">
+  <meta name="twitter:description" content="你有馬伯伯的韌性。一起來測測你的自由韌性。">
+  <meta name="twitter:image" content="../assets/images/%E6%88%90%E7%82%BA%E8%87%AA%E7%94%B1%E4%BA%BA/MA_new.png">
   <link rel="stylesheet" href="./share.css">
 </head>
 <body>
@@ -19,8 +24,23 @@
     <p class="shareEyebrow">成為自由人 · 自由韌性測驗</p>
     <h1 class="shareTitle">沉默裡的堅守</h1>
     <p class="shareSub">你有馬伯伯的韌性</p>
+    <img class="shareArt" src="../assets/images/成為自由人/MA_new.png" alt="馬伯伯結果頁">
     <p class="shareBody">你不擅長說，但你擅長留下來。情緒藏著，行動卻一直在。學攝影、做花捲，陪著一個計劃走得最久——不是因為不在乎，而是你用時間和身體說「我在這裡」。</p>
     <a class="shareCta" href="../index.html#exhibition-right/experience">來測測你的自由韌性</a>
   </main>
+  <script>
+    (function () {
+      try {
+        var abs = new URL(document.querySelector('meta[property="og:image"]').content, location.href).href;
+        document.querySelectorAll('meta[property="og:image"], meta[name="twitter:image"]').forEach(function (m) {
+          m.setAttribute("content", abs);
+        });
+        var urlMeta = document.createElement("meta");
+        urlMeta.setAttribute("property", "og:url");
+        urlMeta.setAttribute("content", location.href.split("#")[0]);
+        document.head.appendChild(urlMeta);
+      } catch (e) {}
+    })();
+  </script>
 </body>
 </html>

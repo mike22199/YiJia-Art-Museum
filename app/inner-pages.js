@@ -999,6 +999,8 @@ function renderExhibitionAboutPage(exhibition, exhibitionId = "exhibition-left")
     about.leadTitle || !blocks[0]?.body
       ? blocks
       : blocks.slice(1);
+  const nextLabel = String(startButton.label || "").trim();
+  const useTextNext = Boolean(nextLabel) || !startButton.src;
 
   const textChildren = [];
   if (leadTitle) {
@@ -1012,6 +1014,30 @@ function renderExhibitionAboutPage(exhibition, exhibitionId = "exhibition-left")
     if (text) textChildren.push(el("p", { class: "aboutConceptParagraph", text }));
   });
 
+  const nextControl = el(
+    "a",
+    {
+      class: useTextNext ? "aboutConceptNext" : "aboutConceptStart",
+      href: `#${exhibitionId}/experience`,
+      "aria-label": startButton.alt || nextLabel || "開始",
+      onclick: (e) => {
+        e.preventDefault();
+        // 進入體驗頁時維持目前滾動位置
+        window.__preserveExhibitionScrollY = window.scrollY;
+        navigateFromHref(`#${exhibitionId}/experience`);
+      },
+    },
+    useTextNext
+      ? [nextLabel || "Next ▶"]
+      : [
+          el("img", {
+            class: "aboutConceptStartImg",
+            src: startButton.src,
+            alt: startButton.alt || "開始 START",
+          }),
+        ]
+  );
+
   return el("div", { class: "aboutPage aboutPage--concept" }, [
     el(
       "div",
@@ -1020,45 +1046,28 @@ function renderExhibitionAboutPage(exhibition, exhibitionId = "exhibition-left")
         "aria-label": "特展視窗",
       },
       [
-      banner?.src
-        ? el("img", {
-            class: "aboutConceptBg",
-            src: banner.src,
-            alt: "",
-            "aria-hidden": "true",
-            loading: "eager",
-          })
-        : el("div", { class: "aboutConceptBg aboutConceptBg--fallback" }),
-      el("div", { class: "aboutConceptDim", "aria-hidden": "true" }),
-      logo?.src
-        ? el("img", {
-            class: "aboutConceptLogo",
-            src: logo.src,
-            alt: logo.alt || "義家藝館",
-            loading: "eager",
-          })
-        : null,
-      el("div", { class: "aboutConceptContent" }, textChildren),
-      el(
-        "a",
-        {
-          class: "aboutConceptStart",
-          href: `#${exhibitionId}/experience`,
-          "aria-label": startButton.alt || "開始",
-          onclick: (e) => {
-            e.preventDefault();
-            navigateFromHref(`#${exhibitionId}/experience`);
-          },
-        },
-        [
-          el("img", {
-            class: "aboutConceptStartImg",
-            src: startButton.src,
-            alt: startButton.alt || "開始 START",
-          }),
-        ]
-      ),
-    ]),
+        banner?.src
+          ? el("img", {
+              class: "aboutConceptBg",
+              src: banner.src,
+              alt: "",
+              "aria-hidden": "true",
+              loading: "eager",
+            })
+          : el("div", { class: "aboutConceptBg aboutConceptBg--fallback" }),
+        el("div", { class: "aboutConceptDim", "aria-hidden": "true" }),
+        logo?.src
+          ? el("img", {
+              class: "aboutConceptLogo",
+              src: logo.src,
+              alt: logo.alt || "義家藝館",
+              loading: "eager",
+            })
+          : null,
+        el("div", { class: "aboutConceptContent" }, textChildren),
+        nextControl,
+      ]
+    ),
   ]);
 }
 
@@ -1130,6 +1139,18 @@ function renderExhibitionPage(main, route) {
 
   main.innerHTML = "";
   main.appendChild(wrapInnerPage(content, exhibitionChrome));
+
+  if (typeof window.__preserveExhibitionScrollY === "number") {
+    const y = window.__preserveExhibitionScrollY;
+    window.__preserveExhibitionScrollY = null;
+    requestAnimationFrame(() => {
+      window.scrollTo(0, y);
+    });
+  }
+
+  if (typeof window.FIFI_fitExhibitionText === "function") {
+    window.FIFI_fitExhibitionText(main);
+  }
 }
 
 function renderCoCreatePage(main) {

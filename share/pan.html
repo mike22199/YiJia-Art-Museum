@@ -10,8 +10,12 @@
   <meta property="og:locale" content="zh_TW">
   <meta property="og:title" content="移動中的自由｜成為自由人">
   <meta property="og:description" content="我完成了「成為自由人」心理測驗，結果是移動中的自由——你有潘伯伯的韌性。一起來測測你的自由韌性。">
-  <!-- 之後可改為 share-pan.png（建議 1200×630） -->
-  <meta property="og:image" content="/assets/images/%E6%88%90%E7%82%BA%E8%87%AA%E7%94%B1%E4%BA%BA/share-pan.png">
+  <meta property="og:image" content="../assets/images/%E6%88%90%E7%82%BA%E8%87%AA%E7%94%B1%E4%BA%BA/PAM_New.png">
+  <meta property="og:image:type" content="image/png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="移動中的自由｜成為自由人">
+  <meta name="twitter:description" content="你有潘伯伯的韌性。一起來測測你的自由韌性。">
+  <meta name="twitter:image" content="../assets/images/%E6%88%90%E7%82%BA%E8%87%AA%E7%94%B1%E4%BA%BA/PAM_New.png">
   <link rel="stylesheet" href="./share.css">
 </head>
 <body>
@@ -19,8 +23,23 @@
     <p class="shareEyebrow">成為自由人 · 自由韌性測驗</p>
     <h1 class="shareTitle">移動中的自由</h1>
     <p class="shareSub">你有潘伯伯的韌性</p>
-    <p class="shareBody">你用移動對抗孤單，用出走換取呼吸的空間。你不一定熱鬧，但你知道怎麼在陌生的街上找到節奏。獨處對你而言不是冷漠，而是屬於自己的自由。</p>
+    <img class="shareArt" src="../assets/images/成為自由人/PAM_New.png" alt="潘伯伯結果頁">
+    <p class="shareBody">你用移動對抗孤獨。搭最早的公車出門，一個人去湯姆熊、去紅包場聽歌，下午再回來——不是逃跑，是知道自己需要什麼。獨來獨往不是冷漠，是你找到了一種屬於自己的節奏。</p>
     <a class="shareCta" href="../index.html#exhibition-right/experience">來測測你的自由韌性</a>
   </main>
+  <script>
+    (function () {
+      try {
+        var abs = new URL(document.querySelector('meta[property="og:image"]').content, location.href).href;
+        document.querySelectorAll('meta[property="og:image"], meta[name="twitter:image"]').forEach(function (m) {
+          m.setAttribute("content", abs);
+        });
+        var urlMeta = document.createElement("meta");
+        urlMeta.setAttribute("property", "og:url");
+        urlMeta.setAttribute("content", location.href.split("#")[0]);
+        document.head.appendChild(urlMeta);
+      } catch (e) {}
+    })();
+  </script>
 </body>
 </html>

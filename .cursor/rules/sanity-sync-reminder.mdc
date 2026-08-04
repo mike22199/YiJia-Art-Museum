@@ -16,7 +16,7 @@ alwaysApply: true
 ## 目前待同步（持續更新此清單）
 
 - [ ] 推開自由門（`exhibition-left`）「關於展覽」全文、`leadTitle`、橫式 banner、理念頁 LOGO／Start
-- [ ] 成為自由人（`exhibition-right`）「關於展覽」結構同上，banner：`banner-become-free.png`
+- [ ] 成為自由人（`exhibition-right`）「關於展覽」結構／文案；簡介頁底圖：`成為自由人片頭.jpg`；橫式 banner：`成為自由人banner.jpg`；intro／history 同片頭底圖；Q1–Q9＋Q1_no 題目圖層與文案
 - [ ] 理念頁／特展視窗素材：裁切後的 `理念頁LOGO.png`、`Start.png`、各展覽橫式 banner
 - [ ] 全站公版彈窗素材：`assets/images/PopUp.png`、`PopUp_Cross.png`
 - [ ] 房間物件說明圖：`Yellow_Wall.png`、`GuanIn.png`、`Closet.png`
