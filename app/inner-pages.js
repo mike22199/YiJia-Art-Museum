@@ -1133,8 +1133,7 @@ function renderExhibitionPage(main, route) {
 
   const exhibitionChrome = {
     activeNav: "collection",
-    showSubnav: true,
-    activeSubnav: "exhibitions",
+    showSubnav: false,
   };
 
   main.innerHTML = "";
