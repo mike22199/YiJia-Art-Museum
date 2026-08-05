@@ -78,11 +78,40 @@
     ]);
   }
 
-  /** 自動縮小字級，讓區塊內文一次看完（不需上下捲動） */
-  function fitTextInBox(box, { minScale = 0.42, maxScale = 1 } = {}) {
+  function isShortExhibitionStage() {
+    return (
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(max-width: 700px), (max-height: 520px)").matches
+    );
+  }
+
+  /** 手機／矮視窗改用區塊內捲動，不再把字縮到看不清 */
+  function prefersScrollFit(box) {
+    if (!isShortExhibitionStage() || !box?.classList) return false;
+    return (
+      box.classList.contains("fpQuesPaper") ||
+      box.classList.contains("aboutConceptContent") ||
+      box.classList.contains("fpQ1NoCopy") ||
+      box.classList.contains("fpSubmitCopy")
+    );
+  }
+
+  /** 自動縮小字級，讓區塊內文一次看完（桌面）；手機改交給 CSS 捲動 */
+  function fitTextInBox(box, { minScale, maxScale = 1 } = {}) {
     if (!box) return;
     const cs = getComputedStyle(box);
     if (cs.display === "none" || box.clientHeight < 4) return;
+
+    if (prefersScrollFit(box)) {
+      box.style.setProperty("--fp-fit", "1");
+      box.style.removeProperty("overflow");
+      return;
+    }
+
+    if (minScale == null) {
+      // 徵稿說明不要縮太狠，否則上方字會過小
+      minScale = box.classList?.contains("fpSubmitCopy") ? 0.78 : 0.42;
+    }
 
     box.style.overflow = "hidden";
     let lo = minScale;
@@ -112,7 +141,18 @@
         ?.querySelectorAll?.(
           ".fpQuesPaper, .fpQ1NoCopy, .aboutConceptContent, .fpSubmitCopy"
         )
-        ?.forEach((box) => fitTextInBox(box));
+        ?.forEach((box) => {
+          fitTextInBox(box);
+          // 題目／長文區預設捲到最頂，避免換題或重算後停在中間
+          if (
+            box.classList?.contains("fpQuesPaper") ||
+            box.classList?.contains("fpQ1NoCopy") ||
+            box.classList?.contains("aboutConceptContent")
+          ) {
+            box.scrollTop = 0;
+            box.scrollLeft = 0;
+          }
+        });
     };
     const kick = () => requestAnimationFrame(() => requestAnimationFrame(run));
     if (document.fonts?.ready) {
@@ -328,14 +368,14 @@
   const CHART_BAR_FULL_WIDTH = 12;
 
   const GALLERY_LAYOUT = [
-    { left: "6%", top: "16%", rotate: "-4deg", w: "22%" },
-    { left: "32%", top: "12%", rotate: "3deg", w: "24%" },
-    { left: "62%", top: "15%", rotate: "-2deg", w: "22%" },
-    { left: "10%", top: "42%", rotate: "2deg", w: "24%" },
-    { left: "40%", top: "40%", rotate: "-3deg", w: "23%" },
-    { left: "68%", top: "44%", rotate: "4deg", w: "22%" },
-    { left: "22%", top: "64%", rotate: "-1deg", w: "24%" },
-    { left: "52%", top: "62%", rotate: "2deg", w: "26%" },
+    { left: "10%", top: "18%", rotate: "-4deg", w: "17%" },
+    { left: "36%", top: "14%", rotate: "3deg", w: "18%" },
+    { left: "64%", top: "17%", rotate: "-2deg", w: "17%" },
+    { left: "14%", top: "44%", rotate: "2deg", w: "18%" },
+    { left: "42%", top: "42%", rotate: "-3deg", w: "17%" },
+    { left: "70%", top: "46%", rotate: "4deg", w: "16%" },
+    { left: "26%", top: "66%", rotate: "-1deg", w: "18%" },
+    { left: "54%", top: "64%", rotate: "2deg", w: "19%" },
   ];
 
   function navigateHome() {
@@ -675,8 +715,10 @@
       }
       uiChildren.push(
         el("div", { class: q.paperTall ? "fpQuesPaper fpQuesPaper--tall" : "fpQuesPaper" }, [
-          q.context ? el("p", { class: "fpQuesPaperContext", text: q.context }) : null,
-          el("p", { class: "fpQuesPaperText", text: q.text }),
+          el("div", { class: "fpQuesPaperInner" }, [
+            q.context ? el("p", { class: "fpQuesPaperContext", text: q.context }) : null,
+            el("p", { class: "fpQuesPaperText", text: q.text }),
+          ]),
         ]),
         choices,
         el("button", {
