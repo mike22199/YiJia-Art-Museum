@@ -8,11 +8,12 @@
     if (image.src) return image.src;
     const ref = image.asset?._ref || image._ref;
     if (ref && typeof ref === "string" && ref.startsWith("image-")) {
-      const [, id, ext] = ref.match(/^image-([a-f0-9]+)-(\w+)$/) || [];
+      const [, id, dimensions, ext] =
+        ref.match(/^image-([a-f0-9]+)-(\d+x\d+)-(\w+)$/) || [];
       if (id && ext) {
         const projectId = window.SANITY_PROJECT_ID || "";
         const dataset = window.SANITY_DATASET || "production";
-        return `https://cdn.sanity.io/images/${projectId}/${dataset}/${id}.${ext}`;
+        return `https://cdn.sanity.io/images/${projectId}/${dataset}/${id}-${dimensions}.${ext}`;
       }
     }
     if (image.asset?.url) return image.asset.url;
