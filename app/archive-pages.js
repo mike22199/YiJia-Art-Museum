@@ -1895,21 +1895,10 @@ function resolvePerformanceBanners() {
   ];
 }
 
-function performanceMetaLine(banner, field, fallback) {
-  const value = String(banner?.[field] || "").trim();
-  return value || fallback;
-}
-
 function renderArchivePerformanceCard(banner, index) {
   const href = banner.href || "#home/index";
   const imgSrc = performanceBannerImageSrc(banner);
   const imgAlt = banner.image?.alt || banner.title || "最新展演";
-  const author = performanceMetaLine(banner, "author", "作者xxx");
-  const period = performanceMetaLine(
-    banner,
-    "period",
-    performanceMetaLine(banner, "exhibitionPeriod", "展期")
-  );
 
   return el(
     "article",
@@ -1941,8 +1930,6 @@ function renderArchivePerformanceCard(banner, index) {
             banner.title
               ? el("h2", { class: "archivePerformanceCardTitle", text: banner.title })
               : null,
-            el("p", { class: "archivePerformanceCardMeta", text: author }),
-            el("p", { class: "archivePerformanceCardMeta", text: period }),
           ]),
         ]
       ),
@@ -3664,10 +3651,20 @@ function renderArchiveResearch() {
     "2026";
   if (!tabYears.includes(year)) year = tabYears[tabYears.length - 1];
   const yearPack = (teachersData.byYear || {})[year] || {};
-  const teachers = Array.isArray(yearPack.teachers) ? yearPack.teachers : [];
+  const allTeachers = Array.isArray(yearPack.teachers) ? yearPack.teachers : [];
+  const journals = teachersData.journals || {};
+  // 研究頁只顯示有日誌的教師（藝術家教師頁名單可另含無日誌者）
+  const teachers = allTeachers.filter((t) => {
+    const journal = journals[t?.id];
+    if (!journal) return false;
+    return (
+      (Array.isArray(journal.pages) && journal.pages.length > 0) ||
+      (Array.isArray(journal.spreads) && journal.spreads.length > 0)
+    );
+  });
   const selectedId = params.get("teacher") || (teachers[0] && teachers[0].id) || "";
   const selected = teachers.find((t) => t.id === selectedId) || teachers[0] || null;
-  const journal = selected ? (teachersData.journals || {})[selected.id] : null;
+  const journal = selected ? journals[selected.id] : null;
   const journalSpreads = resolveJournalSpreads(journal, selected?.name);
 
   const root = el("div", { class: "archivePage archiveResearchPage archiveResearchPage--journal" });

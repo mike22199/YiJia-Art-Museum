@@ -78,6 +78,11 @@
           }
         }
       }
+
+      const excludeIds = Array.isArray(config.excludeTeacherIds) ? config.excludeTeacherIds : [];
+      for (const teacherId of excludeIds) {
+        if (teacherId) delete teachers.journals[teacherId];
+      }
     } catch (err) {
       console.warn("研究日誌資料夾載入失敗：", err);
     }

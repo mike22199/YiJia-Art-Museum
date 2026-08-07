@@ -240,6 +240,117 @@
     return { research, teachers };
   }
 
+  function mapArchiveResourceItem(item) {
+    if (!item) return null;
+    const out = {
+      title: item.title || "",
+      author: item.author || "",
+      year: item.year || "",
+      description: item.description || "",
+    };
+    if (item.href) out.href = item.href;
+    if (item.linkLabel) out.linkLabel = item.linkLabel;
+    if (item.preview) out.preview = item.preview;
+    if (item.previewLabel) out.previewLabel = item.previewLabel;
+    const cover = toImageObj(item.cover, item.title);
+    if (cover) out.cover = cover;
+    return out;
+  }
+
+  function mapArchiveResourceCategory(category) {
+    if (!category) return null;
+    return {
+      id: category.id || category.title || "category",
+      title: category.title || "",
+      items: (Array.isArray(category.items) ? category.items : [])
+        .map(mapArchiveResourceItem)
+        .filter(Boolean),
+    };
+  }
+
+  function mapArchiveLearningSection(section) {
+    if (!section || typeof section !== "object") return null;
+    return {
+      heading: section.heading || "學習資源",
+      intro: section.intro || "",
+      categories: (Array.isArray(section.categories) ? section.categories : [])
+        .map(mapArchiveResourceCategory)
+        .filter(Boolean),
+    };
+  }
+
+  function mapArchiveBibliographySection(section) {
+    if (!section || typeof section !== "object") return null;
+    const categories = (Array.isArray(section.categories) ? section.categories : [])
+      .map(mapArchiveResourceCategory)
+      .filter(Boolean);
+    return {
+      bibliographySection: {
+        heading: section.heading || "延伸閱讀",
+      },
+      bibliographyCategories: categories,
+    };
+  }
+
+  function mapArchiveTeachersSection(section) {
+    if (!section || typeof section !== "object") return null;
+    const byYear = {};
+    const yearsFromPacks = [];
+
+    if (Array.isArray(section.yearPacks)) {
+      for (const pack of section.yearPacks) {
+        const year = String(pack?.year || "").trim();
+        if (!year) continue;
+        yearsFromPacks.push(year);
+        byYear[year] = {
+          title: pack.title || `${year}年藝術家教師`,
+          teachers: (Array.isArray(pack.teachers) ? pack.teachers : []).map((t) => {
+            const avatar = toImageObj(t.avatar, t.name);
+            return {
+              id: t.id || "",
+              name: t.name || "",
+              summary: t.summary || "",
+              bio: t.bio || "",
+              avatar: avatar || undefined,
+            };
+          }),
+        };
+      }
+    }
+
+    const years =
+      Array.isArray(section.years) && section.years.length
+        ? section.years.map((y) => String(y).trim()).filter(Boolean)
+        : yearsFromPacks;
+
+    if (!years.length && !Object.keys(byYear).length) return null;
+
+    return {
+      years,
+      defaultYear: section.defaultYear || years[years.length - 1] || "2026",
+      byYear,
+    };
+  }
+
+  function mergeTeacherLists(existingList, incomingList) {
+    const byId = new Map();
+    (Array.isArray(existingList) ? existingList : []).forEach((t) => {
+      if (t?.id) byId.set(t.id, { ...t });
+    });
+    (Array.isArray(incomingList) ? incomingList : []).forEach((t) => {
+      if (!t?.id) return;
+      const prev = byId.get(t.id) || {};
+      byId.set(t.id, {
+        ...prev,
+        ...t,
+        summary: t.summary || prev.summary || "",
+        bio: t.bio || prev.bio || "",
+        avatar: t.avatar || prev.avatar,
+      });
+    });
+    return Array.from(byId.values());
+  }
+
   window.normalizeSanitySiteContent = function normalizeSanitySiteContent(doc, fallback) {
     const base = fallback && typeof fallback === "object" ? structuredClone(fallback) : {};
 
@@ -302,23 +413,56 @@
     const videos = mapArchiveMediaSection(doc.archiveVideos, "videos");
     if (videos) base.archive.videos = videos;
 
+    const teachersMapped = mapArchiveTeachersSection(doc.archiveTeachers);
+    if (teachersMapped) {
+      base.archive.teachers = base.archive.teachers || {};
+      const existing = base.archive.teachers;
+      if (teachersMapped.years?.length) existing.years = teachersMapped.years;
+      if (teachersMapped.defaultYear) existing.defaultYear = teachersMapped.defaultYear;
+      existing.byYear = existing.byYear || {};
+      Object.entries(teachersMapped.byYear || {}).forEach(([year, pack]) => {
+        const prev = existing.byYear[year] || {};
+        existing.byYear[year] = {
+          title: pack.title || prev.title || `${year}年藝術家教師`,
+          teachers: mergeTeacherLists(prev.teachers, pack.teachers),
+        };
+      });
+    }
+
     const researchMapped = mapArchiveResearch(doc.archiveResearch);
     if (researchMapped) {
       base.archive.research = researchMapped.research;
       if (researchMapped.teachers?.years?.length) {
         base.archive.teachers = base.archive.teachers || {};
         const existing = base.archive.teachers;
-        existing.years = researchMapped.teachers.years;
-        existing.defaultYear =
-          researchMapped.teachers.defaultYear || existing.defaultYear;
-        existing.byYear = {
-          ...(existing.byYear || {}),
-          ...researchMapped.teachers.byYear,
-        };
+        // 研究區 yearPacks 主要帶日誌；教師簡介以 archiveTeachers 為主，這裡只補 id/name
+        Object.entries(researchMapped.teachers.byYear || {}).forEach(([year, pack]) => {
+          const prev = (existing.byYear || {})[year] || {};
+          existing.byYear = existing.byYear || {};
+          existing.byYear[year] = {
+            title: prev.title || pack.title || `${year}年藝術家教師`,
+            teachers: mergeTeacherLists(prev.teachers, pack.teachers),
+          };
+        });
         existing.journals = {
           ...(existing.journals || {}),
           ...researchMapped.teachers.journals,
         };
+      }
+    }
+
+    const learningMapped = mapArchiveLearningSection(doc.archiveLearningResources);
+    if (learningMapped) {
+      base.archive.learningResources = learningMapped;
+    }
+
+    const bibliographyMapped = mapArchiveBibliographySection(doc.archiveBibliography);
+    if (bibliographyMapped) {
+      if (bibliographyMapped.bibliographySection) {
+        base.archive.bibliographySection = bibliographyMapped.bibliographySection;
+      }
+      if (Array.isArray(bibliographyMapped.bibliographyCategories)) {
+        base.archive.bibliographyCategories = bibliographyMapped.bibliographyCategories;
       }
     }
 

@@ -425,6 +425,46 @@
   cursor: pointer;
 }
 
+.fdHotspotHint {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: clamp(26px, 2.9vw, 42px);
+  height: clamp(26px, 2.9vw, 42px);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 0 1px #000) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.75));
+  animation: fdHotspotHintPulse 1.6s ease-in-out infinite;
+}
+
+.fdHotspotHintArrow {
+  width: 60%;
+  height: 60%;
+  border-right: 4px solid #fff;
+  border-bottom: 4px solid #fff;
+  transform: rotate(45deg) translate(-12%, -12%);
+  box-sizing: border-box;
+}
+
+.fdRoomWrap--panelOpen .fdHotspotHint {
+  display: none;
+}
+
+@keyframes fdHotspotHintPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -56%) scale(1.12);
+  }
+}
+
 .fdHotspot--wallCatch {
   inset: 0;
   width: 100%;

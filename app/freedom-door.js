@@ -128,7 +128,8 @@
   };
 
   const HOTSPOTS = {
-    // 牆壁改以「背景黃牆 + 未被上層遮擋」像素判斷；以下為矩形熱區
+    // 窗戶下方正方形熱區（黃牆）
+    wall: { left: "17.5%", top: "50.5%", width: "16.5%", height: "15.3%" },
     guanyin: { left: "51.8%", top: "36.6%", width: "4.2%", height: "13.9%" },
     clothes: { left: "62.3%", top: "0.0%", width: "37.7%", height: "56.8%" },
   };
@@ -407,6 +408,12 @@
 
   function hotspotStyle(rect) {
     return `left:${rect.left}; top:${rect.top}; width:${rect.width}; height:${rect.height}`;
+  }
+
+  function buildHotspotHint() {
+    return el("span", { class: "fdHotspotHint", "aria-hidden": "true" }, [
+      el("span", { class: "fdHotspotHintArrow" }),
+    ]);
   }
 
   function buildInfoPanel(state, key, { onClose, onEnterWardrobe } = {}) {
@@ -911,9 +918,9 @@
 
   function renderP6(stage, state, setScene, redraw) {
     const room = el("div", { class: "fdRoomWrap" });
-    const { scene, frame, overlay } = createRoomScene();
+    const { scene, overlay } = createRoomScene();
     const panelSlot = el("div", { class: "fdPanelSlot" });
-    prepareRoomWallHitData().catch(() => {});
+    void redraw;
 
     function syncPanel() {
       panelSlot.innerHTML = "";
@@ -946,48 +953,23 @@
       syncPanel();
     }
 
-    const wallCatch = el("button", {
-      class: "fdHotspot fdHotspot--wallCatch",
-      type: "button",
-      "aria-label": COPY.hotspots.wall.name,
-      onclick: async (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        try {
-          const hitData = await prepareRoomWallHitData();
-          const point = clientToRoomImagePoint(frame, e.clientX, e.clientY, hitData.width, hitData.height);
-          if (!point || !isExposedWallAt(hitData, point.x, point.y)) return;
-          toggleHotspot("wall");
-        } catch (err) {
-          console.warn("牆壁熱區判斷失敗：", err);
-        }
-      },
-      onmousemove: async (e) => {
-        try {
-          const hitData = await prepareRoomWallHitData();
-          const point = clientToRoomImagePoint(frame, e.clientX, e.clientY, hitData.width, hitData.height);
-          wallCatch.style.cursor =
-            point && isExposedWallAt(hitData, point.x, point.y) ? "pointer" : "default";
-        } catch {
-          wallCatch.style.cursor = "default";
-        }
-      },
-    });
-    overlay.appendChild(wallCatch);
-
     Object.entries(HOTSPOTS).forEach(([key, rect]) => {
       overlay.appendChild(
-        el("button", {
-          class: `fdHotspot${state.activeHotspot === key ? " isActive" : ""}`,
-          type: "button",
-          "aria-label": COPY.hotspots[key].name,
-          style: hotspotStyle(rect),
-          onclick: (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            toggleHotspot(key);
+        el(
+          "button",
+          {
+            class: `fdHotspot${state.activeHotspot === key ? " isActive" : ""}`,
+            type: "button",
+            "aria-label": COPY.hotspots[key].name,
+            style: hotspotStyle(rect),
+            onclick: (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleHotspot(key);
+            },
           },
-        })
+          [buildHotspotHint()]
+        )
       );
     });
 
@@ -1001,7 +983,6 @@
         state.activeHotspot = null;
         setScene("p3");
       },
-      centerLabel: "（金伯伯的房間）",
       rightLabel: "結束參觀回到首頁",
       rightAction: navigateHome,
     });

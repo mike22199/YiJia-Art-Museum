@@ -505,13 +505,16 @@
     openFacebookSharerDialog(url, quote, statusEl);
   }
 
+  const FB_SHARE_HINT =
+    "已開啟 Facebook；文案已複製，請在分享框按 Ctrl+V（Mac：⌘V）貼上";
+
   function openFacebookSharerDialog(url, quote, statusEl) {
     // 先複製：多數情況下 Facebook 不會自動貼上，使用者可在分享框 Ctrl+V / ⌘V
     copyShareText(quote, null).then((ok) => {
       if (statusEl) {
         statusEl.textContent = ok
-          ? "已開啟 Facebook；文案已複製，請在分享框按 Ctrl+V（Mac：⌘V）貼上"
-          : "已開啟 Facebook；若沒有文案請回結果頁按「複製文字」";
+          ? FB_SHARE_HINT
+          : "已開啟 Facebook；若沒有文案請手動貼上分享文字";
       }
     });
 
@@ -529,6 +532,100 @@
       return true;
     } catch {
       if (statusEl) statusEl.textContent = "無法複製，請手動選取文字";
+      return false;
+    }
+  }
+
+  function loadImageElement(src) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = () => reject(new Error("image load failed"));
+      img.src = src;
+    });
+  }
+
+  function drawScoreChartOnCanvas(ctx, width, height, bars) {
+    const fullW = CHART_BAR_FULL_WIDTH;
+    const barH = height * 0.026;
+    const barTops = { ma: 0.318, pan: 0.381, jin: 0.44 };
+    const pctTops = { ma: 0.308, pan: 0.371, jin: 0.43 };
+    const barLeft = width * 0.72;
+    const pctLeft = width * 0.845;
+    const pctW = width * 0.07;
+    const fontSize = Math.max(14, height * 0.0235);
+
+    ["ma", "pan", "jin"].forEach((key) => {
+      const pct = Math.max(0, Math.min(100, Number(bars?.[key] || 0)));
+      const top = height * barTops[key];
+
+      if (pct >= 18) {
+        const barW = Math.max((pct / 100) * (width * (fullW / 100)), width * 0.02);
+        const grad = ctx.createLinearGradient(barLeft, top, barLeft + barW, top);
+        grad.addColorStop(0, "#b88714");
+        grad.addColorStop(0.45, "#e8b421");
+        grad.addColorStop(1, "#f3d56a");
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        const r = barH / 2;
+        ctx.moveTo(barLeft + r, top);
+        ctx.arcTo(barLeft + barW, top, barLeft + barW, top + barH, r);
+        ctx.arcTo(barLeft + barW, top + barH, barLeft, top + barH, r);
+        ctx.arcTo(barLeft, top + barH, barLeft, top, r);
+        ctx.arcTo(barLeft, top, barLeft + barW, top, r);
+        ctx.closePath();
+        ctx.fill();
+      } else {
+        const orb = width * 0.014;
+        ctx.beginPath();
+        ctx.fillStyle = pct <= 0 ? "rgba(100,100,100,0.45)" : "#e8b421";
+        ctx.arc(barLeft + orb / 2, top + barH / 2, orb / 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.fillStyle = "#f5f5f5";
+      ctx.font = `800 ${fontSize}px "FIFI CJK Sans", "Microsoft JhengHei", sans-serif`;
+      ctx.textAlign = "right";
+      ctx.textBaseline = "middle";
+      ctx.shadowColor = "rgba(0,0,0,0.65)";
+      ctx.shadowBlur = 2;
+      ctx.fillText(`${pct}%`, pctLeft + pctW, height * pctTops[key] + height * 0.022);
+      ctx.shadowBlur = 0;
+    });
+  }
+
+  async function saveResultImage(artSrc, bars, resultKey, statusEl) {
+    try {
+      const img = await loadImageElement(artSrc);
+      const canvas = document.createElement("canvas");
+      canvas.width = img.naturalWidth || 1920;
+      canvas.height = img.naturalHeight || 1080;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) throw new Error("canvas unavailable");
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      drawScoreChartOnCanvas(ctx, canvas.width, canvas.height, bars);
+
+      const blob = await new Promise((resolve, reject) => {
+        canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("toBlob failed"))), "image/png");
+      });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `成為自由人-${resultKey || "result"}.png`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      if (statusEl) {
+        statusEl.textContent = "圖片已下載";
+        window.setTimeout(() => {
+          if (statusEl.isConnected) statusEl.textContent = FB_SHARE_HINT;
+        }, 2200);
+      }
+      return true;
+    } catch (err) {
+      console.warn("儲存結果圖失敗：", err);
+      if (statusEl) statusEl.textContent = "無法儲存圖片，請再試一次";
       return false;
     }
   }
@@ -922,8 +1019,10 @@
       state.result = result;
       const bars = result.bars || computeBars(state.scores);
       const artSrc = RESULT_ART[result.key] || RESULT_ART.ma;
-      const shareText = buildShareText(result);
-      const shareStatus = el("div", { class: "fpResultShareStatus", text: "" });
+      const shareStatus = el("div", {
+        class: "fpResultShareStatus",
+        text: FB_SHARE_HINT,
+      });
 
       root.className = "fpExperience fpExperience--concept";
       root.innerHTML = "";
@@ -943,8 +1042,8 @@
               el("button", {
                 class: "fpResultShareBtn fpResultShareBtn--copy",
                 type: "button",
-                text: "複製文字",
-                onclick: () => copyShareText(shareText, shareStatus),
+                text: "儲存圖片",
+                onclick: () => saveResultImage(artSrc, bars, result.key, shareStatus),
               }),
               el("button", {
                 class: "fpResultShareBtn fpResultShareBtn--retry",

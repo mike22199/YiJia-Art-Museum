@@ -1132,7 +1132,7 @@ function renderExhibitionPage(main, route) {
   }
 
   const exhibitionChrome = {
-    activeNav: "collection",
+    activeNav: "performances",
     showSubnav: false,
   };
 

@@ -1,22 +1,5 @@
 {
   "journals": {
-    "t01": {
-      "spreads": [
-        { "kind": "cover" },
-        {
-          "title": "內頁跨頁 1",
-          "image": {
-            "src": "./assets/images/Journal/spread-sample.png",
-            "alt": "教師日誌跨頁 1"
-          }
-        },
-        { "kind": "back" }
-      ],
-      "video": {
-        "youtubeUrl": "",
-        "title": ""
-      }
-    },
     "t02": {
       "spreads": [
         { "kind": "cover" },
