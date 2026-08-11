@@ -16,6 +16,10 @@
     "衣服.png",
     "前景.png",
   ];
+  const ROOM_FRONT = "Front.PNG";
+  const HALLWAY_SRC = `${ASSET_BASE}/Hallway.PNG`;
+  const ENTRY_AUDIO_SRC = `${ASSET_BASE}/金伯伯錄音檔.mp3`;
+  const HANG_FRAME_SRC = `${WARDROBE_BASE}/hang/竿子與衣架.PNG`;
 
   /** 調色盤色塊參考色（對應 PNG 編號 1–10） */
   const PALETTE_SWATCHES = [
@@ -100,19 +104,19 @@
       wall: {
         name: "黃色牆壁",
         body: "在金伯伯的房間中，牆壁漆滿了專屬於他的「金伯伯黃色」，對於一個歷經韓戰、反共、選擇來臺的人，他的一生有多少選擇是真正屬於自己的？當一個人身處無法掌控自身命運的時代中，戰爭決定了他何去何從，歷史決定了他的身份定位，而這個小小的房間，或許是少數完全屬於自己，能真正實踐自由意志的空間。",
-        photo: `${ASSET_BASE}/Yellow_Wall.png`,
+        photo: `${ASSET_BASE}/黃色牆壁.png`,
         photoAlt: "金伯伯房間黃色牆壁",
       },
       guanyin: {
         name: "南海觀音",
         body: "金伯伯房間的冰箱上有兩尊南海觀音，半透明的祂被安置在粉紅色的桌巾上，左右各放了一個花瓶，插著鮮艷的粉紅色花朵，前方還有兩隻神獸。這不是特別用來祭拜的神壇，而是一個普通的冰箱上方，後方還掛著年曆，在最平凡的日常中安放了精神上的寄託。",
-        photo: `${ASSET_BASE}/GuanIn.png`,
+        photo: `${ASSET_BASE}/南海觀音像2.png`,
         photoAlt: "冰箱上的南海觀音",
       },
       clothes: {
         name: "自由的衣櫃",
         body: "金伯伯的衣櫃裡有各式各樣的衣服，亮橘色的西裝內搭、格紋狀的素色襯衫、繽紛長襪、畫家帽……，金伯伯總是對自己的穿搭很有想法。人們每天都需要穿衣服，選擇穿什麼，就是選擇以什麼樣的姿態面對這世界，同時也是透過衣著選擇，告訴大家自己是誰。",
-        photo: `${ASSET_BASE}/Closet.png`,
+        photo: `${ASSET_BASE}/自由的衣櫃.jpg`,
         photoAlt: "金伯伯的穿搭",
         cta: "進入「自由的衣櫃」",
       },
@@ -123,7 +127,7 @@
       "他總是用獨特的配色與穿搭，展現出鮮明的個性。",
       "如果金伯伯活在現在的 21 世紀，他會如何展現獨特的時尚呢？",
       "請試著用你獨特的眼光，為金伯伯搭配出一套適合的穿搭吧！",
-      "小提示：西裝外套與背心可再次點選同一件外衣，即可脫下、改為不穿外套。",
+      "小提示：西裝外套與背心可再次點選同一件外衣，即可脫下、改為不穿外套。帽子可再次點選以拿下。",
     ],
   };
 
@@ -135,9 +139,9 @@
   };
 
   const DOOR_POSITIONS = [
-    { left: "0.0%", top: "11.1%", width: "12.5%", height: "73.2%" },
-    { left: "36.5%", top: "11.2%", width: "19.3%", height: "73.0%" },
-    { left: "77.0%", top: "11.1%", width: "19.2%", height: "73.2%" },
+    { left: "3.6%", top: "10.8%", width: "18.8%", height: "74.2%" },
+    { left: "40.8%", top: "10.8%", width: "18.8%", height: "74.2%" },
+    { left: "78.3%", top: "10.8%", width: "18.8%", height: "74.2%" },
   ];
 
   let roomWallHitDataPromise = null;
@@ -198,6 +202,7 @@
 
   function defaultOutfit() {
     return {
+      hatOn: true,
       hatColor: 7,
       socksColor: 1,
       shoesColor: 1,
@@ -280,7 +285,9 @@
     if (outfit.jacketOn) {
       layers.push({ src: layerSrc("jacket", outfit.jacketColor), key: "jacket" });
     }
-    layers.push({ src: layerSrc("hat", outfit.hatColor), key: "hat" });
+    if (outfit.hatOn !== false) {
+      layers.push({ src: layerSrc("hat", outfit.hatColor), key: "hat" });
+    }
     return layers;
   }
 
@@ -289,6 +296,7 @@
     switch (target) {
       case "hat":
         outfit.hatColor = id;
+        outfit.hatOn = true;
         break;
       case "socks":
         outfit.socksColor = id;
@@ -318,6 +326,13 @@
   function handleHangSelect(outfit, key, state) {
     switch (key) {
       case "hat":
+        if (state.colorTarget === "hat" && outfit.hatOn !== false) {
+          outfit.hatOn = false;
+        } else {
+          outfit.hatOn = true;
+          state.colorTarget = "hat";
+        }
+        break;
       case "socks":
       case "shoes":
         state.colorTarget = key;
@@ -402,6 +417,15 @@
     });
 
     frame.appendChild(overlay);
+    frame.appendChild(
+      el("img", {
+        class: "fdRoomLayer fdRoomLayer--front",
+        src: `${ROOM_BASE}/${ROOM_FRONT}`,
+        alt: "",
+        draggable: "false",
+        "aria-hidden": "true",
+      })
+    );
     scene.appendChild(frame);
     return { scene, frame, overlay };
   }
@@ -418,7 +442,7 @@
 
   function buildInfoPanel(state, key, { onClose, onEnterWardrobe } = {}) {
     const info = COPY.hotspots[key];
-    const panel = el("aside", { class: `fdInfoPanel${key === "clothes" ? " fdInfoPanel--wardrobe" : ""}` }, [
+    const panel = el("aside", { class: `fdInfoPanel fdInfoPanel--${key}${key === "clothes" ? " fdInfoPanel--wardrobe" : ""}` }, [
       el("button", {
         class: "fdInfoClose",
         type: "button",
@@ -500,9 +524,50 @@
     stage.appendChild(nav);
   }
 
-  function showModal(stage, { title, paragraphs, buttonLabel, onClose, showClose = true }) {
+  function createEntryAudio() {
+    const audioEl = el("audio", {
+      class: "fdModalAudio",
+      preload: "auto",
+    });
+    audioEl.controls = false;
+    audioEl.loop = false;
+    audioEl.playsInline = true;
+
+    function stop() {
+      audioEl.pause();
+      try {
+        audioEl.currentTime = 0;
+      } catch {
+        /* ignore */
+      }
+    }
+
+    function play() {
+      if (audioEl.getAttribute("src") !== ENTRY_AUDIO_SRC) {
+        audioEl.src = ENTRY_AUDIO_SRC;
+      }
+      try {
+        audioEl.currentTime = 0;
+      } catch {
+        /* ignore */
+      }
+      const tryPlay = () => audioEl.play().catch(() => {});
+      if (audioEl.readyState >= 2) tryPlay();
+      else audioEl.addEventListener("canplay", tryPlay, { once: true });
+    }
+
+    return { el: audioEl, play, stop };
+  }
+
+  function showModal(stage, { title, paragraphs, buttonLabel, onClose, showClose = true } = {}) {
     const overlay = el("div", { class: "fdModalOverlay sitePopupOverlay" });
     const box = el("div", { class: "fdModal sitePopupPanel" });
+
+    function closeModal() {
+      overlay.remove();
+      onClose?.();
+    }
+
     if (showClose) {
       box.appendChild(
         el(
@@ -511,10 +576,7 @@
             class: "fdModalClose sitePopupClose",
             type: "button",
             "aria-label": "關閉",
-            onclick: () => {
-              overlay.remove();
-              onClose?.();
-            },
+            onclick: () => closeModal(),
           },
           [
             el("img", {
@@ -535,19 +597,13 @@
           class: "fdModalAction",
           type: "button",
           text: buttonLabel,
-          onclick: () => {
-            overlay.remove();
-            onClose?.();
-          },
+          onclick: () => closeModal(),
         })
       );
     }
     overlay.appendChild(box);
     overlay.addEventListener("click", (e) => {
-      if (e.target === overlay && showClose) {
-        overlay.remove();
-        onClose?.();
-      }
+      if (e.target === overlay && showClose) closeModal();
     });
     stage.appendChild(overlay);
     return overlay;
@@ -724,6 +780,9 @@
     viewport.appendChild(stage);
     root.appendChild(viewport);
 
+    const entryAudio = createEntryAudio();
+    viewport.appendChild(entryAudio.el);
+
     const state = {
       scene: "p1",
       corridorScroll: 0,
@@ -771,6 +830,8 @@
     }
 
     function setScene(next) {
+      if (next === "p4") entryAudio.play();
+      else if (next === "p3" || next === "p1") entryAudio.stop();
       state.scene = next;
       redraw();
     }
@@ -819,7 +880,7 @@
   function renderP3(stage, state, setScene) {
     const corridor = el("div", { class: "fdCorridor" });
     const track = el("div", { class: "fdCorridorTrack" });
-    const { scene, overlay, img } = createFitScene(`${ASSET_BASE}/走廊.PNG`, { corridor: true });
+    const { scene, overlay, img } = createFitScene(HALLWAY_SRC, { corridor: true });
 
     DOOR_POSITIONS.forEach((door, index) => {
       const isMainDoor = index === 1;
@@ -1050,7 +1111,10 @@
   function syncHangButtonState(btn, key, outfit, colorTarget) {
     let selected = false;
     let targeted = false;
-    if (key === "hat" || key === "socks" || key === "shoes") {
+    if (key === "hat") {
+      selected = outfit.hatOn !== false;
+      targeted = colorTarget === "hat";
+    } else if (key === "socks" || key === "shoes") {
       targeted = colorTarget === key;
       selected = targeted;
     } else if (key === "turtleneck" || key === "patternShirt" || key === "vestShirt") {
@@ -1074,6 +1138,7 @@
     if (!state.outfit || typeof state.outfit.inner !== "string") {
       state.outfit = defaultOutfit();
     }
+    if (typeof state.outfit.hatOn !== "boolean") state.outfit.hatOn = true;
     if (!state.colorTarget) state.colorTarget = "inner";
 
     const mobile = isFdMobile();
@@ -1103,7 +1168,7 @@
       frame.appendChild(
         el("img", {
           class: "fdDressLayer fdDressLayer--hang",
-          src: `${WARDROBE_BASE}/hang/${name}.png`,
+          src: name === "frame" ? HANG_FRAME_SRC : `${WARDROBE_BASE}/hang/${name}.png`,
           alt: "",
           draggable: "false",
           "data-hang": name,
@@ -1158,7 +1223,7 @@
       });
       palette.setHint(`調色：${colorTargetLabel(state.colorTarget)}`);
       targetNote.innerHTML =
-        `點衣櫃選衣物，再點房屋調色盤換色<br>（目前：${colorTargetLabel(state.colorTarget)}）。<br>西裝外套／背心可再次點選以脫下外衣。`;
+        `點衣櫃選衣物，再點房屋調色盤換色<br>（目前：${colorTargetLabel(state.colorTarget)}）。<br>西裝外套／背心可再次點選以脫下外衣。<br>帽子可再次點選以拿下。`;
       Object.keys(hitButtons).forEach((key) => {
         syncHangButtonState(hitButtons[key], key, state.outfit, state.colorTarget);
       });
@@ -1391,13 +1456,69 @@
 
     function openHatFlow() {
       openMobileSheet(stage, {
-        title: "帽子顏色",
+        title: "選擇帽子",
         buildBody(api) {
-          renderPaletteStep(api, "hat", {
-            title: "帽子顏色",
-            doneLabel: "完成",
-            onDone: () => api.close(),
-          });
+          function stepPick() {
+            api.setTitle("選擇帽子", "可選擇戴帽子或不戴");
+            api.body.innerHTML = "";
+            const row = el("div", { class: "fdMobileHangRow fdMobileHangRow--hat" });
+            row.appendChild(
+              createHangChoiceButton("hat", {
+                selected: state.outfit.hatOn !== false,
+                onClick: () => {
+                  state.outfit.hatOn = true;
+                  state.colorTarget = "hat";
+                  refreshPreview();
+                  stepColor();
+                },
+              })
+            );
+            row.appendChild(
+              el("button", {
+                class: `fdMobileHangBtn fdMobileHangBtn--text${state.outfit.hatOn === false ? " isActive" : ""}`,
+                type: "button",
+                text: "不戴帽子",
+                onclick: () => {
+                  state.outfit.hatOn = false;
+                  refreshPreview();
+                  api.close();
+                },
+              })
+            );
+            api.body.appendChild(row);
+            api.setFooter([
+              el("button", {
+                class: "fdMobileActionBtn fdMobileActionBtn--ghost",
+                type: "button",
+                text: "關閉",
+                onclick: () => api.close(),
+              }),
+            ]);
+          }
+
+          function stepColor() {
+            renderPaletteStep(api, "hat", {
+              title: "帽子顏色",
+              doneLabel: "完成",
+              onDone: () => api.close(),
+            });
+            api.setFooter([
+              el("button", {
+                class: "fdMobileActionBtn fdMobileActionBtn--ghost",
+                type: "button",
+                text: "上一步",
+                onclick: () => stepPick(),
+              }),
+              el("button", {
+                class: "fdMobileActionBtn fdMobileActionBtn--primary",
+                type: "button",
+                text: "完成",
+                onclick: () => api.close(),
+              }),
+            ]);
+          }
+
+          stepPick();
         },
         onClose: refreshPreview,
       });

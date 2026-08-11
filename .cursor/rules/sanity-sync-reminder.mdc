@@ -19,8 +19,9 @@ alwaysApply: true
 - [ ] 成為自由人（`exhibition-right`）「關於展覽」結構／文案；簡介頁底圖：`成為自由人片頭.jpg`；橫式 banner：`成為自由人banner.jpg`；intro／history 同片頭底圖；Q1–Q9＋Q1_no 題目圖層與文案
 - [ ] 理念頁／特展視窗素材：裁切後的 `理念頁LOGO.png`、`Start.png`、各展覽橫式 banner
 - [ ] 全站公版彈窗素材：`assets/images/PopUp.png`、`PopUp_Cross.png`
-- [ ] 房間物件說明圖：`Yellow_Wall.png`、`GuanIn.png`、`Closet.png`
+- [ ] 房間物件說明圖：`黃色牆壁.png`、`南海觀音像2.png`、`自由的衣櫃.jpg`；南海觀音說明文案；進房音檔 `金伯伯錄音檔.mp3`
 - [ ] 研究｜藝術家教師日誌：從 yearPacks／journals 移除吳岱融（`t01`）；本機已刪日誌，正式站需後台一併刪
+- [ ] 研究｜藝術家教師日誌：蔡念妤（`t02`）36 頁 JPG（左 1 右 2 配對翻頁）；其餘教師尚未接檔
 - [ ] 藝術家教師：年份選單僅 2026（可改用新欄位 `archiveTeachers`）
 - [ ] 學習資源／延伸閱讀／藝術家教師：Studio 已加 `archiveLearningResources`、`archiveBibliography`、`archiveTeachers`，請在後台填入後發佈
 

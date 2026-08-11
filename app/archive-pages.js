@@ -2329,18 +2329,45 @@ function applyJournalBookChrome(bookShell, chrome) {
   bookShell.style.marginTop = shift === "0%" || shift === "0" ? "" : shift;
 }
 
+function isHardCoverSpread(spread) {
+  return spread?.kind === "cover" || spread?.kind === "back";
+}
+
+function isPairSpread(spread) {
+  return spread?.kind === "pair" || Boolean(spread?.left?.src || spread?.right?.src);
+}
+
+function journalSpreadPageCount(spread) {
+  if (isHardCoverSpread(spread)) return 1;
+  if (isPairSpread(spread) || spread?.image?.src) return 2;
+  return 0;
+}
+
 function firstSpreadImageSrc(spreads) {
-  const hit = (Array.isArray(spreads) ? spreads : []).find((spread) => spread?.image?.src);
-  return hit?.image?.src || "";
+  for (const spread of Array.isArray(spreads) ? spreads : []) {
+    if (spread?.left?.src) return spread.left.src;
+    if (spread?.image?.src) return spread.image.src;
+    if (spread?.right?.src) return spread.right.src;
+  }
+  return "";
 }
 
 function detectSpreadAspect(spreads) {
   const src = firstSpreadImageSrc(spreads);
+  const pair = isPairSpread(
+    (Array.isArray(spreads) ? spreads : []).find(
+      (spread) => spread?.left?.src || spread?.image?.src || spread?.right?.src
+    )
+  );
   if (!src) return Promise.resolve(JOURNAL_DEFAULT_SPREAD_ASPECT);
   return new Promise((resolve) => {
     const img = new Image();
     img.onload = () => {
       const aspect = img.naturalWidth / Math.max(1, img.naturalHeight);
+      if (pair && aspect > 0.5 && aspect < 1.8) {
+        resolve(aspect * 2);
+        return;
+      }
       resolve(aspect > 1 ? aspect : JOURNAL_DEFAULT_SPREAD_ASPECT);
     };
     img.onerror = () => resolve(JOURNAL_DEFAULT_SPREAD_ASPECT);
@@ -2405,6 +2432,21 @@ function createStPageElement(kind, options = {}) {
     page.style.backgroundColor = JOURNAL_COVER_COLOR;
     return page;
   }
+  if (kind === "page") {
+    page.style.backgroundColor = JOURNAL_PAPER_COLOR;
+    if (options.src) {
+      page.appendChild(
+        el("img", {
+          class: "flipPageFullImage",
+          src: options.src,
+          alt: options.alt || "日誌頁",
+          draggable: "false",
+          loading: "lazy",
+        })
+      );
+    }
+    return page;
+  }
   if (kind === "spread-half") {
     page.style.backgroundColor = JOURNAL_PAPER_COLOR;
     const half = el("div", { class: `flipSpreadHalf flipSpreadHalf--${options.side}` });
@@ -2434,6 +2476,21 @@ function spreadsToStPageElements(spreads) {
       pages.push(createStPageElement("back"));
       continue;
     }
+    if (isPairSpread(spread)) {
+      pages.push(
+        createStPageElement("page", {
+          src: spread.left?.src || "",
+          alt: spread.left?.alt || spread.title || "",
+        })
+      );
+      pages.push(
+        createStPageElement("page", {
+          src: spread.right?.src || "",
+          alt: spread.right?.alt || spread.title || "",
+        })
+      );
+      continue;
+    }
     if (spread?.image?.src) {
       pages.push(
         createStPageElement("spread-half", {
@@ -2458,9 +2515,7 @@ function spreadIndexFromPageIndex(pageIndex, spreads) {
   let pagePtr = 0;
   for (let i = 0; i < spreads.length; i += 1) {
     if (pagePtr >= pageIndex) return i;
-    const spread = spreads[i];
-    if (spread?.kind === "cover" || spread?.kind === "back") pagePtr += 1;
-    else if (spread?.image?.src) pagePtr += 2;
+    pagePtr += journalSpreadPageCount(spreads[i]);
   }
   return Math.max(0, spreads.length - 1);
 }
@@ -2468,9 +2523,7 @@ function spreadIndexFromPageIndex(pageIndex, spreads) {
 function spreadToStPageIndex(spreadIdx, spreads) {
   let pagePtr = 0;
   for (let i = 0; i < spreadIdx; i += 1) {
-    const spread = spreads[i];
-    if (spread?.kind === "cover" || spread?.kind === "back") pagePtr += 1;
-    else if (spread?.image?.src) pagePtr += 2;
+    pagePtr += journalSpreadPageCount(spreads[i]);
   }
   return pagePtr;
 }
@@ -2478,8 +2531,7 @@ function spreadToStPageIndex(spreadIdx, spreads) {
 function countJournalPages(spreads) {
   let total = 0;
   for (const spread of spreads) {
-    if (spread?.kind === "cover" || spread?.kind === "back") total += 1;
-    else if (spread?.image?.src) total += 2;
+    total += journalSpreadPageCount(spread);
   }
   return total;
 }
@@ -2494,12 +2546,10 @@ function formatJournalPageLabel(pageIndex, spreads) {
   const spread = spreads[spreadIdx];
   let startPage = 1;
   for (let i = 0; i < spreadIdx; i += 1) {
-    const item = spreads[i];
-    if (item?.kind === "cover" || item?.kind === "back") startPage += 1;
-    else if (item?.image?.src) startPage += 2;
+    startPage += journalSpreadPageCount(spreads[i]);
   }
   const totalLabel = padJournalPageNum(total);
-  if (spread?.kind === "cover" || spread?.kind === "back") {
+  if (isHardCoverSpread(spread)) {
     return `${padJournalPageNum(startPage)}/${totalLabel}`;
   }
   return `${padJournalPageNum(startPage)}-${padJournalPageNum(startPage + 1)}/${totalLabel}`;
@@ -2600,6 +2650,21 @@ function buildPlaceholderJournalSpreads() {
   return [{ kind: "cover" }, { kind: "back" }];
 }
 
+function pairJournalPagesToSpreads(pages) {
+  const spreads = [];
+  for (let i = 0; i < pages.length; i += 2) {
+    const left = pages[i];
+    const right = pages[i + 1];
+    spreads.push({
+      kind: "pair",
+      title: left?.title || right?.title || "",
+      left: left?.image || null,
+      right: right?.image || null,
+    });
+  }
+  return spreads;
+}
+
 function resolveJournalSpreads(journal, teacherName) {
   if (Array.isArray(journal?.spreads) && journal.spreads.length) {
     return journal.spreads;
@@ -2608,7 +2673,10 @@ function resolveJournalSpreads(journal, teacherName) {
   const pages = Array.isArray(journal?.pages) ? journal.pages.filter(Boolean) : [];
   if (!pages.length) return buildPlaceholderJournalSpreads();
 
-  if (journal?.layout === "spread" || pages.every((page) => page?.image?.src)) {
+  const allHaveImages = pages.every((page) => page?.image?.src);
+  if (!allHaveImages) return buildPlaceholderJournalSpreads();
+
+  if (journal?.layout === "spread") {
     const spreads = [{ kind: "cover" }];
     pages.forEach((page) => {
       spreads.push({
@@ -2620,7 +2688,8 @@ function resolveJournalSpreads(journal, teacherName) {
     return spreads;
   }
 
-  return buildPlaceholderJournalSpreads();
+  const paired = pairJournalPagesToSpreads(pages);
+  return paired.length ? paired : buildPlaceholderJournalSpreads();
 }
 
 function buildPlaceholderJournalPages(teacherName) {
@@ -2991,7 +3060,7 @@ function renderArchiveIssuuFlipbook(spreads, id, options = {}) {
       width: layout.width,
       height: layout.height,
       size: "fixed",
-      showCover: true,
+      showCover: list[0]?.kind === "cover",
       drawShadow: true,
       flippingTime: 900,
       usePortrait: mobile,
@@ -3000,6 +3069,7 @@ function renderArchiveIssuuFlipbook(spreads, id, options = {}) {
       maxShadowOpacity: 0.42,
       swipeDistance: 9999,
       disableFlipByClick: true,
+      showPageCorners: false,
     });
 
     pageFlip.loadFromHTML(pageEls);

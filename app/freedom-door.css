@@ -114,6 +114,11 @@
   object-fit: contain;
 }
 
+.fdRoomLayer--front {
+  z-index: 25;
+  pointer-events: none;
+}
+
 .fdScene--blur .fdRoomLayer {
   filter: blur(6px) brightness(0.92);
 }
@@ -344,6 +349,14 @@
   cursor: pointer;
 }
 
+.fdModalAudio {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .fdCorridor {
   position: absolute;
   inset: 0;
@@ -415,6 +428,39 @@
 
 .fdArrow--right .fdArrowIcon {
   transform: translateX(-2px) rotate(-45deg);
+}
+
+@media (min-width: 901px) {
+  .fdCorridorTrack {
+    width: 100%;
+    display: block;
+  }
+
+  .fdScene--corridor {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    flex: none;
+  }
+
+  .fdSceneFrame--corridor {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+  }
+
+  .fdSceneFrame--corridor .fdSceneImg {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: fill;
+  }
+
+  .fdArrow {
+    display: none;
+  }
 }
 
 .fdHotspot {
@@ -549,6 +595,36 @@
   max-height: none;
   object-fit: contain;
   object-position: center;
+}
+
+.fdInfoPanel--wall .fdInfoPhotoImg,
+.fdInfoPanel--guanyin .fdInfoPhotoImg {
+  width: 92%;
+  max-width: 92%;
+}
+
+.fdInfoPanel--wardrobe {
+  overflow: hidden;
+}
+
+.fdInfoPanel--wardrobe .fdInfoPhoto,
+.fdInfoPanel--clothes .fdInfoPhoto {
+  flex: 1 1 0;
+  min-height: 0;
+  width: 100%;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fdInfoPanel--wardrobe .fdInfoPhotoImg,
+.fdInfoPanel--clothes .fdInfoPhotoImg {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
 .fdInfoPhotoPlaceholder {
@@ -1288,6 +1364,10 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.fdMobileHangRow--hat {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .fdMobileHangBtn {
   border: 1.5px solid rgba(92, 68, 48, 0.35);
   background: rgba(255, 252, 245, 0.95);
@@ -1570,6 +1650,19 @@
     max-width: 60%;
     height: auto;
     object-fit: contain;
+  }
+
+  .fdInfoPanel--wall .fdInfoPhotoImg,
+  .fdInfoPanel--guanyin .fdInfoPhotoImg {
+    width: 88%;
+    max-width: 88%;
+  }
+
+  .fdInfoPanel--wardrobe .fdInfoPhotoImg,
+  .fdInfoPanel--clothes .fdInfoPhotoImg {
+    width: auto;
+    max-width: 100%;
+    max-height: 100%;
   }
 
   .fdInfoPanel--wardrobe .fdInfoCta {
