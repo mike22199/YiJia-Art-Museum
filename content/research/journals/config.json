@@ -13,10 +13,10 @@
     "shellPadding": "1%",
     "bookShiftY": "0%",
     "expanded": {
-      "pad": "24px",
-      "bookFitScale": 0.88,
-      "spreadAspect": 2.56,
-      "shellPadding": "1.5%",
+      "pad": "0px",
+      "bookFitScale": 1,
+      "spreadAspect": 2.5,
+      "shellPadding": "0",
       "bookShiftY": "0%"
     },
     "content": {
@@ -26,12 +26,12 @@
       "bottom": "17.0%"
     },
     "prevArrow": {
-      "left": "2.1%",
+      "left": "0.6%",
       "top": "45.3%"
     },
     "nextArrow": {
-      "right": "2.1%",
-      "top": "43.9%"
+      "right": "0.6%",
+      "top": "45.3%"
     },
     "bottomBar": {
       "left": "3.4%",

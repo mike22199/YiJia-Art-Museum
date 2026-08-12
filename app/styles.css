@@ -5740,6 +5740,19 @@ a.archiveBibliographyItem{
   line-height: 1;
   cursor: pointer;
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  text-align: center;
+}
+.archiveTeachersCarouselBtn--prev{
+  /* ‹ 字元視覺偏左，微調至圓心 */
+  transform: translateX(-1px);
+}
+.archiveTeachersCarouselBtn--next{
+  /* › 字元視覺偏右，微調至圓心 */
+  transform: translateX(1px);
 }
 .archiveTeachersCarouselBtn:disabled{
   opacity: .35;
@@ -5748,15 +5761,24 @@ a.archiveBibliographyItem{
 .archiveTeachersCarouselTrack{
   display: flex;
   align-items: flex-end;
-  justify-content: flex-start;
-  gap: 8px 16px;
+  justify-content: space-evenly;
+  gap: 4px;
   overflow-x: auto;
+  overflow-y: hidden;
   scroll-snap-type: x mandatory;
-  padding: 24px 12px 8px;
-  scrollbar-width: thin;
+  padding: 24px 4px 8px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.archiveTeachersCarouselTrack::-webkit-scrollbar{
+  display: none;
+  width: 0;
+  height: 0;
 }
 .archiveTeachersCarouselItem{
-  flex: 0 0 auto;
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 120px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -5982,8 +6004,8 @@ a.archiveBibliographyItem{
   pointer-events: none;
   user-select: none;
 }
-.archiveJournalArrow--prev{ left: 3.4%; }
-.archiveJournalArrow--next{ right: 3.7%; }
+.archiveJournalArrow--prev{ left: 0.6%; }
+.archiveJournalArrow--next{ right: 0.6%; }
 .archiveJournalArrow:hover{ opacity: .82; }
 .archiveJournalArrow:disabled{
   opacity: .28;
@@ -6135,8 +6157,8 @@ a.archiveBibliographyItem{
 .archiveJournalFrame--expanded .archiveJournalExpandedClose{
   display: block;
   position: fixed;
-  top: clamp(12px, 2vw, 24px);
-  right: clamp(12px, 2vw, 24px);
+  top: 8px;
+  right: 16px;
 }
 .archiveJournalFullscreenBtn:focus-visible{
   outline: 2px solid rgba(201, 169, 106, 0.85);
@@ -6163,7 +6185,7 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
   pointer-events: auto;
 }
 .archiveJournalFrame--expanded{
-  --journal-expanded-pad: clamp(16px, 2.5vw, 36px);
+  --journal-expanded-pad: 0px;
   position: fixed;
   inset: 0;
   z-index: 10050;
@@ -6171,56 +6193,138 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
   width: 100%;
   height: 100%;
   margin: 0;
-  padding: var(--journal-expanded-pad);
+  padding: 48px 0 96px;
   box-sizing: border-box;
-  background: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
+  background: #1c1c1e;
+  display: block;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 .archiveJournalFrame--expanded .archiveJournalFrameStage{
   position: relative;
-  width: min(
-    calc(100vw - 2 * var(--journal-expanded-pad)),
-    calc((100vh - 2 * var(--journal-expanded-pad)) * 1624 / 848)
-  );
-  max-width: none;
-  max-height: calc(100vh - 2 * var(--journal-expanded-pad));
-  aspect-ratio: 1624 / 848;
+  width: 100%;
   height: auto;
-  overflow: hidden;
-  flex: 0 0 auto;
-  margin: 0 auto;
+  min-height: 100%;
+  max-width: none;
+  max-height: none;
+  aspect-ratio: auto;
+  overflow: visible;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .archiveJournalFrame--expanded .archiveJournalFrameBg{
-  object-fit: fill;
+  display: none;
+}
+.archiveJournalFrame--expanded .archiveJournalBottomBar{
+  position: fixed;
+  z-index: 10070;
+  left: 50% !important;
+  right: auto !important;
+  bottom: 16px !important;
+  width: min(93.3vw, 1026px) !important;
+  height: auto !important;
+  aspect-ratio: 1515 / 118;
+  transform: translateX(-50%);
+  pointer-events: auto;
+}
+.archiveJournalFrame--expanded .archiveJournalFullscreenBtn{
+  width: 28px !important;
+  height: 28px !important;
+  min-width: 28px;
+  min-height: 28px;
+  aspect-ratio: 1;
 }
 .archiveJournalFrame--expanded .archiveJournalFrameContent,
-.archiveJournalFrame--expanded .archiveStfBookShell,
+.archiveJournalFrame--expanded .archiveStfBookShell{
+  overflow: visible;
+}
 .archiveJournalFrame--expanded .archiveStfBookHost{
   overflow: hidden;
 }
 .archiveJournalFrame--expanded .archiveJournalFrameContent{
+  position: relative;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   pointer-events: none;
 }
 .archiveJournalFrame--expanded .archiveStfBookShell{
-  /* 左右讓出箭頭熱區，避免書頁殼層蓋住按鈕 */
-  width: calc(100% - clamp(72px, 8vw, 120px));
-  max-width: calc(100% - clamp(72px, 8vw, 120px));
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
+  max-width: none;
+  height: auto;
+  min-height: 0;
+  margin: 0;
+  overflow: visible;
   pointer-events: auto;
 }
-.archiveJournalFrame--expanded .archiveJournalArrowLayer{
-  z-index: 120;
+.archiveJournalFrame--expanded .archiveStfBookHost.stf__parent{
+  max-width: none;
+  max-height: none;
+  width: 100% !important;
+  margin: 0 auto;
 }
+.archiveJournalFrame--expanded .archiveJournalArrowLayer,
 .archiveJournalFrame--expanded .archiveJournalArrow{
-  z-index: 121;
+  display: none !important;
+}
+.archiveJournalFrame--expanded .archiveJournalFrameContent .archiveTeachersViewer,
+.archiveJournalFrame--expanded .archiveJournalFrameContent .archiveJournalWrap--stf,
+.archiveJournalFrame--expanded .archiveJournalFrameContent .archiveStfBookShell{
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  max-height: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .archiveJournalFrame--expanded .archiveStfBookHost .stf__wrapper,
 .archiveJournalFrame--expanded .archiveStfBookHost .stf__block{
   overflow: hidden !important;
+}
+.archiveJournalPageHit{
+  display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 28%;
+  z-index: 10080;
+  padding: 0;
+  border: 0;
+  margin: 0;
+  background: transparent;
+  pointer-events: auto;
+  user-select: none;
+}
+.archiveJournalFrame--expanded .archiveJournalPageHit{
+  display: block;
+}
+.archiveJournalFrame--expanded.archiveJournalFrame--zoomed .archiveJournalPageHit{
+  display: none;
+}
+.archiveJournalPageHit--prev{
+  left: 0;
+  cursor: w-resize;
+}
+.archiveJournalPageHit--next{
+  right: 0;
+  cursor: e-resize;
+}
+.archiveJournalPageHit:disabled{
+  cursor: default;
+  pointer-events: none;
 }
 .archiveJournalFrameContent .archiveTeachersViewer{
   width: 100%;
@@ -6309,8 +6413,8 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
   .archiveJournalArrow img{
     width: 11px;
   }
-  .archiveJournalArrow--prev{ left: 1.5%; }
-  .archiveJournalArrow--next{ right: 1.5%; }
+  .archiveJournalArrow--prev{ left: 0.4%; }
+  .archiveJournalArrow--next{ right: 0.4%; }
   .archiveJournalPageLabel{
     left: 3.5%;
     bottom: 28%;
@@ -6337,6 +6441,10 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
     width: 26px;
     height: 26px;
     font-size: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
   }
   .archiveTeachersCarouselNotebook{
     width: 36px;
@@ -6472,7 +6580,8 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
   margin-bottom: 28px;
 }
 .archiveResearchPage--journal .archiveTeachersCarouselTrack{
-  justify-content: flex-start;
+  justify-content: space-evenly;
+  overflow: hidden;
 }
 .archiveTeachersCarouselNotebook{
   width: 56px;

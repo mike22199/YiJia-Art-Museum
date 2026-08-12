@@ -2378,10 +2378,27 @@ function detectSpreadAspect(spreads) {
 function resolveStfPageSize(
   shellEl,
   spreadAspect = JOURNAL_DEFAULT_SPREAD_ASPECT,
-  fitScale = JOURNAL_FRAME_FIT_SCALE
+  fitScale = JOURNAL_FRAME_FIT_SCALE,
+  options = {}
 ) {
-  const rect = shellEl.getBoundingClientRect();
   const scale = clampJournalFitScale(fitScale);
+
+  if (options.fillWidth) {
+    const maxW = Math.max(
+      160,
+      (window.innerWidth || shellEl?.clientWidth || 480) * scale
+    );
+    const width = Math.max(120, Math.round(maxW / 2));
+    const height = Math.max(100, Math.round((width * 2) / spreadAspect));
+    return {
+      width,
+      height,
+      spreadW: width * 2,
+      spreadH: height,
+    };
+  }
+
+  const rect = shellEl.getBoundingClientRect();
   const maxW = Math.max(160, (rect.width || shellEl.clientWidth || 480) * scale);
   const maxH = Math.max(140, (rect.height || shellEl.clientHeight || 280) * scale);
 
@@ -2417,12 +2434,26 @@ function applyJournalBookTransform(shellEl, zoomScale = 1, panX = 0, panY = 0, g
   shellEl.style.touchAction = "none";
 }
 
-function applyStfBookLayout(hostEl, layout) {
+function applyStfBookLayout(hostEl, layout, options = {}) {
   hostEl.style.width = `${layout.spreadW}px`;
   hostEl.style.height = `${layout.spreadH}px`;
-  hostEl.style.maxWidth = "100%";
-  hostEl.style.maxHeight = "100%";
+  hostEl.style.minWidth = `${layout.spreadW}px`;
+  hostEl.style.minHeight = `${layout.spreadH}px`;
+  hostEl.style.maxWidth = options.allowOverflow ? "none" : "100%";
+  hostEl.style.maxHeight = options.allowOverflow ? "none" : "100%";
   hostEl.style.flex = "0 0 auto";
+}
+
+function applyPageFlipSize(pageFlip, layout) {
+  if (!pageFlip || !layout) return;
+  const settings = pageFlip.getSettings?.();
+  if (!settings) return;
+  settings.width = layout.width;
+  settings.height = layout.height;
+  settings.minWidth = layout.width;
+  settings.maxWidth = layout.width;
+  settings.minHeight = layout.height;
+  settings.maxHeight = layout.height;
 }
 
 function createStPageElement(kind, options = {}) {
@@ -2874,6 +2905,7 @@ function wrapResearchJournalFrame(viewerContent, controls = {}, spreadCount = 1)
   controls.zoomSlider = zoomSlider;
   controls.fullscreenBtn = fullscreenBtn;
   controls.expandedCloseBtn = expandedCloseBtn;
+  controls.bottomBar = bottomBar;
   controls.frame = frame;
   controls.expandedPortal = { parent: null, next: null, backdrop: null };
 
@@ -2903,7 +2935,24 @@ function renderArchiveIssuuFlipbook(spreads, id, options = {}) {
   pageEls.forEach((page) => bookHost.appendChild(page));
   bookShell.appendChild(bookHost);
 
+  const hitPrev = el("button", {
+    class: "archiveJournalPageHit archiveJournalPageHit--prev",
+    type: "button",
+    "aria-label": "上一跨頁",
+    hidden: true,
+  });
+  const hitNext = el("button", {
+    class: "archiveJournalPageHit archiveJournalPageHit--next",
+    type: "button",
+    "aria-label": "下一跨頁",
+    hidden: true,
+  });
+  bookHost.appendChild(hitPrev);
+  bookHost.appendChild(hitNext);
+
   const frameControls = {};
+  frameControls.hitPrev = hitPrev;
+  frameControls.hitNext = hitNext;
   let pageFlip = null;
   let resizeObserver = null;
   let flipLocked = false;
@@ -2944,22 +2993,36 @@ function renderArchiveIssuuFlipbook(spreads, id, options = {}) {
 
   const relayoutBook = (force = false) => {
     if (!pageFlip) return;
-    const layout = resolveStfPageSize(bookShell, spreadAspect, bookFitScale);
-    const layoutKey = `${layout.spreadW}x${layout.spreadH}@${bookFitScale}`;
+    const fillWidth = isFrameExpanded;
+    const layout = resolveStfPageSize(bookShell, spreadAspect, bookFitScale, {
+      fillWidth,
+    });
+    const layoutKey = `${layout.spreadW}x${layout.spreadH}@${bookFitScale}:${fillWidth ? "fw" : "fit"}`;
     if (!force && layoutKey === lastLayoutKey) {
       applyBookTransform();
       return;
     }
     lastLayoutKey = layoutKey;
-    applyStfBookLayout(bookHost, layout);
+    applyStfBookLayout(bookHost, layout, { allowOverflow: fillWidth });
+    applyPageFlipSize(pageFlip, layout);
     applyBookTransform();
     pageFlip.update();
+  };
+
+  const syncPageHits = () => {
+    const show = isFrameExpanded && zoomScale <= 1.001;
+    if (frameControls.frame) {
+      frameControls.frame.classList.toggle("archiveJournalFrame--zoomed", zoomScale > 1.001);
+    }
+    if (hitPrev) hitPrev.hidden = !show;
+    if (hitNext) hitNext.hidden = !show;
   };
 
   const applyZoom = (nextZoom) => {
     zoomScale = Math.min(JOURNAL_ZOOM_MAX, Math.max(JOURNAL_ZOOM_MIN, nextZoom));
     if (zoomScale <= 1.001) resetPan();
     applyBookTransform();
+    syncPageHits();
   };
 
   bookShell.addEventListener("pointerdown", (e) => {
@@ -3012,6 +3075,8 @@ function renderArchiveIssuuFlipbook(spreads, id, options = {}) {
     if (frameControls.nextArrow) {
       frameControls.nextArrow.disabled = spreadIdx >= spreadMax;
     }
+    if (hitPrev) hitPrev.disabled = spreadIdx <= 0;
+    if (hitNext) hitNext.disabled = spreadIdx >= spreadMax;
   };
 
   const scheduleLayoutUpdate = () => {
@@ -3050,9 +3115,11 @@ function renderArchiveIssuuFlipbook(spreads, id, options = {}) {
       forcedSpreadAspect ||
       (await detectSpreadAspect(list));
     await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-    const layout = resolveStfPageSize(bookShell, spreadAspect, bookFitScale);
-    applyStfBookLayout(bookHost, layout);
-    lastLayoutKey = `${layout.spreadW}x${layout.spreadH}@${bookFitScale}`;
+    const layout = resolveStfPageSize(bookShell, spreadAspect, bookFitScale, {
+      fillWidth: isFrameExpanded,
+    });
+    applyStfBookLayout(bookHost, layout, { allowOverflow: isFrameExpanded });
+    lastLayoutKey = `${layout.spreadW}x${layout.spreadH}@${bookFitScale}:${isFrameExpanded ? "fw" : "fit"}`;
     applyBookTransform();
     const mobile = isMobile();
 
@@ -3100,6 +3167,17 @@ function renderArchiveIssuuFlipbook(spreads, id, options = {}) {
       };
     }
 
+    const onPageHit = (dir) => (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!pageFlip || flipLocked || !isFrameExpanded) return;
+      if (zoomScale > 1.001) return;
+      if (dir === "prev") pageFlip.flipPrev();
+      else pageFlip.flipNext();
+    };
+    hitPrev.onclick = onPageHit("prev");
+    hitNext.onclick = onPageHit("next");
+
     // 全螢幕時書頁 3D 層可能蓋住按鈕：用座標熱區在 capture 階段攔截
     const pointInEl = (x, y, node) => {
       if (!node) return false;
@@ -3107,11 +3185,41 @@ function renderArchiveIssuuFlipbook(spreads, id, options = {}) {
       const pad = 8;
       return x >= r.left - pad && x <= r.right + pad && y >= r.top - pad && y <= r.bottom + pad;
     };
+    const expandedHitDir = (clientX, clientY) => {
+      if (!isFrameExpanded || zoomScale > 1.001) return null;
+      const rect = bookHost.getBoundingClientRect();
+      if (!rect.width || !rect.height) return null;
+      if (clientX < rect.left || clientX > rect.right || clientY < rect.top || clientY > rect.bottom) {
+        return null;
+      }
+      const x = (clientX - rect.left) / rect.width;
+      if (x <= 0.28) return "prev";
+      if (x >= 0.72) return "next";
+      return null;
+    };
     const stageEl = frameControls.frame?.querySelector(".archiveJournalFrameStage");
     if (stageEl) {
-      const onArrowHotspot = (e) => {
+      const onStageHotspot = (e) => {
         if (!pageFlip || flipLocked) return;
         if (e.button != null && e.button !== 0) return;
+        if (
+          pointInEl(e.clientX, e.clientY, frameControls.bottomBar) ||
+          pointInEl(e.clientX, e.clientY, frameControls.expandedCloseBtn) ||
+          pointInEl(e.clientX, e.clientY, frameControls.fullscreenBtn) ||
+          pointInEl(e.clientX, e.clientY, frameControls.pageSlider?.root) ||
+          pointInEl(e.clientX, e.clientY, frameControls.zoomSlider?.root)
+        ) {
+          return;
+        }
+        if (isFrameExpanded) {
+          const dir = expandedHitDir(e.clientX, e.clientY);
+          if (!dir) return;
+          e.preventDefault();
+          e.stopPropagation();
+          if (dir === "prev") pageFlip.flipPrev();
+          else pageFlip.flipNext();
+          return;
+        }
         if (pointInEl(e.clientX, e.clientY, frameControls.prevArrow)) {
           if (frameControls.prevArrow.disabled) return;
           e.preventDefault();
@@ -3126,7 +3234,16 @@ function renderArchiveIssuuFlipbook(spreads, id, options = {}) {
           pageFlip.flipNext();
         }
       };
-      stageEl.addEventListener("pointerdown", onArrowHotspot, true);
+      const onStageCursor = (e) => {
+        if (!isFrameExpanded || zoomScale > 1.001) {
+          if (bookHost.style.cursor) bookHost.style.cursor = "";
+          return;
+        }
+        const dir = expandedHitDir(e.clientX, e.clientY);
+        bookHost.style.cursor = dir === "prev" ? "w-resize" : dir === "next" ? "e-resize" : "";
+      };
+      stageEl.addEventListener("pointerdown", onStageHotspot, true);
+      stageEl.addEventListener("pointermove", onStageCursor);
     }
 
     if (frameControls.pageSlider) {
@@ -3193,6 +3310,7 @@ function renderArchiveIssuuFlipbook(spreads, id, options = {}) {
         frame.classList.toggle("archiveJournalFrame--expanded", expanded);
         document.body.classList.toggle("archiveJournalFrame-open", expanded);
         syncBookChrome(expanded);
+        syncPageHits();
         if (frameControls.expandedCloseBtn) {
           frameControls.expandedCloseBtn.hidden = !expanded;
         }
