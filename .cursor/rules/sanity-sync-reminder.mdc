@@ -22,6 +22,7 @@ alwaysApply: true
 - [ ] 房間物件說明圖：`黃色牆壁.png`、`南海觀音像2.png`、`自由的衣櫃.jpg`；南海觀音說明文案；進房音檔 `金伯伯錄音檔.mp3`
 - [ ] 研究｜藝術家教師日誌：從 yearPacks／journals 移除吳岱融（`t01`）；本機已刪日誌，正式站需後台一併刪
 - [ ] 研究｜藝術家教師日誌：`t02`–`t09` 共 8 本 JPG 日誌（左 1 右 2 配對翻頁；本機 `content/research/journals/2026.json`）
+- [ ] 研究｜藝術家教師日誌介紹影片：`t02`–`t09` 內嵌 YouTube（蔡念妤／陳宥任／郭振寧／劉珈瑄／徐羽瑩／許芮芬／侯凱娣／胡貽斐）
 - [ ] 研究｜日誌翻書框：箭頭外移、全螢幕跨頁填滿視窗、全螢幕改點頁面左右側翻頁（`journalFrame`）
 - [ ] 藝術家教師：年份選單僅 2026（可改用新欄位 `archiveTeachers`）
 - [ ] 學習資源／延伸閱讀／藝術家教師：Studio 已加 `archiveLearningResources`、`archiveBibliography`、`archiveTeachers`，請在後台填入後發佈

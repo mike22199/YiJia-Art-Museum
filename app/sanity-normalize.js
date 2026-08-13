@@ -224,11 +224,20 @@
         for (const journal of journalList) {
           const teacherId = String(journal?.teacherId || "").trim();
           if (!teacherId) continue;
-          teachers.journals[teacherId] = {
+          const mappedJournal = {
             pages: (Array.isArray(journal.pages) ? journal.pages : [])
               .map(mapResearchJournalPage)
               .filter(Boolean),
           };
+          const youtubeUrl = String(journal.youtubeUrl || journal.videoUrl || journal.video?.youtubeUrl || "").trim();
+          const videoTitle = String(journal.videoTitle || journal.video?.title || "").trim();
+          if (youtubeUrl) {
+            mappedJournal.video = {
+              youtubeUrl,
+              title: videoTitle,
+            };
+          }
+          teachers.journals[teacherId] = mappedJournal;
         }
       }
     }
