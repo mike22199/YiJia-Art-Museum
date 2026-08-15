@@ -20,8 +20,7 @@
       "fax": "+886-2-7750-7260",
       "email": "a_hedu@www.tnua.edu.tw",
       "social": {
-        "youtube": "https://www.youtube.com/",
-        "facebook": "https://www.facebook.com/"
+        "youtube": "https://www.youtube.com/@義家藝館WhenaHomeBecomesaM"
       }
     }
   },
@@ -32,7 +31,7 @@
     "logoBuilding": "./assets/images/layout/logo-building.png",
     "logoTitle": "./assets/images/home/LOGO.png",
     "iconSearch": "./assets/images/layout/icon-search.png",
-    "partnerLogos": "./assets/images/home/Support.png",
+    "partnerLogos": "./assets/images/layout/partner-logo-new.png",
     "iconYoutube": "./assets/images/logo/youtube.png",
     "iconFacebook": "./assets/images/logo/facebook.png"
   },
@@ -161,7 +160,7 @@
       "height": "20%"
     },
     "supportLogos": {
-      "src": "./assets/images/home/Support.png",
+      "src": "./assets/images/layout/partner-logo-new.png",
       "alt": "協助單位",
       "left": "84.5%",
       "top": "58%",

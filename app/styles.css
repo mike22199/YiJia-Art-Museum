@@ -2304,7 +2304,7 @@ h3.typeTitle{
   object-position: left top;
   display: block;
   image-rendering: auto;
-  /* Support.png 為黑底：讓黑透明、白字顯在紙紋上 */
+  /* 合作單位 logo 為黑底：讓黑透明、白字顯在紙紋上 */
   mix-blend-mode: screen;
 }
 .innerFooterContact{

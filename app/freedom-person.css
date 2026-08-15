@@ -43,6 +43,11 @@
   line-height: 1.75;
 }
 
+.fpExperience--concept .aboutConceptContent,
+.aboutPage--freeman .aboutConceptContent {
+  text-align: left;
+}
+
 /* Q1–Q9：與 intro/history 同尺寸特展視窗，底圖 BG_Ques */
 .fpQuesStage {
   --about-accent: #e8b421;
@@ -79,45 +84,38 @@
   pointer-events: auto;
 }
 
-/* 題目文字落在右側紙張框內（對齊 Q1.png 紙區）
-   ::before/::after 均分剩餘空間 → 字少垂直置中；字多 spacer 為 0，可從頂捲動 */
+/* Q1–Q9 題目框對齊同一張白紙，內文在框內垂直置中（字仍靠左） */
 .fpQuesPaper {
   position: absolute;
-  left: 43.5%;
-  top: 30%;
-  width: 48.5%;
-  height: 24%;
+  left: 42.2%;
+  top: 20.5%;
+  width: 50.5%;
+  height: 35.5%;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: stretch;
-  padding: 2.2% 2.8%;
+  padding: 1.8% 2.6%;
   overflow: hidden;
   color: #1a1a1a;
-  text-align: center;
+  text-align: left;
   --fp-fit: 1;
-}
-
-.fpQuesPaper::before,
-.fpQuesPaper::after {
-  content: "";
-  flex: 1 0 0;
-  pointer-events: none;
 }
 
 .fpQuesPaperInner {
   box-sizing: border-box;
   width: 100%;
   flex: 0 0 auto;
-  text-align: center;
+  margin: 0;
+  text-align: left;
 }
 
 .fpQuesPaper--tall {
-  top: 24.5%;
-  height: 36%;
+  top: 20.5%;
+  height: 35.5%;
   overflow: hidden;
-  padding-top: 2.4%;
+  padding: 1.8% 2.6%;
 }
 
 .fpQuesPaperContext {
@@ -219,7 +217,7 @@
   max-height: 36%;
   overflow-x: hidden;
   overflow-y: auto;
-  text-align: center;
+  text-align: left;
   --fp-fit: 1;
 }
 
@@ -1179,21 +1177,24 @@
   }
 
   /*
-    手機答題：
-    - 文字框填滿白底紙區；::before/::after 垂直置中
-    - 長題加高紙框，避免字貼頂、下方大塊留白
+    手機答題：Q1–Q9 同一白紙框，題目垂直置中；字太多才在框內捲動
   */
+  .fpExperience--concept .aboutConceptContent,
+  .aboutPage--freeman .aboutConceptContent {
+    text-align: left;
+  }
+
   .fpQuesPaper {
-    left: 42%;
-    top: 22.5%;
-    width: 51%;
-    height: 30%;
-    padding: 2% 2.4%;
+    left: 42.2%;
+    top: 20.5%;
+    width: 50.5%;
+    height: 35.5%;
+    padding: 1.8% 2.6%;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: stretch;
-    text-align: center;
+    text-align: left;
     overflow-x: hidden;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
@@ -1207,7 +1208,7 @@
     flex: 0 0 auto;
     width: 100%;
     margin: 0;
-    text-align: center;
+    text-align: left;
   }
 
   .fpQuesPaper::-webkit-scrollbar {
@@ -1220,9 +1221,9 @@
   }
 
   .fpQuesPaper--tall {
-    top: 18.5%;
-    height: 38%;
-    padding: 2% 2.4%;
+    top: 20.5%;
+    height: 35.5%;
+    padding: 1.8% 2.6%;
   }
 
   .fpQuesPaperText {
@@ -1324,14 +1325,15 @@
 /* 特展視窗偏矮時：題目內捲、選項固定可見 */
 @container fp-ques (max-height: 340px) {
   .fpQuesPaper {
-    left: 42%;
-    top: 22.5%;
-    width: 51%;
-    height: 30%;
-    padding: 2% 2.4%;
+    left: 42.2%;
+    top: 20.5%;
+    width: 50.5%;
+    height: 35.5%;
+    padding: 1.8% 2.6%;
     display: flex;
     flex-direction: column;
-    text-align: center;
+    justify-content: center;
+    text-align: left;
     overflow-x: hidden;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
@@ -1342,12 +1344,12 @@
   .fpQuesPaperInner {
     flex: 0 0 auto;
     width: 100%;
-    text-align: center;
+    text-align: left;
   }
 
   .fpQuesPaper--tall {
-    top: 18.5%;
-    height: 38%;
+    top: 20.5%;
+    height: 35.5%;
   }
 
   .fpQuesPaperText {

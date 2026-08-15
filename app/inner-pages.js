@@ -8,7 +8,7 @@ function layoutAssets() {
     footerBg: layout.footerBg || "./assets/images/layout/footer-bg.jpg",
     logoBuilding: layout.logoBuilding || "./assets/images/layout/logo-building.png",
     logoTitle: layout.logoTitle || "./assets/images/home/LOGO.png",
-    partnerLogos: layout.partnerLogos || "./assets/images/home/Support.png",
+    partnerLogos: layout.partnerLogos || "./assets/images/layout/partner-logo-new.png",
     iconYoutube: layout.iconYoutube || "./assets/images/logo/youtube.png",
     iconFacebook: layout.iconFacebook || "./assets/images/logo/facebook.png",
   };
@@ -1038,7 +1038,12 @@ function renderExhibitionAboutPage(exhibition, exhibitionId = "exhibition-left")
         ]
   );
 
-  return el("div", { class: "aboutPage aboutPage--concept" }, [
+  return el("div", {
+    class:
+      exhibitionId === "exhibition-right"
+        ? "aboutPage aboutPage--concept aboutPage--freeman"
+        : "aboutPage aboutPage--concept",
+  }, [
     el(
       "div",
       {

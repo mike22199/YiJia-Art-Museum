@@ -19,6 +19,8 @@
   const ROOM_FRONT = "Front.PNG";
   const HALLWAY_SRC = `${ASSET_BASE}/Hallway.PNG`;
   const ENTRY_AUDIO_SRC = `${ASSET_BASE}/金伯伯錄音檔.mp3`;
+  /** 之後換成提供的圖檔即可，例如 `${ASSET_BASE}/音效圖示.png` */
+  const ENTRY_AUDIO_ICON = "";
   const HANG_FRAME_SRC = `${WARDROBE_BASE}/hang/竿子與衣架.PNG`;
 
   /** 調色盤色塊參考色（對應 PNG 編號 1–10） */
@@ -109,7 +111,11 @@
       },
       guanyin: {
         name: "南海觀音",
-        body: "金伯伯房間的冰箱上有兩尊南海觀音，半透明的祂被安置在粉紅色的桌巾上，左右各放了一個花瓶，插著鮮艷的粉紅色花朵，前方還有兩隻神獸。這不是特別用來祭拜的神壇，而是一個普通的冰箱上方，後方還掛著年曆，在最平凡的日常中安放了精神上的寄託。",
+        body: [
+          "冰箱上方鋪著粉紅桌巾，半透明的南海觀音供奉其間，兩側花瓶盛開著鮮豔粉花。這不是嚴肅的神壇，而是金元奎最平凡日常中的精神寄託。",
+          "感念軍旅生涯中幾次生死交關，皆憑藉逝去母親與觀音菩薩的夢中意象平安度過，這個在寢室一角營造出的信仰空間，不僅連結了他對母親的思念，更體現了他的生活美學。",
+          "在時代的風浪過後，他於這方小天地裡安放神聖與記憶，展現了最溫柔而堅定的自由意志。",
+        ],
         photo: `${ASSET_BASE}/南海觀音像2.png`,
         photoAlt: "冰箱上的南海觀音",
       },
@@ -456,8 +462,12 @@
       el("p", { class: "fdInfoLabel", text: "物件名稱" }),
       el("h3", { class: "fdInfoTitle", text: info.name }),
       el("p", { class: "fdInfoLabel", text: "介紹" }),
-      el("p", { class: "fdInfoBody", text: info.body }),
     ]);
+    const bodies = Array.isArray(info.body) ? info.body : [info.body];
+    bodies.forEach((text) => {
+      const body = String(text || "").trim();
+      if (body) panel.appendChild(el("p", { class: "fdInfoBody", text: body }));
+    });
 
     if (info.photo) {
       panel.appendChild(
@@ -559,7 +569,41 @@
     return { el: audioEl, play, stop };
   }
 
-  function showModal(stage, { title, paragraphs, buttonLabel, onClose, showClose = true } = {}) {
+  function buildAudioIconGraphic() {
+    if (ENTRY_AUDIO_ICON) {
+      return el("img", {
+        class: "fdAudioIconImg",
+        src: ENTRY_AUDIO_ICON,
+        alt: "",
+        "aria-hidden": "true",
+      });
+    }
+    return el("span", {
+      class: "fdAudioIconFallback",
+      html: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9.5v5h3.2L12 18.8V5.2L7.2 9.5H4z" fill="currentColor"/><path d="M15.35 8.4a4.6 4.6 0 0 1 0 7.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M17.9 6.2a8 8 0 0 1 0 11.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
+    });
+  }
+
+  function buildEntryAudioButton(entryAudio, { className = "fdAudioBtn", label = "播放語音" } = {}) {
+    const btn = el(
+      "button",
+      {
+        class: className,
+        type: "button",
+        "aria-label": label,
+        title: label,
+        onclick: (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          entryAudio.play();
+        },
+      },
+      [buildAudioIconGraphic()]
+    );
+    return btn;
+  }
+
+  function showModal(stage, { title, paragraphs, buttonLabel, onClose, showClose = true, extra } = {}) {
     const overlay = el("div", { class: "fdModalOverlay sitePopupOverlay" });
     const box = el("div", { class: "fdModal sitePopupPanel" });
 
@@ -591,6 +635,11 @@
     }
     if (title) box.appendChild(el("h2", { class: "fdModalTitle", text: title }));
     (paragraphs || []).forEach((p) => box.appendChild(el("p", { class: "fdModalText", text: p })));
+    if (extra) {
+      box.appendChild(
+        el("div", { class: "fdModalExtra" }, Array.isArray(extra) ? extra : [extra])
+      );
+    }
     if (buttonLabel) {
       box.appendChild(
         el("button", {
@@ -807,13 +856,13 @@
           renderP3(stage, state, setScene);
           break;
         case "p4":
-          renderP4(stage, state, setScene);
+          renderP4(stage, state, setScene, entryAudio);
           break;
         case "p5":
           renderP5(stage, state, setScene);
           break;
         case "p6":
-          renderP6(stage, state, setScene, redraw);
+          renderP6(stage, state, setScene, redraw, entryAudio);
           break;
         case "p11":
           renderP11(stage, state, setScene);
@@ -830,8 +879,7 @@
     }
 
     function setScene(next) {
-      if (next === "p4") entryAudio.play();
-      else if (next === "p3" || next === "p1") entryAudio.stop();
+      if (next === "p3" || next === "p1") entryAudio.stop();
       state.scene = next;
       redraw();
     }
@@ -955,13 +1003,19 @@
     requestAnimationFrame(() => applyCorridorScroll(stage, state));
   }
 
-  function renderP4(stage, state, setScene) {
+  function renderP4(stage, state, setScene, entryAudio) {
     const { scene } = createRoomScene({ blur: true });
     stage.appendChild(scene);
     showModal(stage, {
       paragraphs: [COPY.p4],
       buttonLabel: "繼續",
       showClose: false,
+      extra: [
+        buildEntryAudioButton(entryAudio, {
+          className: "fdAudioBtn fdAudioBtn--modal",
+          label: "播放語音",
+        }),
+      ],
       onClose: () => setScene("p5"),
     });
   }
@@ -977,7 +1031,7 @@
     });
   }
 
-  function renderP6(stage, state, setScene, redraw) {
+  function renderP6(stage, state, setScene, redraw, entryAudio) {
     const room = el("div", { class: "fdRoomWrap" });
     const { scene, overlay } = createRoomScene();
     const panelSlot = el("div", { class: "fdPanelSlot" });
@@ -1047,6 +1101,15 @@
       rightLabel: "結束參觀回到首頁",
       rightAction: navigateHome,
     });
+
+    if (entryAudio) {
+      stage.appendChild(
+        buildEntryAudioButton(entryAudio, {
+          className: "fdAudioBtn fdAudioBtn--room",
+          label: "再次播放語音",
+        })
+      );
+    }
 
     syncPanel();
   }

@@ -349,6 +349,57 @@
   cursor: pointer;
 }
 
+.fdModalExtra {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0 2px;
+}
+
+.fdAudioBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #f3f3f3;
+  cursor: pointer;
+  line-height: 0;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.55));
+  transition: transform 0.15s ease, color 0.15s ease, filter 0.15s ease;
+}
+
+.fdAudioBtn:hover {
+  transform: scale(1.07);
+  color: #e8b421;
+}
+
+.fdAudioBtn:active {
+  transform: scale(0.96);
+}
+
+.fdAudioIconImg,
+.fdAudioIconFallback,
+.fdAudioIconFallback svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.fdAudioBtn--modal {
+  width: 46px;
+  height: 46px;
+}
+
+.fdAudioBtn--room {
+  position: absolute;
+  left: 2.2%;
+  bottom: 3.6%;
+  z-index: 18;
+  width: clamp(36px, 4.2vw, 52px);
+  height: clamp(36px, 4.2vw, 52px);
+}
+
 .fdModalAudio {
   position: absolute;
   width: 0;
@@ -475,8 +526,8 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  width: clamp(26px, 2.9vw, 42px);
-  height: clamp(26px, 2.9vw, 42px);
+  width: clamp(12px, 1.45vw, 20px);
+  height: clamp(12px, 1.45vw, 20px);
   transform: translate(-50%, -50%);
   pointer-events: none;
   display: flex;
@@ -487,10 +538,10 @@
 }
 
 .fdHotspotHintArrow {
-  width: 60%;
-  height: 60%;
-  border-right: 4px solid #fff;
-  border-bottom: 4px solid #fff;
+  width: 54%;
+  height: 54%;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
   transform: rotate(45deg) translate(-12%, -12%);
   box-sizing: border-box;
 }
@@ -507,7 +558,7 @@
   }
   50% {
     opacity: 1;
-    transform: translate(-50%, -56%) scale(1.12);
+    transform: translate(-50%, -56%) scale(1.08);
   }
 }
 
@@ -578,6 +629,10 @@
   margin: 0 0 12px;
   line-height: 1.7;
   font-size: 11.5px;
+}
+
+.fdInfoBody + .fdInfoBody {
+  margin-top: -6px;
 }
 
 .fdInfoPhoto {
@@ -1612,6 +1667,10 @@
   .fdPanelSlot > * {
     flex: 1 1 auto;
     min-height: 0;
+  }
+
+  .fdRoomWrap--panelOpen ~ .fdAudioBtn--room {
+    display: none;
   }
 
   .fdInfoPanel {

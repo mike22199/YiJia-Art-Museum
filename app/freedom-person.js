@@ -96,6 +96,23 @@
     );
   }
 
+  function paperInnerFits(box) {
+    const inner = box.querySelector(".fpQuesPaperInner");
+    if (!inner) {
+      return (
+        box.scrollHeight <= box.clientHeight + 1 &&
+        box.scrollWidth <= box.clientWidth + 1
+      );
+    }
+    const boxCs = getComputedStyle(box);
+    const padY = (parseFloat(boxCs.paddingTop) || 0) + (parseFloat(boxCs.paddingBottom) || 0);
+    const padX = (parseFloat(boxCs.paddingLeft) || 0) + (parseFloat(boxCs.paddingRight) || 0);
+    return (
+      inner.offsetHeight <= box.clientHeight - padY + 1 &&
+      inner.offsetWidth <= box.clientWidth - padX + 1
+    );
+  }
+
   /** 自動縮小字級，讓區塊內文一次看完（桌面）；手機改交給 CSS 捲動 */
   function fitTextInBox(box, { minScale, maxScale = 1 } = {}) {
     if (!box) return;
@@ -117,14 +134,16 @@
     let lo = minScale;
     let hi = maxScale;
     let best = minScale;
+    const isPaper = box.classList.contains("fpQuesPaper");
     // 二分搜：找仍能完整放入的最大縮放
     for (let i = 0; i < 14; i++) {
       const mid = (lo + hi) / 2;
       box.style.setProperty("--fp-fit", String(mid));
       void box.offsetHeight;
-      const fits =
-        box.scrollHeight <= box.clientHeight + 1 &&
-        box.scrollWidth <= box.clientWidth + 1;
+      const fits = isPaper
+        ? paperInnerFits(box)
+        : box.scrollHeight <= box.clientHeight + 1 &&
+          box.scrollWidth <= box.clientWidth + 1;
       if (fits) {
         best = mid;
         lo = mid;
@@ -143,9 +162,14 @@
         )
         ?.forEach((box) => {
           fitTextInBox(box);
-          // 題目／長文區預設捲到最頂，避免換題或重算後停在中間
+          if (box.classList?.contains("fpQuesPaper")) {
+            const inner = box.querySelector(".fpQuesPaperInner");
+            const overflowing = inner && inner.offsetHeight > box.clientHeight + 1;
+            if (overflowing) box.scrollTop = 0;
+            box.scrollLeft = 0;
+            return;
+          }
           if (
-            box.classList?.contains("fpQuesPaper") ||
             box.classList?.contains("fpQ1NoCopy") ||
             box.classList?.contains("aboutConceptContent")
           ) {
@@ -231,7 +255,6 @@
       label: "Q2",
       art: "./assets/images/成為自由人/Q2.png",
       labelInArt: true,
-      paperTall: true,
       context:
         "1954年1月23日，你搭船到基隆港來到臺灣，總統夫人蔣宋美齡代表總統在碼頭上迎接你們，來到臺灣，你們不再是被俘虜的戰俘，而是光榮的反共義士。來到臺灣，你剛開始受中華民國政府的安排去到了桃園楊梅，經歷一番波折，最後來到白雞山的忠義山莊。剛開始有些不習慣，但漸漸地在這片山林找到生活的秩序…",
       text: "在這生活一陣子，生活漸漸找回規律，雖然這裡不是你的家，但也漸漸的習慣了，雖然偶爾還是會想念遠在中國的家人，某一天清晨在榮民之家醒來，你最想做的第一件事是什麼？",
@@ -506,7 +529,7 @@
   }
 
   const FB_SHARE_HINT =
-    "已開啟 Facebook；文案已複製，請在分享框按 Ctrl+V（Mac：⌘V）貼上";
+    "開啟 Facebook並於分享框按 Ctrl+V（Mac：⌘V）貼上";
 
   function openFacebookSharerDialog(url, quote, statusEl) {
     // 先複製：多數情況下 Facebook 不會自動貼上，使用者可在分享框 Ctrl+V / ⌘V
@@ -811,7 +834,7 @@
         uiChildren.push(el("div", { class: "fpQuesLabel", text: q.label }));
       }
       uiChildren.push(
-        el("div", { class: q.paperTall ? "fpQuesPaper fpQuesPaper--tall" : "fpQuesPaper" }, [
+        el("div", { class: q.context ? "fpQuesPaper fpQuesPaper--tall" : "fpQuesPaper" }, [
           el("div", { class: "fpQuesPaperInner" }, [
             q.context ? el("p", { class: "fpQuesPaperContext", text: q.context }) : null,
             el("p", { class: "fpQuesPaperText", text: q.text }),
