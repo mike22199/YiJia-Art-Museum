@@ -127,8 +127,11 @@
       image: image || undefined,
     };
     if (item.youtubeUrl) {
-      out.youtubeUrl = item.youtubeUrl;
-      out.type = "video";
+      const youtubeUrl = String(item.youtubeUrl).trim();
+      if (youtubeUrl && !/^https?:\/\/(www\.)?youtube\.com\/?$/i.test(youtubeUrl)) {
+        out.youtubeUrl = youtubeUrl;
+        out.type = "video";
+      }
     }
     return out;
   }

@@ -85,9 +85,30 @@ function archiveWorkImageSrc(work, index = 0) {
   return archiveColorBlockSrc(label, color);
 }
 
+function youtubeVideoId(source) {
+  const raw =
+    typeof source === "object"
+      ? String(source?.youtubeId || source?.youtubeUrl || source?.videoUrl || "").trim()
+      : String(source || "").trim();
+  if (!raw) return "";
+  const watch = resolveYoutubeWatchUrl(raw);
+  try {
+    return new URL(watch).searchParams.get("v") || "";
+  } catch {
+    return "";
+  }
+}
+
+function youtubeThumbnailSrc(source) {
+  const id = youtubeVideoId(source);
+  return id ? `https://img.youtube.com/vi/${encodeURIComponent(id)}/hqdefault.jpg` : "";
+}
+
 function archiveFeaturedSlideSrc(slide, index = 0) {
   const src = slide?.image?.src || "";
   if (!archiveIsPlaceholderImage(src)) return src || ARCHIVE_PLACEHOLDER_PHOTO;
+  const ytThumb = youtubeThumbnailSrc(slide);
+  if (ytThumb) return ytThumb;
   const title = String(slide?.title || `精選 ${index + 1}`).replace(/^精選/, "").trim() || `精選 ${index + 1}`;
   const label = title.length > 10 ? `${title.slice(0, 9)}…` : title;
   const color = ARCHIVE_TEACHER_AVATAR_COLORS[index % ARCHIVE_TEACHER_AVATAR_COLORS.length];
@@ -97,6 +118,8 @@ function archiveFeaturedSlideSrc(slide, index = 0) {
 function archiveMediaImageSrc(item, index = 0) {
   const src = item?.image?.src || "";
   if (!archiveIsPlaceholderImage(src)) return src || ARCHIVE_PLACEHOLDER_PHOTO;
+  const ytThumb = youtubeThumbnailSrc(item);
+  if (ytThumb) return ytThumb;
   const isVideo = archiveMediaItemIsVideo(item);
   const title = String(item?.title || (isVideo ? `影片 ${index + 1}` : `照片 ${index + 1}`)).replace(/^20\d{2}\s*/, "").trim();
   const label = title.length > 10 ? `${title.slice(0, 9)}…` : title;
@@ -1386,6 +1409,7 @@ function renderArchiveFeaturedCarousel(slides) {
 
 function renderArchiveMediaGalleryItem(item, index = 0) {
   const isVideo = archiveMediaItemIsVideo(item);
+  const embedSrc = isVideo ? resolveYoutubeEmbedUrl(item) : "";
   const youtubeUrl = archiveMediaItemYoutubeUrl(item);
   const thumb = archiveMediaImageSrc(item, index);
   const title = String(item.title || "").trim();
@@ -1401,7 +1425,19 @@ function renderArchiveMediaGalleryItem(item, index = 0) {
   ]);
 
   let mediaEl;
-  if (isVideo && youtubeUrl) {
+  if (isVideo && embedSrc) {
+    mediaEl = el("div", { class: "archiveMediaGalleryVideoFrame" }, [
+      el("iframe", {
+        class: "archiveMediaGalleryVideoPlayer",
+        src: embedSrc,
+        title: title || "YouTube 影片",
+        loading: "lazy",
+        allow:
+          "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",
+        allowfullscreen: "true",
+      }),
+    ]);
+  } else if (isVideo && youtubeUrl) {
     mediaEl = el(
       "a",
       {

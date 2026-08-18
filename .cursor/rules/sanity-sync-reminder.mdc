@@ -12,6 +12,10 @@ alwaysApply: true
 1. 只要改了會進站的文案／圖片／展覽資料（尤其 `content/site-content.json`），**回覆結尾必須提醒使用者**：之後要把對應內容更新到 Sanity 後台，否則正式環境／未覆寫欄位仍會是舊稿。
 2. 提醒要具體：寫出改了哪些區塊（例如「推開自由門 → 關於展覽」）。
 3. 不要自動幫使用者寫入 Sanity（除非使用者明確要求）。
+4. 使用者一提到「更新 Sanity／後台／studio」，**必須分清楚要用哪條指令，不可混用**：
+   - **改內容**（文案、YouTube／社群連結、年份資料、JSON 裡的欄位值）→ `cd studio` 後 **`npm run import`**（或 Studio 手動改完按 Publish）。**不是** `deploy`。
+   - **改後台介面**（欄位提示、分頁名稱、schema）→ `cd studio` 後 **`npm run deploy`**。**不是** `import`。
+5. 若使用者說「我 deploy 了但內容沒變」（例如 YouTube 連結），要立刻提醒：內容要用 **import**，deploy 只更新後台長相。
 
 ## 目前待同步（持續更新此清單）
 
@@ -26,6 +30,7 @@ alwaysApply: true
 - [ ] 研究｜日誌翻書框：箭頭外移、全螢幕跨頁填滿視窗、全螢幕改點頁面左右側翻頁（`journalFrame`）
 - [ ] 藝術家教師：年份選單僅 2026（可改用新欄位 `archiveTeachers`）
 - [ ] 學習資源／延伸閱讀／藝術家教師：Studio 已加 `archiveLearningResources`、`archiveBibliography`、`archiveTeachers`，請在後台填入後發佈
+- [ ] 頁尾 YouTube 連結：`https://www.youtube.com/@義家藝館WhenaHomeBecomesaM`；拿掉 Facebook（內容要用 `npm run import`，不是 deploy）
 
 ## 專案用語
 

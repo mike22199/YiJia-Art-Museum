@@ -4110,15 +4110,21 @@ h3.typeTitle{
 .archiveHomeCarousel--fullBleed .archiveHomeCarouselBtn{
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0 5px;
+  line-height: 0;
   background: rgba(255,255,255,.82);
   box-shadow: 0 2px 12px rgba(0,0,0,.18);
 }
 .archiveHomeCarousel--fullBleed .archiveHomeCarouselBtn--prev{
   left: clamp(12px, 2vw, 24px);
+  transform: translate(1px, -50%);
 }
 .archiveHomeCarousel--fullBleed .archiveHomeCarouselBtn--next{
   right: clamp(12px, 2vw, 24px);
+  transform: translate(-1px, -50%);
 }
 .archiveHomeCarouselStage{
   position: relative;
@@ -4175,6 +4181,12 @@ h3.typeTitle{
   height: 40px;
   font-size: 29.33px;
   z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0 5px;
+  line-height: 0;
+  text-align: center;
 }
 .archiveHomeCarousel .archiveCarouselDots{
   margin-top: 14px;
@@ -4818,6 +4830,19 @@ h3.typeTitle{
   aspect-ratio: 16 / 9;
   max-height: min(52vh, 420px);
 }
+.archiveMediaGalleryVideoFrame{
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #1a1a1a;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, .12);
+}
+.archiveMediaGalleryVideoPlayer{
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+}
 .archiveMediaGalleryItem--video{
   display: flex;
   flex-direction: column;
@@ -5186,6 +5211,12 @@ h3.typeTitle{
   border-radius: 999px;
   cursor: pointer;
   font-size: 26.67px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0 4px;
+  line-height: 0;
+  text-align: center;
 }
 .archiveRecommendedText{
   padding: 20px;
