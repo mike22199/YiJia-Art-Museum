@@ -663,6 +663,101 @@ function renderPastWebsitesVerticalTimeline() {
   return root;
 }
 
+function renderExhibitionAboutPage(exhibition, exhibitionId = "exhibition-left") {
+  const about = exhibition.about || {};
+  const blocks = Array.isArray(about.blocks) ? about.blocks : [];
+  const banner = about.banner || exhibition.banner || null;
+  const logo = about.logo || {
+    src: "./assets/images/Freedom Door/理念頁LOGO.png?v=20260803ak",
+    alt: "義家藝館",
+  };
+  const startButton = about.startButton || {
+    src: "./assets/images/Freedom Door/Start.png",
+    alt: "開始 START",
+  };
+  const leadTitle =
+    String(about.leadTitle || "").trim() ||
+    String(blocks[0]?.body || "").trim();
+  const bodyBlocks =
+    about.leadTitle || !blocks[0]?.body
+      ? blocks
+      : blocks.slice(1);
+  const nextLabel = String(startButton.label || "").trim();
+  const useTextNext = Boolean(nextLabel) || !startButton.src;
+
+  const textChildren = [];
+  if (leadTitle) {
+    textChildren.push(el("p", { class: "aboutConceptLead", text: leadTitle }));
+  }
+  textChildren.push(
+    el("h1", { class: "aboutConceptHeading", text: about.heading || "關於展覽" })
+  );
+  bodyBlocks.forEach((b) => {
+    const text = String(b?.body || "").trim();
+    if (text) textChildren.push(el("p", { class: "aboutConceptParagraph", text }));
+  });
+
+  const nextControl = el(
+    "a",
+    {
+      class: useTextNext ? "aboutConceptNext" : "aboutConceptStart",
+      href: `#${exhibitionId}/experience`,
+      "aria-label": startButton.alt || nextLabel || "開始",
+      onclick: (e) => {
+        e.preventDefault();
+        window.__preserveExhibitionScrollY = window.scrollY;
+        navigateFromHref(`#${exhibitionId}/experience`);
+      },
+    },
+    useTextNext
+      ? [nextLabel || "Next ▶"]
+      : [
+          el("img", {
+            class: "aboutConceptStartImg",
+            src: startButton.src,
+            alt: startButton.alt || "開始 START",
+          }),
+        ]
+  );
+
+  return el("div", {
+    class:
+      exhibitionId === "exhibition-right"
+        ? "aboutPage aboutPage--concept aboutPage--freeman"
+        : "aboutPage aboutPage--concept",
+  }, [
+    el(
+      "div",
+      {
+        class: "exhibitionWindow aboutConceptStage",
+        "aria-label": "特展視窗",
+      },
+      [
+        banner?.src
+          ? el("img", {
+              class: "aboutConceptBg",
+              src: banner.src,
+              alt: "",
+              "aria-hidden": "true",
+              loading: "eager",
+            })
+          : el("div", { class: "aboutConceptBg aboutConceptBg--fallback" }),
+        el("div", { class: "aboutConceptDim", "aria-hidden": "true" }),
+        logo?.src
+          ? el("img", {
+              class: "aboutConceptLogo",
+              src: logo.src,
+              alt: logo.alt || "義家藝館",
+              loading: "eager",
+            })
+          : null,
+        el("div", { class: "aboutConceptContent" }, textChildren),
+        nextControl,
+      ]
+    ),
+  ]);
+}
+
 function renderExhibitionPage(main, route) {
   const id = route.id || "exhibition-left";
   const section = normalizeSection(route.section || "about");
