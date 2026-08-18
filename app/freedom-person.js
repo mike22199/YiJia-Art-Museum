@@ -1074,6 +1074,12 @@
                 text: "再測一次",
                 onclick: restart,
               }),
+              el("button", {
+                class: "fpResultShareBtn fpResultShareBtn--door",
+                type: "button",
+                text: "去自由門特展",
+                onclick: () => navigateHref("#exhibition-left/about"),
+              }),
               shareStatus,
             ]),
           ],
