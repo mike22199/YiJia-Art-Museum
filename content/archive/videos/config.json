@@ -1,5 +1,5 @@
 {
-  "override": true,
+  "override": false,
   "years": ["2026", "2025"],
   "perPage": 2,
   "featuredCarousel": [

@@ -140,7 +140,6 @@
     if (!section || typeof section !== "object") return null;
     const byYear = {};
     const years = [];
-    const defaultPerPage = sectionKey === "videos" ? 4 : 8;
 
     if (Array.isArray(section.yearPacks)) {
       for (const pack of section.yearPacks) {
@@ -156,12 +155,15 @@
       }
     }
 
+    const featuredCarousel = (Array.isArray(section.featuredCarousel) ? section.featuredCarousel : [])
+      .map(mapArchiveCarouselSlide)
+      .filter(Boolean);
+    const hasItems = years.some((year) => (byYear[year]?.items || []).length);
+    if (!hasItems && !featuredCarousel.length) return null;
+
     return {
       years,
-      perPage: section.perPage || defaultPerPage,
-      featuredCarousel: (Array.isArray(section.featuredCarousel) ? section.featuredCarousel : [])
-        .map(mapArchiveCarouselSlide)
-        .filter(Boolean),
+      featuredCarousel,
       byYear,
     };
   }

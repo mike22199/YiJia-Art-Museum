@@ -1299,7 +1299,7 @@ async function loadSiteContent() {
   if (fallback.homeImage) content.homeImage = fallback.homeImage;
   // 展覽關於頁文案以本機為準（Sanity exhibitionLeft 常為舊稿）
   if (fallback.exhibitions) content.exhibitions = fallback.exhibitions;
-  // 照片紀錄／動態影音以 GitHub 資料夾為準（見 content/archive/photos|videos，config override: true）
+  // 照片紀錄／動態影音：內容走 Sanity（有資料時）；每頁筆數走本機 config，按鈕尺寸走 CSS
 
   if (typeof window.mergeArchiveFolderContent === "function") {
     content = await window.mergeArchiveFolderContent(content);
