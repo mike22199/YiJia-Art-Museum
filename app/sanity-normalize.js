@@ -389,8 +389,11 @@
     if (doc.footerFax) base.site.footer.fax = doc.footerFax;
     if (doc.footerEmail) base.site.footer.email = doc.footerEmail;
     base.site.footer.social = base.site.footer.social || {};
-    if (doc.footerYoutube) base.site.footer.social.youtube = doc.footerYoutube;
-    if (doc.footerFacebook) base.site.footer.social.facebook = doc.footerFacebook;
+    const youtube = String(doc.footerYoutube || "").trim();
+    if (youtube && !/^https?:\/\/(www\.)?youtube\.com\/?$/i.test(youtube)) {
+      base.site.footer.social.youtube = youtube;
+    }
+    delete base.site.footer.social.facebook;
 
     const homeImg = toImageObj(doc.homeImage, "首頁");
     if (homeImg) base.homeImage = homeImg.src;

@@ -10,7 +10,6 @@ function layoutAssets() {
     logoTitle: layout.logoTitle || "./assets/images/home/LOGO.png",
     partnerLogos: layout.partnerLogos || "./assets/images/layout/partner-logo-new.png",
     iconYoutube: layout.iconYoutube || "./assets/images/logo/youtube.png",
-    iconFacebook: layout.iconFacebook || "./assets/images/logo/facebook.png",
   };
 }
 
@@ -246,9 +245,20 @@ function renderSiteSubnav(activeSectionId) {
   ]);
 }
 
+const DEFAULT_YOUTUBE_HREF = "https://www.youtube.com/@義家藝館WhenaHomeBecomesaM";
+
+function footerYoutubeHref(raw) {
+  const url = String(raw || "").trim();
+  if (!url || /^https?:\/\/(www\.)?youtube\.com\/?$/i.test(url)) {
+    return DEFAULT_YOUTUBE_HREF;
+  }
+  return url;
+}
+
 function renderSiteFooter() {
   const footer = window.SITE_CONTENT?.site?.footer || {};
   const social = footer.social || {};
+  const youtubeHref = footerYoutubeHref(social.youtube);
   const assets = layoutAssets();
   const addressZh = footer.addressZh || footer.address || "";
   const addressEn = footer.addressEn || "";
@@ -283,24 +293,13 @@ function renderSiteFooter() {
         footer.email ? el("div", { text: `E-mail:${footer.email}` }) : null,
       ]),
       el("div", { class: "innerFooterSocial" }, [
-        social.youtube
-          ? el("a", {
-              class: "innerSocialLink",
-              href: social.youtube,
-              target: "_blank",
-              rel: "noreferrer",
-              "aria-label": "YouTube",
-            }, [el("img", { src: assets.iconYoutube, alt: "", "aria-hidden": "true" })])
-          : null,
-        social.facebook
-          ? el("a", {
-              class: "innerSocialLink",
-              href: social.facebook,
-              target: "_blank",
-              rel: "noreferrer",
-              "aria-label": "Facebook",
-            }, [el("img", { src: assets.iconFacebook, alt: "", "aria-hidden": "true" })])
-          : null,
+        el("a", {
+          class: "innerSocialLink",
+          href: youtubeHref,
+          target: "_blank",
+          rel: "noreferrer",
+          "aria-label": "YouTube",
+        }, [el("img", { src: assets.iconYoutube, alt: "", "aria-hidden": "true" })]),
       ]),
     ]),
   ]);
