@@ -1149,8 +1149,6 @@ function renderArchiveExhibitions() {
 
   if (typeof renderPastWebsitesVerticalTimeline === "function") {
     root.appendChild(renderPastWebsitesVerticalTimeline());
-  } else if (typeof renderClassicsTimeline === "function") {
-    root.appendChild(renderClassicsTimeline());
   }
 
   return root;

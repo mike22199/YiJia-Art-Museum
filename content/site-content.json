@@ -482,344 +482,6 @@
     }
   },
   "classics": {
-    "timelineRows": [
-      {
-        "entries": [
-          {
-            "year": "2026",
-            "image": {
-              "src": "./assets/images/layout/Building-2026.png",
-              "alt": "2026 義家藝館"
-            },
-            "imagePosition": "above",
-            "links": [
-              {
-                "label": "網站",
-                "href": "#classics/year?year=2026&section=website"
-              },
-              {
-                "label": "藝術實踐",
-                "href": "#classics/year?year=2026&section=practice"
-              },
-              {
-                "label": "影音",
-                "href": "#classics/year?year=2026&section=media"
-              },
-              {
-                "label": "藝術家教師日誌",
-                "href": "#classics/year?year=2026&section=journal"
-              }
-            ]
-          },
-          {
-            "year": "2022",
-            "links": [
-              {
-                "label": "網站",
-                "href": "#classics/year?year=2022&section=website"
-              },
-              {
-                "label": "藝術實踐",
-                "href": "#classics/year?year=2022&section=practice"
-              },
-              {
-                "label": "影音",
-                "href": "#classics/year?year=2022&section=media"
-              },
-              {
-                "label": "藝術家教師日誌",
-                "href": "#classics/year?year=2022&section=journal"
-              }
-            ]
-          },
-          {
-            "year": "2021",
-            "image": {
-              "src": "./assets/images/layout/Building-2021.png",
-              "alt": "2021 家X書"
-            },
-            "imagePosition": "above",
-            "links": [
-              {
-                "label": "網站",
-                "href": "#classics/year?year=2021&section=website"
-              },
-              {
-                "label": "藝術實踐",
-                "href": "#classics/year?year=2021&section=practice"
-              },
-              {
-                "label": "影音",
-                "href": "#classics/year?year=2021&section=media"
-              },
-              {
-                "label": "藝術家教師日誌",
-                "href": "#classics/year?year=2021&section=journal"
-              }
-            ]
-          },
-          {
-            "year": "2022",
-            "links": [
-              {
-                "label": "網站",
-                "href": "#classics/year?year=2022b&section=website"
-              },
-              {
-                "label": "藝術實踐",
-                "href": "#classics/year?year=2022b&section=practice"
-              },
-              {
-                "label": "影音",
-                "href": "#classics/year?year=2022b&section=media"
-              },
-              {
-                "label": "藝術家教師日誌",
-                "href": "#classics/year?year=2022b&section=journal"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "entries": [
-          {
-            "year": "2019",
-            "links": [
-              {
-                "label": "網站",
-                "href": "#classics/year?year=2019&section=website"
-              },
-              {
-                "label": "藝術實踐",
-                "href": "#classics/year?year=2019&section=practice"
-              },
-              {
-                "label": "影音",
-                "href": "#classics/year?year=2019&section=media"
-              },
-              {
-                "label": "藝術家教師日誌",
-                "href": "#classics/year?year=2019&section=journal"
-              }
-            ]
-          },
-          {
-            "year": "2018",
-            "links": [
-              {
-                "label": "網站",
-                "href": "#classics/year?year=2018&section=website"
-              },
-              {
-                "label": "藝術實踐",
-                "href": "#classics/year?year=2018&section=practice"
-              },
-              {
-                "label": "影音",
-                "href": "#classics/year?year=2018&section=media"
-              },
-              {
-                "label": "藝術家教師日誌",
-                "href": "#classics/year?year=2018&section=journal"
-              }
-            ]
-          },
-          {
-            "year": "2016",
-            "image": {
-              "src": "./assets/images/layout/Building-2016.png",
-              "alt": "2016 義家藝館"
-            },
-            "imagePosition": "above",
-            "links": [
-              {
-                "label": "網站",
-                "href": "#classics/year?year=2016&section=website"
-              },
-              {
-                "label": "藝術實踐",
-                "href": "#classics/year?year=2016&section=practice"
-              },
-              {
-                "label": "影音",
-                "href": "#classics/year?year=2016&section=media"
-              },
-              {
-                "label": "藝術家教師日誌",
-                "href": "#classics/year?year=2016&section=journal"
-              }
-            ]
-          }
-        ]
-      }
-    ],
-    "yearDetails": {
-      "2021": {
-        "year": "2021",
-        "title": "2021 家X書",
-        "subtitle": "家的重新書寫、包覆與想像",
-        "poster": {
-          "src": "./assets/images/year-2021-detail.png",
-          "alt": "2021 家X書海報"
-        },
-        "introSections": [
-          {
-            "id": "website",
-            "title": "網站",
-            "heading": "2021 義家藝館線上展",
-            "body": "「家X書」線上展網站收錄展覽緣起、參與者作品與延伸閱讀。訪客可從不同入口進入各子題，瀏覽圖像、文字與互動單元，理解「家」如何被重新書寫與想像。",
-            "image": {
-              "src": "./assets/images/year-2021-detail.png",
-              "alt": "2021 網站海報"
-            },
-            "layout": "split"
-          },
-          {
-            "id": "practice",
-            "title": "藝術實踐",
-            "heading": "2021 義家藝館",
-            "body": "家X書：關於家的重新書寫、包覆與想像",
-            "subtitleEn": "Rewriting, Covering, and Reimagining Home",
-            "image": {
-              "src": "./assets/images/year-2021-detail.png",
-              "alt": "藝術實踐示意"
-            },
-            "layout": "banner"
-          },
-          {
-            "id": "media",
-            "title": "影音",
-            "heading": "表演藝術課程線上特別企劃",
-            "body": "110學年度臺南瀛海中學國中部\n表演藝術課程線上特別企劃\n2022/5/23-29 防疫不停學\n授課教師：李孟潔",
-            "caption": "2022防疫不停學_表演藝術線上課程Feat.義家藝館",
-            "image": {
-              "src": "./assets/images/year-2021-detail.png",
-              "alt": "影音封面"
-            },
-            "layout": "video"
-          },
-          {
-            "id": "journal",
-            "title": "藝術家教師日誌",
-            "body": "藝術家教師日誌內容",
-            "layout": "books",
-            "books": [
-              {
-                "title": "李孟潔｜日誌一",
-                "href": "#archive/research",
-                "image": {
-                  "src": "./assets/images/placeholder-book.svg",
-                  "alt": "教師日誌一"
-                }
-              },
-              {
-                "title": "李孟潔｜日誌二",
-                "href": "#archive/research",
-                "image": {
-                  "src": "./assets/images/placeholder-book.svg",
-                  "alt": "教師日誌二"
-                }
-              },
-              {
-                "title": "李孟潔｜日誌三",
-                "href": "#archive/research",
-                "image": {
-                  "src": "./assets/images/placeholder-book.svg",
-                  "alt": "教師日誌三"
-                }
-              },
-              {
-                "title": "李孟潔｜日誌四",
-                "href": "#archive/research",
-                "image": {
-                  "src": "./assets/images/placeholder-book.svg",
-                  "alt": "教師日誌四"
-                }
-              },
-              {
-                "title": "李孟潔｜日誌五",
-                "href": "#archive/research",
-                "image": {
-                  "src": "./assets/images/placeholder-book.svg",
-                  "alt": "教師日誌五"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "2022": {
-        "year": "2022",
-        "title": "2022 線上展",
-        "subtitle": "防疫不停學特別企劃",
-        "poster": {
-          "src": "./assets/images/year-2021-detail.png",
-          "alt": "2022 海報"
-        },
-        "introSections": [
-          {
-            "id": "website",
-            "title": "網站",
-            "heading": "2022 義家藝館",
-            "body": "2022 年線上展網站，記錄防疫期間的遠距共創與課程成果。",
-            "image": {
-              "src": "./assets/images/year-2021-detail.png",
-              "alt": "2022 網站"
-            },
-            "layout": "split"
-          },
-          {
-            "id": "practice",
-            "title": "藝術實踐",
-            "heading": "2022 義家藝館",
-            "body": "表演藝術課程線上特別企劃",
-            "subtitleEn": "Online Performing Arts Program",
-            "image": {
-              "src": "./assets/images/year-2021-detail.png",
-              "alt": ""
-            },
-            "layout": "banner"
-          },
-          {
-            "id": "media",
-            "title": "影音",
-            "heading": "線上課程紀錄",
-            "body": "110學年度臺南瀛海中學國中部\n表演藝術課程線上特別企劃",
-            "caption": "2022防疫不停學_表演藝術線上課程Feat.義家藝館",
-            "image": {
-              "src": "./assets/images/year-2021-detail.png",
-              "alt": "影音封面"
-            },
-            "layout": "video"
-          },
-          {
-            "id": "journal",
-            "title": "藝術家教師日誌",
-            "body": "藝術家教師日誌內容",
-            "layout": "books",
-            "books": [
-              {
-                "title": "教師日誌一",
-                "href": "#archive/research",
-                "image": {
-                  "src": "./assets/images/placeholder-book.svg",
-                  "alt": "日誌"
-                }
-              },
-              {
-                "title": "教師日誌二",
-                "href": "#archive/research",
-                "image": {
-                  "src": "./assets/images/placeholder-book.svg",
-                  "alt": "日誌"
-                }
-              }
-            ]
-          }
-        ]
-      }
-    },
     "yearsWebsites": [
       {
         "title": "2021 家X書",
@@ -1238,6 +900,92 @@
         "2016"
       ],
       "byYear": {
+        "2015": {
+          "yearLabel": "2015",
+          "empty": true
+        },
+        "2016": {
+          "banner": {
+            "src": "./assets/images/logo/2016.png",
+            "alt": "2016 義家藝館"
+          },
+          "href": "https://vm3vm06tjp6.wixsite.com/tnuaedu"
+        },
+        "2017": {
+          "yearLabel": "2017",
+          "empty": true
+        },
+        "2018": {
+          "title": "藝炊",
+          "subtitle": "藝士篇",
+          "banner": {
+            "src": "./assets/images/logo/2018.png",
+            "alt": "2018 藝炊"
+          },
+          "href": "https://vartmuseum.wixsite.com/vartmuseum"
+        },
+        "2019": {
+          "title": "怎麼在一百八十天內",
+          "subtitle": "成為一個完全的自由人",
+          "banner": {
+            "src": "./assets/images/logo/2019.png",
+            "alt": "2019 怎麼在一百八十天內成為一個完全的自由人"
+          },
+          "href": "https://2019824.webnode.tw/"
+        },
+        "2020": {
+          "title": "隔離的隱喻",
+          "banner": {
+            "src": "./assets/images/logo/2020.png",
+            "alt": "2020 隔離的隱喻"
+          },
+          "href": "https://4-00.webnode.tw/"
+        },
+        "2021": {
+          "title": "家X書",
+          "subtitle": "關於家的重新書寫、包覆與想像",
+          "subtitleEn": "Rewriting, Recovering and Reimagining Home",
+          "banner": {
+            "src": "./assets/images/logo/2021.png",
+            "alt": "2021 家X書"
+          },
+          "href": "https://yijiayiguan-507.webnode.tw/"
+        },
+        "2022": {
+          "title": "以藝代戰",
+          "subtitle": "關於戰爭的五則寓言",
+          "banner": {
+            "src": "./assets/images/logo/2022.png",
+            "alt": "2022 以藝代戰"
+          },
+          "href": "https://yijiayiguan6-02.webnode.tw/"
+        },
+        "2023": {
+          "title": "成為一個人",
+          "subtitle": "On Becoming a Person",
+          "banner": {
+            "src": "./assets/images/logo/2023.png",
+            "alt": "2023 成為一個人"
+          },
+          "href": "https://yijiayiguan7-0.webnode.tw"
+        },
+        "2024": {
+          "yearLabel": "2024",
+          "empty": true
+        },
+        "2025": {
+          "yearLabel": "2025",
+          "markerOnly": true,
+          "modal": {
+            "type": "brief",
+            "title": "2025",
+            "intro": "網頁簡介（待補）。",
+            "link": {
+              "label": "前往網站",
+              "href": ""
+            }
+          }
+        },
         "2027-2026": {
           "yearLabel": "2027-2026",
           "banner": {
@@ -1253,92 +1001,6 @@
               "href": ""
             }
           }
-        },
-        "2025": {
-          "yearLabel": "2025",
-          "markerOnly": true,
-          "modal": {
-            "type": "brief",
-            "title": "2025",
-            "intro": "網頁簡介（待補）。",
-            "link": {
-              "label": "前往網站",
-              "href": ""
-            }
-          }
-        },
-        "2024": {
-          "yearLabel": "2024",
-          "empty": true
-        },
-        "2023": {
-          "title": "成為一個人",
-          "subtitle": "On Becoming a Person",
-          "banner": {
-            "src": "./assets/images/logo/2023.png",
-            "alt": "2023 成為一個人"
-          },
-          "href": "https://yijiayiguan7-0.webnode.tw"
-        },
-        "2022": {
-          "title": "以藝代戰",
-          "subtitle": "關於戰爭的五則寓言",
-          "banner": {
-            "src": "./assets/images/logo/2022.png",
-            "alt": "2022 以藝代戰"
-          },
-          "href": "https://yijiayiguan6-02.webnode.tw/"
-        },
-        "2021": {
-          "title": "家X書",
-          "subtitle": "關於家的重新書寫、包覆與想像",
-          "subtitleEn": "Rewriting, Recovering and Reimagining Home",
-          "banner": {
-            "src": "./assets/images/logo/2021.png",
-            "alt": "2021 家X書"
-          },
-          "href": "https://yijiayiguan-507.webnode.tw/"
-        },
-        "2020": {
-          "title": "隔離的隱喻",
-          "banner": {
-            "src": "./assets/images/logo/2020.png",
-            "alt": "2020 隔離的隱喻"
-          },
-          "href": "https://4-00.webnode.tw/"
-        },
-        "2019": {
-          "title": "怎麼在一百八十天內",
-          "subtitle": "成為一個完全的自由人",
-          "banner": {
-            "src": "./assets/images/logo/2019.png",
-            "alt": "2019 怎麼在一百八十天內成為一個完全的自由人"
-          },
-          "href": "https://2019824.webnode.tw/"
-        },
-        "2018": {
-          "title": "藝炊",
-          "subtitle": "藝士篇",
-          "banner": {
-            "src": "./assets/images/logo/2018.png",
-            "alt": "2018 藝炊"
-          },
-          "href": "https://vartmuseum.wixsite.com/vartmuseum"
-        },
-        "2017": {
-          "yearLabel": "2017",
-          "empty": true
-        },
-        "2016": {
-          "banner": {
-            "src": "./assets/images/logo/2016.png",
-            "alt": "2016 義家藝館"
-          },
-          "href": "https://vm3vm06tjp6.wixsite.com/tnuaedu"
-        },
-        "2015": {
-          "yearLabel": "2015",
-          "empty": true
         }
       },
       "items": [

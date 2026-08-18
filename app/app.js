@@ -136,12 +136,6 @@ function navigateFromHref(href) {
   location.hash = raw.startsWith("#") ? raw : `#${raw}`;
 }
 
-function yearIntroHref(year, sectionId) {
-  const y = encodeURIComponent(year || "");
-  const base = `#classics/year?year=${y}`;
-  return sectionId ? `${base}&section=${encodeURIComponent(sectionId)}` : base;
-}
-
 function hotspotCenterX(hs) {
   if (!hs) return "50%";
   const left = parseFloat(String(hs.left || "0"));

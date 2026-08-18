@@ -32,7 +32,9 @@ alwaysApply: true
 - [ ] 學習資源／延伸閱讀／藝術家教師：Studio 已加 `archiveLearningResources`、`archiveBibliography`、`archiveTeachers`，請在後台填入後發佈
 - [ ] 頁尾 YouTube 連結：`https://www.youtube.com/@義家藝館WhenaHomeBecomesaM`；拿掉 Facebook（內容要用 `npm run import`，不是 deploy）
 
-目前本機／GitHub 強制覆寫（後台改了不會上線）：首頁圖層、開幕展關於頁、研究日誌
+目前本機／GitHub 強制覆寫（後台改了不會上線）：首頁圖層、開幕展關於頁、研究日誌、**歷屆網站**（新版直向時間軸，不上 Sanity）
+
+舊版「歷年時間軸／年度介紹頁」已從網站拿掉；Studio 那兩欄已隱藏。清後台介面請 `npm run deploy`，**不要**為這件事跑 `import`。
 
 照片紀錄／動態影音：後台有圖或 YouTube 時用 Sanity；沒有時才顯示 GitHub 示範稿。輪播按鈕尺寸／位置是 CSS，後台改不到。
 
