@@ -119,6 +119,11 @@
   pointer-events: none;
 }
 
+.fdRoomLayer--top {
+  z-index: 26;
+  pointer-events: none;
+}
+
 .fdScene--blur .fdRoomLayer {
   filter: blur(6px) brightness(0.92);
 }
@@ -126,7 +131,7 @@
 .fdSceneOverlay {
   position: absolute;
   inset: 0;
-  z-index: 20;
+  z-index: 30;
   pointer-events: none;
 }
 
@@ -222,6 +227,30 @@
 .fdNavBtn--right {
   right: 2%;
   top: 2%;
+}
+
+.fdNav--end .fdNavBtn--left,
+.fdNav--end .fdNavBtn--right {
+  top: auto;
+  bottom: 4.5%;
+}
+
+.fdExperience:has(.fdStage--end) .fdViewport {
+  background: #111;
+  border-color: #2a2a2a;
+}
+
+.fdEndContent {
+  width: 78%;
+  max-width: 760px;
+}
+
+.fdEndTitle {
+  margin-bottom: 18px;
+}
+
+.fdEndContent .aboutConceptParagraph {
+  margin-bottom: 8px;
 }
 
 .fdNavCenter {
@@ -517,9 +546,66 @@
 .fdHotspot {
   position: absolute;
   z-index: 3;
+  margin: 0;
+  padding: 0;
   border: 0;
   background: transparent;
   cursor: pointer;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.fdHotspot--front {
+  z-index: 4;
+}
+
+.fdInfoVideo {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin: 0 0 12px;
+  background: #111;
+  overflow: hidden;
+  flex: 0 0 auto;
+}
+
+.fdInfoVideoFrame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.fdInfoVideo--pending {
+  display: grid;
+  place-items: center;
+  color: #eee;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.fdInfoLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  box-sizing: border-box;
+  background: #fff8e1;
+  border: 1px solid rgba(90, 64, 48, 0.22);
+  color: #5a4030;
+  text-decoration: none;
+  font-size: 12px;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.fdInfoLink:hover {
+  background: #fff;
+  color: #b82020;
 }
 
 .fdHotspotHint {
@@ -570,19 +656,14 @@
   cursor: default;
 }
 
-.fdHotspot.isActive,
-.fdHotspot:hover {
-  background: rgba(255, 255, 255, 0.12);
-}
-
 .fdHotspot--wallCatch:hover,
 .fdHotspot--wallCatch.isActive {
   background: transparent;
 }
 
+.fdHotspot:focus,
 .fdHotspot:focus-visible {
-  outline: 2px solid rgba(232, 180, 33, 0.85);
-  outline-offset: 2px;
+  outline: none;
 }
 
 .fdInfoPanel {
@@ -1610,6 +1691,10 @@
     --fd-ratio: 9 / 16;
   }
 
+  .fdExperience:has(.fdStage--end) {
+    --fd-ratio: 16 / 9;
+  }
+
   .innerContent:has(.fdExperience) {
     padding-left: 8px;
     padding-right: 8px;
@@ -1711,6 +1796,15 @@
     object-fit: contain;
   }
 
+  .fdInfoVideo {
+    margin-bottom: 10px;
+  }
+
+  .fdInfoLink {
+    font-size: 11px;
+    padding: 8px 10px;
+  }
+
   .fdInfoPanel--wall .fdInfoPhotoImg,
   .fdInfoPanel--guanyin .fdInfoPhotoImg {
     width: 88%;
@@ -1737,6 +1831,27 @@
   .fdNavBtn {
     font-size: 14px;
     padding: 8px 10px;
+  }
+
+  .fdNav--end .fdNavBtn {
+    font-size: 13px;
+    padding: 8px 10px;
+    max-width: 46%;
+    white-space: nowrap;
+  }
+
+  .fdNav--end .fdNavBtn--left,
+  .fdNav--end .fdNavBtn--right {
+    bottom: 3.5%;
+  }
+
+  .fdEndContent {
+    width: 86%;
+    max-height: 58%;
+  }
+
+  .fdEndTitle {
+    margin-bottom: 12px;
   }
 
   .fdNav--dress .fdNavBtn--dress {

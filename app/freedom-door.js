@@ -90,17 +90,28 @@
       "讓我們一起推開自由門，探索伯伯們的房間內，裝載著什麼樣的自由？",
     ],
     p4: "一進門就看到了吧！",
+    p4Ma: "就是這樣子呀！",
+    p4Pan: "有一支國語歌，鴨綠江之夜",
     p5Title: "【操作說明】",
     p5Body: [
       "1. 本間房間有3個物件可供點擊，點擊後會呈現該物件的簡介。",
       "2. 簡介視窗下方為「進入共創空間」，邀請您留下自由的足跡。",
       "3. 頁面左上方為「返回走廊」，可選擇參觀其他房間。",
-      "4. 頁面右上方為「結束參觀」，點擊後回到首頁。",
+      "4. 頁面右上方為「結束參觀」，點擊後進入結語。",
+    ],
+    endTitle: "【結語】",
+    endBody: [
+      "自由，其實離我們並不遙遠。",
+      "金元奎無法選擇自己生在哪個時代、住在哪裡、說些什麼話，",
+      "但他選擇把房間漆成黃色、選擇把南海觀音放在冰箱上、",
+      "選擇了每天穿上最能展現自己的服裝。",
+      "在那個小小的房間裡，他一次又一次實踐了自己的自由。",
+      "我們呢？",
     ],
     doorComingSoonTitle: "【房間籌備中】",
     doorComingSoonBody: [
       "這扇門後的房間還在製作中。",
-      "請先推開中間那扇門，進入目前開放參觀的房間。",
+      "請先參觀其他已開放的房間。",
     ],
     hotspots: {
       wall: {
@@ -141,7 +152,7 @@
     // 窗戶下方正方形熱區（黃牆）
     wall: { left: "17.5%", top: "50.5%", width: "16.5%", height: "15.3%" },
     guanyin: { left: "51.8%", top: "36.6%", width: "4.2%", height: "13.9%" },
-    clothes: { left: "62.3%", top: "0.0%", width: "37.7%", height: "56.8%" },
+    clothes: { left: "62.3%", top: "0%", width: "37.7%", height: "56.8%" },
   };
 
   const DOOR_POSITIONS = [
@@ -149,6 +160,126 @@
     { left: "40.8%", top: "10.8%", width: "18.8%", height: "74.2%" },
     { left: "78.3%", top: "10.8%", width: "18.8%", height: "74.2%" },
   ];
+
+  const MA_ROOM_BASE = `${ASSET_BASE}/房間物件_馬`;
+  const MA_PHOTO_STORY_URL =
+    "https://vartmuseum.wixsite.com/vartmuseum/story?pgid=jfl1hc37-c15902cd-7cac-4c16-a43b-2147d4905baa";
+
+  const ROOMS = {
+    jin: {
+      id: "jin",
+      layerBase: ROOM_BASE,
+      layers: ROOM_LAYERS,
+      front: ROOM_FRONT,
+      audio: ENTRY_AUDIO_SRC,
+      slogan: () => COPY.p4,
+      hotspots: HOTSPOTS,
+      items: () => COPY.hotspots,
+      hasWardrobe: true,
+    },
+    ma: {
+      id: "ma",
+      layerBase: MA_ROOM_BASE,
+      layers: ["背景.png", "中景.png", "電鍋.png", "花椒葉粉末與調味料.png", "黑白攝影.png"],
+      front: "前景.png",
+      audio: `${ASSET_BASE}/馬世敬錄音檔.mp3`,
+      slogan: () => COPY.p4Ma,
+      hasWardrobe: false,
+      hotspots: {
+        cooker: { left: "43.5%", top: "52%", width: "10.2%", height: "15%", hintLeft: "55%" },
+        photos: { left: "0.5%", top: "11%", width: "22%", height: "17.5%" },
+        spicesLeft: { left: "39.9%", top: "66.9%", width: "5.7%", height: "5.3%", item: "spices", hintLeft: "62%" },
+        spicesRight: { left: "54.6%", top: "60.4%", width: "6.5%", height: "7.4%", item: "spices" },
+      },
+      items: () => ({
+        cooker: {
+          name: "電鍋",
+          body: [
+            "電鍋裡升騰起的不只是蒸氣，更是跨越歲月與地理邊界的家鄉味道。",
+            "對馬世敬而言，揉製饅頭與花捲的動作，是深植於肌肉的身體記憶。當來自甘肅與臺灣的食材在麵團中重新混合，電鍋便成了這私密空間裡，安放鄉愁與意志的地方。",
+            "在無法掌控命運的時代裡，舌尖是唯一能忠實保留歸屬感的場所。在這個小小的房間裡，決定今天要在電鍋裡蒸出什麼味道、如何重新定義「家鄉」，正是他最深刻的自由實踐。",
+          ],
+          youtubePending: true,
+        },
+        photos: {
+          name: "黑白攝影",
+          body: [
+            "用衣架懸掛起來的相框與黑白照片，記錄著義士們在榮家生活的身體軌跡與日常隨筆。",
+            "衣架原本用於收納日常衣物，如今卻成了展示個人視野的載體；鏡頭則替代了言語，捕捉下漫遊與行走間的獨到視野。被戰爭與時代定位了半生的他們，在此刻拿起相機，重新奪回了「觀看」與「紀錄」的主導權。",
+            "照片裡微小的日常觀察，不再是歷史大敘事下的背景，而是他們在這個空間裡，用自己的眼睛定義世界、自由探索生活的最真實證明。",
+          ],
+          linkUrl: MA_PHOTO_STORY_URL,
+          linkLabel: "查看《走出自己的路》X《攝影記事》",
+        },
+        spices: {
+          name: "花椒葉粉末與調味料",
+          body: [
+            "透明夾鏈袋裡密封著的綠色粉末，是馬世敬探親時從甘肅老家花椒樹上摘下、曬乾並親手磨成的花椒葉粉。",
+            "從甘肅到新疆天山，再跨越海峽回到臺灣，這包花椒葉跟隨他踏過萬里旅程。雖然最終沒能來得及將它揉入花捲，但它早已超越了調味料的本質。",
+            "這包花椒葉粉末靜靜地躺在房間的一角，被封存的草木香氣，凝固了對家鄉最真切的念想。",
+          ],
+        },
+      }),
+    },
+    pan: {
+      id: "pan",
+      layerBase: `${ASSET_BASE}/房間物件_潘`,
+      layers: ["背景.png", "收音機.png"],
+      front: "前景.png",
+      top: ["遊樂場彩券.png"],
+      audio: `${ASSET_BASE}/潘海波錄音檔.mp3`,
+      slogan: () => COPY.p4Pan,
+      hasWardrobe: false,
+      hotspots: {
+        radio: { left: "64.7%", top: "43.3%", width: "8%", height: "9.7%" },
+        tickets: { left: "80.7%", top: "76%", width: "12.3%", height: "10.3%" },
+      },
+      items: () => ({
+        radio: {
+          name: "收音機",
+          body: [
+            "一首全臺灣幾乎已無人知曉的《鴨綠江之夜》，卻深刻烙印在潘海波的記憶深處，隨他跨越海峽、渡過漫長歲月。",
+            "在與研究生的參與式藝術實踐中，重現了他高唱這首歌的姿態——「我寂寞的靈魂，朝夕相望在遙遠地方」。歌詞裡的孤寂，與榮家中形單影隻的身影交疊，讓這段歷史的迴響久久不散。",
+            "收音機不僅是接收外界聲音的工具，更是安放思念的介面。在無法重來的時代洪流後，能獨自在房裡按下播放鍵，讓心中的旋律自由流淌，是他對自身靈魂最深沉的陪伴與對話。",
+          ],
+          youtubeUrl: "https://www.youtube.com/watch?v=zkdRux-rhaw",
+        },
+        tickets: {
+          name: "遊樂場彩券",
+          body: [
+            "一張張從西門町湯姆熊集得的彩券，記錄著潘海波走出榮家、漫遊城市的日常足跡。",
+            "即使年歲漸長，他仍習慣獨自搭上公車，穿梭在熱鬧喧囂的街頭。在霓虹閃爍與電子音效交織的遊樂場裡，他不是歷史課本上的反共義士，而是一位單純享受遊戲樂趣的玩家。",
+            "這些彩券不僅是娛樂的留痕，更是他跨越時代禁錮的證明。推開房門、踏上公車，在熙熙攘攘的西門町裡選擇屬於自己的快樂，是他最隨心所欲、最當下的自由實踐。",
+          ],
+        },
+      }),
+    },
+  };
+
+  function getActiveRoom(state) {
+    return ROOMS[state?.roomId] || ROOMS.jin;
+  }
+
+  function youtubeEmbedSrc(url) {
+    const raw = String(url || "").trim();
+    if (!raw) return "";
+    try {
+      const parsed = new URL(raw);
+      if (parsed.hostname.includes("youtu.be")) {
+        const id = parsed.pathname.replace(/^\//, "").split("/")[0];
+        return id ? `https://www.youtube.com/embed/${encodeURIComponent(id)}` : "";
+      }
+      if (parsed.hostname.includes("youtube.com")) {
+        const embedMatch = parsed.pathname.match(/^\/embed\/([^/]+)/);
+        if (embedMatch?.[1]) return `https://www.youtube.com/embed/${encodeURIComponent(embedMatch[1])}`;
+        const id = parsed.searchParams.get("v");
+        return id ? `https://www.youtube.com/embed/${encodeURIComponent(id)}` : "";
+      }
+    } catch {
+      return "";
+    }
+    return "";
+  }
 
   let roomWallHitDataPromise = null;
 
@@ -402,18 +533,23 @@
     return { scene, frame, img, overlay };
   }
 
-  function createRoomScene({ blur = false } = {}) {
+  function createRoomScene({ blur = false, room } = {}) {
+    const config = room || ROOMS.jin;
+    const layerBase = config.layerBase || ROOM_BASE;
+    const layers = Array.isArray(config.layers) ? config.layers : ROOM_LAYERS;
+    const front = config.front || "";
+    const topLayers = Array.isArray(config.top) ? config.top : config.top ? [config.top] : [];
     const scene = el("div", {
       class: `fdScene fdScene--room${blur ? " fdScene--blur" : ""}`,
     });
     const frame = el("div", { class: "fdSceneFrame fdSceneFrame--room" });
     const overlay = el("div", { class: "fdSceneOverlay" });
 
-    ROOM_LAYERS.forEach((fileName, index) => {
+    layers.forEach((fileName, index) => {
       frame.appendChild(
         el("img", {
           class: `fdRoomLayer${index === 0 ? " fdRoomLayer--base" : ""}`,
-          src: `${ROOM_BASE}/${fileName}`,
+          src: `${layerBase}/${fileName}`,
           alt: "",
           draggable: "false",
           "aria-hidden": "true",
@@ -423,15 +559,28 @@
     });
 
     frame.appendChild(overlay);
-    frame.appendChild(
-      el("img", {
-        class: "fdRoomLayer fdRoomLayer--front",
-        src: `${ROOM_BASE}/${ROOM_FRONT}`,
-        alt: "",
-        draggable: "false",
-        "aria-hidden": "true",
-      })
-    );
+    if (front) {
+      frame.appendChild(
+        el("img", {
+          class: "fdRoomLayer fdRoomLayer--front",
+          src: `${layerBase}/${front}`,
+          alt: "",
+          draggable: "false",
+          "aria-hidden": "true",
+        })
+      );
+    }
+    topLayers.forEach((fileName) => {
+      frame.appendChild(
+        el("img", {
+          class: "fdRoomLayer fdRoomLayer--top",
+          src: `${layerBase}/${fileName}`,
+          alt: "",
+          draggable: "false",
+          "aria-hidden": "true",
+        })
+      );
+    });
     scene.appendChild(frame);
     return { scene, frame, overlay };
   }
@@ -440,14 +589,22 @@
     return `left:${rect.left}; top:${rect.top}; width:${rect.width}; height:${rect.height}`;
   }
 
-  function buildHotspotHint() {
-    return el("span", { class: "fdHotspotHint", "aria-hidden": "true" }, [
+  function buildHotspotHint(rect = {}) {
+    const left = rect.hintLeft || "50%";
+    const top = rect.hintTop || "50%";
+    return el("span", {
+      class: "fdHotspotHint",
+      "aria-hidden": "true",
+      style: `left:${left};top:${top}`,
+    }, [
       el("span", { class: "fdHotspotHintArrow" }),
     ]);
   }
 
-  function buildInfoPanel(state, key, { onClose, onEnterWardrobe } = {}) {
-    const info = COPY.hotspots[key];
+  function buildInfoPanel(state, key, { onClose, onEnterWardrobe, items } = {}) {
+    const catalog = items || COPY.hotspots;
+    const info = catalog[key];
+    if (!info) return el("aside", { class: "fdInfoPanel" });
     const panel = el("aside", { class: `fdInfoPanel fdInfoPanel--${key}${key === "clothes" ? " fdInfoPanel--wardrobe" : ""}` }, [
       el("button", {
         class: "fdInfoClose",
@@ -480,11 +637,40 @@
           }),
         ])
       );
-    } else {
-      panel.appendChild(el("div", { class: "fdInfoPhotoPlaceholder", text: "參考照片（待提供）" }));
     }
 
-    if (key === "clothes") {
+    const embedSrc = youtubeEmbedSrc(info.youtubeUrl);
+    if (embedSrc) {
+      panel.appendChild(
+        el("div", { class: "fdInfoVideo" }, [
+          el("iframe", {
+            class: "fdInfoVideoFrame",
+            src: embedSrc,
+            title: `${info.name || "物件"}影片`,
+            loading: "lazy",
+            allow:
+              "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",
+            allowfullscreen: "true",
+          }),
+        ])
+      );
+    } else if (info.youtubePending) {
+      panel.appendChild(el("div", { class: "fdInfoVideo fdInfoVideo--pending", text: "影片即將上架" }));
+    }
+
+    if (info.linkUrl) {
+      panel.appendChild(
+        el("a", {
+          class: "fdInfoLink",
+          href: info.linkUrl,
+          target: "_blank",
+          rel: "noopener noreferrer",
+          text: info.linkLabel || "查看相關介紹",
+        })
+      );
+    }
+
+    if (key === "clothes" && info.cta) {
       panel.appendChild(
         el("button", {
           class: "fdInfoCta",
@@ -504,6 +690,20 @@
   function navigateHome() {
     if (typeof navigateFromHref === "function") navigateFromHref("#home");
     else location.hash = "#home";
+  }
+
+  function navigateToFreeman() {
+    if (typeof navigateFromHref === "function") navigateFromHref("#exhibition-right/about");
+    else location.hash = "#exhibition-right/about";
+  }
+
+  function getEndingAssets() {
+    const about = window.SITE_CONTENT?.exhibitions?.["exhibition-left"]?.about || {};
+    return {
+      bannerSrc: about.banner?.src || "./assets/images/performances/banner-freedom-door.png",
+      logoSrc: about.logo?.src || `${ASSET_BASE}/理念頁LOGO.png?v=20260803ak`,
+      logoAlt: about.logo?.alt || "義家藝館",
+    };
   }
 
   function appendNav(stage, { leftLabel, leftAction, rightLabel, rightAction, centerLabel, variant } = {}) {
@@ -542,6 +742,7 @@
     audioEl.controls = false;
     audioEl.loop = false;
     audioEl.playsInline = true;
+    let source = ENTRY_AUDIO_SRC;
 
     function stop() {
       audioEl.pause();
@@ -552,9 +753,17 @@
       }
     }
 
+    function setSource(src) {
+      const next = String(src || "").trim() || ENTRY_AUDIO_SRC;
+      if (source === next) return;
+      stop();
+      source = next;
+      audioEl.src = source;
+    }
+
     function play() {
-      if (audioEl.getAttribute("src") !== ENTRY_AUDIO_SRC) {
-        audioEl.src = ENTRY_AUDIO_SRC;
+      if (audioEl.getAttribute("src") !== source) {
+        audioEl.src = source;
       }
       try {
         audioEl.currentTime = 0;
@@ -566,7 +775,7 @@
       else audioEl.addEventListener("canplay", tryPlay, { once: true });
     }
 
-    return { el: audioEl, play, stop };
+    return { el: audioEl, play, stop, setSource };
   }
 
   function buildAudioIconGraphic() {
@@ -834,6 +1043,7 @@
 
     const state = {
       scene: "p1",
+      roomId: "jin",
       corridorScroll: 0,
       activeHotspot: null,
       outfit: defaultOutfit(),
@@ -873,19 +1083,61 @@
         case "p14":
           renderP14(stage, state, setScene);
           break;
+        case "end":
+          renderEnding(stage);
+          break;
         default:
           renderP1(stage, state, setScene);
       }
     }
 
     function setScene(next) {
-      if (next === "p3" || next === "p1") entryAudio.stop();
+      if (next === "p3" || next === "p1" || next === "end") entryAudio.stop();
       state.scene = next;
       redraw();
     }
 
     redraw();
     return root;
+  }
+
+  function renderEnding(stage) {
+    const { bannerSrc, logoSrc, logoAlt } = getEndingAssets();
+    stage.classList.add("fdStage--end");
+
+    stage.appendChild(
+      el("img", {
+        class: "aboutConceptBg",
+        src: bannerSrc,
+        alt: "",
+        "aria-hidden": "true",
+      })
+    );
+    stage.appendChild(el("div", { class: "aboutConceptDim", "aria-hidden": "true" }));
+    stage.appendChild(
+      el("img", {
+        class: "aboutConceptLogo",
+        src: logoSrc,
+        alt: logoAlt,
+      })
+    );
+    stage.appendChild(
+      el(
+        "div",
+        { class: "aboutConceptContent fdEndContent" },
+        [
+          el("h1", { class: "aboutConceptLead fdEndTitle", text: COPY.endTitle }),
+          ...COPY.endBody.map((line) => el("p", { class: "aboutConceptParagraph", text: line })),
+        ]
+      )
+    );
+    appendNav(stage, {
+      leftLabel: "回到檔案庫首頁",
+      leftAction: navigateHome,
+      rightLabel: "去自由人特展",
+      rightAction: navigateToFreeman,
+      variant: "end",
+    });
   }
 
   function renderP1(stage, state, setScene) {
@@ -931,16 +1183,18 @@
     const { scene, overlay, img } = createFitScene(HALLWAY_SRC, { corridor: true });
 
     DOOR_POSITIONS.forEach((door, index) => {
-      const isMainDoor = index === 1;
+      const roomId = index === 0 ? "ma" : index === 1 ? "jin" : "pan";
       overlay.appendChild(
         el("button", {
           class: "fdDoorHotspot",
           type: "button",
-          "aria-label": isMainDoor ? "進入房間" : "房間籌備中",
+          "aria-label": roomId ? "進入房間" : "房間籌備中",
           style: hotspotStyle(door),
           onclick: (e) => {
             e.stopPropagation();
-            if (isMainDoor) {
+            if (roomId) {
+              state.roomId = roomId;
+              state.activeHotspot = null;
               setScene("p4");
               return;
             }
@@ -960,8 +1214,8 @@
     img.addEventListener("load", () => applyCorridorScroll(stage, state));
 
     appendNav(stage, {
-      rightLabel: "結束參觀回到首頁",
-      rightAction: navigateHome,
+      rightLabel: "結束參觀",
+      rightAction: () => setScene("end"),
     });
 
     const scrollBy = () => {
@@ -1004,10 +1258,12 @@
   }
 
   function renderP4(stage, state, setScene, entryAudio) {
-    const { scene } = createRoomScene({ blur: true });
+    const room = getActiveRoom(state);
+    entryAudio?.setSource?.(room.audio);
+    const { scene } = createRoomScene({ blur: true, room });
     stage.appendChild(scene);
     showModal(stage, {
-      paragraphs: [COPY.p4],
+      paragraphs: [room.slogan()],
       buttonLabel: "繼續",
       showClose: false,
       extra: [
@@ -1021,7 +1277,8 @@
   }
 
   function renderP5(stage, state, setScene) {
-    const { scene } = createRoomScene({ blur: true });
+    const room = getActiveRoom(state);
+    const { scene } = createRoomScene({ blur: true, room });
     stage.appendChild(scene);
     showModal(stage, {
       title: COPY.p5Title,
@@ -1032,33 +1289,42 @@
   }
 
   function renderP6(stage, state, setScene, redraw, entryAudio) {
-    const room = el("div", { class: "fdRoomWrap" });
-    const { scene, overlay } = createRoomScene();
+    const room = getActiveRoom(state);
+    const items = typeof room.items === "function" ? room.items() : room.items;
+    const hotspots = room.hotspots || HOTSPOTS;
+    entryAudio?.setSource?.(room.audio);
+    const wrap = el("div", { class: "fdRoomWrap" });
+    const { scene, overlay } = createRoomScene({ room });
     const panelSlot = el("div", { class: "fdPanelSlot" });
     void redraw;
 
     function syncPanel() {
       panelSlot.innerHTML = "";
-      room.classList.toggle("fdRoomWrap--panelOpen", Boolean(state.activeHotspot));
+      wrap.classList.toggle("fdRoomWrap--panelOpen", Boolean(state.activeHotspot));
       if (!state.activeHotspot) return;
 
+      const activeRect = hotspots[state.activeHotspot] || {};
+      const itemKey = activeRect.item || state.activeHotspot;
       panelSlot.appendChild(
-        buildInfoPanel(state, state.activeHotspot, {
+        buildInfoPanel(state, itemKey, {
+          items,
           onClose: () => {
             state.activeHotspot = null;
             syncPanel();
           },
-          onEnterWardrobe: () => {
-            state.activeHotspot = null;
-            setScene("p11");
-            requestAnimationFrame(() => {
-              showModal(stage, {
-                title: COPY.p10Title,
-                paragraphs: COPY.p10Body,
-                onClose: () => {},
-              });
-            });
-          },
+          onEnterWardrobe: room.hasWardrobe
+            ? () => {
+                state.activeHotspot = null;
+                setScene("p11");
+                requestAnimationFrame(() => {
+                  showModal(stage, {
+                    title: COPY.p10Title,
+                    paragraphs: COPY.p10Body,
+                    onClose: () => {},
+                  });
+                });
+              }
+            : undefined,
         })
       );
     }
@@ -1068,14 +1334,15 @@
       syncPanel();
     }
 
-    Object.entries(HOTSPOTS).forEach(([key, rect]) => {
+    Object.entries(hotspots).forEach(([key, rect]) => {
+      const itemKey = rect.item || key;
       overlay.appendChild(
         el(
           "button",
           {
-            class: `fdHotspot${state.activeHotspot === key ? " isActive" : ""}`,
+            class: `fdHotspot${state.activeHotspot === key ? " isActive" : ""}${String(itemKey).startsWith("spices") || itemKey === "tickets" ? " fdHotspot--front" : ""}`,
             type: "button",
-            "aria-label": COPY.hotspots[key].name,
+            "aria-label": items[itemKey]?.name || key,
             style: hotspotStyle(rect),
             onclick: (e) => {
               e.preventDefault();
@@ -1083,14 +1350,14 @@
               toggleHotspot(key);
             },
           },
-          [buildHotspotHint()]
+          [buildHotspotHint(rect)]
         )
       );
     });
 
-    room.appendChild(scene);
-    room.appendChild(panelSlot);
-    stage.appendChild(room);
+    wrap.appendChild(scene);
+    wrap.appendChild(panelSlot);
+    stage.appendChild(wrap);
 
     appendNav(stage, {
       leftLabel: "回到走廊",
@@ -1098,8 +1365,8 @@
         state.activeHotspot = null;
         setScene("p3");
       },
-      rightLabel: "結束參觀回到首頁",
-      rightAction: navigateHome,
+      rightLabel: "結束參觀",
+      rightAction: () => setScene("end"),
     });
 
     if (entryAudio) {
@@ -2049,8 +2316,8 @@
           el("button", {
             class: "fdMobileActionBtn fdMobileActionBtn--primary",
             type: "button",
-            text: "回首頁",
-            onclick: navigateHome,
+            text: "結束參觀",
+            onclick: () => setScene("end"),
           }),
         ])
       );
@@ -2058,8 +2325,8 @@
       appendNav(stage, {
         leftLabel: "再玩一次",
         leftAction: replay,
-        rightLabel: "結束參觀回到首頁",
-        rightAction: navigateHome,
+        rightLabel: "結束參觀",
+        rightAction: () => setScene("end"),
       });
     }
 
