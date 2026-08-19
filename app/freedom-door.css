@@ -1830,9 +1830,23 @@
 
   .fdInfoPanel--wardrobe .fdInfoPhotoImg,
   .fdInfoPanel--clothes .fdInfoPhotoImg {
-    width: auto;
-    max-width: 100%;
-    max-height: 100%;
+    width: 72%;
+    max-width: 72%;
+    max-height: 160px;
+    height: auto;
+  }
+
+  .fdInfoPanel--wardrobe {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .fdInfoPanel--wardrobe .fdInfoPhoto,
+  .fdInfoPanel--clothes .fdInfoPhoto {
+    flex: 0 0 auto;
+    min-height: 120px;
+    margin: 8px 0 12px;
+    order: 4;
   }
 
   .fdInfoPanel--wardrobe .fdInfoCta {
