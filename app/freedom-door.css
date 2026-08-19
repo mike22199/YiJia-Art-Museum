@@ -243,6 +243,7 @@
 .fdEndContent {
   width: 78%;
   max-width: 760px;
+  text-align: center;
 }
 
 .fdEndTitle {
@@ -332,6 +333,7 @@
 
 .fdModalTitle {
   margin: 0 0 12px;
+  padding: 0 28px;
   text-align: center;
   font-size: 18.67px;
   letter-spacing: 1.33px;
@@ -343,7 +345,7 @@
   line-height: 1.75;
   font-size: 13.33px;
   color: #f0f0f0;
-  text-align: center;
+  text-align: left;
 }
 
 .fdModalClose {
@@ -680,6 +682,8 @@
   box-shadow: -8px 0 24px rgba(0, 0, 0, 0.14);
   display: flex;
   flex-direction: column;
+  align-items: stretch;
+  text-align: left;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -698,18 +702,21 @@
   margin: 0 0 2px;
   font-size: 11px;
   color: #666;
+  text-align: left;
 }
 
 .fdInfoTitle {
   margin: 0 0 10px;
   font-size: 14px;
   color: #222;
+  text-align: center;
 }
 
 .fdInfoBody {
   margin: 0 0 12px;
   line-height: 1.7;
   font-size: 11.5px;
+  text-align: left;
 }
 
 .fdInfoBody + .fdInfoBody {
@@ -1771,6 +1778,16 @@
     padding: 36px 14px 12px;
     overflow-x: hidden;
     overflow-y: auto;
+    text-align: left;
+  }
+
+  .fdInfoLabel,
+  .fdInfoBody {
+    text-align: left;
+  }
+
+  .fdInfoTitle {
+    text-align: center;
   }
 
   .fdInfoBody {
@@ -1834,9 +1851,10 @@
   }
 
   .fdNav--end .fdNavBtn {
-    font-size: 13px;
-    padding: 8px 10px;
-    max-width: 46%;
+    font-size: 11px;
+    padding: 4px 8px;
+    letter-spacing: 0.04em;
+    max-width: 42%;
     white-space: nowrap;
   }
 
@@ -1846,12 +1864,40 @@
   }
 
   .fdEndContent {
-    width: 86%;
-    max-height: 58%;
+    width: auto;
+    max-height: none;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    text-align: center;
+    letter-spacing: 0.02em;
   }
 
   .fdEndTitle {
-    margin-bottom: 12px;
+    margin-bottom: 8px;
+    letter-spacing: 0.04em;
+  }
+
+  .fdEndContent .aboutConceptParagraph {
+    letter-spacing: 0.02em;
+    line-height: 1.45;
+    margin-bottom: 4px;
+  }
+
+  .fdModal {
+    width: min(94%, 560px);
+    max-height: 78%;
+    padding: 28px 20px 20px;
+  }
+
+  .fdModalTitle {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .fdModalText {
+    font-size: 13px;
+    line-height: 1.65;
   }
 
   .fdNav--dress .fdNavBtn--dress {

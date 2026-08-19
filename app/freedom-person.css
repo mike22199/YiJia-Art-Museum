@@ -94,7 +94,7 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: stretch;
   padding: 1.8% 2.6%;
   overflow: hidden;
@@ -107,7 +107,7 @@
   box-sizing: border-box;
   width: 100%;
   flex: 0 0 auto;
-  margin: 0;
+  margin-block: auto;
   text-align: left;
 }
 
@@ -1125,7 +1125,7 @@
   font-size: 20px;
   white-space: pre-wrap;
   color: #f0f0f0;
-  text-align: center;
+  text-align: left;
 }
 
 @media (max-width: 700px) {
@@ -1140,15 +1140,35 @@
   /*
     手機：理念／歷史頁 — 保持可讀字級，超出在文案區內捲動
   */
+  .fpExperience--concept .aboutConceptLogo {
+    width: 22%;
+    max-width: 110px;
+  }
+
   .fpExperience--concept .aboutConceptContent {
+    top: 16%;
+    left: 14%;
+    right: 8%;
+    bottom: 16%;
+    width: auto;
+    max-height: none;
     overflow-x: hidden;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
-    max-height: 64%;
     padding: 0 8px 4px;
     scrollbar-width: thin;
     scrollbar-color: rgba(232, 180, 33, 0.55) transparent;
+  }
+
+  .fpExperience--concept .aboutConceptContent--compact {
+    top: 22%;
+    left: 10%;
+    right: 10%;
+  }
+
+  .fpExperience--concept .aboutConceptLead {
+    text-align: center;
   }
 
   .fpExperience--concept .aboutConceptContent::-webkit-scrollbar {
@@ -1172,9 +1192,9 @@
   }
 
   .fpExperience--concept .aboutConceptParagraph {
-    font-size: max(12.5px, calc(3.1cqh * var(--fp-fit, 1)));
-    line-height: 1.65;
-    margin-bottom: 10px;
+    font-size: max(11px, calc(2.4cqh * var(--fp-fit, 1)));
+    line-height: 1.55;
+    margin-bottom: 8px;
   }
 
   /*
@@ -1193,7 +1213,7 @@
     padding: 1.8% 2.6%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: stretch;
     text-align: left;
     overflow-x: hidden;
@@ -1208,7 +1228,7 @@
   .fpQuesPaperInner {
     flex: 0 0 auto;
     width: 100%;
-    margin: 0;
+    margin-block: auto;
     text-align: left;
   }
 
@@ -1283,6 +1303,25 @@
     max-height: 62%;
   }
 
+  .fpSubmitCopy {
+    left: 18%;
+    top: 10%;
+    width: 64%;
+    max-height: 34%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: center;
+  }
+
+  .fpSubmitPrompt {
+    font-size: max(11px, calc(2.45cqh * var(--fp-fit, 1)));
+    line-height: 1.55;
+    letter-spacing: 0.03em;
+    margin-bottom: 0.55em;
+    font-weight: 700;
+    text-align: center;
+  }
+
   .fpQuesStage .aboutConceptNext {
     font-size: clamp(12px, 2.7vw, 14px);
     padding: 6px 12px;
@@ -1333,7 +1372,7 @@
     padding: 1.8% 2.6%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     text-align: left;
     overflow-x: hidden;
     overflow-y: auto;
@@ -1345,6 +1384,7 @@
   .fpQuesPaperInner {
     flex: 0 0 auto;
     width: 100%;
+    margin-block: auto;
     text-align: left;
   }
 

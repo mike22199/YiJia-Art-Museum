@@ -91,8 +91,7 @@
     return (
       box.classList.contains("fpQuesPaper") ||
       box.classList.contains("aboutConceptContent") ||
-      box.classList.contains("fpQ1NoCopy") ||
-      box.classList.contains("fpSubmitCopy")
+      box.classList.contains("fpQ1NoCopy")
     );
   }
 
@@ -113,21 +112,35 @@
     );
   }
 
+  function isFreedomDoorAboutBox(box) {
+    return Boolean(
+      box?.classList?.contains("aboutConceptContent") &&
+      box.closest(".aboutPage--concept") &&
+      !box.closest(".aboutPage--freeman") &&
+      !box.closest(".fpExperience")
+    );
+  }
+
   /** 自動縮小字級，讓區塊內文一次看完（桌面）；手機改交給 CSS 捲動 */
   function fitTextInBox(box, { minScale, maxScale = 1 } = {}) {
     if (!box) return;
     const cs = getComputedStyle(box);
     if (cs.display === "none" || box.clientHeight < 4) return;
 
-    if (prefersScrollFit(box)) {
+    const shortStage = isShortExhibitionStage();
+    const doorAbout = isFreedomDoorAboutBox(box);
+
+    if (prefersScrollFit(box) && !doorAbout) {
       box.style.setProperty("--fp-fit", "1");
-      box.style.removeProperty("overflow");
+      box.style.overflowX = "hidden";
+      box.style.overflowY = "auto";
       return;
     }
 
     if (minScale == null) {
-      // 徵稿說明不要縮太狠，否則上方字會過小
-      minScale = box.classList?.contains("fpSubmitCopy") ? 0.78 : 0.42;
+      if (doorAbout && shortStage) minScale = 0.85;
+      else if (box.classList?.contains("fpSubmitCopy")) minScale = 0.78;
+      else minScale = 0.42;
     }
 
     box.style.overflow = "hidden";
@@ -152,6 +165,14 @@
       }
     }
     box.style.setProperty("--fp-fit", String(Math.round(best * 1000) / 1000));
+
+    if (doorAbout && shortStage) {
+      box.style.overflowX = "hidden";
+      box.style.overflowY = "auto";
+    } else if (box.classList.contains("fpSubmitCopy") && shortStage) {
+      box.style.overflowX = "hidden";
+      box.style.overflowY = box.scrollHeight > box.clientHeight + 1 ? "auto" : "hidden";
+    }
   }
 
   function scheduleFitText(rootEl) {
@@ -162,20 +183,8 @@
         )
         ?.forEach((box) => {
           fitTextInBox(box);
-          if (box.classList?.contains("fpQuesPaper")) {
-            const inner = box.querySelector(".fpQuesPaperInner");
-            const overflowing = inner && inner.offsetHeight > box.clientHeight + 1;
-            if (overflowing) box.scrollTop = 0;
-            box.scrollLeft = 0;
-            return;
-          }
-          if (
-            box.classList?.contains("fpQ1NoCopy") ||
-            box.classList?.contains("aboutConceptContent")
-          ) {
-            box.scrollTop = 0;
-            box.scrollLeft = 0;
-          }
+          box.scrollTop = 0;
+          box.scrollLeft = 0;
         });
     };
     const kick = () => requestAnimationFrame(() => requestAnimationFrame(run));

@@ -2871,6 +2871,7 @@ h3.typeTitle{
 .aboutPage--concept{
   justify-content: flex-start;
   padding: 0 0 24px;
+  font-size: 16px;
 }
 .exhibitionWindow,
 .aboutConceptStage{
@@ -2935,7 +2936,7 @@ h3.typeTitle{
   margin: 0;
   padding: 0 12px;
   overflow: hidden;
-  text-align: center;
+  text-align: left;
   color: #fff;
   --fp-fit: 1;
 }
@@ -2971,6 +2972,14 @@ h3.typeTitle{
 }
 .aboutConceptParagraph:last-child{
   margin-bottom: 0;
+}
+.aboutPage--concept:not(.aboutPage--freeman) .aboutConceptLead,
+.aboutPage--concept:not(.aboutPage--freeman) .aboutConceptHeading{
+  text-align: center;
+}
+.aboutPage--concept:not(.aboutPage--freeman) .aboutConceptParagraph{
+  font-size: calc(clamp(11px, 1.05vw, 13.5px) * var(--fp-fit, 1));
+  line-height: 1.75;
 }
 .aboutConceptStart,
 .aboutConceptNext{
@@ -3055,13 +3064,33 @@ h3.typeTitle{
     z-index: 5;
   }
   .aboutConceptContent{
-    width: 86%;
+    left: 6%;
+    right: 6%;
+    top: 17%;
+    bottom: 13%;
+    width: auto;
     max-width: none;
-    max-height: 62%;
-    top: 54%;
-    padding: 0 6px;
+    max-height: none;
+    height: auto;
+    transform: none;
+    padding: 0 8px 8px;
     margin: 0;
-    text-align: center;
+    text-align: left;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    pointer-events: auto;
+    z-index: 3;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(232, 180, 33, 0.55) transparent;
+  }
+  .aboutConceptContent::-webkit-scrollbar{
+    width: 4px;
+  }
+  .aboutConceptContent::-webkit-scrollbar-thumb{
+    background: rgba(232, 180, 33, 0.55);
+    border-radius: 2px;
   }
   .aboutConceptLead{
     font-size: clamp(14px, 3.6vw, 17px);
@@ -3074,6 +3103,29 @@ h3.typeTitle{
     font-size: clamp(11px, 2.8vw, 12.5px);
     line-height: 1.7;
     margin-bottom: 10px;
+  }
+  .aboutPage--concept:not(.aboutPage--freeman) .aboutConceptLead,
+  .aboutPage--concept:not(.aboutPage--freeman) .aboutConceptHeading{
+    text-align: center;
+  }
+  .aboutPage--concept:not(.aboutPage--freeman) .aboutConceptParagraph{
+    font-size: clamp(10px, 2.4vw, 11.5px);
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+  .aboutPage--freeman .aboutConceptLogo{
+    width: 22%;
+    max-width: 110px;
+  }
+  .aboutPage--freeman .aboutConceptContent{
+    top: 22%;
+    left: 7%;
+    right: 7%;
+    bottom: 14%;
+  }
+  .aboutPage--freeman .aboutConceptLead,
+  .aboutPage--freeman .aboutConceptHeading{
+    text-align: center;
   }
   .aboutConceptStart,
   .aboutConceptNext{
@@ -6125,6 +6177,7 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
   .archiveJournalSliderThumb{
     width: 20px;
     height: 20px;
+    top: calc(50% + 3px);
   }
   .archiveTeachersCarouselBtn{
     width: 26px;
@@ -6152,6 +6205,38 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
   }
   .archiveTeachersCarouselAvatar{
     transition: none;
+  }
+  .archiveResearchPage--journal .archiveTeachersCarouselTrack{
+    justify-content: flex-start;
+    align-items: flex-end;
+    gap: 18px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 16px 8px 8px;
+  }
+  .archiveResearchPage--journal .archiveTeachersCarouselItem{
+    flex: 0 0 auto;
+    min-width: 58px;
+    max-width: none;
+    transform: none;
+    gap: 10px;
+  }
+  .archiveResearchPage--journal .archiveTeachersCarouselItem--active{
+    transform: none;
+  }
+  .archiveResearchPage--journal .archiveTeachersCarouselNotebook{
+    width: 42px;
+    height: 54px;
+  }
+  .archiveResearchPage--journal .archiveTeachersCarouselItem--active .archiveTeachersCarouselNotebook{
+    width: 54px;
+    height: 68px;
+  }
+  .archiveResearchPage--journal .archiveTeachersCarouselName{
+    font-size: 13px;
+    letter-spacing: 0.14em;
   }
   .archiveTeachersPickerTitle,
   .archiveTeachersJournalTitle,

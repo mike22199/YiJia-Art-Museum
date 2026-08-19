@@ -188,8 +188,7 @@
       hotspots: {
         cooker: { left: "43.5%", top: "52%", width: "10.2%", height: "15%", hintLeft: "55%" },
         photos: { left: "0.5%", top: "11%", width: "22%", height: "17.5%" },
-        spicesLeft: { left: "39.9%", top: "66.9%", width: "5.7%", height: "5.3%", item: "spices", hintLeft: "62%" },
-        spicesRight: { left: "54.6%", top: "60.4%", width: "6.5%", height: "7.4%", item: "spices" },
+        spices: { left: "39.9%", top: "66.9%", width: "5.7%", height: "5.3%" },
       },
       items: () => ({
         cooker: {
@@ -199,7 +198,7 @@
             "對馬世敬而言，揉製饅頭與花捲的動作，是深植於肌肉的身體記憶。當來自甘肅與臺灣的食材在麵團中重新混合，電鍋便成了這私密空間裡，安放鄉愁與意志的地方。",
             "在無法掌控命運的時代裡，舌尖是唯一能忠實保留歸屬感的場所。在這個小小的房間裡，決定今天要在電鍋裡蒸出什麼味道、如何重新定義「家鄉」，正是他最深刻的自由實踐。",
           ],
-          youtubePending: true,
+          youtubeUrl: "https://youtu.be/Ca4fU34VzKs",
         },
         photos: {
           name: "黑白攝影",
@@ -1340,7 +1339,7 @@
         el(
           "button",
           {
-            class: `fdHotspot${state.activeHotspot === key ? " isActive" : ""}${String(itemKey).startsWith("spices") || itemKey === "tickets" ? " fdHotspot--front" : ""}`,
+            class: `fdHotspot${state.activeHotspot === key ? " isActive" : ""}${itemKey === "spices" || itemKey === "tickets" ? " fdHotspot--front" : ""}`,
             type: "button",
             "aria-label": items[itemKey]?.name || key,
             style: hotspotStyle(rect),
