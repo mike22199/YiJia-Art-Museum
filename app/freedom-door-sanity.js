@@ -120,7 +120,7 @@
     return {
       ok: true,
       mode: "sanity",
-      message: payload.message || "已上傳，待後台審核後會顯示於作品牆。",
+      message: payload.message || "已上傳，作品已公開於作品牆。",
     };
   }
 
@@ -160,7 +160,7 @@
       authorName: String(authorName || "").trim(),
       concept: String(concept || "").trim(),
       outfitData: JSON.stringify(outfitData || {}),
-      status: "pending",
+      status: "approved",
     };
 
     if (canWriteViaApi()) {
@@ -175,7 +175,7 @@
         ...(imageField ? { image: imageField } : {}),
       };
       await mutateSanity([{ create: doc }]);
-      return { ok: true, mode: "sanity", message: "已上傳，待後台審核後會顯示於作品牆。" };
+      return { ok: true, mode: "sanity", message: "已上傳，作品已公開於作品牆。" };
     }
 
     const dataUrl = imageBlob ? await blobToDataUrl(imageBlob) : "";
@@ -184,7 +184,7 @@
         id: `local-${Date.now()}`,
         ...base,
         imageUrl: dataUrl,
-        status: "pending",
+        status: "approved",
       });
     } catch (err) {
       console.warn("本機儲存失敗：", err);
@@ -202,7 +202,7 @@
 
     if (canRead()) {
       try {
-        const groq = `*[_type == "freedomDoorSubmission" && status == "approved"] | order(_createdAt desc)[0...${limit}]{
+        const groq = `*[_type == "freedomDoorSubmission" && status != "rejected"] | order(_createdAt desc)[0...${limit}]{
           _id,
           title,
           authorName,
@@ -235,7 +235,7 @@
 
     if (items.length < limit) {
       const localApproved = loadLocalSubmissions()
-        .filter((row) => row.status === "approved")
+        .filter((row) => row.status !== "rejected")
         .slice(0, limit - items.length);
       localApproved.forEach((row) => {
         items.push({

@@ -939,6 +939,7 @@ function renderClassics(main, route) {
                 src: `https://www.youtube.com/embed/${encodeURIComponent(yid)}`,
                 title: v.title || "YouTube video",
                 frameborder: "0",
+                referrerpolicy: "strict-origin-when-cross-origin",
                 allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",
                 allowfullscreen: "true",
               })
@@ -1300,6 +1301,28 @@ async function loadSiteContent() {
   }
   if (typeof window.mergeResearchFolderContent === "function") {
     content = await window.mergeResearchFolderContent(content);
+  }
+
+  // 藝術家教師姓名／簡介以本機 site-content.json 為準（後台常為舊稿）
+  const localTeachers = fallback.archive?.teachers;
+  if (localTeachers?.byYear && content.archive) {
+    content.archive.teachers = content.archive.teachers || {};
+    content.archive.teachers.byYear = content.archive.teachers.byYear || {};
+    Object.entries(localTeachers.byYear).forEach(([year, pack]) => {
+      const prev = content.archive.teachers.byYear[year] || {};
+      content.archive.teachers.byYear[year] = {
+        ...prev,
+        title: pack.title || prev.title,
+        teachers:
+          Array.isArray(pack.teachers) && pack.teachers.length ? pack.teachers : prev.teachers,
+      };
+    });
+    if (Array.isArray(localTeachers.years) && localTeachers.years.length) {
+      content.archive.teachers.years = localTeachers.years;
+    }
+    if (localTeachers.defaultYear) {
+      content.archive.teachers.defaultYear = localTeachers.defaultYear;
+    }
   }
 
   return content;

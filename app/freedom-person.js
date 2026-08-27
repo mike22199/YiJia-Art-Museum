@@ -2,7 +2,7 @@
 
 (function () {
   const LEGACY_2019_URL = "#";
-  const CONCEPT_BG = "./assets/images/成為自由人/成為自由人片頭.jpg";
+  const CONCEPT_BG = "./assets/images/成為自由人/成為自由人片頭_高斯模糊.jpg";
   const CONCEPT_LOGO = "./assets/images/Freedom Door/理念頁LOGO.png?v=20260803ak";
   const QUES_BG = "./assets/images/成為自由人/BG_Ques.png";
 
@@ -30,10 +30,10 @@
     if (heading) textChildren.push(el("h1", { class: "aboutConceptHeading", text: heading }));
     (paragraphs || []).forEach((text) => {
       const body = String(text || "").trim();
-      if (body) textChildren.push(el("p", { class: "aboutConceptParagraph", text: body }));
+      if (body) textChildren.push(el("p", { class: "aboutConceptParagraph fpConceptBody", text: body }));
     });
 
-    return el("div", { class: "aboutPage aboutPage--concept" }, [
+    return el("div", { class: "aboutPage aboutPage--concept aboutPage--freeman" }, [
       el(
         "div",
         {
@@ -112,12 +112,18 @@
     );
   }
 
-  function isFreedomDoorAboutBox(box) {
+  function isExhibitionAboutBox(box) {
     return Boolean(
       box?.classList?.contains("aboutConceptContent") &&
       box.closest(".aboutPage--concept") &&
-      !box.closest(".aboutPage--freeman") &&
       !box.closest(".fpExperience")
+    );
+  }
+
+  function isFreemanConceptCopy(box) {
+    return Boolean(
+      box?.classList?.contains("aboutConceptContent") &&
+      (box.closest(".aboutPage--freeman") || box.closest(".fpExperience"))
     );
   }
 
@@ -128,9 +134,17 @@
     if (cs.display === "none" || box.clientHeight < 4) return;
 
     const shortStage = isShortExhibitionStage();
-    const doorAbout = isFreedomDoorAboutBox(box);
+    const doorAbout = isExhibitionAboutBox(box) && !box.closest(".aboutPage--freeman");
+    const freemanCopy = isFreemanConceptCopy(box);
 
-    if (prefersScrollFit(box) && !doorAbout) {
+    if (freemanCopy && shortStage) {
+      box.style.setProperty("--fp-fit", "1");
+      box.style.overflowX = "hidden";
+      box.style.overflowY = "auto";
+      return;
+    }
+
+    if (prefersScrollFit(box) && !doorAbout && !freemanCopy) {
       box.style.setProperty("--fp-fit", "1");
       box.style.overflowX = "hidden";
       box.style.overflowY = "auto";
@@ -139,6 +153,7 @@
 
     if (minScale == null) {
       if (doorAbout && shortStage) minScale = 0.85;
+      else if (freemanCopy) minScale = 0.84;
       else if (box.classList?.contains("fpSubmitCopy")) minScale = 0.78;
       else minScale = 0.42;
     }
@@ -400,15 +415,28 @@
   const CHART_BAR_FULL_WIDTH = 12;
 
   const GALLERY_LAYOUT = [
-    { left: "10%", top: "18%", rotate: "-4deg", w: "17%" },
-    { left: "36%", top: "14%", rotate: "3deg", w: "18%" },
-    { left: "64%", top: "17%", rotate: "-2deg", w: "17%" },
-    { left: "14%", top: "44%", rotate: "2deg", w: "18%" },
-    { left: "42%", top: "42%", rotate: "-3deg", w: "17%" },
-    { left: "70%", top: "46%", rotate: "4deg", w: "16%" },
-    { left: "26%", top: "66%", rotate: "-1deg", w: "18%" },
-    { left: "54%", top: "64%", rotate: "2deg", w: "19%" },
+    { left: "12%", top: "18%", rotate: "-4deg", w: "17%" },
+    { left: "38%", top: "14%", rotate: "3deg", w: "18%" },
+    { left: "66%", top: "17%", rotate: "-2deg", w: "17%" },
+    { left: "16%", top: "44%", rotate: "2deg", w: "18%" },
+    { left: "44%", top: "42%", rotate: "-3deg", w: "17%" },
+    { left: "72%", top: "46%", rotate: "4deg", w: "16%" },
+    { left: "28%", top: "66%", rotate: "-1deg", w: "18%" },
+    { left: "56%", top: "64%", rotate: "2deg", w: "19%" },
   ];
+  const GALLERY_FETCH_LIMIT = 40;
+
+  function galleryCardStyle(index, bandCount) {
+    const slot = GALLERY_LAYOUT[index % GALLERY_LAYOUT.length];
+    const band = Math.floor(index / GALLERY_LAYOUT.length);
+    const topPct = Number.parseFloat(slot.top) || 0;
+    const leftPct = Number.parseFloat(slot.left) || 0;
+    const widthPct = Number.parseFloat(slot.w) || 17;
+    const jitter = ((band % 3) - 1) * 2.4;
+    const left = Math.min(76, Math.max(8, leftPct + jitter));
+    const top = ((band + topPct / 100) / Math.max(1, bandCount)) * 100;
+    return `left:${left}%;top:${top}%;width:${widthPct}%;transform:rotate(${slot.rotate})`;
+  }
 
   function navigateHome() {
     if (typeof navigateFromHref === "function") navigateFromHref("#home");
@@ -981,7 +1009,9 @@
       state.galleryError = "";
       const api = window.FreedomPersonSanity;
       try {
-        state.gallery = api?.fetchApprovedSubmissions ? await api.fetchApprovedSubmissions(24) : [];
+        state.gallery = api?.fetchApprovedSubmissions
+          ? await api.fetchApprovedSubmissions(GALLERY_FETCH_LIMIT)
+          : [];
       } catch (err) {
         state.galleryError = err?.message || "讀取徵稿失敗";
         state.gallery = [];
@@ -1002,26 +1032,40 @@
         wall.appendChild(
           el("p", {
             class: "fpWallEmpty",
-            text: "尚無通過審核的徵稿，歡迎成為第一位。",
+            text: "尚無徵稿，歡迎成為第一位。",
           })
         );
       } else {
-        state.gallery.forEach((item, index) => {
-          const layout = GALLERY_LAYOUT[index % GALLERY_LAYOUT.length];
+        const items = state.gallery;
+        const bandCount = Math.max(1, Math.ceil(items.length / GALLERY_LAYOUT.length));
+        const sheet = el("div", {
+          class: "fpWallSheet",
+          style: `height:${bandCount * 100}%`,
+        });
+        items.forEach((item, index) => {
           const full = String(item.answer || "").trim();
-          wall.appendChild(
+          sheet.appendChild(
             el("button", {
               class: "fpWallCard",
               type: "button",
               title: full,
-              style: `left:${layout.left};top:${layout.top};width:${layout.w};transform:rotate(${layout.rotate})`,
+              style: galleryCardStyle(index, bandCount),
               onclick: () => showModal(root, full),
             }, [
               el("span", { class: "fpWallCardText", text: truncateText(full, 42) }),
             ])
           );
         });
+        wall.appendChild(sheet);
+        if (items.length > GALLERY_LAYOUT.length) {
+          wall.classList.add("fpWallBoard--scrollable");
+        }
       }
+
+      const wallHint =
+        state.gallery.length > GALLERY_LAYOUT.length
+          ? el("p", { class: "fpWallHint", text: "下滑看更多徵稿" })
+          : null;
 
       root.className = "fpExperience fpExperience--concept";
       root.innerHTML = "";
@@ -1031,6 +1075,7 @@
           showLogo: false,
           children: [
             el("h1", { class: "fpWallTitle", text: "點看看大家的自由徵稿" }),
+            wallHint,
             wall,
             el("button", {
               class: "fpSubmitBtn fpWallNext",
@@ -1086,7 +1131,7 @@
               el("button", {
                 class: "fpResultShareBtn fpResultShareBtn--door",
                 type: "button",
-                text: "去自由門特展",
+                text: "前往「推開自由門」",
                 onclick: () => navigateHref("#exhibition-left/about"),
               }),
               shareStatus,

@@ -258,6 +258,7 @@
             return {
               id: t.id || "",
               name: t.name || "",
+              nameEn: t.nameEn || t.englishName || "",
               summary: t.summary || "",
               bio: t.bio || "",
               avatar: avatar || undefined,

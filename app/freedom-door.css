@@ -343,9 +343,23 @@
 .fdModalText {
   margin: 0 0 10px;
   line-height: 1.75;
+  font-family: var(--font-body, "DIN Pro Condensed", "FIFI CJK Sans", "Noto Sans TC", "Microsoft JhengHei", sans-serif);
   font-size: 13.33px;
+  font-weight: 500;
   color: #f0f0f0;
   text-align: left;
+  white-space: pre-line;
+}
+
+.fdModal--slogan {
+  text-align: center;
+}
+
+.fdModal--slogan .fdModalText {
+  text-align: center;
+  font-size: 18px;
+  line-height: 1.7;
+  letter-spacing: 0.06em;
 }
 
 .fdModalClose {
@@ -706,16 +720,18 @@
 }
 
 .fdInfoTitle {
-  margin: 0 0 10px;
-  font-size: 14px;
+  margin: 0 0 14px;
+  font-size: 17px;
   color: #222;
   text-align: center;
 }
 
 .fdInfoBody {
   margin: 0 0 12px;
-  line-height: 1.7;
-  font-size: 11.5px;
+  line-height: 1.75;
+  font-family: var(--font-body, "DIN Pro Condensed", "FIFI CJK Sans", "Noto Sans TC", "Microsoft JhengHei", sans-serif);
+  font-size: 14px;
+  font-weight: 500;
   text-align: left;
 }
 
@@ -1788,11 +1804,12 @@
 
   .fdInfoTitle {
     text-align: center;
+    font-size: 16px;
   }
 
   .fdInfoBody {
-    font-size: 11px;
-    line-height: 1.65;
+    font-size: 13.5px;
+    line-height: 1.7;
     margin-bottom: 10px;
   }
 
@@ -1866,9 +1883,9 @@
 
   .fdNav--end .fdNavBtn {
     font-size: 11px;
-    padding: 4px 8px;
-    letter-spacing: 0.04em;
-    max-width: 42%;
+    padding: 4px 6px;
+    letter-spacing: 0.02em;
+    max-width: 48%;
     white-space: nowrap;
   }
 
@@ -1912,6 +1929,11 @@
   .fdModalText {
     font-size: 13px;
     line-height: 1.65;
+  }
+
+  .fdModal--slogan .fdModalText {
+    font-size: 16px;
+    line-height: 1.7;
   }
 
   .fdNav--dress .fdNavBtn--dress {

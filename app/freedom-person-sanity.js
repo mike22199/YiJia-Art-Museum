@@ -90,7 +90,7 @@
     return {
       ok: true,
       mode: "sanity",
-      message: payload.message || "已送出，待後台審核後會顯示於徵稿牆。",
+      message: payload.message || "已送出，回答已公開於徵稿牆。",
     };
   }
 
@@ -114,7 +114,7 @@
     const text = String(answer || "").trim();
     if (!text) throw new Error("請輸入回答");
 
-    const base = { answer: text, status: "pending" };
+    const base = { answer: text, status: "approved" };
 
     if (canWriteViaApi()) {
       return createSubmissionViaApi({ answer: text });
@@ -122,7 +122,7 @@
 
     if (canWriteDirect()) {
       await mutateSanity([{ create: { _type: "freedomPersonSubmission", ...base } }]);
-      return { ok: true, mode: "sanity", message: "已送出，待後台審核後會顯示於徵稿牆。" };
+      return { ok: true, mode: "sanity", message: "已送出，回答已公開於徵稿牆。" };
     }
 
     saveLocalSubmission({
@@ -142,7 +142,7 @@
 
     if (canRead()) {
       try {
-        const groq = `*[_type == "freedomPersonSubmission" && status == "approved"] | order(_createdAt desc)[0...${limit}]{
+        const groq = `*[_type == "freedomPersonSubmission" && status != "rejected"] | order(_createdAt desc)[0...${limit}]{
           _id,
           answer,
           _createdAt
@@ -165,7 +165,7 @@
 
     if (items.length < limit) {
       loadLocalSubmissions()
-        .filter((row) => row.status === "approved" || row.status === "pending")
+        .filter((row) => row.status !== "rejected")
         .slice(0, limit - items.length)
         .forEach((row) => {
           items.push({

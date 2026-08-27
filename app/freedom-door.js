@@ -17,7 +17,7 @@
     "前景.png",
   ];
   const ROOM_FRONT = "Front.PNG";
-  const HALLWAY_SRC = `${ASSET_BASE}/Hallway.PNG`;
+  const HALLWAY_SRC = `${ASSET_BASE}/Hallway_New.PNG`;
   const ENTRY_AUDIO_SRC = `${ASSET_BASE}/金伯伯錄音檔.mp3`;
   /** 之後換成提供的圖檔即可，例如 `${ASSET_BASE}/音效圖示.png` */
   const ENTRY_AUDIO_ICON = "";
@@ -85,28 +85,21 @@
   const COPY = {
     p2Title: "【誰的房間，誰的自由？】",
     p2Body: [
-      "「家」不只是居住的空間，更是承載記憶與情感的所在。",
-      "對於在榮民之家生活數十年的榮民伯伯們來說，那一間間不大的房間，是他們真正能行使自由意志的私人領地——如何擺放一張照片、如何收納衣物、如何保存記憶，都由自己決定。",
-      "讓我們一起推開自由門，探索伯伯們的房間內，裝載著什麼樣的自由？",
+      "當你/妳回到自己的房間時，你/妳如何呈現最真實的自己？\n當你/妳在一個房間住了30年，這個空間會有哪些東西？",
+      "對於經歷過戰火與流離的義士們來說，房外的世界充滿了身不由己與無可奈何，\n而當他們回到只屬於自己的私密空間裡，才真正掌握了自己的自由：\n如何擺放一張照片、如何收納一件衣物、如何安放一段不為人知的回憶。\n在成為「歷史名詞」之前，他們首先是一個具備獨特個性的人。",
+      "讓我們一起推開自由門，探索義士們的房間內，裝載著什麼樣的自由？",
     ],
-    p4: "一進門就看到了吧！",
-    p4Ma: "就是這樣子呀！",
-    p4Pan: "有一支國語歌，鴨綠江之夜",
+    p4: "「一進門就看到了吧！」",
+    p4Ma: "「就是這樣子呀！」",
+    p4Pan: "「有一支國語歌，鴨綠江之夜」",
     p5Title: "【操作說明】",
     p5Body: [
-      "1. 本間房間有3個物件可供點擊，點擊後會呈現該物件的簡介。",
-      "2. 簡介視窗下方為「進入共創空間」，邀請您留下自由的足跡。",
-      "3. 頁面左上方為「返回走廊」，可選擇參觀其他房間。",
-      "4. 頁面右上方為「結束參觀」，點擊後進入結語。",
+      "本房間有3個物件可供點擊，\n點擊後會顯示該物件的簡介，\n請移動滑鼠游標來探索房間吧！",
     ],
     endTitle: "【結語】",
     endBody: [
-      "自由，其實離我們並不遙遠。",
-      "金元奎無法選擇自己生在哪個時代、住在哪裡、說些什麼話，",
-      "但他選擇把房間漆成黃色、選擇把南海觀音放在冰箱上、",
-      "選擇了每天穿上最能展現自己的服裝。",
-      "在那個小小的房間裡，他一次又一次實踐了自己的自由。",
-      "我們呢？",
+      "自由，其實從未遠去。",
+      "經歷過時代巨浪與流離歲月的義士們，無法選擇自己降生於何種年代、被迫踏上哪條道路；但在這方屬於自己的房間裡，物品的堆疊與空間的佈置，都是他們對抗命運巨浪、一次又一次實踐自由意志的證明，他們用最平凡的日常，奪回了對生命的詮釋權。",
     ],
     doorComingSoonTitle: "【房間籌備中】",
     doorComingSoonBody: [
@@ -140,11 +133,7 @@
     },
     p10Title: "【操作說明】",
     p10Body: [
-      "金伯伯的衣櫃中，裝載了自由的靈魂，",
-      "他總是用獨特的配色與穿搭，展現出鮮明的個性。",
-      "如果金伯伯活在現在的 21 世紀，他會如何展現獨特的時尚呢？",
-      "請試著用你獨特的眼光，為金伯伯搭配出一套適合的穿搭吧！",
-      "小提示：西裝外套與背心可再次點選同一件外衣，即可脫下、改為不穿外套。帽子可再次點選以拿下。",
+      "金元奎的衣櫃中，裝載了自由的靈魂，\n他總是用獨特的配色與穿搭，展現出鮮明的個性。\n如果金元奎走入我們的生活，他會如何展現獨特的時尚呢？\n請試著用你/妳獨特的眼光，\n為他搭配出一套適合出門逛街的穿搭吧！",
     ],
   };
 
@@ -204,7 +193,7 @@
           name: "黑白攝影",
           body: [
             "用衣架懸掛起來的相框與黑白照片，記錄著義士們在榮家生活的身體軌跡與日常隨筆。",
-            "衣架原本用於收納日常衣物，如今卻成了展示個人視野的載體；鏡頭則替代了言語，捕捉下漫遊與行走間的獨到視野。被戰爭與時代定位了半生的他們，在此刻拿起相機，重新奪回了「觀看」與「紀錄」的主導權。",
+            "衣架原本用於收納日常衣物，如今卻成了展示個人視野的載體；鏡頭則替代了言語，捕捉下漫遊與行走間的獨到視野。被戰爭與時代定義了半生的他們，在此刻拿起相機，重新奪回了「觀看」與「紀錄」的主導權。",
             "照片裡微小的日常觀察，不再是歷史大敘事下的背景，而是他們在這個空間裡，用自己的眼睛定義世界、自由探索生活的最真實證明。",
           ],
           linkUrl: MA_PHOTO_STORY_URL,
@@ -244,12 +233,14 @@
           youtubeUrl: "https://www.youtube.com/watch?v=zkdRux-rhaw",
         },
         tickets: {
-          name: "遊樂場彩券",
+          name: "遊樂場彩票",
           body: [
-            "一張張從西門町湯姆熊集得的彩券，記錄著潘海波走出榮家、漫遊城市的日常足跡。",
-            "即使年歲漸長，他仍習慣獨自搭上公車，穿梭在熱鬧喧囂的街頭。在霓虹閃爍與電子音效交織的遊樂場裡，他不是歷史課本上的反共義士，而是一位單純享受遊戲樂趣的玩家。",
-            "這些彩券不僅是娛樂的留痕，更是他跨越時代禁錮的證明。推開房門、踏上公車，在熙熙攘攘的西門町裡選擇屬於自己的快樂，是他最隨心所欲、最當下的自由實踐。",
+            "一張張從西門町湯姆熊集得的彩票，記錄著潘海波走出榮家、漫遊城市的日常足跡。",
+            "即使年歲漸長，他仍習慣獨自搭上公車，穿梭在熱鬧喧囂的街頭。在霓虹閃爍與電子音效交織的遊樂場裡，他不是教科書上的韓戰反共義士，而是一位單純享受遊戲樂趣的資深玩家。",
+            "這些彩票不僅是娛樂的留痕，更是他跨越時代禁錮的證明。推開房門、踏上公車，在熙熙攘攘的西門町裡選擇屬於自己的快樂，是他最隨心所欲、最當下的自由實踐。",
           ],
+          photo: `${ASSET_BASE}/遊樂場彩券圖片.jpg`,
+          photoAlt: "遊樂場彩票",
         },
       }),
     },
@@ -615,9 +606,7 @@
           onClose?.();
         },
       }),
-      el("p", { class: "fdInfoLabel", text: "物件名稱" }),
       el("h3", { class: "fdInfoTitle", text: info.name }),
-      el("p", { class: "fdInfoLabel", text: "介紹" }),
     ]);
     const bodies = Array.isArray(info.body) ? info.body : [info.body];
     bodies.forEach((text) => {
@@ -647,6 +636,7 @@
             src: embedSrc,
             title: `${info.name || "物件"}影片`,
             loading: "lazy",
+            referrerpolicy: "strict-origin-when-cross-origin",
             allow:
               "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",
             allowfullscreen: "true",
@@ -699,7 +689,7 @@
   function getEndingAssets() {
     const about = window.SITE_CONTENT?.exhibitions?.["exhibition-left"]?.about || {};
     return {
-      bannerSrc: about.banner?.src || "./assets/images/performances/banner-freedom-door.png",
+      bannerSrc: about.banner?.src || `${ASSET_BASE}/橫式banner_高斯模糊.png`,
       logoSrc: about.logo?.src || `${ASSET_BASE}/理念頁LOGO.png?v=20260803ak`,
       logoAlt: about.logo?.alt || "義家藝館",
     };
@@ -811,9 +801,11 @@
     return btn;
   }
 
-  function showModal(stage, { title, paragraphs, buttonLabel, onClose, showClose = true, extra } = {}) {
+  function showModal(stage, { title, paragraphs, buttonLabel, onClose, showClose = true, extra, variant } = {}) {
     const overlay = el("div", { class: "fdModalOverlay sitePopupOverlay" });
-    const box = el("div", { class: "fdModal sitePopupPanel" });
+    const box = el("div", {
+      class: `fdModal sitePopupPanel${variant ? ` fdModal--${variant}` : ""}`,
+    });
 
     function closeModal() {
       overlay.remove();
@@ -1126,14 +1118,16 @@
         { class: "aboutConceptContent fdEndContent" },
         [
           el("h1", { class: "aboutConceptLead fdEndTitle", text: COPY.endTitle }),
-          ...COPY.endBody.map((line) => el("p", { class: "aboutConceptParagraph", text: line })),
+          ...COPY.endBody.map((line) =>
+            el("p", { class: "aboutConceptParagraph fpConceptBody", text: line })
+          ),
         ]
       )
     );
     appendNav(stage, {
-      leftLabel: "回到檔案庫首頁",
+      leftLabel: "回到首頁",
       leftAction: navigateHome,
-      rightLabel: "去自由人特展",
+      rightLabel: "前往「成為自由人」",
       rightAction: navigateToFreeman,
       variant: "end",
     });
@@ -1265,6 +1259,7 @@
       paragraphs: [room.slogan()],
       buttonLabel: "繼續",
       showClose: false,
+      variant: "slogan",
       extra: [
         buildEntryAudioButton(entryAudio, {
           className: "fdAudioBtn fdAudioBtn--modal",
@@ -2133,7 +2128,7 @@
     });
     const conceptInput = el("textarea", {
       class: "fdTextarea",
-      placeholder: "參與者輸入創作理念（限 50 字）",
+      placeholder: "歡迎留下你/妳的想法。",
       maxlength: "50",
       value: state.draft.concept,
       oninput: (e) => {
@@ -2269,7 +2264,7 @@
         el("h2", { text: "最近 30 位體驗者作品" }),
         el("p", {
           class: "fdGalleryNote",
-          text: state.lastSubmission?.message || "僅顯示後台審核通過的作品。",
+          text: state.lastSubmission?.message || "最新體驗作品會即時公開，可於後台刪除。",
         }),
       ])
     );
@@ -2287,8 +2282,8 @@
           own: true,
           pendingNote:
             state.lastSubmission.mode === "sanity"
-              ? "已送出，待後台審核通過後會公開顯示於下方作品牆。"
-              : "已儲存於本機，待連線 Sanity 並審核後可公開顯示。",
+              ? "已公開顯示於下方作品牆。"
+              : "已儲存於本機。連線投稿後即可公開顯示。",
         }),
       ]);
       body.insertBefore(own, grid);
@@ -2344,7 +2339,7 @@
           grid.appendChild(
             el("p", {
               class: "fdGalleryEmpty",
-              text: state.lastSubmission ? "目前尚無其他已審核通過的公開作品。" : "尚無已審核通過的作品，歡迎搶先體驗！",
+              text: state.lastSubmission ? "目前尚無其他公開作品。" : "尚無公開作品，歡迎搶先體驗！",
             })
           );
           return;

@@ -1922,11 +1922,11 @@ body.isInnerPage .mainInner{
   --footer-overlap: calc(var(--footer-bg-height) * 0.14);
   --layout-bg-bleed-x: 1.08;
   --footer-partners-top-ratio: 0.30;
-  --footer-partners-width: 88;
+  --footer-partners-width: 240;
   --footer-partners-max-h-ratio: 0.58;
   --footer-contact-top-ratio: 0.32;
   --footer-social-top-ratio: 0.38;
-  --footer-contact-size: 10px;
+  --footer-contact-size: 13px;
 }
 
 /* Header：整張素材壓入目標高度；Logo／選單落在上方紙紋區（避開底部撕邊黑區） */
@@ -2309,7 +2309,7 @@ h3.typeTitle{
 }
 .innerFooterContact{
   position: absolute;
-  left: calc(360 * var(--ui-scale));
+  left: calc(430 * var(--ui-scale));
   top: calc(var(--footer-bg-height) * var(--footer-contact-top-ratio));
   right: calc(220 * var(--ui-scale));
   min-width: 0;
@@ -2434,7 +2434,7 @@ h3.typeTitle{
   font-size: var(--type-display);
   font-weight: 900;
   letter-spacing: var(--font-tracking);
-  color: #111;
+  color: #b82020;
 }
 
 .pastWebsitesTimeline{
@@ -2943,6 +2943,7 @@ h3.typeTitle{
 .aboutConceptContent--compact{
   max-width: 560px;
   max-height: 58%;
+  text-align: center;
 }
 .aboutConceptLead{
   margin: 0 0 8px;
@@ -2965,10 +2966,11 @@ h3.typeTitle{
 .aboutConceptParagraph{
   margin: 0 0 14px;
   color: #fff;
+  font-family: var(--font-body);
   font-size: calc(clamp(12px, 1.15vw, 14.5px) * var(--fp-fit, 1));
   line-height: 1.9;
   letter-spacing: 0.03em;
-  font-weight: 400;
+  font-weight: 500;
 }
 .aboutConceptParagraph:last-child{
   margin-bottom: 0;
@@ -2977,8 +2979,32 @@ h3.typeTitle{
 .aboutPage--concept:not(.aboutPage--freeman) .aboutConceptHeading{
   text-align: center;
 }
-.aboutPage--concept:not(.aboutPage--freeman) .aboutConceptParagraph{
-  font-size: calc(clamp(11px, 1.05vw, 13.5px) * var(--fp-fit, 1));
+.aboutPage--concept:not(.aboutPage--freeman) .aboutConceptLead{
+  font-size: calc(clamp(19px, 2.4vw, 27px) * var(--fp-fit, 1));
+}
+.aboutPage--concept:not(.aboutPage--freeman) .aboutConceptContent{
+  top: 47%;
+  max-height: 80%;
+  padding-bottom: 10px;
+}
+.aboutPage--concept:not(.aboutPage--freeman) .aboutConceptParagraph,
+.aboutPage--concept:not(.aboutPage--freeman) .aboutConceptParagraph.fpConceptBody{
+  font-size: calc(14px * var(--fp-fit, 1));
+  line-height: 1.7;
+  margin-bottom: 10px;
+}
+.aboutPage--concept:not(.aboutPage--freeman) .aboutConceptStart,
+.aboutPage--concept:not(.aboutPage--freeman) .aboutConceptNext{
+  right: calc(50% - min(36%, 360px) + 12px);
+}
+.aboutPage--freeman .aboutConceptLead{
+  text-align: center;
+}
+.aboutPage--freeman .aboutConceptParagraph,
+.aboutConceptParagraph.fpConceptBody{
+  font-family: var(--font-body);
+  font-size: calc(15px * var(--fp-fit, 1));
+  font-weight: 500;
   line-height: 1.75;
 }
 .aboutConceptStart,
@@ -3108,10 +3134,12 @@ h3.typeTitle{
   .aboutPage--concept:not(.aboutPage--freeman) .aboutConceptHeading{
     text-align: center;
   }
-  .aboutPage--concept:not(.aboutPage--freeman) .aboutConceptParagraph{
-    font-size: clamp(10px, 2.4vw, 11.5px);
-    line-height: 1.6;
-    margin-bottom: 8px;
+  .aboutPage--concept:not(.aboutPage--freeman) .aboutConceptLead{
+    font-size: clamp(17px, 4vw, 20px);
+  }
+  .aboutPage--concept:not(.aboutPage--freeman) .aboutConceptStart,
+  .aboutPage--concept:not(.aboutPage--freeman) .aboutConceptNext{
+    right: calc(6% + 8px);
   }
   .aboutPage--freeman .aboutConceptLogo{
     width: 22%;
@@ -3126,6 +3154,12 @@ h3.typeTitle{
   .aboutPage--freeman .aboutConceptLead,
   .aboutPage--freeman .aboutConceptHeading{
     text-align: center;
+  }
+  .aboutPage--freeman .aboutConceptParagraph,
+  .aboutConceptParagraph.fpConceptBody{
+    font-size: calc(14px * var(--fp-fit, 1));
+    line-height: 1.7;
+    margin-bottom: 8px;
   }
   .aboutConceptStart,
   .aboutConceptNext{
@@ -3234,14 +3268,14 @@ h3.typeTitle{
   .innerFooterPartners{
     left: 10px;
     top: 28%;
-    width: min(24%, 84px);
+    width: min(42%, 168px);
     max-height: 32%;
   }
   .innerFooterContact{
-    left: calc(10px + min(26%, 92px));
+    left: calc(10px + min(44%, 180px));
     right: 64px;
     top: 28%;
-    font-size: 9px;
+    font-size: 11px;
     line-height: 1.35;
   }
   .innerFooterSocial{
@@ -4419,7 +4453,7 @@ h3.typeTitle{
   font-size: 42.67px;
   font-weight: 700;
   letter-spacing: 1.33px;
-  color: #111;
+  color: #b82020;
 }
 .archiveMediaPage > .archiveFilters{
   margin-top: 24px;
@@ -4685,7 +4719,7 @@ h3.typeTitle{
   margin: 12px 0 0;
   font-size: 18.67px;
   line-height: 1.7;
-  color: #444;
+  color: #fff;
   text-align: center;
 }
 .archiveModalPanel--lightbox{
@@ -4796,7 +4830,7 @@ h3.typeTitle{
   font-size: clamp(29.33px, 3vw, 42.67px);
   font-weight: 700;
   letter-spacing: 1.33px;
-  color: #111;
+  color: #b82020;
 }
 .archiveBibliographyList{
   display: flex;
@@ -5668,7 +5702,7 @@ a.archiveBibliographyItem{
 }
 .archiveResearchPageHeading.archivePageTitle{
   margin: 0 0 24px;
-  color: #111;
+  color: #b82020;
   font-size: var(--type-display);
   font-weight: 900;
 }
@@ -6692,7 +6726,7 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
   font-size: var(--type-display);
   font-weight: 900;
   letter-spacing: var(--font-tracking);
-  color: #111;
+  color: #b82020;
 }
 .archivePerformancesList{
   display: flex;
@@ -6791,10 +6825,20 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
 }
 .archiveTeachersGridName{
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
   font-size: 22px;
   letter-spacing: 1.33px;
   color: #222;
   font-weight: 700;
+}
+.archiveTeachersGridNameEn{
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: #555;
 }
 .archiveTeachersGridSummary{
   margin: 0;

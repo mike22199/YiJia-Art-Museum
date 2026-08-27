@@ -169,8 +169,7 @@ function resolveYoutubeEmbedUrl(source) {
 }
 
 function isResearchYearComingSoon(year) {
-  const y = parseInt(String(year), 10);
-  return !Number.isNaN(y) && y < 2026;
+  return String(year) !== "2026";
 }
 
 function archiveMediaItemIsVideo(item) {
@@ -1316,7 +1315,7 @@ function openArchivePhotoLightbox(item, index = 0) {
     caption ? el("figcaption", { class: "archivePhotoLightboxCaption", text: caption }) : null,
   ]);
   openArchiveModal({
-    title: item.title || "照片紀錄",
+    ariaLabel: item.image?.alt || item.caption || "照片",
     content,
     lightbox: true,
     wide: true,
@@ -1430,6 +1429,7 @@ function renderArchiveMediaGalleryItem(item, index = 0) {
         src: embedSrc,
         title: title || "YouTube 影片",
         loading: "lazy",
+        referrerpolicy: "strict-origin-when-cross-origin",
         allow:
           "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",
         allowfullscreen: "true",
@@ -1770,7 +1770,7 @@ function resolveBibliographyCategories(data) {
   if (configured.length) {
     return configured.map((category) => ({
       id: category.id || category.title || "category",
-      title: category.title || "",
+      title: category.title === "展演評論" ? "評論報導" : category.title || "",
       items: Array.isArray(category.items) ? category.items : [],
     }));
   }
@@ -1795,8 +1795,8 @@ function resolveBibliographyCategories(data) {
 
   return [
     { id: "academic", title: "學術論文", items: items.slice(0, 3) },
-    { id: "reviews", title: "展演評論", items: items.slice(3, 6) },
-    { id: "books", title: "參考書", items: items.slice(6, 9) },
+    { id: "reviews", title: "評論報導", items: items.slice(3, 6) },
+    { id: "books", title: "參考書目", items: items.slice(6, 9) },
   ].filter((category) => category.items.length);
 }
 
@@ -2006,6 +2006,18 @@ function teacherSummaryLines(teacher) {
     .filter(Boolean);
 }
 
+function renderArchiveTeacherName(teacher, className, fallback = "姓名") {
+  const name = String(teacher?.name || "").trim();
+  const nameEn = String(teacher?.nameEn || "").trim();
+  if (name && nameEn) {
+    return el("h3", { class: className }, [
+      el("span", { class: `${className}Zh`, text: name }),
+      el("span", { class: `${className}En`, text: nameEn }),
+    ]);
+  }
+  return el("h3", { class: className, text: name || nameEn || fallback });
+}
+
 function renderArchiveTeacherGridCard(teacher, index) {
   const lines = teacherSummaryLines(teacher);
   return el("article", { class: "archiveTeachersGridCard" }, [
@@ -2015,7 +2027,7 @@ function renderArchiveTeacherGridCard(teacher, index) {
       alt: teacher.avatar?.alt || teacher.name || "",
       loading: "lazy",
     }),
-    el("h3", { class: "archiveTeachersGridName", text: teacher.name || "姓名" }),
+    renderArchiveTeacherName(teacher, "archiveTeachersGridName"),
     el(
       "p",
       { class: "archiveTeachersGridSummary" },
@@ -2192,7 +2204,7 @@ function renderArchiveTeacherPicker(teachers, selected, year, years, teachersDat
 
   if (options.comingSoon) {
     section.appendChild(
-      el("p", { class: "archiveTeachersPickerComingSoon", text: "即將開放" })
+      el("p", { class: "archiveTeachersPickerComingSoon", text: "敬請期待" })
     );
     return section;
   }
@@ -3579,7 +3591,7 @@ function openArchiveModal(options = {}) {
     class: "archiveModalOverlay",
     role: "dialog",
     "aria-modal": "true",
-    "aria-label": options.title || "對話視窗",
+    "aria-label": options.ariaLabel || options.title || "對話視窗",
   });
   const backdrop = el("button", {
     class: "archiveModalBackdrop",
@@ -3657,6 +3669,7 @@ function renderResearchJournalVideo(journal) {
           src: embedSrc,
           title: video.title || "藝術家教師日誌影片",
           loading: "lazy",
+          referrerpolicy: "strict-origin-when-cross-origin",
           allow:
             "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",
           allowfullscreen: "true",
@@ -3905,36 +3918,39 @@ function renderArchiveResearch() {
       { frame: true, journalFrame: research.journalFrame || null }
     )
   );
-  journalSec.appendChild(
-    el("h2", {
-      class: "archiveResearchJournalTeacherName",
-      text: selected?.name ? `藝術家教師 ${selected.name}` : "藝術家教師名字",
-    })
-  );
+  const comingSoon = isResearchYearComingSoon(year);
+  if (!comingSoon) {
+    journalSec.appendChild(
+      el("h2", {
+        class: "archiveResearchJournalTeacherName",
+        text: selected?.name ? `藝術家教師 ${selected.name}` : "藝術家教師名字",
+      })
+    );
+  }
   root.appendChild(journalSec);
 
-  root.appendChild(el("hr", { class: "archiveResearchSectionDivider", "aria-hidden": "true" }));
+  if (!comingSoon) {
+    root.appendChild(el("hr", { class: "archiveResearchSectionDivider", "aria-hidden": "true" }));
 
-  const introSec = el("section", { class: "archiveResearchJournalIntro" });
-  introSec.appendChild(
-    el("h3", {
-      class: "archiveResearchJournalIntroTitle",
-      text: "藝術家教師日誌介紹",
-    })
-  );
-  if (year === "2026") {
+    const introSec = el("section", { class: "archiveResearchJournalIntro" });
+    introSec.appendChild(
+      el("h3", {
+        class: "archiveResearchJournalIntroTitle",
+        text: "藝術家教師日誌介紹",
+      })
+    );
     introSec.appendChild(renderResearchJournalVideo(journal));
-  }
-  root.appendChild(introSec);
+    root.appendChild(introSec);
 
-  root.appendChild(el("hr", { class: "archiveResearchSectionDivider", "aria-hidden": "true" }));
+    root.appendChild(el("hr", { class: "archiveResearchSectionDivider", "aria-hidden": "true" }));
+  }
 
   root.appendChild(
     renderArchiveTeacherPicker(teachers, selected, year, tabYears, teachersData, {
       section: "research",
       notebookIcon: true,
       hideTimeline: true,
-      comingSoon: isResearchYearComingSoon(year),
+      comingSoon,
     })
   );
 

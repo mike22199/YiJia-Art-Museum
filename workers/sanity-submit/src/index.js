@@ -132,7 +132,7 @@ async function handleFreedomDoor(request, env) {
     authorName,
     concept,
     outfitData,
-    status: "pending",
+    status: "approved",
     ...(imageField ? { image: imageField } : {}),
   });
 
@@ -141,7 +141,7 @@ async function handleFreedomDoor(request, env) {
     body: {
       ok: true,
       mode: "sanity",
-      message: "已上傳，待後台審核後會顯示於作品牆。",
+      message: "已上傳，作品已公開於作品牆。",
     },
   };
 }
@@ -163,7 +163,7 @@ async function handleFreedomPerson(request, env) {
   await mutateCreate(env, {
     _type: "freedomPersonSubmission",
     answer,
-    status: "pending",
+    status: "approved",
   });
 
   return {
@@ -171,7 +171,7 @@ async function handleFreedomPerson(request, env) {
     body: {
       ok: true,
       mode: "sanity",
-      message: "已送出，待後台審核後會顯示於徵稿牆。",
+      message: "已送出，回答已公開於徵稿牆。",
     },
   };
 }

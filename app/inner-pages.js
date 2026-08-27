@@ -8,7 +8,7 @@ function layoutAssets() {
     footerBg: layout.footerBg || "./assets/images/layout/footer-bg.jpg",
     logoBuilding: layout.logoBuilding || "./assets/images/layout/logo-building.png",
     logoTitle: layout.logoTitle || "./assets/images/home/LOGO.png",
-    partnerLogos: layout.partnerLogos || "./assets/images/layout/partner-logo-new.png",
+    partnerLogos: "./assets/images/layout/partner-logo-new_V2.png",
     iconYoutube: layout.iconYoutube || "./assets/images/logo/youtube.png",
   };
 }
@@ -689,12 +689,22 @@ function renderExhibitionAboutPage(exhibition, exhibitionId = "exhibition-left")
   if (leadTitle) {
     textChildren.push(el("p", { class: "aboutConceptLead", text: leadTitle }));
   }
-  textChildren.push(
-    el("h1", { class: "aboutConceptHeading", text: about.heading || "關於展覽" })
-  );
+  const heading = String(about.heading || "").trim();
+  if (heading) {
+    textChildren.push(
+      el("h1", { class: "aboutConceptHeading", text: heading })
+    );
+  }
   bodyBlocks.forEach((b) => {
     const text = String(b?.body || "").trim();
-    if (text) textChildren.push(el("p", { class: "aboutConceptParagraph", text }));
+    if (text) {
+      textChildren.push(
+        el("p", {
+          class: "aboutConceptParagraph fpConceptBody",
+          text,
+        })
+      );
+    }
   });
 
   const nextControl = el(
