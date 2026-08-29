@@ -1410,7 +1410,6 @@ function renderArchiveMediaGalleryItem(item, index = 0) {
   const youtubeUrl = archiveMediaItemYoutubeUrl(item);
   const thumb = archiveMediaImageSrc(item, index);
   const title = String(item.title || "").trim();
-  const summary = String(item.caption || item.description || item.intro || "").trim();
 
   const thumbInner = el("div", { class: "archiveMediaGalleryThumb" }, [
     el("img", {
@@ -1463,25 +1462,12 @@ function renderArchiveMediaGalleryItem(item, index = 0) {
     );
   }
 
-  const children = [mediaEl];
-  if (isVideo) {
-    children.push(
-      el("div", { class: "archiveMediaGalleryMeta" }, [
-        el("h3", { class: "archiveMediaGalleryTitle", text: title || "影片名稱" }),
-        el("p", {
-          class: "archiveMediaGalleryCaption",
-          text: summary || "影片簡短介紹",
-        }),
-      ])
-    );
-  }
-
   return el(
     "article",
     {
       class: `archiveMediaGalleryItem${isVideo ? " archiveMediaGalleryItem--video" : ""}`,
     },
-    children
+    [mediaEl]
   );
 }
 

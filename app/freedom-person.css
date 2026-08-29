@@ -628,8 +628,10 @@
   pointer-events: none;
 }
 
-.fpQuesStage .aboutConceptNext {
+.aboutPage--concept .fpQuesStage .fpQuesUi .aboutConceptNext {
   pointer-events: auto;
+  /* 對齊底圖白紙右緣（約 94.7%），不要跟理念頁 Next 的定位規則搶 */
+  right: 5.3%;
 }
 
 /* 尚無 art 圖層時的置中暫用版 */
@@ -1370,9 +1372,10 @@
     text-align: center;
   }
 
-  .fpQuesStage .aboutConceptNext {
+  .aboutPage--concept .fpQuesStage .fpQuesUi .aboutConceptNext {
+    right: 5.3%;
     font-size: clamp(12px, 2.7vw, 14px);
-    padding: 6px 12px;
+    padding: 6px 0 6px 12px;
     min-width: 0;
     color: var(--about-accent);
   }

@@ -2440,7 +2440,7 @@ h3.typeTitle{
 .pastWebsitesTimeline{
   --past-spine-width: 168px;
   --past-spine-color: #b82020;
-  --past-gap: 11px;
+  --past-gap: 48px;
   --past-col-gap: 20px;
   --past-art-max-w: 264px;
   --past-art-max-h: 216px;
@@ -2497,7 +2497,11 @@ h3.typeTitle{
   --pw-title-y: 0px;
 }
 .pastWebsitesEntry--marker{
-  min-height: 36px;
+  min-height: 48px;
+}
+.pastWebsitesEntry--feature{
+  padding-top: 18px;
+  padding-bottom: 18px;
 }
 .pastWebsitesSide{
   display: flex;
@@ -2614,7 +2618,11 @@ h3.typeTitle{
 
 .pastWebsitesEntry[data-year="2027-2026"]{
   --pw-art-scale: 1.10;
-  --pw-art-x: 53px;
+  --pw-art-x: -53px;
+}
+.pastWebsitesEntry[data-year="2025"]{
+  --pw-art-scale: 1.22;
+  --pw-art-x: 56px;
 }
 .pastWebsitesEntry[data-year="2023"]{
   --pw-art-x: -85px;
@@ -2729,6 +2737,11 @@ h3.typeTitle{
   letter-spacing: 0.02em;
   color: #333;
 }
+.pastWebsitesEntry[data-year="2019"] .pastWebsitesTitleSub{
+  font-size: var(--past-title-zh);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
 
 .archiveModalPanel--brief{
   width: min(380px, 100%);
@@ -2775,7 +2788,7 @@ h3.typeTitle{
 @media (max-width: 820px){
   .pastWebsitesTimeline{
     --past-spine-width: 100px;
-    --past-gap: 10px;
+    --past-gap: 36px;
     --past-col-gap: 12px;
     --past-art-max-w: 150px;
     --past-art-max-h: 140px;
@@ -2791,6 +2804,7 @@ h3.typeTitle{
     width: 100%;
   }
   .pastWebsitesEntry[data-year="2027-2026"],
+  .pastWebsitesEntry[data-year="2025"],
   .pastWebsitesEntry[data-year="2023"],
   .pastWebsitesEntry[data-year="2022"],
   .pastWebsitesEntry[data-year="2021"],

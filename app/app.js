@@ -1294,6 +1294,11 @@ async function loadSiteContent() {
   if (fallback.homeImage) content.homeImage = fallback.homeImage;
   // 展覽關於頁文案以本機為準（Sanity exhibitionLeft 常為舊稿）
   if (fallback.exhibitions) content.exhibitions = fallback.exhibitions;
+  // 歷屆網站直向時間軸以本機為準（不上 Sanity）
+  if (fallback.archive?.pastExhibitions) {
+    content.archive = content.archive || {};
+    content.archive.pastExhibitions = fallback.archive.pastExhibitions;
+  }
   // 照片紀錄／動態影音：內容走 Sanity（有資料時）；每頁筆數走本機 config，按鈕尺寸走 CSS
 
   if (typeof window.mergeArchiveFolderContent === "function") {

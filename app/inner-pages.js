@@ -343,7 +343,7 @@ function resolvePastWebsiteHref(year) {
 function pastWebsiteImageYears() {
   const past = pastExhibitionsData();
   if (Array.isArray(past.imageYears)) return past.imageYears.map(String);
-  return ["2027-2026", "2023", "2022", "2021", "2020", "2019", "2018", "2016"];
+  return ["2027-2026", "2025", "2023", "2022", "2021", "2020", "2019", "2018", "2016"];
 }
 
 function pastWebsiteTimelineKeys() {
@@ -354,7 +354,7 @@ function pastWebsiteTimelineKeys() {
   if (Array.isArray(past.rows) && past.rows.length) {
     return past.rows.flatMap((row) => (Array.isArray(row) ? row : [])).map((y) => String(y).trim()).filter(Boolean);
   }
-  return ["2027-2026", "2025", "2024", "2023", "2022", "2021", "2020", "2019", "2018", "2017", "2016", "2015"];
+  return ["2027-2026", "2025", "2024", "2023", "2022", "2021", "2020", "2019", "2018", "2017", "2016", "2015", "2014"];
 }
 
 function resolvePastWebsiteBanner(yearKey, configured, legacyItem) {
@@ -655,7 +655,8 @@ function renderPastWebsitesVerticalTimeline() {
   for (const key of keys) {
     const entry = buildPastWebsiteVerticalEntry(key);
     if (!entry.year) continue;
-    const imageOnLeft = featureIndex % 2 === 0;
+    // 2027-2026 圖右字左；2025 圖左字右；其後左右交錯
+    const imageOnLeft = featureIndex % 2 === 1;
     if (entry.hasFeature) featureIndex += 1;
     root.appendChild(renderPastWebsiteVerticalEntry(entry, imageOnLeft));
   }

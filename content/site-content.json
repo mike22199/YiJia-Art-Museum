@@ -888,10 +888,12 @@
         "2018",
         "2017",
         "2016",
-        "2015"
+        "2015",
+        "2014"
       ],
       "imageYears": [
         "2027-2026",
+        "2025",
         "2023",
         "2022",
         "2021",
@@ -901,6 +903,10 @@
         "2016"
       ],
       "byYear": {
+        "2014": {
+          "yearLabel": "2014",
+          "empty": true
+        },
         "2015": {
           "yearLabel": "2015",
           "empty": true
@@ -976,10 +982,15 @@
         },
         "2025": {
           "yearLabel": "2025",
-          "markerOnly": true,
+          "title": "二戰終戰80年",
+          "subtitle": "When You Call My Name Canberra Launch",
+          "banner": {
+            "src": "./assets/images/logo/2025.png",
+            "alt": "2025 二戰終戰80年"
+          },
           "modal": {
             "type": "brief",
-            "title": "2025",
+            "title": "二戰終戰80年",
             "intro": "網頁簡介（待補）。",
             "link": {
               "label": "前往網站",
@@ -1016,8 +1027,12 @@
         },
         {
           "year": "2025",
-          "title": "2025 歷屆展覽",
-          "href": ""
+          "title": "二戰終戰80年",
+          "href": "",
+          "image": {
+            "src": "./assets/images/logo/2025.png",
+            "alt": "2025 二戰終戰80年"
+          }
         },
         {
           "year": "2023",
