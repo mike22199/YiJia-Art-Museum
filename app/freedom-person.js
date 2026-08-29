@@ -28,10 +28,12 @@
     const textChildren = [];
     if (lead) textChildren.push(el("p", { class: "aboutConceptLead", text: lead }));
     if (heading) textChildren.push(el("h1", { class: "aboutConceptHeading", text: heading }));
+    const bodyEls = [];
     (paragraphs || []).forEach((text) => {
       const body = String(text || "").trim();
-      if (body) textChildren.push(el("p", { class: "aboutConceptParagraph fpConceptBody", text: body }));
+      if (body) bodyEls.push(el("p", { class: "aboutConceptParagraph fpConceptBody", text: body }));
     });
+    if (bodyEls.length) textChildren.push(el("div", { class: "aboutConceptBody" }, bodyEls));
 
     return el("div", { class: "aboutPage aboutPage--concept aboutPage--freeman" }, [
       el(
@@ -566,7 +568,7 @@
   }
 
   const FB_SHARE_HINT =
-    "開啟 Facebook並於分享框按 Ctrl+V（Mac：⌘V）貼上";
+    "請於分享框按 Ctrl+V（Mac：⌘V）貼上";
 
   function openFacebookSharerDialog(url, quote, statusEl) {
     // 先複製：多數情況下 Facebook 不會自動貼上，使用者可在分享框 Ctrl+V / ⌘V
@@ -1109,7 +1111,15 @@
           showLogo: false,
           children: [
             el("div", { class: "fpResultUi" }, [
+              el("div", {
+                class: "fpResultBottomMask",
+                "aria-hidden": "true",
+              }),
               buildScoreChart(bars),
+              el("p", {
+                class: "fpResultStoryLine",
+                text: result.story || "",
+              }),
               el("button", {
                 class: "fpResultShareBtn fpResultShareBtn--fb",
                 type: "button",

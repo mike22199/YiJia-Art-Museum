@@ -696,10 +696,11 @@ function renderExhibitionAboutPage(exhibition, exhibitionId = "exhibition-left")
       el("h1", { class: "aboutConceptHeading", text: heading })
     );
   }
+  const bodyEls = [];
   bodyBlocks.forEach((b) => {
     const text = String(b?.body || "").trim();
     if (text) {
-      textChildren.push(
+      bodyEls.push(
         el("p", {
           class: "aboutConceptParagraph fpConceptBody",
           text,
@@ -707,6 +708,9 @@ function renderExhibitionAboutPage(exhibition, exhibitionId = "exhibition-left")
       );
     }
   });
+  if (bodyEls.length) {
+    textChildren.push(el("div", { class: "aboutConceptBody" }, bodyEls));
+  }
 
   const nextControl = el(
     "a",

@@ -2262,10 +2262,6 @@
     body.appendChild(
       el("div", { class: "fdGalleryHeader" }, [
         el("h2", { text: "最近 30 位體驗者作品" }),
-        el("p", {
-          class: "fdGalleryNote",
-          text: state.lastSubmission?.message || "最新體驗作品會即時公開，可於後台刪除。",
-        }),
       ])
     );
 
@@ -2277,13 +2273,9 @@
 
     if (state.lastSubmission?.imageUrl) {
       const own = el("section", { class: "fdGalleryOwn" }, [
-        el("h3", { text: "您剛完成的作品" }),
+        el("h3", { text: "您的作品" }),
         buildGalleryCard(state.lastSubmission, {
           own: true,
-          pendingNote:
-            state.lastSubmission.mode === "sanity"
-              ? "已公開顯示於下方作品牆。"
-              : "已儲存於本機。連線投稿後即可公開顯示。",
         }),
       ]);
       body.insertBefore(own, grid);

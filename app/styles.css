@@ -2989,6 +2989,9 @@ h3.typeTitle{
 .aboutConceptParagraph:last-child{
   margin-bottom: 0;
 }
+.aboutConceptBody{
+  min-width: 0;
+}
 .aboutPage--concept:not(.aboutPage--freeman) .aboutConceptLead,
 .aboutPage--concept:not(.aboutPage--freeman) .aboutConceptHeading{
   text-align: center;
@@ -3010,6 +3013,9 @@ h3.typeTitle{
 .aboutPage--concept:not(.aboutPage--freeman) .aboutConceptStart,
 .aboutPage--concept:not(.aboutPage--freeman) .aboutConceptNext{
   right: calc(50% - min(36%, 360px) + 12px);
+}
+.aboutPage--concept:not(.aboutPage--freeman) .aboutConceptStart{
+  bottom: 6.8%;
 }
 .aboutPage--freeman .aboutConceptLead{
   text-align: center;
@@ -3087,7 +3093,7 @@ h3.typeTitle{
     --footer-overlap: calc(var(--footer-bg-height) * 0.08);
   }
   .aboutPage--concept{
-    padding: 0 0 16px;
+    padding: 12px 0 16px;
   }
   .aboutConceptStage,
   .exhibitionWindow{
@@ -3106,8 +3112,8 @@ h3.typeTitle{
   .aboutConceptContent{
     left: 6%;
     right: 6%;
-    top: 17%;
-    bottom: 13%;
+    top: 12%;
+    bottom: 14%;
     width: auto;
     max-width: none;
     max-height: none;
@@ -3115,7 +3121,7 @@ h3.typeTitle{
     transform: none;
     padding: 0 8px 8px;
     margin: 0;
-    text-align: left;
+    text-align: center;
     overflow-x: hidden;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
@@ -3124,6 +3130,25 @@ h3.typeTitle{
     z-index: 3;
     scrollbar-width: thin;
     scrollbar-color: rgba(232, 180, 33, 0.55) transparent;
+    display: flex;
+    flex-direction: column;
+  }
+  .aboutConceptContent.fdEndContent{
+    display: flex;
+    justify-content: center;
+  }
+  .aboutConceptContent:not(.fdEndContent) .aboutConceptBody{
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  .aboutConceptLead,
+  .aboutConceptHeading{
+    flex: 0 0 auto;
   }
   .aboutConceptContent::-webkit-scrollbar{
     width: 4px;
@@ -3149,21 +3174,57 @@ h3.typeTitle{
     text-align: center;
   }
   .aboutPage--concept:not(.aboutPage--freeman) .aboutConceptLead{
-    font-size: clamp(17px, 4vw, 20px);
+    font-size: clamp(12.5px, 3.35vw, 16px);
+    letter-spacing: 0.02em;
+    line-height: 1.25;
+    white-space: nowrap;
+    margin: 0 0 12px;
   }
   .aboutPage--concept:not(.aboutPage--freeman) .aboutConceptStart,
   .aboutPage--concept:not(.aboutPage--freeman) .aboutConceptNext{
     right: calc(6% + 8px);
+  }
+  .aboutPage--concept:not(.aboutPage--freeman) .aboutConceptStart{
+    bottom: 7%;
+  }
+  .aboutPage--concept:not(.aboutPage--freeman) .aboutConceptNext{
+    font-family: var(--inner-font, "FIFI CJK Serif", "Noto Serif TC", "Microsoft JhengHei", serif);
+    font-size: clamp(11px, 2.6vw, 13px);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .aboutPage--concept:not(.aboutPage--freeman) .aboutConceptLogo{
+    width: 16%;
+    max-width: 68px;
+    z-index: 5;
+  }
+  .aboutPage--concept:not(.aboutPage--freeman) .aboutConceptContent{
+    top: 17%;
+    left: 4.5%;
+    right: 4.5%;
+    bottom: 22%;
+    z-index: 3;
+    padding: 0 4px 0;
+  }
+  .aboutPage--concept:not(.aboutPage--freeman) .aboutConceptContent:not(.fdEndContent) .aboutConceptBody{
+    justify-content: flex-start;
+    padding-top: 2px;
+  }
+  .aboutPage--concept:not(.aboutPage--freeman) .aboutConceptParagraph,
+  .aboutPage--concept:not(.aboutPage--freeman) .aboutConceptParagraph.fpConceptBody{
+    font-size: clamp(11px, 2.55vw, 13px);
+    line-height: 1.62;
+    margin-bottom: 8px;
   }
   .aboutPage--freeman .aboutConceptLogo{
     width: 22%;
     max-width: 110px;
   }
   .aboutPage--freeman .aboutConceptContent{
-    top: 22%;
+    top: 16%;
     left: 7%;
     right: 7%;
-    bottom: 14%;
+    bottom: 16%;
   }
   .aboutPage--freeman .aboutConceptLead,
   .aboutPage--freeman .aboutConceptHeading{
@@ -3181,7 +3242,7 @@ h3.typeTitle{
     bottom: 3.5%;
   }
   .aboutConceptNext{
-    font-size: clamp(14px, 3.4vw, 17px);
+    font-size: clamp(11px, 2.5vw, 13px);
   }
   .aboutConceptStartImg{
     width: clamp(88px, 28vw, 120px);
@@ -3286,7 +3347,7 @@ h3.typeTitle{
     max-height: 32%;
   }
   .innerFooterContact{
-    left: calc(10px + min(44%, 180px));
+    left: calc(18px + min(45%, 188px));
     right: 64px;
     top: 28%;
     font-size: 11px;
@@ -6907,6 +6968,8 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
   .archiveTeachersGridSummary{
     font-size: 13px;
     line-height: 1.55;
+    text-align: left;
+    align-self: stretch;
   }
   .archiveTeachersProfileBio{
     font-size: 15px;
@@ -6956,6 +7019,8 @@ body.archiveJournalFrame-open .archiveJournalBackdrop{
   .archiveTeachersGridSummary{
     font-size: 11.5px;
     line-height: 1.5;
+    text-align: left;
+    align-self: stretch;
   }
   .archiveTeachersProfileBio{
     font-size: 14px;

@@ -248,6 +248,7 @@
 
 .fdEndTitle {
   margin-bottom: 18px;
+  color: #e8b421;
 }
 
 .fdEndContent .aboutConceptParagraph {
@@ -1158,10 +1159,9 @@
   font-size: clamp(16px, 1.8vw, 20px);
 }
 
-.fdGalleryNote {
-  margin: 0 0 8px;
-  font-size: 13px;
-  color: #777;
+.fdGalleryNote,
+.fdGalleryPendingNote {
+  display: none;
 }
 
 .fdGalleryGrid {
@@ -1266,10 +1266,7 @@
 }
 
 .fdGalleryPendingNote {
-  margin: 6px 0 0;
-  font-size: 11px;
-  color: #888;
-  line-height: 1.4;
+  display: none;
 }
 
 .fdNavBtn:disabled {
@@ -1804,11 +1801,12 @@
 
   .fdInfoTitle {
     text-align: center;
-    font-size: 16px;
+    font-size: 20px;
+    font-weight: 700;
   }
 
   .fdInfoBody {
-    font-size: 13.5px;
+    font-size: 16px;
     line-height: 1.7;
     margin-bottom: 10px;
   }
