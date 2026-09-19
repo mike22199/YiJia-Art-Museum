@@ -1524,25 +1524,29 @@ function renderArchiveMediaPage(options = {}) {
   root.appendChild(renderArchiveFeaturedCarousel(featured));
   root.appendChild(el("h1", { class: "archivePageTitle archivePageTitle--media", text: pageTitle }));
 
-  const filters = el("div", { class: "archiveFilters archiveFilters--media" });
-  const yearSel = el("select", { class: "archiveSelect archiveSelect--media", "aria-label": "年份" });
-  years.forEach((y) => yearSel.appendChild(el("option", { value: y, text: y })));
-  yearSel.value = year;
+  if (sectionKey !== "videos") {
+    const filters = el("div", { class: "archiveFilters archiveFilters--media" });
+    const yearSel = el("select", { class: "archiveSelect archiveSelect--media", "aria-label": "年份" });
+    years.forEach((y) => yearSel.appendChild(el("option", { value: y, text: y })));
+    yearSel.value = year;
 
-  yearSel.addEventListener("change", () => {
-    navigateFromHref(`${baseHref}?${new URLSearchParams({ year: yearSel.value }).toString()}`);
-  });
+    yearSel.addEventListener("change", () => {
+      navigateFromHref(`${baseHref}?${new URLSearchParams({ year: yearSel.value }).toString()}`);
+    });
 
-  filters.appendChild(
-    el("div", { class: "archiveFiltersMediaField" }, [
-      el("span", { class: "archiveFilterLabel", text: "年份" }),
-      yearSel,
-    ])
-  );
-  root.appendChild(filters);
+    filters.appendChild(
+      el("div", { class: "archiveFiltersMediaField" }, [
+        el("span", { class: "archiveFilterLabel", text: "年份" }),
+        yearSel,
+      ])
+    );
+    root.appendChild(filters);
+  }
 
   const recordSec = el("section", { class: "archiveMediaRecord" });
-  recordSec.appendChild(el("h2", { class: "archiveMediaYearHeading", text: year }));
+  if (sectionKey !== "videos") {
+    recordSec.appendChild(el("h2", { class: "archiveMediaYearHeading", text: year }));
+  }
   if (yearPack.overview) {
     recordSec.appendChild(el("p", { class: "archiveMediaYearOverview", text: yearPack.overview }));
   }
