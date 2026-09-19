@@ -371,9 +371,9 @@
 
   const SUBMIT_ART = "./assets/images/成為自由人/Text.png";
   const RESULT_ART = {
-    jin: "./assets/images/成為自由人/KIM_New.png",
-    pan: "./assets/images/成為自由人/PAM_New.png",
-    ma: "./assets/images/成為自由人/MA_new.png",
+    jin: "./assets/images/成為自由人/KIM_new0919.png",
+    pan: "./assets/images/成為自由人/PAM_new0919.png",
+    ma: "./assets/images/成為自由人/MA_new0919.png",
   };
   const SUBMIT_MAX_LEN = 50;
 
@@ -1111,15 +1111,7 @@
           showLogo: false,
           children: [
             el("div", { class: "fpResultUi" }, [
-              el("div", {
-                class: "fpResultBottomMask",
-                "aria-hidden": "true",
-              }),
               buildScoreChart(bars),
-              el("p", {
-                class: "fpResultStoryLine",
-                text: result.story || "",
-              }),
               el("button", {
                 class: "fpResultShareBtn fpResultShareBtn--fb",
                 type: "button",
