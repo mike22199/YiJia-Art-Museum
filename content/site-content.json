@@ -94,8 +94,8 @@
       }
     },
     "bannerLeft": {
-      "default": "./assets/images/home/Banner-Left.png",
-      "hover": "./assets/images/home/Banner-Left-Open.png",
+      "default": "./assets/images/home/Banner-Left_new.png",
+      "hover": "./assets/images/home/Banner-Left-Open_new.png",
       "left": "21.59%",
       "top": "38.82%",
       "width": "5.73%",
@@ -108,8 +108,8 @@
           "height": "38.93%"
         },
         "shine": {
-          "left": "19.26%",
-          "top": "34.55%",
+          "left": "19.06%",
+          "top": "34.95%",
           "width": "10.59%",
           "height": "46.70%"
         },
@@ -120,11 +120,11 @@
           "height": "47.58%"
         }
       },
-      "shine": "./assets/images/home/Banner-Left-Shining.png"
+      "shine": "./assets/images/home/Banner-Left-Shining_new.png"
     },
     "bannerRight": {
-      "default": "./assets/images/home/Banner-Right.png",
-      "hover": "./assets/images/home/Banner-Right-Open.png",
+      "default": "./assets/images/home/Banner-Right_new.png",
+      "hover": "./assets/images/home/Banner-Right-Open_new.png",
       "left": "72.8%",
       "top": "38.91%",
       "width": "5.94%",
@@ -137,10 +137,10 @@
           "height": "39.68%"
         },
         "shine": {
-          "left": "70.37%",
-          "top": "34.37%",
+          "left": "70.40%",
+          "top": "34.17%",
           "width": "10.75%",
-          "height": "48.57%"
+          "height": "49.01%"
         },
         "hover": {
           "left": "69.99%",
@@ -149,7 +149,7 @@
           "height": "47.2%"
         }
       },
-      "shine": "./assets/images/home/Banner-Right-Shining.png"
+      "shine": "./assets/images/home/Banner-Right-Shining_new.png"
     },
     "brandLogo": {
       "src": "./assets/images/home/LOGO.png",
