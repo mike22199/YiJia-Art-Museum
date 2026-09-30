@@ -52,7 +52,7 @@
       "href": "#archive/videos"
     }
   ],
-  "homeImage": "./assets/images/home/BG_new.png",
+  "homeImage": "./assets/images/home/BG_new_0930.png",
   "homeIntro": {
     "enabled": true,
     "gif": "./assets/images/home/Home-intro_Final.gif",
@@ -64,7 +64,7 @@
     "offsetY": "-2.3%"
   },
   "homeLayers": {
-    "base": "./assets/images/home/BG_new.png",
+    "base": "./assets/images/home/BG_new_0930.png",
     "door": {
       "default": "./assets/images/home/door.png",
       "hover": "./assets/images/home/Door-Open.png",
