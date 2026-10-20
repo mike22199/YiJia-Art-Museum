@@ -2662,6 +2662,56 @@
     "learningResources": {
       "heading": "學習資源",
       "intro": "",
+      "handbooks": [
+        {
+          "year": "2023",
+          "href": "https://drive.google.com/file/d/1HeZODI_BFw0dmzFYpRXs2j8HFiiSI4Y5/view?usp=drive_link",
+          "image": {
+            "src": "./assets/images/04.學習（歷年手冊）/2023/2023展覽酷卡.jpg",
+            "alt": "2023 展覽酷卡"
+          }
+        },
+        {
+          "year": "2021",
+          "href": "https://drive.google.com/file/d/124o3tn66nUtJ_YIsXnhxNZw9Ufy_J5MW/view?usp=drive_link",
+          "image": {
+            "src": "./assets/images/04.學習（歷年手冊）/2021/2021展覽酷卡.png",
+            "alt": "2021 展覽酷卡"
+          }
+        },
+        {
+          "year": "2020",
+          "href": "https://drive.google.com/file/d/1rCmwBZUAOPflJrjt6shak943xPzMo3lx/view?usp=drive_link",
+          "image": {
+            "src": "./assets/images/04.學習（歷年手冊）/2020/2020展覽手冊-封面.jpg",
+            "alt": "2020 展覽手冊封面"
+          }
+        },
+        {
+          "year": "2019",
+          "href": "https://drive.google.com/file/d/1Wzsbgy3qdSaGeqK15hZGJpdRTQ40mQOs/view?usp=drive_link",
+          "image": {
+            "src": "./assets/images/04.學習（歷年手冊）/2019/2019展覽酷卡.png",
+            "alt": "2019 展覽酷卡"
+          }
+        },
+        {
+          "year": "2018",
+          "href": "https://drive.google.com/file/d/1hFGMe6pvywwp3v3J5q91W9krLbgJZcgr/view?usp=drive_link",
+          "image": {
+            "src": "./assets/images/04.學習（歷年手冊）/2018/2018展覽酷卡.jpg",
+            "alt": "2018 展覽酷卡"
+          }
+        },
+        {
+          "year": "2016",
+          "href": "https://drive.google.com/file/d/10UV_RO0gas4a6gtom8SNoCSU_nInradU/view?usp=drive_link",
+          "image": {
+            "src": "./assets/images/04.學習（歷年手冊）/2016/2016展覽邀請卡.jpg",
+            "alt": "2016 展覽邀請卡"
+          }
+        }
+      ],
       "categories": []
     },
     "research": {

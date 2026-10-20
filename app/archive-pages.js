@@ -1856,12 +1856,52 @@ function resolveLearningResourceCategories(data) {
   return [];
 }
 
+function resolveLearningHandbooks(data) {
+  const section = data.learningResources || {};
+  const items = Array.isArray(section.handbooks) ? section.handbooks : [];
+  return items
+    .map((item) => ({
+      year: String(item.year || "").trim(),
+      href: String(item.href || "").trim(),
+      image: item.image?.src || item.src || "",
+      alt: item.image?.alt || item.alt || `${item.year || ""} 展覽手冊`,
+    }))
+    .filter((item) => item.year && item.image);
+}
+
+function renderArchiveLearningHandbookCard(item) {
+  const inner = [
+    el("span", { class: "archiveLearningCardMedia" }, [
+      el("img", { src: item.image, alt: item.alt }),
+    ]),
+    el("span", { class: "archiveLearningCardYear", text: item.year }),
+  ];
+  const hasLink = Boolean(item.href);
+  return el(
+    "a",
+    {
+      class: `archiveLearningCard${hasLink ? "" : " archiveLearningCard--pending"}`,
+      href: hasLink ? item.href : "#",
+      target: hasLink ? "_blank" : undefined,
+      rel: hasLink ? "noopener noreferrer" : undefined,
+      "aria-label": hasLink ? `開啟 ${item.year} 展覽手冊` : `${item.year} 展覽手冊，連結即將上線`,
+      onclick: hasLink
+        ? undefined
+        : (e) => {
+            e.preventDefault();
+          },
+    },
+    inner
+  );
+}
+
 function renderArchiveLearningResources() {
   const data = archiveData();
   const section = data.learningResources || {};
+  const handbooks = resolveLearningHandbooks(data);
   const categories = resolveLearningResourceCategories(data);
 
-  const root = el("div", { class: "archivePage archiveBibliographyPage archiveLearningResourcesPage" });
+  const root = el("div", { class: "archivePage archiveLearningResourcesPage" });
   root.appendChild(
     el("h1", {
       class: "archivePageTitle",
@@ -1872,12 +1912,17 @@ function renderArchiveLearningResources() {
     root.appendChild(el("p", { class: "archiveIntroBody archiveLearningResourcesIntro", text: section.intro }));
   }
 
-  const body = el("div", { class: "archiveBibliographyBody" });
+  const body = el("div", { class: "archiveLearningBody" });
+  if (handbooks.length) {
+    const grid = el("div", { class: "archiveLearningGrid" });
+    handbooks.forEach((item) => grid.appendChild(renderArchiveLearningHandbookCard(item)));
+    body.appendChild(grid);
+  }
   categories.forEach((category, index) => {
     const block = renderArchiveBibliographyCategory(category, index);
     if (block) body.appendChild(block);
   });
-  if (!categories.length) {
+  if (!handbooks.length && !categories.length) {
     body.appendChild(
       el("p", { class: "archiveIntroBody", text: "此區尚無學習資源內容。" })
     );

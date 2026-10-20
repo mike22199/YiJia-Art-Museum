@@ -4881,8 +4881,72 @@ h3.typeTitle{
   margin: 0 0 28px;
   max-width: 62ch;
 }
+.archiveLearningResourcesPage{
+  max-width: min(96vw, 1080px);
+  margin: 0 auto;
+  padding-bottom: 40px;
+}
 .archiveLearningResourcesPage .archivePageTitle{
-  margin-bottom: 16px;
+  margin-bottom: 28px;
+  text-align: center;
+}
+.archiveLearningBody{
+  padding: 0 0 24px;
+}
+.archiveLearningGrid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 36px 32px;
+}
+.archiveLearningCard{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+.archiveLearningCard--pending{
+  cursor: pointer;
+}
+.archiveLearningCardMedia{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: #ece8e0;
+  overflow: hidden;
+}
+.archiveLearningCardMedia img{
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.archiveLearningCardYear{
+  display: block;
+  margin-top: 10px;
+  font-family: "FIFI CJK Serif", "Noto Serif TC", "Microsoft JhengHei", serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  color: #1a1a1a;
+  text-align: center;
+}
+.archiveLearningCard:hover .archiveLearningCardYear,
+.archiveLearningCard:focus-visible .archiveLearningCardYear{
+  color: #b82020;
+}
+@media (max-width: 640px){
+  .archiveLearningGrid{
+    gap: 22px 12px;
+  }
+  .archiveLearningCardYear{
+    font-size: 13px;
+    margin-top: 8px;
+  }
 }
 .archiveBibliographyPage{
   max-width: min(96vw, 900px);

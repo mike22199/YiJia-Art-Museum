@@ -1299,6 +1299,10 @@ async function loadSiteContent() {
     content.archive = content.archive || {};
     content.archive.pastExhibitions = fallback.archive.pastExhibitions;
   }
+  if (fallback.archive?.learningResources) {
+    content.archive = content.archive || {};
+    content.archive.learningResources = fallback.archive.learningResources;
+  }
   // 照片紀錄／動態影音：內容走 Sanity（有資料時）；每頁筆數走本機 config，按鈕尺寸走 CSS
 
   if (typeof window.mergeArchiveFolderContent === "function") {
