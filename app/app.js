@@ -557,6 +557,13 @@ function getHomeIntroConfig(content) {
 
 function shouldPlayHomeIntro(config) {
   if (!config) return false;
+  try {
+    const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    if (conn?.saveData) return false;
+    if (conn?.effectiveType && /2g/.test(String(conn.effectiveType))) return false;
+  } catch {
+    // ignore
+  }
   if (!config.oncePerSession) return true;
   try {
     return !sessionStorage.getItem(config.storageKey);
@@ -620,7 +627,7 @@ function bindHomeIntro(stage, introConfig) {
     window.setTimeout(() => safeFinish(true), introConfig.durationMs);
   };
 
-  if (gifEl.complete) startPlayback();
+  if (gifEl.complete && gifEl.naturalWidth) startPlayback();
   else gifEl.addEventListener("load", startPlayback, { once: true });
 }
 
@@ -687,6 +694,8 @@ function renderHome(main) {
       src: baseSrc,
       alt: "義家藝館首頁",
       loading: "eager",
+      fetchpriority: "high",
+      decoding: "async",
     }),
     brandLogoEl,
     supportLogosEl,
@@ -702,6 +711,7 @@ function renderHome(main) {
             alt: "",
             loading: "eager",
             decoding: "sync",
+            fetchpriority: "high",
           }),
         ])
       : null,
@@ -1185,7 +1195,7 @@ function renderMain(main, route) {
   }
 
   if (id === "archive") {
-    renderArchivePage(main, route);
+    if (typeof renderArchivePage === "function") renderArchivePage(main, route);
     return;
   }
 
@@ -1247,43 +1257,145 @@ function renderMain(main, route) {
   main.appendChild(pageEl);
 }
 
-function render() {
+const ROUTE_SCRIPT_SRC = {
+  pageFlip: "./app/vendor/page-flip.browser.js",
+  archiveLoader: "./app/archive-content-loader.js?v=20261020b",
+  researchLoader: "./app/research-content-loader.js?v=20261020b",
+  archivePages: "./app/archive-pages.js?v=20261020b",
+  doorSanity: "./app/freedom-door-sanity.js?v=20260827a",
+  door: "./app/freedom-door.js?v=20260829a",
+  personSanity: "./app/freedom-person-sanity.js?v=20260827b",
+  person: "./app/freedom-person.js?v=20260919a",
+};
+
+const loadedRouteScripts = new Map();
+
+function loadScriptOnce(src) {
+  if (loadedRouteScripts.has(src)) return loadedRouteScripts.get(src);
+  const pending = new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = src;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error(`無法載入 ${src}`));
+    document.body.appendChild(script);
+  });
+  loadedRouteScripts.set(src, pending);
+  return pending;
+}
+
+let folderContentPromise = null;
+
+function applyLocalTeachers(content, localTeachers) {
+  if (!localTeachers?.byYear || !content?.archive) return content;
+  content.archive.teachers = content.archive.teachers || {};
+  content.archive.teachers.byYear = content.archive.teachers.byYear || {};
+  Object.entries(localTeachers.byYear).forEach(([year, pack]) => {
+    const prev = content.archive.teachers.byYear[year] || {};
+    content.archive.teachers.byYear[year] = {
+      ...prev,
+      title: pack.title || prev.title,
+      teachers:
+        Array.isArray(pack.teachers) && pack.teachers.length ? pack.teachers : prev.teachers,
+    };
+  });
+  if (Array.isArray(localTeachers.years) && localTeachers.years.length) {
+    content.archive.teachers.years = localTeachers.years;
+  }
+  if (localTeachers.defaultYear) {
+    content.archive.teachers.defaultYear = localTeachers.defaultYear;
+  }
+  return content;
+}
+
+async function ensureFolderContent() {
+  if (folderContentPromise) return folderContentPromise;
+  folderContentPromise = (async () => {
+    let content = window.SITE_CONTENT;
+    if (typeof window.mergeArchiveFolderContent === "function") {
+      content = await window.mergeArchiveFolderContent(content);
+    }
+    if (typeof window.mergeResearchFolderContent === "function") {
+      content = await window.mergeResearchFolderContent(content);
+    }
+    content = applyLocalTeachers(content, window.__FIFI_LOCAL_TEACHERS);
+    window.SITE_CONTENT = content;
+  })();
+  return folderContentPromise;
+}
+
+async function ensureScriptsForRoute(route) {
+  const id = route?.id || "";
+  const section = normalizeSection(route?.section || "");
+  if (id === "archive" || id === "research" || id === "classics") {
+    await Promise.all([
+      loadScriptOnce(ROUTE_SCRIPT_SRC.pageFlip),
+      loadScriptOnce(ROUTE_SCRIPT_SRC.archiveLoader),
+      loadScriptOnce(ROUTE_SCRIPT_SRC.researchLoader),
+    ]);
+    await loadScriptOnce(ROUTE_SCRIPT_SRC.archivePages);
+    await ensureFolderContent();
+  }
+  if (id === "exhibition-left" && section === "experience") {
+    await loadScriptOnce(ROUTE_SCRIPT_SRC.doorSanity);
+    await loadScriptOnce(ROUTE_SCRIPT_SRC.door);
+  }
+  if (id === "exhibition-right" && section === "experience") {
+    await loadScriptOnce(ROUTE_SCRIPT_SRC.personSanity);
+    await loadScriptOnce(ROUTE_SCRIPT_SRC.person);
+  }
+}
+
+let renderToken = 0;
+
+async function render() {
+  const token = ++renderToken;
   const route = parseRoute();
+  try {
+    await ensureScriptsForRoute(route);
+  } catch (err) {
+    console.error("頁面腳本載入失敗：", err);
+  }
+  if (token !== renderToken) return;
   const main = document.getElementById("main");
   renderMain(main, route);
 }
 
-window.addEventListener("hashchange", render);
+window.addEventListener("hashchange", () => {
+  render();
+});
 
 async function loadSiteContent() {
   const projectId = String(window.SANITY_PROJECT_ID || "").trim();
   const dataset = String(window.SANITY_DATASET || "production").trim();
   const jsonUrl = window.SITE_CONTENT_URL || "./content/site-content.json";
 
-  const fallbackRes = await fetch(jsonUrl, { cache: "no-store" });
-  if (!fallbackRes.ok) throw new Error(`HTTP ${fallbackRes.status}`);
-  const fallback = await fallbackRes.json();
+  const fallbackPromise = fetch(jsonUrl).then(async (res) => {
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return res.json();
+  });
+
+  const sanityPromise = projectId
+    ? fetch(
+        `https://${projectId}.api.sanity.io/v1/data/query/${dataset}?query=${encodeURIComponent(
+          '*[_type == "siteContent"][0]'
+        )}`,
+        { cache: "no-store" }
+      )
+        .then(async (res) => (res.ok ? res.json() : null))
+        .catch((err) => {
+          console.warn("Sanity 讀取失敗，改使用本地 JSON：", err);
+          return null;
+        })
+    : Promise.resolve(null);
+
+  const [fallback, sanityPayload] = await Promise.all([fallbackPromise, sanityPromise]);
 
   let content = fallback;
 
-  if (projectId) {
-    try {
-      const query = encodeURIComponent('*[_type == "siteContent"][0]');
-      const res = await fetch(
-        `https://${projectId}.api.sanity.io/v1/data/query/${dataset}?query=${query}`,
-        { cache: "no-store" }
-      );
-      if (res.ok) {
-        const payload = await res.json();
-        if (payload?.result && typeof window.normalizeSanitySiteContent === "function") {
-          content = window.normalizeSanitySiteContent(payload.result, fallback);
-        } else if (payload?.result) {
-          content = payload.result;
-        }
-      }
-    } catch (err) {
-      console.warn("Sanity 讀取失敗，改使用本地 JSON：", err);
-    }
+  if (sanityPayload?.result && typeof window.normalizeSanitySiteContent === "function") {
+    content = window.normalizeSanitySiteContent(sanityPayload.result, fallback);
+  } else if (sanityPayload?.result) {
+    content = sanityPayload.result;
   }
 
   // 首頁底圖／圖層／下方標題以本機 site-content.json 為準
@@ -1304,35 +1416,10 @@ async function loadSiteContent() {
     content.archive.learningResources = fallback.archive.learningResources;
   }
   // 照片紀錄／動態影音：內容走 Sanity（有資料時）；每頁筆數走本機 config，按鈕尺寸走 CSS
+  // 資料夾 JSON 等到進入典藏／研究頁再合併，避免首頁被額外請求拖住
 
-  if (typeof window.mergeArchiveFolderContent === "function") {
-    content = await window.mergeArchiveFolderContent(content);
-  }
-  if (typeof window.mergeResearchFolderContent === "function") {
-    content = await window.mergeResearchFolderContent(content);
-  }
-
-  // 藝術家教師姓名／簡介以本機 site-content.json 為準（後台常為舊稿）
-  const localTeachers = fallback.archive?.teachers;
-  if (localTeachers?.byYear && content.archive) {
-    content.archive.teachers = content.archive.teachers || {};
-    content.archive.teachers.byYear = content.archive.teachers.byYear || {};
-    Object.entries(localTeachers.byYear).forEach(([year, pack]) => {
-      const prev = content.archive.teachers.byYear[year] || {};
-      content.archive.teachers.byYear[year] = {
-        ...prev,
-        title: pack.title || prev.title,
-        teachers:
-          Array.isArray(pack.teachers) && pack.teachers.length ? pack.teachers : prev.teachers,
-      };
-    });
-    if (Array.isArray(localTeachers.years) && localTeachers.years.length) {
-      content.archive.teachers.years = localTeachers.years;
-    }
-    if (localTeachers.defaultYear) {
-      content.archive.teachers.defaultYear = localTeachers.defaultYear;
-    }
-  }
+  window.__FIFI_LOCAL_TEACHERS = fallback.archive?.teachers || null;
+  content = applyLocalTeachers(content, window.__FIFI_LOCAL_TEACHERS);
 
   return content;
 }

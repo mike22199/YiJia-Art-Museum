@@ -1872,7 +1872,7 @@ function resolveLearningHandbooks(data) {
 function renderArchiveLearningHandbookCard(item) {
   const inner = [
     el("span", { class: "archiveLearningCardMedia" }, [
-      el("img", { src: item.image, alt: item.alt }),
+      el("img", { src: item.image, alt: item.alt, loading: "lazy", decoding: "async" }),
     ]),
     el("span", { class: "archiveLearningCardYear", text: item.year }),
   ];

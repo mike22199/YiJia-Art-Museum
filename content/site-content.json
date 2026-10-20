@@ -59,7 +59,7 @@
     "durationMs": 3000,
     "gifFadeOutMs": 500,
     "contentFadeInMs": 1400,
-    "oncePerSession": false,
+    "oncePerSession": true,
     "offsetX": "-0.7%",
     "offsetY": "-2.3%"
   },

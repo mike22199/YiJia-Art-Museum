@@ -17,7 +17,7 @@
 
   async function loadArchiveSection(key) {
     const base = `./content/archive/${key}`;
-    const configRes = await fetch(`${base}/config.json`, { cache: "no-store" });
+    const configRes = await fetch(`${base}/config.json`);
     if (!configRes.ok) return null;
 
     const config = await configRes.json();
@@ -26,7 +26,7 @@
 
     await Promise.all(
       years.map(async (year) => {
-        const yearRes = await fetch(`${base}/${year}.json`, { cache: "no-store" });
+        const yearRes = await fetch(`${base}/${year}.json`);
         if (!yearRes.ok) return;
         byYear[year] = await yearRes.json();
       })

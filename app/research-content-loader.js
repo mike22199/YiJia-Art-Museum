@@ -7,7 +7,7 @@
   const BASE = "./content/research/journals";
 
   async function loadResearchJournals() {
-    const configRes = await fetch(`${BASE}/config.json`, { cache: "no-store" });
+    const configRes = await fetch(`${BASE}/config.json`);
     if (!configRes.ok) return null;
 
     const config = await configRes.json();
@@ -19,7 +19,7 @@
 
     await Promise.all(
       years.map(async (year) => {
-        const yearRes = await fetch(`${BASE}/${year}.json`, { cache: "no-store" });
+        const yearRes = await fetch(`${BASE}/${year}.json`);
         if (!yearRes.ok) return;
         byYear[year] = await yearRes.json();
       })
